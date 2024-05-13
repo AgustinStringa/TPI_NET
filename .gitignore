@@ -1,0 +1,5 @@
+**/.vs
+**/bin
+**/obj
+# Academia/UI.Desktop/obj
+# Academia/UI.Desktop/bin
