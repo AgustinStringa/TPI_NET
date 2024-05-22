@@ -3,6 +3,7 @@
     public abstract class User
     {
         #region fields
+        private int _Id;
         private string _Username;
         private string _Password;
         private bool _Authorized;
@@ -15,6 +16,7 @@
         #endregion
 
         #region properties
+        private int Id;
         public string Username { get; set; }
         public string Password { get; set; }
         public bool Authorized { get; set; }
