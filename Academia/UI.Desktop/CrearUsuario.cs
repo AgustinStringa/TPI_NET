@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using Entidades;
+using Entities;
 
 namespace UI.Desktop
 {
@@ -25,9 +25,13 @@ namespace UI.Desktop
             string nombre = txtNombre.Text;
             string apellido = txtApellido.Text;
             string email = txtEmail.Text;
-            var nuevoUsuario = new Usuario(username, clave, nombre, apellido, email); ;
+            var nuevoestudiante = new Entities.Student("stri24", "mypass", "correo@correo",
+                "agusitn", "stringa", "san martin1763", "346715212", DateTime.Now, "51338");
 
-            lblOutput.Text = nuevoUsuario.getDescription();
+            lblOutput.Text = nuevoestudiante.getDescription();
+            //var nuevoUsuario = new Usuario(username, clave, nombre, apellido, email); ;
+
+            //lblOutput.Text = nuevoUsuario.getDescription();
             //lblOutput.Text = nuevoUsuario.ToString();
         }
 
