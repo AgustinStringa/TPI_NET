@@ -1,3 +1,13 @@
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
 namespace UI.Desktop
 {
     internal static class Program
@@ -8,10 +18,11 @@ namespace UI.Desktop
         [STAThread]
         static void Main()
         {
-            // To customize application configuration such as set high DPI settings or default font,
-            // see https://aka.ms/applicationconfiguration.
+            Application.EnableVisualStyles();
+            Application.SetCompatibleTextRenderingDefault(false);
+
             ApplicationConfiguration.Initialize();
-            Application.Run(new CrearUsuario());
+            Application.Run(new frmMain());
         }
     }
 }
