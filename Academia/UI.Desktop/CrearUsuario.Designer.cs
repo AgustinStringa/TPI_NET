@@ -34,6 +34,7 @@
             mtbClave = new MaskedTextBox();
             panel1 = new Panel();
             gpbUserType = new GroupBox();
+            cbAreas = new ComboBox();
             cbCurriculums = new ComboBox();
             rbtnUserAdministrative = new RadioButton();
             rbtnUserStudent = new RadioButton();
@@ -105,24 +106,35 @@
             // 
             // gpbUserType
             // 
+            gpbUserType.Controls.Add(cbAreas);
             gpbUserType.Controls.Add(cbCurriculums);
             gpbUserType.Controls.Add(rbtnUserAdministrative);
             gpbUserType.Controls.Add(rbtnUserStudent);
             gpbUserType.Controls.Add(rbtnUserTeacher);
             gpbUserType.Location = new Point(14, 261);
             gpbUserType.Name = "gpbUserType";
-            gpbUserType.Size = new Size(200, 126);
+            gpbUserType.Size = new Size(340, 126);
             gpbUserType.TabIndex = 11;
             gpbUserType.TabStop = false;
             gpbUserType.Text = "groupBox1";
             // 
+            // cbAreas
+            // 
+            cbAreas.FormattingEnabled = true;
+            cbAreas.Location = new Point(111, 22);
+            cbAreas.Name = "cbAreas";
+            cbAreas.Size = new Size(85, 23);
+            cbAreas.TabIndex = 12;
+            cbAreas.SelectedIndexChanged += cbAreas_SelectedIndexChanged;
+            // 
             // cbCurriculums
             // 
             cbCurriculums.FormattingEnabled = true;
-            cbCurriculums.Location = new Point(109, 21);
+            cbCurriculums.Location = new Point(227, 22);
             cbCurriculums.Name = "cbCurriculums";
             cbCurriculums.Size = new Size(85, 23);
             cbCurriculums.TabIndex = 12;
+            cbCurriculums.SelectedValueChanged += cbCurriculums_SelectedValueChanged;
             // 
             // rbtnUserAdministrative
             // 
@@ -134,6 +146,7 @@
             rbtnUserAdministrative.TabStop = true;
             rbtnUserAdministrative.Text = "Administrative";
             rbtnUserAdministrative.UseVisualStyleBackColor = true;
+            rbtnUserAdministrative.CheckedChanged += rbtnUserAdministrative_CheckedChanged;
             // 
             // rbtnUserStudent
             // 
@@ -157,11 +170,12 @@
             rbtnUserTeacher.TabStop = true;
             rbtnUserTeacher.Text = "Teacher";
             rbtnUserTeacher.UseVisualStyleBackColor = true;
+            rbtnUserTeacher.CheckedChanged += rbtnUserTeacher_CheckedChanged;
             // 
             // lblOutput
             // 
             lblOutput.AutoSize = true;
-            lblOutput.Location = new Point(277, 287);
+            lblOutput.Location = new Point(385, 282);
             lblOutput.Name = "lblOutput";
             lblOutput.Size = new Size(69, 15);
             lblOutput.TabIndex = 5;
@@ -262,5 +276,6 @@
         private RadioButton rbtnUserStudent;
         private RadioButton rbtnUserTeacher;
         private ComboBox cbCurriculums;
+        private ComboBox cbAreas;
     }
 }

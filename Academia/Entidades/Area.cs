@@ -32,5 +32,38 @@ namespace Entities
 			_Description = description;
 		}
         #endregion
+
+        public IEnumerable<Curriculum> GetCurriculums() {
+            List<Curriculum> items = new List<Curriculum>();
+            
+            switch (Description)
+            {
+                case "Sistemas":
+                    
+                    items.Add(new Curriculum("isi23", this));
+                    items.Add(new Curriculum("isi08", this));
+                    items.Add(new Curriculum("isi95", this));
+
+                    
+                    break;
+                case "Quimica":
+                    
+                    items.Add(new Curriculum("IQ22", this));
+                  
+                    
+                    break;
+                default:
+                    
+                    items.Add(new Curriculum("isi23", this));
+                    items.Add(new Curriculum("isi08", this));
+                    items.Add(new Curriculum("isi95", this));
+                    break;
+            }
+
+            //query to DB and return Curriculms with this area
+
+            return items;
+            
+        } 
     }
 }
