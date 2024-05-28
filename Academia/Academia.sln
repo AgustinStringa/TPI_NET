@@ -5,7 +5,7 @@ VisualStudioVersion = 17.9.34714.143
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UI.Desktop", "UI.Desktop\UI.Desktop.csproj", "{A17E8A48-7FE2-46C1-AD33-8B84CC3673D6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Entidades", "Entidades\Entidades.csproj", "{74E18D4F-B5D7-4F74-8B83-5EB5FD1A6765}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Entities", "Entidades\Entities.csproj", "{74E18D4F-B5D7-4F74-8B83-5EB5FD1A6765}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
