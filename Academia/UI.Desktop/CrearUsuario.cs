@@ -13,11 +13,15 @@ namespace UI.Desktop
 {
     public partial class CrearUsuario : Form
     {
+        private Area[] areas;
         public CrearUsuario()
         {
             InitializeComponent();
             //debería cargar los planes aqui??
-            cbCurriculums.Items.AddRange(new object[] { "ISI23","ISI95","IQ2023"});
+            LoadAreas();
+            cbCurriculums.Enabled = false;
+            cbAreas.Enabled = false;
+            
         }
 
         private void btnCrearUsuario_Click(object sender, EventArgs e)
@@ -41,13 +45,67 @@ namespace UI.Desktop
 
         private void rbtnUserStudent_CheckedChanged(object sender, EventArgs e)
         {
-            if(rbtnUserStudent.Checked)
+            if (rbtnUserStudent.Checked)
             {
+                cbAreas.Enabled = true;
+                cbAreas.Items.Clear();
+                LoadAreas();
+                cbAreas.SelectedIndex = 0;
                 cbCurriculums.Enabled = true;
-            } else
+            }
+            else
             {
+                cbAreas.Enabled = false;
                 cbCurriculums.Enabled = false;
+                cbAreas.ResetText();
+                cbCurriculums.ResetText();
 
+            }
+        }
+
+        private void cbAreas_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+            cbCurriculums.Enabled = true;
+
+            lblOutput.Text = cbAreas.SelectedItem.ToString();
+            lblOutput.Text = cbAreas.SelectedIndex.ToString();
+            var area = areas[cbAreas.SelectedIndex];
+            var curriculums = area.GetCurriculums();
+            cbCurriculums.Items.Clear();
+            foreach (var curr in curriculums)
+            {
+                cbCurriculums.Items.Add(curr.Description);
+            }
+            cbCurriculums.SelectedIndex = 0; // cant find a better solution 
+
+        }
+
+        private void cbCurriculums_SelectedValueChanged(object sender, EventArgs e)
+        {
+
+
+        }
+
+        private void rbtnUserTeacher_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void rbtnUserAdministrative_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void LoadAreas() {
+            Area isi = new Area("Sistemas");
+            Area iq = new Area("Quimica");
+            areas = [isi, iq];
+            IList<string> areasDescription = [];
+            foreach (var area in areas)
+            {
+                cbAreas.Items.Add(area.Description);
+                //areasDescription.Add(area.Description);
             }
         }
     }
