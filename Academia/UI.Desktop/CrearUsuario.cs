@@ -17,6 +17,7 @@ namespace UI.Desktop
         {
             InitializeComponent();
             //debería cargar los planes aqui??
+            cbCurriculums.Items.AddRange(new object[] { "ISI23","ISI95","IQ2023"});
         }
 
         private void btnCrearUsuario_Click(object sender, EventArgs e)
