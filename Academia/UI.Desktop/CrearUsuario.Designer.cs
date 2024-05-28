@@ -33,6 +33,11 @@
             lblClave = new Label();
             mtbClave = new MaskedTextBox();
             panel1 = new Panel();
+            gpbUserType = new GroupBox();
+            cbCurriculums = new ComboBox();
+            rbtnUserAdministrative = new RadioButton();
+            rbtnUserStudent = new RadioButton();
+            rbtnUserTeacher = new RadioButton();
             lblOutput = new Label();
             btnCrearUsuario = new Button();
             txtEmail = new TextBox();
@@ -42,6 +47,7 @@
             txtNombre = new TextBox();
             lblNombre = new Label();
             panel1.SuspendLayout();
+            gpbUserType.SuspendLayout();
             SuspendLayout();
             // 
             // txtUsername
@@ -79,6 +85,7 @@
             // 
             // panel1
             // 
+            panel1.Controls.Add(gpbUserType);
             panel1.Controls.Add(lblOutput);
             panel1.Controls.Add(btnCrearUsuario);
             panel1.Controls.Add(txtEmail);
@@ -96,10 +103,65 @@
             panel1.Size = new Size(631, 454);
             panel1.TabIndex = 4;
             // 
+            // gpbUserType
+            // 
+            gpbUserType.Controls.Add(cbCurriculums);
+            gpbUserType.Controls.Add(rbtnUserAdministrative);
+            gpbUserType.Controls.Add(rbtnUserStudent);
+            gpbUserType.Controls.Add(rbtnUserTeacher);
+            gpbUserType.Location = new Point(14, 261);
+            gpbUserType.Name = "gpbUserType";
+            gpbUserType.Size = new Size(200, 126);
+            gpbUserType.TabIndex = 11;
+            gpbUserType.TabStop = false;
+            gpbUserType.Text = "groupBox1";
+            // 
+            // cbCurriculums
+            // 
+            cbCurriculums.FormattingEnabled = true;
+            cbCurriculums.Location = new Point(109, 21);
+            cbCurriculums.Name = "cbCurriculums";
+            cbCurriculums.Size = new Size(85, 23);
+            cbCurriculums.TabIndex = 12;
+            // 
+            // rbtnUserAdministrative
+            // 
+            rbtnUserAdministrative.AutoSize = true;
+            rbtnUserAdministrative.Location = new Point(6, 72);
+            rbtnUserAdministrative.Name = "rbtnUserAdministrative";
+            rbtnUserAdministrative.Size = new Size(102, 19);
+            rbtnUserAdministrative.TabIndex = 11;
+            rbtnUserAdministrative.TabStop = true;
+            rbtnUserAdministrative.Text = "Administrative";
+            rbtnUserAdministrative.UseVisualStyleBackColor = true;
+            // 
+            // rbtnUserStudent
+            // 
+            rbtnUserStudent.AutoSize = true;
+            rbtnUserStudent.Location = new Point(6, 22);
+            rbtnUserStudent.Name = "rbtnUserStudent";
+            rbtnUserStudent.Size = new Size(66, 19);
+            rbtnUserStudent.TabIndex = 9;
+            rbtnUserStudent.TabStop = true;
+            rbtnUserStudent.Text = "Student";
+            rbtnUserStudent.UseVisualStyleBackColor = true;
+            rbtnUserStudent.CheckedChanged += rbtnUserStudent_CheckedChanged;
+            // 
+            // rbtnUserTeacher
+            // 
+            rbtnUserTeacher.AutoSize = true;
+            rbtnUserTeacher.Location = new Point(6, 47);
+            rbtnUserTeacher.Name = "rbtnUserTeacher";
+            rbtnUserTeacher.Size = new Size(65, 19);
+            rbtnUserTeacher.TabIndex = 10;
+            rbtnUserTeacher.TabStop = true;
+            rbtnUserTeacher.Text = "Teacher";
+            rbtnUserTeacher.UseVisualStyleBackColor = true;
+            // 
             // lblOutput
             // 
             lblOutput.AutoSize = true;
-            lblOutput.Location = new Point(215, 288);
+            lblOutput.Location = new Point(277, 287);
             lblOutput.Name = "lblOutput";
             lblOutput.Size = new Size(69, 15);
             lblOutput.TabIndex = 5;
@@ -175,6 +237,8 @@
             Text = "Crear Usuario";
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
+            gpbUserType.ResumeLayout(false);
+            gpbUserType.PerformLayout();
             ResumeLayout(false);
         }
 
@@ -193,5 +257,10 @@
         private Label lblEmail;
         private Button btnCrearUsuario;
         private Label lblOutput;
+        private GroupBox gpbUserType;
+        private RadioButton rbtnUserAdministrative;
+        private RadioButton rbtnUserStudent;
+        private RadioButton rbtnUserTeacher;
+        private ComboBox cbCurriculums;
     }
 }

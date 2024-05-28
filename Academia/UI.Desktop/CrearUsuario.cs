@@ -16,6 +16,8 @@ namespace UI.Desktop
         public CrearUsuario()
         {
             InitializeComponent();
+            //debería cargar los planes aqui??
+            cbCurriculums.Items.AddRange(new object[] { "ISI23","ISI95","IQ2023"});
         }
 
         private void btnCrearUsuario_Click(object sender, EventArgs e)
@@ -29,11 +31,24 @@ namespace UI.Desktop
                 "agusitn", "stringa", "san martin1763", "346715212", DateTime.Now, "51338");
 
             lblOutput.Text = nuevoestudiante.getDescription();
+            lblOutput.Text = rbtnUserTeacher.Checked.ToString();
+
             //var nuevoUsuario = new Usuario(username, clave, nombre, apellido, email); ;
 
             //lblOutput.Text = nuevoUsuario.getDescription();
             //lblOutput.Text = nuevoUsuario.ToString();
         }
 
+        private void rbtnUserStudent_CheckedChanged(object sender, EventArgs e)
+        {
+            if(rbtnUserStudent.Checked)
+            {
+                cbCurriculums.Enabled = true;
+            } else
+            {
+                cbCurriculums.Enabled = false;
+
+            }
+        }
     }
 }
