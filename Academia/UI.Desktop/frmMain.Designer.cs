@@ -30,7 +30,7 @@
         {
             mnsPrincipal = new MenuStrip();
             mnuArchivo = new ToolStripMenuItem();
-            mnuSalir = new ToolStripMenuItem();
+            frmSalir = new ToolStripMenuItem();
             mnsPrincipal.SuspendLayout();
             SuspendLayout();
             // 
@@ -45,17 +45,17 @@
             // 
             // mnuArchivo
             // 
-            mnuArchivo.DropDownItems.AddRange(new ToolStripItem[] { mnuSalir });
+            mnuArchivo.DropDownItems.AddRange(new ToolStripItem[] { frmSalir });
             mnuArchivo.Name = "mnuArchivo";
             mnuArchivo.Size = new Size(60, 20);
             mnuArchivo.Text = "Archivo";
             // 
-            // mnuSalir
+            // frmSalir
             // 
-            mnuSalir.Name = "mnuSalir";
-            mnuSalir.Size = new Size(96, 22);
-            mnuSalir.Text = "Salir";
-            mnuSalir.Click += mnuSalir_Click;
+            frmSalir.Name = "frmSalir";
+            frmSalir.Size = new Size(180, 22);
+            frmSalir.Text = "Salir";
+            frmSalir.Click += frmSalir_Click;
             // 
             // frmMain
             // 
@@ -83,6 +83,6 @@
 
         private MenuStrip mnsPrincipal;
         private ToolStripMenuItem mnuArchivo;
-        private ToolStripMenuItem mnuSalir;
+        private ToolStripMenuItem frmSalir;
     }
 }

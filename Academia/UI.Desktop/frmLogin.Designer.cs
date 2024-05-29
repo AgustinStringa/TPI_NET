@@ -116,8 +116,6 @@
             Controls.Add(lblBienvenido);
             Name = "frmLogin";
             Text = "Login";
-            Load += this.frmLogin_Load;
-            Shown += this.frmLogin_Shown;
             ResumeLayout(false);
             PerformLayout();
         }

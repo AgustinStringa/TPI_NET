@@ -18,7 +18,7 @@ namespace UI.Desktop
         }
 
 
-        private void mnuSalir_Click(object sender, EventArgs e)
+        private void frmSalir_Click(object sender, EventArgs e)
         {
             this.Dispose();
         }
