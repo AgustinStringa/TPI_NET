@@ -1,6 +1,6 @@
 ﻿namespace UI.Desktop
 {
-    partial class Login
+    partial class frmLogin
     {
         /// <summary>
         ///  Required designer variable.
@@ -101,7 +101,7 @@
             lnkOlvido.Text = "¿Olvidó su contraseña?";
             lnkOlvido.LinkClicked += lnkOlvido_LinkClicked;
             // 
-            // Login
+            // frmLogin
             // 
             AcceptButton = btnIngresar;
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -114,8 +114,10 @@
             Controls.Add(lblContra);
             Controls.Add(lblUsuario);
             Controls.Add(lblBienvenido);
-            Name = "Login";
+            Name = "frmLogin";
             Text = "Login";
+            Load += this.frmLogin_Load;
+            Shown += this.frmLogin_Shown;
             ResumeLayout(false);
             PerformLayout();
         }

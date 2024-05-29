@@ -25,7 +25,7 @@ namespace UI.Desktop
 
         private void frmMain_Shown(object sender, EventArgs e)
         {
-            Login appLogin = new Login();
+            frmLogin appLogin = new frmLogin();
             if (appLogin.ShowDialog() != DialogResult.OK)
             {
                 this.Dispose();
