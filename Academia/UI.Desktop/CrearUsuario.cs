@@ -13,7 +13,7 @@ namespace UI.Desktop
 {
     public partial class CrearUsuario : Form
     {
-        private Area[] areas;
+        private Entities.Area[] areas;
         public CrearUsuario()
         {
             InitializeComponent();
@@ -98,13 +98,13 @@ namespace UI.Desktop
         }
 
         private void LoadAreas() {
-            Area isi = new Area("Sistemas");
-            Area iq = new Area("Quimica");
+            Entities.Area isi = new Entities.Area("Sistemas");
+            Entities.Area iq = new Entities.Area("Quimica");
             areas = [isi, iq];
             IList<string> areasDescription = [];
             foreach (var area in areas)
             {
-                cbAreas.Items.Add(area.Description);
+                cbAreas.Items.Add(area.Name);
                 //areasDescription.Add(area.Description);
             }
         }
