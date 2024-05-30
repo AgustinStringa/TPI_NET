@@ -18,6 +18,7 @@ namespace UI.Desktop.Area
             InitializeComponent();
         }
 
+        public Entities.Area newArea;
         private void btnCreateArea_Click(object sender, EventArgs e)
         {
             string areaName = txtAreaName.Text;
@@ -27,7 +28,7 @@ namespace UI.Desktop.Area
                 
             // la capa de negocio deberia instanciar la ENtidad
                 //Business.Area = new (description)
-                Entities.Area newArea = new Entities.Area(areaName);
+                newArea = new Entities.Area(areaName);
             }
              
         }

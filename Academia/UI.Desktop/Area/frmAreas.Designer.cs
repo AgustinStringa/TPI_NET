@@ -31,8 +31,9 @@
             toolStrip1 = new ToolStrip();
             toolStripButton1 = new ToolStripButton();
             toolStripButton2 = new ToolStripButton();
-            dgvAreas = new DataGridView();
             toolStripButton3 = new ToolStripButton();
+            dgvAreas = new DataGridView();
+            label1 = new Label();
             toolStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvAreas).BeginInit();
             SuspendLayout();
@@ -65,14 +66,6 @@
             toolStripButton2.Size = new Size(23, 22);
             toolStripButton2.Text = "Editar Especialidad";
             // 
-            // dgvAreas
-            // 
-            dgvAreas.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvAreas.Location = new Point(54, 99);
-            dgvAreas.Name = "dgvAreas";
-            dgvAreas.Size = new Size(240, 150);
-            dgvAreas.TabIndex = 1;
-            // 
             // toolStripButton3
             // 
             toolStripButton3.DisplayStyle = ToolStripItemDisplayStyle.Image;
@@ -82,11 +75,29 @@
             toolStripButton3.Size = new Size(23, 22);
             toolStripButton3.Text = "Eliminar Especialidad";
             // 
+            // dgvAreas
+            // 
+            dgvAreas.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgvAreas.Location = new Point(54, 99);
+            dgvAreas.Name = "dgvAreas";
+            dgvAreas.Size = new Size(240, 150);
+            dgvAreas.TabIndex = 1;
+            // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Location = new Point(395, 125);
+            label1.Name = "label1";
+            label1.Size = new Size(38, 15);
+            label1.TabIndex = 2;
+            label1.Text = "label1";
+            // 
             // frmAreas
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
+            Controls.Add(label1);
             Controls.Add(dgvAreas);
             Controls.Add(toolStrip1);
             Name = "frmAreas";
@@ -105,5 +116,6 @@
         private DataGridView dgvAreas;
         private ToolStripButton toolStripButton2;
         private ToolStripButton toolStripButton3;
+        private Label label1;
     }
 }

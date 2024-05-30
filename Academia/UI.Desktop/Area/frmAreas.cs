@@ -25,12 +25,14 @@ namespace UI.Desktop
             frmCreateArea frm = new frmCreateArea();
             if (frm.ShowDialog() != DialogResult.OK)
             {
-                this.Dispose();
+                //this.Dispose();
             }
+                label1.Text = frm.newArea.Name;
         }
 
         private void loadAreas() {
             DataTable dataTable = new DataTable();
+            
             foreach (Entities.Area area in areas)
             {
                 DataColumn column_name = new DataColumn("Name");
