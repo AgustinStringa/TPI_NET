@@ -12,6 +12,7 @@ namespace UI.Desktop
 {
     public partial class frmMain : Form
     {
+        private bool administrative = false;
         public frmMain()
         {
             InitializeComponent();
@@ -25,7 +26,17 @@ namespace UI.Desktop
 
         private void frmMain_Shown(object sender, EventArgs e)
         {
-            frmLogin appLogin = new frmLogin();
+            //especialidadesToolStripMenuItem.Visible = !administrative;
+            //frmMain appLogin = new frmMain();
+            //if (appLogin.ShowDialog() != DialogResult.OK)
+            //{
+            //    this.Dispose();
+            //}
+        }
+
+        private void especialidadesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            frmAreas appLogin = new frmAreas();
             if (appLogin.ShowDialog() != DialogResult.OK)
             {
                 this.Dispose();
