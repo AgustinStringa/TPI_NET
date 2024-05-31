@@ -13,35 +13,68 @@ namespace UI.Desktop
 {
     public partial class frmAreas : Form
     {
-        private Entities.Area[] areas = [new Entities.Area("Sistemas")];
+        private List<Entities.Area> areas = [];
         public frmAreas()
         {
             InitializeComponent();
-            loadAreas();
+            LoadAreas();
         }
 
-        private void toolStripButton1_Click(object sender, EventArgs e)
+
+        private void LoadAreas()
         {
-            frmCreateArea frm = new frmCreateArea();
+            DataTable dataTable = new DataTable();
+            DataColumn column_id = new DataColumn("id");
+            dataTable.Columns.Add(column_id);
+            DataColumn column_name = new DataColumn("Name");
+            dataTable.Columns.Add(column_name);
+            int i = 0;
+            foreach (Entities.Area area in areas)
+            {
+                var row = dataTable.NewRow();
+                row["Name"] = area.Name;
+                row["Id"] = i;
+                i++;
+                dataTable.Rows.Add(row);
+            }
+            dgvAreas.DataSource = dataTable;
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            label1.Text = dgvAreas.SelectedRows.Count.ToString();
+        }
+
+
+        private void tsbtnAdd_Click(object sender, EventArgs e)
+        {
+            frmActionArea frm = new frmActionArea(Mode.Create);
             if (frm.ShowDialog() != DialogResult.OK)
             {
                 //this.Dispose();
             }
-                label1.Text = frm.newArea.Name;
+            areas.Add(frm.newArea);
+            LoadAreas();
         }
 
-        private void loadAreas() {
-            DataTable dataTable = new DataTable();
-            
-            foreach (Entities.Area area in areas)
+        private void tsbtnEdit_Click(object sender, EventArgs e)
+        {
+            frmActionArea frm = new frmActionArea(Mode.Edit);
+            if (frm.ShowDialog() != DialogResult.OK)
             {
-                DataColumn column_name = new DataColumn("Name");
-                dataTable.Columns.Add(column_name);
-                var row = dataTable.NewRow();
-                row["Name"] = area.Name;
-                dataTable.Rows.Add(row);
+                //this.Dispose();
             }
-            dgvAreas.DataSource = dataTable;
+            LoadAreas();
+        }
+
+        private void tsbtnRemove_Click(object sender, EventArgs e)
+        {
+            if (dgvAreas.SelectedRows.Count > 0)
+            {
+                var row = dgvAreas.SelectedRows[0];
+                areas.Remove(areas[0]);
+                LoadAreas();
+            }
         }
     }
 }
