@@ -28,9 +28,18 @@ namespace Entities
         #endregion
 
         #region constructors
+        //constructor used with values provided by user
+
         public Area(string description) {
 			_Name = description;
 		}
+
+        //constructor used with values provided by database
+        public Area(string description, int id)
+        {
+            _Name = description;
+            _IdArea = id;
+        }
         #endregion
 
         public IEnumerable<Curriculum> GetCurriculums() {

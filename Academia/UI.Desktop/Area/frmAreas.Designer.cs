@@ -88,6 +88,7 @@
             dgvAreas.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dgvAreas.Size = new Size(678, 150);
             dgvAreas.TabIndex = 1;
+            dgvAreas.SelectionChanged += dgvAreas_SelectionChanged;
             // 
             // label1
             // 

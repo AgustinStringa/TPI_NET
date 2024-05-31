@@ -4,21 +4,36 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Entities;
+using Data;
 
 namespace Business
 {
     public class Area
     {
-        public void Create(Entities.Area newArea)
+        public async static Task<Entities.Area> Create(Entities.Area newArea)
+
         {
             //validations and call to Data Layout
+            var area = await Data.Area.Create(newArea);
+            return area;
         }
-        public void FindOne(int id) { }
-        public IEnumerable<Entities.Area> FindAll()
+        public async static Task<Entities.Area> FindOne(int id) {
+            var area = await Data.Area.FindOne(id);
+            return area;
+        }
+        public async static Task<List<Entities.Area>> FindAll()
         {
-            return new List<Entities.Area>();
+            var areas = await Data.Area.FindAll();
+            return areas;
         }
-        public void Update() { }
-        public void Delete(int id) { }
+        public async static Task<Entities.Area> Update(Entities.Area updatedArea) {
+            await Data.Area.Update(updatedArea);
+            return await Data.Area.FindOne(Int32.Parse(updatedArea.IdArea.ToString()));
+        }
+        public static async Task<Entities.Area> Delete(int id) {
+            var deletedArea = await Data.Area.FindOne(id);
+            await Data.Area.Delete(id);
+            return deletedArea; 
+        }
     }
 }

@@ -15,6 +15,7 @@ namespace UI.Desktop.Area
     public partial class frmActionArea : Form
     {
         private Mode mode;
+        public Entities.Area area;
         public frmActionArea(Mode mode)
         {
             this.mode = mode;
@@ -26,32 +27,44 @@ namespace UI.Desktop.Area
                     lblId.Visible = false;
                     txtId.Visible = false;
                     break;
+            }
+        }
+        public frmActionArea(Mode mode, int id)
+        {
+            this.mode = mode;
+            InitializeComponent();
+            switch (mode)
+            {
                 case Mode.Edit:
                     btnActionArea.Text = "Guardar Especialidad";
                     lblId.Visible = true;
                     txtId.Visible = true;
-                    txtId.Text = "0";
+                    txtId.Text = id.ToString();
+                    GetArea(id);
                     break;
             }
+
         }
 
-        public Entities.Area newArea;
 
-        private void CreateArea()
+        private async void GetArea(int id){
+            area = await Business.Area.FindOne(id);
+            txtAreaName.Text = area.Name;
+            txtId.Text = area.IdArea.ToString();
+        }
+        private async void CreateArea(Entities.Area newArea)
         {
-            string areaName = txtAreaName.Text;
-            if (String.IsNullOrEmpty(areaName.Trim()))
-            {
-                //finalizar ejecucion
-            }
-            else
-            {
 
-                // la capa de negocio deberia instanciar la ENtidad
-                //Business.Area = new (description)
-                newArea = new Entities.Area(areaName);
-                this.Dispose();
-            }
+                var newAreaResult = await Business.Area.Create(newArea);
+                MessageBox.Show(newAreaResult.Name+ " creada correctamente");
+                this.Dispose();   
+        }
+
+        private async void  EditArea(Entities.Area newArea) {
+            var updatedAreaResult = await Business.Area.Update(new Entities.Area(newArea.Name, area.IdArea));
+            MessageBox.Show(updatedAreaResult.Name + " actualizada correctamente");
+            this.Dispose();
+
         }
 
         private void txtAreaName_KeyDown(object sender, KeyEventArgs e)
@@ -63,11 +76,24 @@ namespace UI.Desktop.Area
             }
         }
 
-        private void btnActionArea_Click(object sender, EventArgs e)
+        private async void btnActionArea_Click(object sender, EventArgs e)
         {
-            if (mode == Mode.Create) {
-                CreateArea();
+            string areaName = txtAreaName.Text;
+            if (String.IsNullOrEmpty(areaName.Trim()))
+            {
+                //finalizar ejecucion
             }
+            else {
+                if (mode == Mode.Create)
+                {
+                    CreateArea(new Entities.Area(areaName.Trim()));
+                }
+                else if (mode == Mode.Edit)
+                {
+                    EditArea(new Entities.Area(areaName.Trim()));
+                }
+            }
+
         }
     }
 }

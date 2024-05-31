@@ -21,20 +21,20 @@ namespace UI.Desktop
         }
 
 
-        private void LoadAreas()
+        private async void LoadAreas()
         {
             DataTable dataTable = new DataTable();
             DataColumn column_id = new DataColumn("id");
             dataTable.Columns.Add(column_id);
             DataColumn column_name = new DataColumn("Name");
             dataTable.Columns.Add(column_name);
-            int i = 0;
+            areas = await Business.Area.FindAll();
             foreach (Entities.Area area in areas)
             {
                 var row = dataTable.NewRow();
                 row["Name"] = area.Name;
-                row["Id"] = i;
-                i++;
+                row["Id"] = area.IdArea;
+
                 dataTable.Rows.Add(row);
             }
             dgvAreas.DataSource = dataTable;
@@ -49,31 +49,45 @@ namespace UI.Desktop
         private void tsbtnAdd_Click(object sender, EventArgs e)
         {
             frmActionArea frm = new frmActionArea(Mode.Create);
-            if (frm.ShowDialog() != DialogResult.OK)
-            {
-                //this.Dispose();
-            }
-            areas.Add(frm.newArea);
+            frm.ShowDialog();
             LoadAreas();
         }
 
         private void tsbtnEdit_Click(object sender, EventArgs e)
         {
-            frmActionArea frm = new frmActionArea(Mode.Edit);
-            if (frm.ShowDialog() != DialogResult.OK)
+
+            if (dgvAreas.SelectedRows.Count > 0)
             {
-                //this.Dispose();
+                var row = dgvAreas.SelectedRows[0];
+                label1.Text = row.Cells[0].Value.ToString();
+                int id = Int32.Parse(row.Cells[0].Value.ToString());
+                frmActionArea frm = new frmActionArea(Mode.Edit,id);
+                frm.ShowDialog();
+                LoadAreas();
             }
-            LoadAreas();
         }
 
-        private void tsbtnRemove_Click(object sender, EventArgs e)
+        private async void tsbtnRemove_Click(object sender, EventArgs e)
         {
             if (dgvAreas.SelectedRows.Count > 0)
             {
                 var row = dgvAreas.SelectedRows[0];
-                areas.Remove(areas[0]);
+                int id = Int32.Parse(row.Cells[0].Value.ToString());
+                await Business.Area.Delete(id);
                 LoadAreas();
+            }
+        }
+
+        private void dgvAreas_SelectionChanged(object sender, EventArgs e)
+        {
+            if (dgvAreas.SelectedRows.Count <= 0)
+            {
+                tsbtnEdit.Enabled = false;
+                tsbtnRemove.Enabled = false;
+            }
+            else {
+                tsbtnEdit.Enabled = true;
+                tsbtnRemove.Enabled = true;
             }
         }
     }
