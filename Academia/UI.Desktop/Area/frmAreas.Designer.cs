@@ -29,74 +29,92 @@
         private void InitializeComponent()
         {
             toolStrip1 = new ToolStrip();
-            toolStripButton1 = new ToolStripButton();
-            toolStripButton2 = new ToolStripButton();
-            toolStripButton3 = new ToolStripButton();
+            tsbtnAdd = new ToolStripButton();
+            tsbtnEdit = new ToolStripButton();
+            tsbtnRemove = new ToolStripButton();
             dgvAreas = new DataGridView();
             label1 = new Label();
+            button1 = new Button();
             toolStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvAreas).BeginInit();
             SuspendLayout();
             // 
             // toolStrip1
             // 
-            toolStrip1.Items.AddRange(new ToolStripItem[] { toolStripButton1, toolStripButton2, toolStripButton3 });
+            toolStrip1.Items.AddRange(new ToolStripItem[] { tsbtnAdd, tsbtnEdit, tsbtnRemove });
             toolStrip1.Location = new Point(0, 0);
             toolStrip1.Name = "toolStrip1";
             toolStrip1.Size = new Size(800, 25);
             toolStrip1.TabIndex = 0;
             toolStrip1.Text = "toolStrip1";
             // 
-            // toolStripButton1
+            // tsbtnAdd
             // 
-            toolStripButton1.DisplayStyle = ToolStripItemDisplayStyle.Image;
-            toolStripButton1.Image = Properties.Resources.Add;
-            toolStripButton1.ImageTransparentColor = Color.Magenta;
-            toolStripButton1.Name = "toolStripButton1";
-            toolStripButton1.Size = new Size(23, 22);
-            toolStripButton1.Text = "Crear Especialidad";
-            toolStripButton1.Click += toolStripButton1_Click;
+            tsbtnAdd.DisplayStyle = ToolStripItemDisplayStyle.Image;
+            tsbtnAdd.Image = Properties.Resources.Add;
+            tsbtnAdd.ImageTransparentColor = Color.Magenta;
+            tsbtnAdd.Name = "tsbtnAdd";
+            tsbtnAdd.Size = new Size(23, 22);
+            tsbtnAdd.Text = "Crear Especialidad";
+            tsbtnAdd.Click += tsbtnAdd_Click;
             // 
-            // toolStripButton2
+            // tsbtnEdit
             // 
-            toolStripButton2.DisplayStyle = ToolStripItemDisplayStyle.Image;
-            toolStripButton2.Image = Properties.Resources.Edit;
-            toolStripButton2.ImageTransparentColor = Color.Magenta;
-            toolStripButton2.Name = "toolStripButton2";
-            toolStripButton2.Size = new Size(23, 22);
-            toolStripButton2.Text = "Editar Especialidad";
+            tsbtnEdit.DisplayStyle = ToolStripItemDisplayStyle.Image;
+            tsbtnEdit.Image = Properties.Resources.Edit;
+            tsbtnEdit.ImageTransparentColor = Color.Magenta;
+            tsbtnEdit.Name = "tsbtnEdit";
+            tsbtnEdit.Size = new Size(23, 22);
+            tsbtnEdit.Text = "Editar Especialidad";
+            tsbtnEdit.Click += tsbtnEdit_Click;
             // 
-            // toolStripButton3
+            // tsbtnRemove
             // 
-            toolStripButton3.DisplayStyle = ToolStripItemDisplayStyle.Image;
-            toolStripButton3.Image = Properties.Resources.Delete;
-            toolStripButton3.ImageTransparentColor = Color.Magenta;
-            toolStripButton3.Name = "toolStripButton3";
-            toolStripButton3.Size = new Size(23, 22);
-            toolStripButton3.Text = "Eliminar Especialidad";
+            tsbtnRemove.DisplayStyle = ToolStripItemDisplayStyle.Image;
+            tsbtnRemove.Image = Properties.Resources.Delete;
+            tsbtnRemove.ImageTransparentColor = Color.Magenta;
+            tsbtnRemove.Name = "tsbtnRemove";
+            tsbtnRemove.Size = new Size(23, 22);
+            tsbtnRemove.Text = "Eliminar Especialidad";
+            tsbtnRemove.Click += tsbtnRemove_Click;
             // 
             // dgvAreas
             // 
+            dgvAreas.AllowUserToAddRows = false;
+            dgvAreas.AllowUserToDeleteRows = false;
             dgvAreas.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvAreas.Location = new Point(54, 99);
             dgvAreas.Name = "dgvAreas";
-            dgvAreas.Size = new Size(240, 150);
+            dgvAreas.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dgvAreas.Size = new Size(678, 150);
             dgvAreas.TabIndex = 1;
+            dgvAreas.SelectionChanged += dgvAreas_SelectionChanged;
             // 
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(395, 125);
+            label1.Location = new Point(54, 67);
             label1.Name = "label1";
             label1.Size = new Size(38, 15);
             label1.TabIndex = 2;
             label1.Text = "label1";
+            // 
+            // button1
+            // 
+            button1.Location = new Point(508, 57);
+            button1.Name = "button1";
+            button1.Size = new Size(75, 23);
+            button1.TabIndex = 3;
+            button1.Text = "button1";
+            button1.UseVisualStyleBackColor = true;
+            button1.Click += button1_Click;
             // 
             // frmAreas
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
+            Controls.Add(button1);
             Controls.Add(label1);
             Controls.Add(dgvAreas);
             Controls.Add(toolStrip1);
@@ -112,10 +130,11 @@
         #endregion
 
         private ToolStrip toolStrip1;
-        private ToolStripButton toolStripButton1;
+        private ToolStripButton tsbtnAdd;
         private DataGridView dgvAreas;
-        private ToolStripButton toolStripButton2;
-        private ToolStripButton toolStripButton3;
+        private ToolStripButton tsbtnEdit;
+        private ToolStripButton tsbtnRemove;
         private Label label1;
+        private Button button1;
     }
 }

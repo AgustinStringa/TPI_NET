@@ -1,6 +1,6 @@
 ﻿namespace UI.Desktop.Area
 {
-    partial class frmCreateArea
+    partial class frmActionArea
     {
         /// <summary>
         /// Required designer variable.
@@ -30,14 +30,18 @@
         {
             label1 = new Label();
             txtAreaName = new TextBox();
-            btnCreateArea = new Button();
+            btnActionArea = new Button();
             label2 = new Label();
+            panel1 = new Panel();
+            txtId = new TextBox();
+            lblId = new Label();
+            panel1.SuspendLayout();
             SuspendLayout();
             // 
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(39, 45);
+            label1.Location = new Point(3, 14);
             label1.Name = "label1";
             label1.Size = new Size(54, 15);
             label1.TabIndex = 0;
@@ -45,50 +49,82 @@
             // 
             // txtAreaName
             // 
-            txtAreaName.Location = new Point(99, 42);
+            txtAreaName.Location = new Point(63, 11);
             txtAreaName.Name = "txtAreaName";
             txtAreaName.Size = new Size(140, 23);
             txtAreaName.TabIndex = 1;
+            txtAreaName.KeyDown += txtAreaName_KeyDown;
             // 
-            // btnCreateArea
+            // btnActionArea
             // 
-            btnCreateArea.Location = new Point(251, 148);
-            btnCreateArea.Name = "btnCreateArea";
-            btnCreateArea.Size = new Size(126, 23);
-            btnCreateArea.TabIndex = 2;
-            btnCreateArea.Text = "Crear Especialidad";
-            btnCreateArea.UseVisualStyleBackColor = true;
-            btnCreateArea.Click += btnCreateArea_Click;
+            btnActionArea.Location = new Point(228, 125);
+            btnActionArea.Name = "btnActionArea";
+            btnActionArea.Size = new Size(126, 23);
+            btnActionArea.TabIndex = 2;
+            btnActionArea.Text = "Crear Especialidad";
+            btnActionArea.UseVisualStyleBackColor = true;
+            btnActionArea.Click += btnActionArea_Click;
             // 
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new Point(251, 45);
+            label2.Location = new Point(215, 14);
             label2.Name = "label2";
             label2.Size = new Size(12, 15);
             label2.TabIndex = 3;
             label2.Text = "*";
+            // 
+            // panel1
+            // 
+            panel1.Controls.Add(txtId);
+            panel1.Controls.Add(lblId);
+            panel1.Controls.Add(label1);
+            panel1.Controls.Add(btnActionArea);
+            panel1.Controls.Add(label2);
+            panel1.Controls.Add(txtAreaName);
+            panel1.Location = new Point(26, 27);
+            panel1.Name = "panel1";
+            panel1.Size = new Size(366, 165);
+            panel1.TabIndex = 4;
+            // 
+            // txtId
+            // 
+            txtId.Enabled = false;
+            txtId.Location = new Point(63, 57);
+            txtId.Name = "txtId";
+            txtId.Size = new Size(140, 23);
+            txtId.TabIndex = 5;
+            // 
+            // lblId
+            // 
+            lblId.AutoSize = true;
+            lblId.Location = new Point(37, 60);
+            lblId.Name = "lblId";
+            lblId.Size = new Size(20, 15);
+            lblId.TabIndex = 4;
+            lblId.Text = "Id:";
             // 
             // frmCreateArea
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(404, 204);
-            Controls.Add(label2);
-            Controls.Add(btnCreateArea);
-            Controls.Add(txtAreaName);
-            Controls.Add(label1);
+            Controls.Add(panel1);
             Name = "frmCreateArea";
             Text = "Crear Especilidad";
+            panel1.ResumeLayout(false);
+            panel1.PerformLayout();
             ResumeLayout(false);
-            PerformLayout();
         }
 
         #endregion
 
         private Label label1;
         private TextBox txtAreaName;
-        private Button btnCreateArea;
+        private Button btnActionArea;
         private Label label2;
+        private Panel panel1;
+        private TextBox txtId;
+        private Label lblId;
     }
 }

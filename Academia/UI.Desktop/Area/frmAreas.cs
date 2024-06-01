@@ -13,35 +13,82 @@ namespace UI.Desktop
 {
     public partial class frmAreas : Form
     {
-        private Entities.Area[] areas = [new Entities.Area("Sistemas")];
+        private List<Entities.Area> areas = [];
         public frmAreas()
         {
             InitializeComponent();
-            loadAreas();
+            LoadAreas();
         }
 
-        private void toolStripButton1_Click(object sender, EventArgs e)
+
+        private async void LoadAreas()
         {
-            frmCreateArea frm = new frmCreateArea();
-            if (frm.ShowDialog() != DialogResult.OK)
-            {
-                //this.Dispose();
-            }
-                label1.Text = frm.newArea.Name;
-        }
-
-        private void loadAreas() {
             DataTable dataTable = new DataTable();
-            
+            DataColumn column_id = new DataColumn("id");
+            dataTable.Columns.Add(column_id);
+            DataColumn column_name = new DataColumn("Name");
+            dataTable.Columns.Add(column_name);
+            areas = await Business.Area.FindAll();
             foreach (Entities.Area area in areas)
             {
-                DataColumn column_name = new DataColumn("Name");
-                dataTable.Columns.Add(column_name);
                 var row = dataTable.NewRow();
                 row["Name"] = area.Name;
+                row["Id"] = area.IdArea;
+
                 dataTable.Rows.Add(row);
             }
             dgvAreas.DataSource = dataTable;
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            label1.Text = dgvAreas.SelectedRows.Count.ToString();
+        }
+
+
+        private void tsbtnAdd_Click(object sender, EventArgs e)
+        {
+            frmActionArea frm = new frmActionArea(Mode.Create);
+            frm.ShowDialog();
+            LoadAreas();
+        }
+
+        private void tsbtnEdit_Click(object sender, EventArgs e)
+        {
+
+            if (dgvAreas.SelectedRows.Count > 0)
+            {
+                var row = dgvAreas.SelectedRows[0];
+                label1.Text = row.Cells[0].Value.ToString();
+                int id = Int32.Parse(row.Cells[0].Value.ToString());
+                frmActionArea frm = new frmActionArea(Mode.Edit,id);
+                frm.ShowDialog();
+                LoadAreas();
+            }
+        }
+
+        private async void tsbtnRemove_Click(object sender, EventArgs e)
+        {
+            if (dgvAreas.SelectedRows.Count > 0)
+            {
+                var row = dgvAreas.SelectedRows[0];
+                int id = Int32.Parse(row.Cells[0].Value.ToString());
+                await Business.Area.Delete(id);
+                LoadAreas();
+            }
+        }
+
+        private void dgvAreas_SelectionChanged(object sender, EventArgs e)
+        {
+            if (dgvAreas.SelectedRows.Count <= 0)
+            {
+                tsbtnEdit.Enabled = false;
+                tsbtnRemove.Enabled = false;
+            }
+            else {
+                tsbtnEdit.Enabled = true;
+                tsbtnRemove.Enabled = true;
+            }
         }
     }
 }
