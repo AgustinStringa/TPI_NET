@@ -35,7 +35,7 @@
             dgvAreas = new DataGridView();
             label1 = new Label();
 
-            button1 = new Button();
+
             colorDialog1 = new ColorDialog();
 
             toolStrip1.SuspendLayout();
@@ -105,17 +105,7 @@
             label1.Size = new Size(50, 20);
             label1.TabIndex = 2;
             label1.Text = "label1";
-            // 
-            // button1
-            // 
-            button1.Location = new Point(581, 76);
-            button1.Margin = new Padding(3, 4, 3, 4);
-            button1.Name = "button1";
-            button1.Size = new Size(86, 31);
-            button1.TabIndex = 3;
-            button1.Text = "button1";
-            button1.UseVisualStyleBackColor = true;
-            button1.Click += button1_Click;
+
 
             // 
             // frmAreas
@@ -124,7 +114,7 @@
             AutoScaleMode = AutoScaleMode.Font;
 
             ClientSize = new Size(914, 600);
-            Controls.Add(button1);
+
 
             Controls.Add(label1);
             Controls.Add(dgvAreas);
@@ -148,7 +138,7 @@
         private ToolStripButton tsbtnRemove;
         private Label label1;
 
-        private Button button1;
+
         private ColorDialog colorDialog1;
 
     }
