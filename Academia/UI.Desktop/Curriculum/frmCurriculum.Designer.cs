@@ -1,6 +1,6 @@
-﻿namespace UI.Desktop.Area
+﻿namespace UI.Desktop.Curriculum
 {
-    partial class frmAreas
+    partial class frmCurriculum
     {
         /// <summary>
         /// Required designer variable.
@@ -32,24 +32,19 @@
             tsbtnAdd = new ToolStripButton();
             tsbtnEdit = new ToolStripButton();
             tsbtnRemove = new ToolStripButton();
-            dgvAreas = new DataGridView();
             label1 = new Label();
-
-            button1 = new Button();
-            colorDialog1 = new ColorDialog();
-
+            dgvCurriculums = new DataGridView();
             toolStrip1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)dgvAreas).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)dgvCurriculums).BeginInit();
             SuspendLayout();
             // 
             // toolStrip1
             // 
-            toolStrip1.ImageScalingSize = new Size(20, 20);
             toolStrip1.Items.AddRange(new ToolStripItem[] { tsbtnAdd, tsbtnEdit, tsbtnRemove });
             toolStrip1.Location = new Point(0, 0);
             toolStrip1.Name = "toolStrip1";
-            toolStrip1.Size = new Size(914, 27);
-            toolStrip1.TabIndex = 0;
+            toolStrip1.Size = new Size(800, 25);
+            toolStrip1.TabIndex = 1;
             toolStrip1.Text = "toolStrip1";
             // 
             // tsbtnAdd
@@ -58,8 +53,8 @@
             tsbtnAdd.Image = Properties.Resources.Add;
             tsbtnAdd.ImageTransparentColor = Color.Magenta;
             tsbtnAdd.Name = "tsbtnAdd";
-            tsbtnAdd.Size = new Size(29, 24);
-            tsbtnAdd.Text = "Crear Especialidad";
+            tsbtnAdd.Size = new Size(23, 22);
+            tsbtnAdd.Text = "Crear Plan de Estudios";
             tsbtnAdd.Click += tsbtnAdd_Click;
             // 
             // tsbtnEdit
@@ -68,9 +63,8 @@
             tsbtnEdit.Image = Properties.Resources.Edit;
             tsbtnEdit.ImageTransparentColor = Color.Magenta;
             tsbtnEdit.Name = "tsbtnEdit";
-            tsbtnEdit.Size = new Size(29, 24);
-            tsbtnEdit.Text = "Editar Especialidad";
-            tsbtnEdit.Click += tsbtnEdit_Click;
+            tsbtnEdit.Size = new Size(23, 22);
+            tsbtnEdit.Text = "Editar Plan de Estudios";
             // 
             // tsbtnRemove
             // 
@@ -78,63 +72,42 @@
             tsbtnRemove.Image = Properties.Resources.Delete;
             tsbtnRemove.ImageTransparentColor = Color.Magenta;
             tsbtnRemove.Name = "tsbtnRemove";
-            tsbtnRemove.Size = new Size(29, 24);
-            tsbtnRemove.Text = "Eliminar Especialidad";
-            tsbtnRemove.Click += tsbtnRemove_Click;
-            // 
-            // dgvAreas
-            // 
-            dgvAreas.AllowUserToAddRows = false;
-            dgvAreas.AllowUserToDeleteRows = false;
-            dgvAreas.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvAreas.Location = new Point(62, 132);
-            dgvAreas.Margin = new Padding(3, 4, 3, 4);
-            dgvAreas.Name = "dgvAreas";
-            dgvAreas.RowHeadersWidth = 51;
-            dgvAreas.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgvAreas.Size = new Size(775, 200);
-            dgvAreas.TabIndex = 1;
-            dgvAreas.SelectionChanged += dgvAreas_SelectionChanged;
+            tsbtnRemove.Size = new Size(23, 22);
+            tsbtnRemove.Text = "Eliminar Plan de Estudios";
             // 
             // label1
             // 
             label1.AutoSize = true;
-
-            label1.Location = new Point(62, 89);
+            label1.Location = new Point(37, 83);
             label1.Name = "label1";
-            label1.Size = new Size(50, 20);
-            label1.TabIndex = 2;
-            label1.Text = "label1";
+            label1.Size = new Size(99, 15);
+            label1.TabIndex = 4;
+            label1.Text = "Planes de Estudio";
             // 
-            // button1
+            // dgvCurriculums
             // 
-            button1.Location = new Point(581, 76);
-            button1.Margin = new Padding(3, 4, 3, 4);
-            button1.Name = "button1";
-            button1.Size = new Size(86, 31);
-            button1.TabIndex = 3;
-            button1.Text = "button1";
-            button1.UseVisualStyleBackColor = true;
-            button1.Click += button1_Click;
-
+            dgvCurriculums.AllowUserToAddRows = false;
+            dgvCurriculums.AllowUserToDeleteRows = false;
+            dgvCurriculums.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgvCurriculums.Location = new Point(37, 111);
+            dgvCurriculums.Name = "dgvCurriculums";
+            dgvCurriculums.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dgvCurriculums.Size = new Size(678, 150);
+            dgvCurriculums.TabIndex = 3;
             // 
-            // frmAreas
+            // frmCurriculum
             // 
-            AutoScaleDimensions = new SizeF(8F, 20F);
+            AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-
-            ClientSize = new Size(914, 600);
-            Controls.Add(button1);
-
+            ClientSize = new Size(800, 450);
             Controls.Add(label1);
-            Controls.Add(dgvAreas);
+            Controls.Add(dgvCurriculums);
             Controls.Add(toolStrip1);
-            Margin = new Padding(3, 4, 3, 4);
-            Name = "frmAreas";
-            Text = "Especialidades";
+            Name = "frmCurriculum";
+            Text = "Planes de Estudio";
             toolStrip1.ResumeLayout(false);
             toolStrip1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)dgvAreas).EndInit();
+            ((System.ComponentModel.ISupportInitialize)dgvCurriculums).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -143,13 +116,9 @@
 
         private ToolStrip toolStrip1;
         private ToolStripButton tsbtnAdd;
-        private DataGridView dgvAreas;
         private ToolStripButton tsbtnEdit;
         private ToolStripButton tsbtnRemove;
         private Label label1;
-
-        private Button button1;
-        private ColorDialog colorDialog1;
-
+        private DataGridView dgvCurriculums;
     }
 }

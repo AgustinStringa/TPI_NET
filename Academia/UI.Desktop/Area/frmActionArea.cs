@@ -48,20 +48,29 @@ namespace UI.Desktop.Area
 
         private async void GetArea(int id){
             area = await Business.Area.FindOne(id);
-            txtAreaName.Text = area.Name;
+            txtAreaName.Text = area.Description;
             txtId.Text = area.IdArea.ToString();
         }
         private async void CreateArea(Entities.Area newArea)
         {
 
+            try
+            {
                 var newAreaResult = await Business.Area.Create(newArea);
-                MessageBox.Show(newAreaResult.Name+ " creada correctamente");
-                this.Dispose();   
+                MessageBox.Show(newAreaResult.Description + " creada correctamente");
+                this.Dispose();
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message);
+                //throw;
+            } 
+
         }
 
         private async void  EditArea(Entities.Area newArea) {
-            var updatedAreaResult = await Business.Area.Update(new Entities.Area(newArea.Name, area.IdArea));
-            MessageBox.Show(updatedAreaResult.Name + " actualizada correctamente");
+            var updatedAreaResult = await Business.Area.Update(new Entities.Area(newArea.Description, area.IdArea));
+            MessageBox.Show(updatedAreaResult.Description + " actualizada correctamente");
             this.Dispose();
 
         }

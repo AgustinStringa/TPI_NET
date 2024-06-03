@@ -14,6 +14,10 @@ namespace Business
 
         {
             //validations and call to Data Layout
+            var areaExists = await Data.Area.FindOne(newArea.Description);
+            if (areaExists!= null) {
+                throw new Exception("Esta especialidad ya existe.");
+            }
             var area = await Data.Area.Create(newArea);
             return area;
         }

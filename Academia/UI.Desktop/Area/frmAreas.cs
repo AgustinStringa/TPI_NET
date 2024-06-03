@@ -29,13 +29,13 @@ namespace UI.Desktop.Area
             DataTable dataTable = new DataTable();
             DataColumn column_id = new DataColumn("id");
             dataTable.Columns.Add(column_id);
-            DataColumn column_name = new DataColumn("Name");
+            DataColumn column_name = new DataColumn("Description");
             dataTable.Columns.Add(column_name);
             areas = await Business.Area.FindAll();
             foreach (Entities.Area area in areas)
             {
                 var row = dataTable.NewRow();
-                row["Name"] = area.Name;
+                row["Description"] = area.Description;
                 row["Id"] = area.IdArea;
 
                 dataTable.Rows.Add(row);
@@ -43,10 +43,6 @@ namespace UI.Desktop.Area
             dgvAreas.DataSource = dataTable;
         }
 
-        private void button1_Click(object sender, EventArgs e)
-        {
-            label1.Text = dgvAreas.SelectedRows.Count.ToString();
-        }
 
 
         private void tsbtnAdd_Click(object sender, EventArgs e)
@@ -62,7 +58,6 @@ namespace UI.Desktop.Area
             if (dgvAreas.SelectedRows.Count > 0)
             {
                 var row = dgvAreas.SelectedRows[0];
-                label1.Text = row.Cells[0].Value.ToString();
                 int id = Int32.Parse(row.Cells[0].Value.ToString());
                 frmActionArea frm = new frmActionArea(Mode.Edit,id);
                 frm.ShowDialog();
