@@ -35,16 +35,18 @@
             dgvAreas = new DataGridView();
             label1 = new Label();
             button1 = new Button();
+            colorDialog1 = new ColorDialog();
             toolStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvAreas).BeginInit();
             SuspendLayout();
             // 
             // toolStrip1
             // 
+            toolStrip1.ImageScalingSize = new Size(20, 20);
             toolStrip1.Items.AddRange(new ToolStripItem[] { tsbtnAdd, tsbtnEdit, tsbtnRemove });
             toolStrip1.Location = new Point(0, 0);
             toolStrip1.Name = "toolStrip1";
-            toolStrip1.Size = new Size(800, 25);
+            toolStrip1.Size = new Size(914, 27);
             toolStrip1.TabIndex = 0;
             toolStrip1.Text = "toolStrip1";
             // 
@@ -54,7 +56,7 @@
             tsbtnAdd.Image = Properties.Resources.Add;
             tsbtnAdd.ImageTransparentColor = Color.Magenta;
             tsbtnAdd.Name = "tsbtnAdd";
-            tsbtnAdd.Size = new Size(23, 22);
+            tsbtnAdd.Size = new Size(29, 24);
             tsbtnAdd.Text = "Crear Especialidad";
             tsbtnAdd.Click += tsbtnAdd_Click;
             // 
@@ -64,7 +66,7 @@
             tsbtnEdit.Image = Properties.Resources.Edit;
             tsbtnEdit.ImageTransparentColor = Color.Magenta;
             tsbtnEdit.Name = "tsbtnEdit";
-            tsbtnEdit.Size = new Size(23, 22);
+            tsbtnEdit.Size = new Size(29, 24);
             tsbtnEdit.Text = "Editar Especialidad";
             tsbtnEdit.Click += tsbtnEdit_Click;
             // 
@@ -74,7 +76,7 @@
             tsbtnRemove.Image = Properties.Resources.Delete;
             tsbtnRemove.ImageTransparentColor = Color.Magenta;
             tsbtnRemove.Name = "tsbtnRemove";
-            tsbtnRemove.Size = new Size(23, 22);
+            tsbtnRemove.Size = new Size(29, 24);
             tsbtnRemove.Text = "Eliminar Especialidad";
             tsbtnRemove.Click += tsbtnRemove_Click;
             // 
@@ -83,27 +85,30 @@
             dgvAreas.AllowUserToAddRows = false;
             dgvAreas.AllowUserToDeleteRows = false;
             dgvAreas.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvAreas.Location = new Point(54, 99);
+            dgvAreas.Location = new Point(62, 132);
+            dgvAreas.Margin = new Padding(3, 4, 3, 4);
             dgvAreas.Name = "dgvAreas";
+            dgvAreas.RowHeadersWidth = 51;
             dgvAreas.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgvAreas.Size = new Size(678, 150);
+            dgvAreas.Size = new Size(775, 200);
             dgvAreas.TabIndex = 1;
             dgvAreas.SelectionChanged += dgvAreas_SelectionChanged;
             // 
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(54, 67);
+            label1.Location = new Point(62, 89);
             label1.Name = "label1";
-            label1.Size = new Size(38, 15);
+            label1.Size = new Size(50, 20);
             label1.TabIndex = 2;
             label1.Text = "label1";
             // 
             // button1
             // 
-            button1.Location = new Point(508, 57);
+            button1.Location = new Point(581, 76);
+            button1.Margin = new Padding(3, 4, 3, 4);
             button1.Name = "button1";
-            button1.Size = new Size(75, 23);
+            button1.Size = new Size(86, 31);
             button1.TabIndex = 3;
             button1.Text = "button1";
             button1.UseVisualStyleBackColor = true;
@@ -111,13 +116,14 @@
             // 
             // frmAreas
             // 
-            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(800, 450);
+            ClientSize = new Size(914, 600);
             Controls.Add(button1);
             Controls.Add(label1);
             Controls.Add(dgvAreas);
             Controls.Add(toolStrip1);
+            Margin = new Padding(3, 4, 3, 4);
             Name = "frmAreas";
             Text = "Especialidades";
             toolStrip1.ResumeLayout(false);
@@ -136,5 +142,6 @@
         private ToolStripButton tsbtnRemove;
         private Label label1;
         private Button button1;
+        private ColorDialog colorDialog1;
     }
 }

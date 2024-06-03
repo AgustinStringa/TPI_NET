@@ -28,126 +28,36 @@
         /// </summary>
         private void InitializeComponent()
         {
-            txtSubjectName = new TextBox();
-            labelMateria = new Label();
-            txtWeekHour = new TextBox();
-            label1 = new Label();
-            cbArea = new ComboBox();
-            label3 = new Label();
-            btnRegistrar = new Button();
-            bntCancel = new Button();
-            cbLevel = new ComboBox();
-            label2 = new Label();
             toolStrip1 = new ToolStrip();
-            toolStripButton1 = new ToolStripButton();
+            tsbtnAdd = new ToolStripButton();
             toolStripButton2 = new ToolStripButton();
             toolStripButton3 = new ToolStripButton();
+            dataGridView1 = new DataGridView();
+            label1 = new Label();
+            button1 = new Button();
             toolStrip1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             SuspendLayout();
-            // 
-            // txtSubjectName
-            // 
-            txtSubjectName.Location = new Point(164, 172);
-            txtSubjectName.Name = "txtSubjectName";
-            txtSubjectName.Size = new Size(180, 27);
-            txtSubjectName.TabIndex = 0;
-            // 
-            // labelMateria
-            // 
-            labelMateria.AutoSize = true;
-            labelMateria.Location = new Point(164, 132);
-            labelMateria.Name = "labelMateria";
-            labelMateria.Size = new Size(119, 20);
-            labelMateria.TabIndex = 1;
-            labelMateria.Text = "Nombre Materia";
-            // 
-            // txtWeekHour
-            // 
-            txtWeekHour.Location = new Point(486, 168);
-            txtWeekHour.Name = "txtWeekHour";
-            txtWeekHour.Size = new Size(180, 27);
-            txtWeekHour.TabIndex = 2;
-            // 
-            // label1
-            // 
-            label1.AutoSize = true;
-            label1.Location = new Point(497, 132);
-            label1.Name = "label1";
-            label1.Size = new Size(123, 20);
-            label1.TabIndex = 3;
-            label1.Text = "Horas Semanales";
-            // 
-            // cbArea
-            // 
-            cbArea.FormattingEnabled = true;
-            cbArea.Location = new Point(164, 254);
-            cbArea.Name = "cbArea";
-            cbArea.Size = new Size(180, 28);
-            cbArea.TabIndex = 6;
-            // 
-            // label3
-            // 
-            label3.AutoSize = true;
-            label3.Location = new Point(177, 216);
-            label3.Name = "label3";
-            label3.Size = new Size(37, 20);
-            label3.TabIndex = 7;
-            label3.Text = "Plan";
-            // 
-            // btnRegistrar
-            // 
-            btnRegistrar.Location = new Point(509, 377);
-            btnRegistrar.Name = "btnRegistrar";
-            btnRegistrar.Size = new Size(141, 29);
-            btnRegistrar.TabIndex = 8;
-            btnRegistrar.Text = "Registrar Materia";
-            btnRegistrar.UseVisualStyleBackColor = true;
-            btnRegistrar.Click += btnRegistrar_Click;
-            // 
-            // bntCancel
-            // 
-            bntCancel.Location = new Point(214, 377);
-            bntCancel.Name = "bntCancel";
-            bntCancel.Size = new Size(94, 29);
-            bntCancel.TabIndex = 9;
-            bntCancel.Text = "Cancelar";
-            bntCancel.UseVisualStyleBackColor = true;
-            // 
-            // cbLevel
-            // 
-            cbLevel.FormattingEnabled = true;
-            cbLevel.Location = new Point(486, 254);
-            cbLevel.Name = "cbLevel";
-            cbLevel.Size = new Size(180, 28);
-            cbLevel.TabIndex = 10;
-            // 
-            // label2
-            // 
-            label2.AutoSize = true;
-            label2.Location = new Point(497, 216);
-            label2.Name = "label2";
-            label2.Size = new Size(43, 20);
-            label2.TabIndex = 5;
-            label2.Text = "Nivel";
             // 
             // toolStrip1
             // 
             toolStrip1.ImageScalingSize = new Size(20, 20);
-            toolStrip1.Items.AddRange(new ToolStripItem[] { toolStripButton1, toolStripButton2, toolStripButton3 });
+            toolStrip1.Items.AddRange(new ToolStripItem[] { tsbtnAdd, toolStripButton2, toolStripButton3 });
             toolStrip1.Location = new Point(0, 0);
             toolStrip1.Name = "toolStrip1";
             toolStrip1.Size = new Size(950, 27);
             toolStrip1.TabIndex = 11;
             toolStrip1.Text = "toolStrip1";
             // 
-            // toolStripButton1
+            // tsbtnAdd
             // 
-            toolStripButton1.DisplayStyle = ToolStripItemDisplayStyle.Image;
-            toolStripButton1.Image = Properties.Resources.Add;
-            toolStripButton1.ImageTransparentColor = Color.Magenta;
-            toolStripButton1.Name = "toolStripButton1";
-            toolStripButton1.Size = new Size(29, 24);
-            toolStripButton1.Text = "add";
+            tsbtnAdd.DisplayStyle = ToolStripItemDisplayStyle.Image;
+            tsbtnAdd.Image = Properties.Resources.Add;
+            tsbtnAdd.ImageTransparentColor = Color.Magenta;
+            tsbtnAdd.Name = "tsbtnAdd";
+            tsbtnAdd.Size = new Size(29, 24);
+            tsbtnAdd.Text = "add";
+            tsbtnAdd.Click += this.tsbtnAdd_Click;
             // 
             // toolStripButton2
             // 
@@ -167,46 +77,59 @@
             toolStripButton3.Size = new Size(29, 24);
             toolStripButton3.Text = "delete";
             // 
+            // dataGridView1
+            // 
+            dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridView1.Location = new Point(88, 104);
+            dataGridView1.Name = "dataGridView1";
+            dataGridView1.RowHeadersWidth = 51;
+            dataGridView1.Size = new Size(751, 279);
+            dataGridView1.TabIndex = 12;
+            // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Location = new Point(88, 66);
+            label1.Name = "label1";
+            label1.Size = new Size(50, 20);
+            label1.TabIndex = 13;
+            label1.Text = "label1";
+            // 
+            // button1
+            // 
+            button1.Location = new Point(745, 57);
+            button1.Name = "button1";
+            button1.Size = new Size(94, 29);
+            button1.TabIndex = 14;
+            button1.Text = "button1";
+            button1.UseVisualStyleBackColor = true;
+            // 
             // frmMateria
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(950, 474);
-            Controls.Add(toolStrip1);
-            Controls.Add(cbLevel);
-            Controls.Add(bntCancel);
-            Controls.Add(btnRegistrar);
-            Controls.Add(label3);
-            Controls.Add(cbArea);
-            Controls.Add(label2);
+            Controls.Add(button1);
             Controls.Add(label1);
-            Controls.Add(txtWeekHour);
-            Controls.Add(labelMateria);
-            Controls.Add(txtSubjectName);
+            Controls.Add(dataGridView1);
+            Controls.Add(toolStrip1);
             Name = "frmMateria";
             Text = "frmMateria";
             toolStrip1.ResumeLayout(false);
             toolStrip1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
 
         #endregion
-
-        private TextBox txtSubjectName;
-        private Label labelMateria;
-        private TextBox txtWeekHour;
-        private Label label1;
         private TextBox txtTotalHour;
-        private ComboBox cbArea;
-        private Label label3;
-        private Button btnRegistrar;
-        private Button bntCancel;
-        private ComboBox cbLevel;
-        private Label label2;
         private ToolStrip toolStrip1;
-        private ToolStripButton toolStripButton1;
+        private ToolStripButton tsbtnAdd;
         private ToolStripButton toolStripButton2;
         private ToolStripButton toolStripButton3;
+        private DataGridView dataGridView1;
+        private Label label1;
+        private Button button1;
     }
 }

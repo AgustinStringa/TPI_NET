@@ -11,6 +11,8 @@ using UI.Desktop.Area;
 
 namespace UI.Desktop
 {
+
+    public enum Mode { Edit, Create };
     public partial class frmAreas : Form
     {
         private List<Entities.Area> areas = [];
