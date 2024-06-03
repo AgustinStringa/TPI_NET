@@ -12,6 +12,7 @@ namespace Entities
         private int _Id;
         private string _Description;
         private Area _Area;
+        private int _IdArea;
         private int _Year;
         private string _Resolution;
         #endregion
@@ -33,8 +34,12 @@ namespace Entities
             get { return _Area; }
             set { _Area = value; }
         }
+        public int IdArea
 
-
+        {
+            get { return _IdArea; }
+            set { _IdArea = value; }
+        }
 
         public int Year
         {
@@ -51,18 +56,23 @@ namespace Entities
         #endregion
 
         #region constructors
+        //public Curriculum()
+        //{
+                
+        //}
         public Curriculum(int id, string description, Area area, int year, string resolution)
         {
             _Id = id;
             _Description = description ?? throw new ArgumentNullException(nameof(description));
             _Area = area ?? throw new ArgumentNullException(nameof(area));
             _Year = year;
-            _Resolution = resolution ?? throw new ArgumentNullException(nameof(resolution));
+            _Resolution = resolution;
         }
 
         public Curriculum( string description, int area, int year, string resolution)
         {
             _Description = description ?? throw new ArgumentNullException(nameof(description));
+            _IdArea = area;
             _Year = year;
             _Resolution = resolution ?? throw new ArgumentNullException(nameof(resolution));
         }

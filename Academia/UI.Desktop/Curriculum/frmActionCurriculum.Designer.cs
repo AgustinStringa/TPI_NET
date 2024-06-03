@@ -29,38 +29,38 @@
         private void InitializeComponent()
         {
             panel1 = new Panel();
-            label7 = new Label();
+            label8 = new Label();
+            lblCurriculumYearError = new Label();
             txtCurriculumYear = new TextBox();
-            label6 = new Label();
+            lblCurriculumDescriptionError = new Label();
             label5 = new Label();
             txtCurriculumResolution = new TextBox();
             label4 = new Label();
             label3 = new Label();
             cbAreas = new ComboBox();
-            txtResolutionId = new TextBox();
-            lblId = new Label();
+            txtCurriculumId = new TextBox();
+            lblCurriculumId = new Label();
             label1 = new Label();
             btnActionCurriculum = new Button();
+            label9 = new Label();
             label2 = new Label();
             txtCurriculumDescription = new TextBox();
-            label8 = new Label();
-            label9 = new Label();
             panel1.SuspendLayout();
             SuspendLayout();
             // 
             // panel1
             // 
             panel1.Controls.Add(label8);
-            panel1.Controls.Add(label7);
+            panel1.Controls.Add(lblCurriculumYearError);
             panel1.Controls.Add(txtCurriculumYear);
-            panel1.Controls.Add(label6);
+            panel1.Controls.Add(lblCurriculumDescriptionError);
             panel1.Controls.Add(label5);
             panel1.Controls.Add(txtCurriculumResolution);
             panel1.Controls.Add(label4);
             panel1.Controls.Add(label3);
             panel1.Controls.Add(cbAreas);
-            panel1.Controls.Add(txtResolutionId);
-            panel1.Controls.Add(lblId);
+            panel1.Controls.Add(txtCurriculumId);
+            panel1.Controls.Add(lblCurriculumId);
             panel1.Controls.Add(label1);
             panel1.Controls.Add(btnActionCurriculum);
             panel1.Controls.Add(label9);
@@ -71,14 +71,25 @@
             panel1.Size = new Size(595, 245);
             panel1.TabIndex = 5;
             // 
-            // label7
+            // label8
             // 
-            label7.AutoSize = true;
-            label7.Location = new Point(64, 131);
-            label7.Name = "label7";
-            label7.Size = new Size(114, 15);
-            label7.TabIndex = 12;
-            label7.Text = "El año es obligatorio";
+            label8.AutoSize = true;
+            label8.Location = new Point(249, 105);
+            label8.Name = "label8";
+            label8.Size = new Size(12, 15);
+            label8.TabIndex = 13;
+            label8.Text = "*";
+            // 
+            // lblCurriculumYearError
+            // 
+            lblCurriculumYearError.AutoSize = true;
+            lblCurriculumYearError.ForeColor = Color.FromArgb(192, 0, 0);
+            lblCurriculumYearError.Location = new Point(64, 131);
+            lblCurriculumYearError.Name = "lblCurriculumYearError";
+            lblCurriculumYearError.Size = new Size(114, 15);
+            lblCurriculumYearError.TabIndex = 12;
+            lblCurriculumYearError.Text = "El año es obligatorio";
+            lblCurriculumYearError.Visible = false;
             // 
             // txtCurriculumYear
             // 
@@ -87,14 +98,16 @@
             txtCurriculumYear.Size = new Size(179, 23);
             txtCurriculumYear.TabIndex = 11;
             // 
-            // label6
+            // lblCurriculumDescriptionError
             // 
-            label6.AutoSize = true;
-            label6.Location = new Point(64, 37);
-            label6.Name = "label6";
-            label6.Size = new Size(136, 15);
-            label6.TabIndex = 10;
-            label6.Text = "El nombre es obligatorio";
+            lblCurriculumDescriptionError.AutoSize = true;
+            lblCurriculumDescriptionError.ForeColor = Color.FromArgb(192, 0, 0);
+            lblCurriculumDescriptionError.Location = new Point(64, 37);
+            lblCurriculumDescriptionError.Name = "lblCurriculumDescriptionError";
+            lblCurriculumDescriptionError.Size = new Size(136, 15);
+            lblCurriculumDescriptionError.TabIndex = 10;
+            lblCurriculumDescriptionError.Text = "El nombre es obligatorio";
+            lblCurriculumDescriptionError.Visible = false;
             // 
             // label5
             // 
@@ -141,22 +154,22 @@
             cbAreas.Size = new Size(121, 23);
             cbAreas.TabIndex = 6;
             // 
-            // txtResolutionId
+            // txtCurriculumId
             // 
-            txtResolutionId.Enabled = false;
-            txtResolutionId.Location = new Point(64, 189);
-            txtResolutionId.Name = "txtResolutionId";
-            txtResolutionId.Size = new Size(140, 23);
-            txtResolutionId.TabIndex = 5;
+            txtCurriculumId.Enabled = false;
+            txtCurriculumId.Location = new Point(64, 189);
+            txtCurriculumId.Name = "txtCurriculumId";
+            txtCurriculumId.Size = new Size(140, 23);
+            txtCurriculumId.TabIndex = 5;
             // 
-            // lblId
+            // lblCurriculumId
             // 
-            lblId.AutoSize = true;
-            lblId.Location = new Point(38, 192);
-            lblId.Name = "lblId";
-            lblId.Size = new Size(20, 15);
-            lblId.TabIndex = 4;
-            lblId.Text = "Id:";
+            lblCurriculumId.AutoSize = true;
+            lblCurriculumId.Location = new Point(38, 192);
+            lblCurriculumId.Name = "lblCurriculumId";
+            lblCurriculumId.Size = new Size(20, 15);
+            lblCurriculumId.TabIndex = 4;
+            lblCurriculumId.Text = "Id:";
             // 
             // label1
             // 
@@ -177,6 +190,15 @@
             btnActionCurriculum.UseVisualStyleBackColor = true;
             btnActionCurriculum.Click += btnActionCurriculum_Click;
             // 
+            // label9
+            // 
+            label9.AutoSize = true;
+            label9.Location = new Point(518, 14);
+            label9.Name = "label9";
+            label9.Size = new Size(12, 15);
+            label9.TabIndex = 3;
+            label9.Text = "*";
+            // 
             // label2
             // 
             label2.AutoSize = true;
@@ -192,24 +214,6 @@
             txtCurriculumDescription.Name = "txtCurriculumDescription";
             txtCurriculumDescription.Size = new Size(180, 23);
             txtCurriculumDescription.TabIndex = 1;
-            // 
-            // label8
-            // 
-            label8.AutoSize = true;
-            label8.Location = new Point(249, 105);
-            label8.Name = "label8";
-            label8.Size = new Size(12, 15);
-            label8.TabIndex = 13;
-            label8.Text = "*";
-            // 
-            // label9
-            // 
-            label9.AutoSize = true;
-            label9.Location = new Point(518, 14);
-            label9.Name = "label9";
-            label9.Size = new Size(12, 15);
-            label9.TabIndex = 3;
-            label9.Text = "*";
             // 
             // frmActionCurriculum
             // 
@@ -227,8 +231,8 @@
         #endregion
 
         private Panel panel1;
-        private TextBox txtResolutionId;
-        private Label lblId;
+        private TextBox txtCurriculumId;
+        private Label lblCurriculumId;
         private Label label1;
         private Button btnActionCurriculum;
         private Label label2;
@@ -236,11 +240,11 @@
         private Label label3;
         private ComboBox cbAreas;
         private TextBox txtCurriculumYear;
-        private Label label6;
+        private Label lblCurriculumDescriptionError;
         private Label label5;
         private TextBox txtCurriculumResolution;
         private Label label4;
-        private Label label7;
+        private Label lblCurriculumYearError;
         private Label label8;
         private Label label9;
     }

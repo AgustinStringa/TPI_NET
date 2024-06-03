@@ -65,6 +65,7 @@
             tsbtnEdit.Name = "tsbtnEdit";
             tsbtnEdit.Size = new Size(23, 22);
             tsbtnEdit.Text = "Editar Plan de Estudios";
+            tsbtnEdit.Click += tsbtnEdit_Click;
             // 
             // tsbtnRemove
             // 
@@ -74,6 +75,7 @@
             tsbtnRemove.Name = "tsbtnRemove";
             tsbtnRemove.Size = new Size(23, 22);
             tsbtnRemove.Text = "Eliminar Plan de Estudios";
+            tsbtnRemove.Click += tsbtnRemove_Click;
             // 
             // label1
             // 
