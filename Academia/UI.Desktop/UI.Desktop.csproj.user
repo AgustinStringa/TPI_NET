@@ -16,5 +16,11 @@
     <Compile Update="CrearUsuario.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Update="Subject\frmActionSubject.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Subject\frmMateria.cs">
+      <SubType>Form</SubType>
+    </Compile>
   </ItemGroup>
 </Project>

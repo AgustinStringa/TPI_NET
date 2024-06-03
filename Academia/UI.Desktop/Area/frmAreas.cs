@@ -7,10 +7,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using UI.Desktop;
 using UI.Desktop.Area;
 
-namespace UI.Desktop
+namespace UI.Desktop.Area
 {
+
+    public enum Mode { Edit, Create };
     public partial class frmAreas : Form
     {
         private List<Entities.Area> areas = [];
