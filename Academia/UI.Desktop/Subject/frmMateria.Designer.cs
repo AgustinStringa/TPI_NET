@@ -1,4 +1,4 @@
-﻿namespace UI.Desktop
+﻿namespace UI.Desktop.Subject
 {
     partial class frmMateria
     {

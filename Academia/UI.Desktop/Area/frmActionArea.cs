@@ -11,7 +11,6 @@ using Entities;
 
 namespace UI.Desktop.Area
 {
-    public enum Mode { Edit, Create};
     public partial class frmActionArea : Form
     {
         private Mode mode;

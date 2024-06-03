@@ -7,9 +7,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using UI.Desktop.Subject;
+using UI.Desktop;
 
-namespace UI.Desktop
+namespace UI.Desktop.Subject
 {
     public partial class frmMateria : Form
     {

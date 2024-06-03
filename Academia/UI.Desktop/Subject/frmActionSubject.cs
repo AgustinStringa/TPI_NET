@@ -10,7 +10,7 @@ using System.Windows.Forms;
 
 namespace UI.Desktop.Subject
 {
-    public enum Mode { Edit, Create };
+    
     public partial class frmActionSubject : Form
     {
 
@@ -35,4 +35,5 @@ namespace UI.Desktop.Subject
             }
 
         }
+    }
 }
