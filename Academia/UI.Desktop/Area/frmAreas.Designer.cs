@@ -34,7 +34,6 @@
             tsbtnRemove = new ToolStripButton();
             dgvAreas = new DataGridView();
             label1 = new Label();
-            button1 = new Button();
             toolStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvAreas).BeginInit();
             SuspendLayout();
@@ -93,28 +92,17 @@
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(54, 67);
+            label1.Location = new Point(54, 71);
             label1.Name = "label1";
-            label1.Size = new Size(38, 15);
+            label1.Size = new Size(83, 15);
             label1.TabIndex = 2;
-            label1.Text = "label1";
-            // 
-            // button1
-            // 
-            button1.Location = new Point(508, 57);
-            button1.Name = "button1";
-            button1.Size = new Size(75, 23);
-            button1.TabIndex = 3;
-            button1.Text = "button1";
-            button1.UseVisualStyleBackColor = true;
-            button1.Click += button1_Click;
+            label1.Text = "Especialidades";
             // 
             // frmAreas
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
-            Controls.Add(button1);
             Controls.Add(label1);
             Controls.Add(dgvAreas);
             Controls.Add(toolStrip1);
@@ -135,6 +123,5 @@
         private ToolStripButton tsbtnEdit;
         private ToolStripButton tsbtnRemove;
         private Label label1;
-        private Button button1;
     }
 }

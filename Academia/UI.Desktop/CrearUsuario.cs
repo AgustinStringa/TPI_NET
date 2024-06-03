@@ -104,7 +104,7 @@ namespace UI.Desktop
             IList<string> areasDescription = [];
             foreach (var area in areas)
             {
-                cbAreas.Items.Add(area.Name);
+                cbAreas.Items.Add(area.Description);
                 //areasDescription.Add(area.Description);
             }
         }

@@ -10,7 +10,7 @@ namespace Entities
     {
         #region fields
         private int _IdArea;
-        private string _Name;
+        private string _Description;
         #endregion
 
         #region properties
@@ -20,10 +20,10 @@ namespace Entities
 			set { _IdArea = value; }
 		}
 
-        public string Name
+        public string Description
 		{
-			get { return _Name; }
-			set { _Name = value; }
+			get { return _Description; }
+			set { _Description = value; }
 		}
         #endregion
 
@@ -31,13 +31,13 @@ namespace Entities
         //constructor used with values provided by user
 
         public Area(string description) {
-			_Name = description;
+            _Description = description;
 		}
 
         //constructor used with values provided by database
         public Area(string description, int id)
         {
-            _Name = description;
+            _Description = description;
             _IdArea = id;
         }
         #endregion
@@ -45,7 +45,7 @@ namespace Entities
         public IEnumerable<Curriculum> GetCurriculums() {
             List<Curriculum> items = new List<Curriculum>();
             
-            switch (Name)
+            switch (Description)
             {
                 case "Sistemas":
                     

@@ -30,11 +30,11 @@ namespace Data
 
                     connection.Open();
 
-                    var sql = "insert into especialidades(desc_especialidad) values (@name);";
+                    var sql = "insert into especialidades(desc_especialidad) values (@description);";
                     
                     using (SqlCommand command = new SqlCommand(sql, connection))
                     {
-                        command.Parameters.AddWithValue("@name", newArea.Name);
+                        command.Parameters.AddWithValue("@description", newArea.Description);
                         command.ExecuteNonQuery();
                         return newArea;
                     }
@@ -84,6 +84,43 @@ namespace Data
             }
 
         }
+
+        public async static Task<Entities.Area> FindOne(string description) {
+            SqlConnection connection = Data.Area.GetConnection();
+
+            Entities.Area area = null;
+            try
+            {
+                using (connection)
+                {
+                    connection.Open();
+                    var sql = "SELECT * FROM especialidades WHERE desc_especialidad = @description";
+                    using (SqlCommand command = new SqlCommand(sql, connection))
+                    {
+                        command.Parameters.AddWithValue("@description", description);
+                        using (SqlDataReader reader = command.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+
+                                area = new Entities.Area(reader["desc_especialidad"].ToString(),
+                                    Int32.Parse(reader["id_especialidad"].ToString())
+                                    );
+
+                            }
+                            return area;
+                        }
+
+                    }
+                }
+
+            }
+            catch (Exception e)
+            {
+
+                throw e;
+            }
+        }
         public async static Task<List<Entities.Area>> FindAll()
         {
             SqlConnection connection = Data.Area.GetConnection();
@@ -130,12 +167,12 @@ namespace Data
 
                     connection.Open();
 
-                    var sql = "UPDATE especialidades SET desc_especialidad = @name WHERE id_especialidad = @id;";
+                    var sql = "UPDATE especialidades SET desc_especialidad = @description WHERE id_especialidad = @id;";
 
 
                     using (SqlCommand command = new SqlCommand(sql, connection))
                     {
-                        command.Parameters.AddWithValue("@name", updatedArea.Name);
+                        command.Parameters.AddWithValue("@description", updatedArea.Description);
                         command.Parameters.AddWithValue("@id", updatedArea.IdArea);
 
                         return command.ExecuteNonQuery();
