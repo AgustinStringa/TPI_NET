@@ -49,23 +49,23 @@ namespace Entities
             {
                 case "Sistemas":
                     
-                    items.Add(new Curriculum("isi23", this));
-                    items.Add(new Curriculum("isi08", this));
-                    items.Add(new Curriculum("isi95", this));
+                    //items.Add(new Curriculum("isi23", this));
+                    //items.Add(new Curriculum("isi08", this));
+                    //items.Add(new Curriculum("isi95", this));
 
                     
                     break;
                 case "Quimica":
                     
-                    items.Add(new Curriculum("IQ22", this));
+                    //items.Add(new Curriculum("IQ22", this));
                   
                     
                     break;
                 default:
                     
-                    items.Add(new Curriculum("isi23", this));
-                    items.Add(new Curriculum("isi08", this));
-                    items.Add(new Curriculum("isi95", this));
+                    //items.Add(new Curriculum("isi23", this));
+                    //items.Add(new Curriculum("isi08", this));
+                    //items.Add(new Curriculum("isi95", this));
                     break;
             }
 

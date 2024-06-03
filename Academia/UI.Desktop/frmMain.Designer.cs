@@ -82,6 +82,7 @@
             planesDeEstudioToolStripMenuItem.Name = "planesDeEstudioToolStripMenuItem";
             planesDeEstudioToolStripMenuItem.Size = new Size(111, 20);
             planesDeEstudioToolStripMenuItem.Text = "Planes de Estudio";
+            planesDeEstudioToolStripMenuItem.Click += planesDeEstudioToolStripMenuItem_Click;
             // 
             // profesoresToolStripMenuItem
             // 

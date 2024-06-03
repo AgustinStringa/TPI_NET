@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using UI.Desktop.Curriculum;
 
 namespace UI.Desktop
 {
@@ -38,6 +39,15 @@ namespace UI.Desktop
         {
             frmAreas appLogin = new frmAreas();
             if (appLogin.ShowDialog() != DialogResult.OK)
+            {
+                this.Dispose();
+            }
+        }
+
+        private void planesDeEstudioToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            frmCurriculum appCurr = new frmCurriculum();
+            if (appCurr.ShowDialog() != DialogResult.OK)
             {
                 this.Dispose();
             }
