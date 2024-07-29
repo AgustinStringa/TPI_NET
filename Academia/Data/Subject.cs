@@ -8,15 +8,27 @@ using System.Threading.Tasks;
 
 namespace Data
 {
-    public class Curriculum
+    public class Subject
     {
+        SqlConnection connection;
 
+        private static SqlConnection GetConnection()
+        {
+            SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder();
+            builder.DataSource = "DESKTOP-1T6I08B";
+            builder.UserID = @"DESKTOP-1T6I08B\agust";
+            //builder.Password = "<your_password>";
+            builder.InitialCatalog = "academia";
+            builder.TrustServerCertificate = true;
+            builder.IntegratedSecurity = true;
 
-        public async static Task<Entities.Curriculum> Create(Entities.Curriculum newCurriculum)
+            return new SqlConnection(builder.ConnectionString);
+        }
+
+        public async static Task<Entities.Subject> Create(Entities.Subject newSubject)
         {
 
-
-            SqlConnection connection = Data.Util.GetConnection();
+            SqlConnection connection = Data.Subject.GetConnection();
             try
             {
                 using (connection)
@@ -32,15 +44,15 @@ namespace Data
                     //    command.Parameters.AddWithValue("@id", newCurriculum.IdArea);
                     //    command.ExecuteNonQuery();
 
-                        var sqlInsertCurriculum = "INSERT INTO planes(desc_plan, id_especialidad, anio, resolucion) values(@description, @id_area,@anio, @resolucion) ;";
-                        using (SqlCommand cmd = new SqlCommand(sqlInsertCurriculum, connection)) {
-                            cmd.Parameters.AddWithValue("@description", newCurriculum.Description);
-                            cmd.Parameters.AddWithValue("@id_area", newCurriculum.IdArea);
-                            cmd.Parameters.AddWithValue("@anio", newCurriculum.Year);
-                            cmd.Parameters.AddWithValue("@resolucion", newCurriculum.Resolution);
+                        var sqlInsertSubject = "INSERT INTO materias(desc_materia, hs_semanales, hs_totales, id_plan) values(@description, @hs_semanales,@hs_totales, @id_plan) ;";
+                        using (SqlCommand cmd = new SqlCommand(sqlInsertSubject, connection)) {
+                            cmd.Parameters.AddWithValue("@description", newSubject.Description);
+                            cmd.Parameters.AddWithValue("@id_plan", newSubject.IdPlan);
+                            cmd.Parameters.AddWithValue("@hs_semanales", newSubject.WeekHours);
+                            cmd.Parameters.AddWithValue("@hs_totales", newSubject.TotalHours);
                         cmd.ExecuteNonQuery();
                             //se podria retornar el objeto con todas las props!!
-                            return newCurriculum;
+                            return newSubject;
                         }
 
 
@@ -55,10 +67,8 @@ namespace Data
 
         }
 
-        public async static Task<List<Entities.Curriculum>> FindAll() {
-
-            SqlConnection connection = Data.Util.GetConnection();
-
+        public async static Task<List<Entities.Subject>> FindAll() {
+            SqlConnection connection = Data.Subject.GetConnection();
 
 
             try
@@ -66,21 +76,21 @@ namespace Data
                 using (connection)
                 {
                     connection.Open();
-                    var sql = "SELECT * FROM planes";
+                    var sql = "SELECT * FROM materias";
                     using (SqlCommand command = new SqlCommand(sql, connection))
                     {
                         using (SqlDataReader reader = command.ExecuteReader())
                         {
-                            List<Entities.Curriculum> curriculums = new List<Entities.Curriculum>();
+                            List<Entities.Subject> subjects = new List<Entities.Subject>();
                             while (reader.Read())
                             {
-                                var area = await Data.Area.FindOne((int)reader["id_especialidad"]);
-                                curriculums.Add(new Entities.Curriculum((int)reader["id_plan"], reader["desc_plan"].ToString(),area, (int)reader["anio"], reader["resolucion"].ToString())   
+                                var plan = await Data.Curriculum.FindOne((int)reader["id_plan"]);
+                                subjects.Add(new Entities.Subject((int)reader["id_materia"], reader["desc_materia"].ToString(), plan, (int)reader["hs_semanales"], (int)reader["hs_totales"])   
                                     
                                     )  ;
 
                             }
-                            return curriculums;
+                            return subjects;
                         }
 
                     }
@@ -94,18 +104,16 @@ namespace Data
             }
         }
     
-        public async static Task<Entities.Curriculum> FindOne(int id) {
+        public async static Task<Entities.Subject> FindOne(int id) {
+            SqlConnection connection = Data.Subject.GetConnection();
 
-            SqlConnection connection = Data.Util.GetConnection();
-
-
-            Entities.Curriculum curriculum = null;
+            Entities.Subject subject = null;
             try
             {
                 using (connection)
                 {
                     connection.Open();
-                    var sql = "SELECT * FROM planes WHERE id_plan = @id";
+                    var sql = "SELECT * FROM materias WHERE id_materia = @id";
                     using (SqlCommand command = new SqlCommand(sql, connection))
                     {
                         command.Parameters.AddWithValue("@id", id);
@@ -113,15 +121,15 @@ namespace Data
                         {
                             while (reader.Read())
                             {
-                                var area = await Data.Area.FindOne((int)reader["id_especialidad"]);
+                                var plan = await Data.Curriculum.FindOne((int)reader["id_plan"]);
 
                                
-                                curriculum = (new Entities.Curriculum((int)reader["id_plan"], reader["desc_plan"].ToString(), area, (int)reader["anio"], reader["resolucion"].ToString())
+                                subject = (new Entities.Subject((int)reader["id_materia"], reader["desc_materia"].ToString(), plan, (int)reader["hs_semanales"], (int)reader["hs_totales"])
 
                                     );
 
                             }
-                                return curriculum;
+                                return subject;
                         }
 
                     }
@@ -137,12 +145,10 @@ namespace Data
         }
 
 
-        public async static Task<int> Update(Entities.Curriculum updatedCurr)
+        public async static Task<int> Update(Entities.Subject updatedCurr)
         {
 
-
-            SqlConnection conn = Data.Util.GetConnection();
-
+            SqlConnection conn = Data.Subject.GetConnection();
 
             try
             {
@@ -151,16 +157,16 @@ namespace Data
 
                     conn.Open();
 
-                    var sql = "UPDATE planes SET desc_plan = @description, id_especialidad=@id_area, anio=@year, resolucion=@resolution WHERE id_plan = @id;";
+                    var sql = "UPDATE materias SET desc_materia = @desc_materia, id_plan=@id_plan, hs_semanales=@hs_semanales, hs_totales=@hs_totales WHERE id_materia = @id;";
 
 
                     using (SqlCommand command = new SqlCommand(sql, conn))
                     {
                         command.Parameters.AddWithValue("@id", updatedCurr.Id);
-                        command.Parameters.AddWithValue("@description", updatedCurr.Description);
-                        command.Parameters.AddWithValue("@id_area", updatedCurr.Area.IdArea);
-                        command.Parameters.AddWithValue("@year", updatedCurr.Year);
-                        command.Parameters.AddWithValue("@resolution", updatedCurr.Resolution);
+                        command.Parameters.AddWithValue("@desc_materia", updatedCurr.Description);
+                        command.Parameters.AddWithValue("@id_plan", updatedCurr.Curriculum.Id);
+                        command.Parameters.AddWithValue("@hs_totales", updatedCurr.TotalHours);
+                        command.Parameters.AddWithValue("@hs_semanales", updatedCurr.WeekHours);
 
 
                         return command.ExecuteNonQuery();
@@ -180,15 +186,13 @@ namespace Data
     
         public async static Task<int> Delete(int id)
         {
-
-            SqlConnection connection = Data.Util.GetConnection();
-
+            SqlConnection connection = Data.Subject.GetConnection();
             try
             {
                 using (connection)
                 {
                     connection.Open();
-                    var sql = "DELETE FROM planes WHERE id_plan = @id;";
+                    var sql = "DELETE FROM materias WHERE id_materia = @id;";
                     using (SqlCommand command = new SqlCommand(sql, connection))
                     {
                         command.Parameters.AddWithValue("@id", id);
