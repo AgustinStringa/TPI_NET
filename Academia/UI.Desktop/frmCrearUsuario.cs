@@ -9,11 +9,11 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using EmailValidation;
 using Entities;
-
 using MailKit.Net.Smtp;
 using MailKit;
 using MimeKit;
 using Microsoft.UI.Xaml;
+using Domain;
 
 namespace UI.Desktop
 {
@@ -23,6 +23,7 @@ namespace UI.Desktop
 
         public frmCrearUsuario()
         {
+
             InitializeComponent();
             LoadAreas();
             //var stackPanel = new StackPanel
