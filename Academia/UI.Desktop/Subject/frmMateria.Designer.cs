@@ -28,10 +28,11 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMateria));
             toolStrip1 = new ToolStrip();
             tsbtnAdd = new ToolStripButton();
-            toolStripButton2 = new ToolStripButton();
-            toolStripButton3 = new ToolStripButton();
+            tsbtnEdit = new ToolStripButton();
+            tsbtnDelete = new ToolStripButton();
             dataGridView1 = new DataGridView();
             label1 = new Label();
             button1 = new Button();
@@ -42,7 +43,7 @@
             // toolStrip1
             // 
             toolStrip1.ImageScalingSize = new Size(20, 20);
-            toolStrip1.Items.AddRange(new ToolStripItem[] { tsbtnAdd, toolStripButton2, toolStripButton3 });
+            toolStrip1.Items.AddRange(new ToolStripItem[] { tsbtnAdd, tsbtnEdit, tsbtnDelete });
             toolStrip1.Location = new Point(0, 0);
             toolStrip1.Name = "toolStrip1";
             toolStrip1.Size = new Size(950, 27);
@@ -52,30 +53,30 @@
             // tsbtnAdd
             // 
             tsbtnAdd.DisplayStyle = ToolStripItemDisplayStyle.Image;
-            tsbtnAdd.Image = Properties.Resources.Add;
+            tsbtnAdd.Image = (Image)resources.GetObject("tsbtnAdd.Image");
             tsbtnAdd.ImageTransparentColor = Color.Magenta;
             tsbtnAdd.Name = "tsbtnAdd";
             tsbtnAdd.Size = new Size(29, 24);
             tsbtnAdd.Text = "add";
-            tsbtnAdd.Click += this.tsbtnAdd_Click;
+            tsbtnAdd.Click += tsbtnAdd_Click;
             // 
-            // toolStripButton2
+            // tsbtnEdit
             // 
-            toolStripButton2.DisplayStyle = ToolStripItemDisplayStyle.Image;
-            toolStripButton2.Image = Properties.Resources.Edit;
-            toolStripButton2.ImageTransparentColor = Color.Magenta;
-            toolStripButton2.Name = "toolStripButton2";
-            toolStripButton2.Size = new Size(29, 24);
-            toolStripButton2.Text = "edit";
+            tsbtnEdit.DisplayStyle = ToolStripItemDisplayStyle.Image;
+            tsbtnEdit.Image = (Image)resources.GetObject("tsbtnEdit.Image");
+            tsbtnEdit.ImageTransparentColor = Color.Magenta;
+            tsbtnEdit.Name = "tsbtnEdit";
+            tsbtnEdit.Size = new Size(29, 24);
+            tsbtnEdit.Text = "edit";
             // 
-            // toolStripButton3
+            // tsbtnDelete
             // 
-            toolStripButton3.DisplayStyle = ToolStripItemDisplayStyle.Image;
-            toolStripButton3.Image = Properties.Resources.Delete;
-            toolStripButton3.ImageTransparentColor = Color.Magenta;
-            toolStripButton3.Name = "toolStripButton3";
-            toolStripButton3.Size = new Size(29, 24);
-            toolStripButton3.Text = "delete";
+            tsbtnDelete.DisplayStyle = ToolStripItemDisplayStyle.Image;
+            tsbtnDelete.Image = (Image)resources.GetObject("tsbtnDelete.Image");
+            tsbtnDelete.ImageTransparentColor = Color.Magenta;
+            tsbtnDelete.Name = "tsbtnDelete";
+            tsbtnDelete.Size = new Size(29, 24);
+            tsbtnDelete.Text = "delete";
             // 
             // dataGridView1
             // 
@@ -126,8 +127,8 @@
         private TextBox txtTotalHour;
         private ToolStrip toolStrip1;
         private ToolStripButton tsbtnAdd;
-        private ToolStripButton toolStripButton2;
-        private ToolStripButton toolStripButton3;
+        private ToolStripButton tsbtnEdit;
+        private ToolStripButton tsbtnDelete;
         private DataGridView dataGridView1;
         private Label label1;
         private Button button1;
