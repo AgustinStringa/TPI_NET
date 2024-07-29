@@ -39,5 +39,10 @@ namespace Business
             await Data.Area.Delete(id);
             return deletedArea; 
         }
+
+        public async static Task<List<Entities.Curriculum>> GetCurriculums(Entities.Area area) { 
+            var curriculums = await Data.Area.GetCurriculums(area);
+            return curriculums;
+        }
     }
 }

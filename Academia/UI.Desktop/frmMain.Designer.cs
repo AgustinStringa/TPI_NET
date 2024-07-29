@@ -38,12 +38,13 @@
             materiasToolStripMenuItem = new ToolStripMenuItem();
             comisionesToolStripMenuItem = new ToolStripMenuItem();
             cursosToolStripMenuItem = new ToolStripMenuItem();
+            crearUsuarioToolStripMenuItem = new ToolStripMenuItem();
             mnsPrincipal.SuspendLayout();
             SuspendLayout();
             // 
             // mnsPrincipal
             // 
-            mnsPrincipal.Items.AddRange(new ToolStripItem[] { mnuArchivo, alumnosToolStripMenuItem, especialidadesToolStripMenuItem, planesDeEstudioToolStripMenuItem, profesoresToolStripMenuItem, materiasToolStripMenuItem, comisionesToolStripMenuItem, cursosToolStripMenuItem });
+            mnsPrincipal.Items.AddRange(new ToolStripItem[] { mnuArchivo, alumnosToolStripMenuItem, especialidadesToolStripMenuItem, planesDeEstudioToolStripMenuItem, profesoresToolStripMenuItem, materiasToolStripMenuItem, comisionesToolStripMenuItem, cursosToolStripMenuItem, crearUsuarioToolStripMenuItem });
             mnsPrincipal.Location = new Point(0, 0);
             mnsPrincipal.Name = "mnsPrincipal";
             mnsPrincipal.Size = new Size(800, 24);
@@ -108,6 +109,13 @@
             cursosToolStripMenuItem.Size = new Size(55, 20);
             cursosToolStripMenuItem.Text = "Cursos";
             // 
+            // crearUsuarioToolStripMenuItem
+            // 
+            crearUsuarioToolStripMenuItem.Name = "crearUsuarioToolStripMenuItem";
+            crearUsuarioToolStripMenuItem.Size = new Size(90, 20);
+            crearUsuarioToolStripMenuItem.Text = "Crear Usuario";
+            crearUsuarioToolStripMenuItem.Click += crearUsuarioToolStripMenuItem_Click;
+            // 
             // frmMain
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -142,5 +150,6 @@
         private ToolStripMenuItem materiasToolStripMenuItem;
         private ToolStripMenuItem comisionesToolStripMenuItem;
         private ToolStripMenuItem cursosToolStripMenuItem;
+        private ToolStripMenuItem crearUsuarioToolStripMenuItem;
     }
 }

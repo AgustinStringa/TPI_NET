@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+
 namespace Entities
 {
     public class Area
@@ -70,7 +71,7 @@ namespace Entities
             }
 
             //query to DB and return Curriculms with this area
-
+           
             return items;
             
         } 

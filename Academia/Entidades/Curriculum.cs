@@ -64,7 +64,7 @@ namespace Entities
         {
             _Id = id;
             _Description = description ?? throw new ArgumentNullException(nameof(description));
-            _Area = area ?? throw new ArgumentNullException(nameof(area));
+            _Area = area ;
             _Year = year;
             _Resolution = resolution;
         }
