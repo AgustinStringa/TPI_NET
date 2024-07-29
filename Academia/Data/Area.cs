@@ -1,28 +1,15 @@
 ﻿using Entities;
 using System.Collections.Generic;
 using System.Data.SqlClient;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 namespace Data
 {
     public class Area
     {
-        SqlConnection conn;
 
-        private static SqlConnection GetConnection() {
-            SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder();
-            builder.DataSource = "DESKTOP-1T6I08B";
-            builder.UserID = @"DESKTOP-1T6I08B\agust";
-            //builder.Password = "<your_password>";
-            builder.InitialCatalog = "academia";
-            builder.TrustServerCertificate = true;
-            builder.IntegratedSecurity = true;
-
-            return new SqlConnection(builder.ConnectionString);
-        }
         public async static Task<Entities.Area> Create(Entities.Area newArea)
         {
             
-            SqlConnection connection = Data.Area.GetConnection();
+            SqlConnection connection = Data.Util.GetConnection();
             try
             {
                 using (connection)
@@ -48,7 +35,7 @@ namespace Data
 
         }
         public async static Task<Entities.Area> FindOne(int id) {
-            SqlConnection connection = Data.Area.GetConnection();
+            SqlConnection connection = Data.Util.GetConnection();
 
             Entities.Area area = null;
             try
@@ -86,7 +73,7 @@ namespace Data
         }
 
         public async static Task<Entities.Area> FindOne(string description) {
-            SqlConnection connection = Data.Area.GetConnection();
+            SqlConnection connection = Data.Util.GetConnection();
 
             Entities.Area area = null;
             try
@@ -123,7 +110,7 @@ namespace Data
         }
         public async static Task<List<Entities.Area>> FindAll()
         {
-            SqlConnection connection = Data.Area.GetConnection();
+            SqlConnection connection = Data.Util.GetConnection();
 
 
             try
@@ -158,7 +145,7 @@ namespace Data
         }
         public async static Task<int> Update(Entities.Area updatedArea) {
            
-            SqlConnection connection = Data.Area.GetConnection();
+            SqlConnection connection = Data.Util.GetConnection();
 
             try
             {
@@ -190,7 +177,7 @@ namespace Data
         }
         public async static Task<int> Delete(int id)
         {
-            SqlConnection connection = Data.Area.GetConnection();
+            SqlConnection connection = Data.Util.GetConnection();
             try
             {
                 using (connection)
@@ -201,6 +188,47 @@ namespace Data
                     {
                         command.Parameters.AddWithValue("@id", id);
                         return command.ExecuteNonQuery();
+                    }
+                }
+
+            }
+            catch (Exception e)
+            {
+
+                throw e;
+            }
+
+
+        }
+
+        public static async Task<List<Entities.Curriculum>> GetCurriculums(Entities.Area area)
+        {
+
+            SqlConnection connection = Data.Util.GetConnection();
+
+
+            try
+            {
+                using (connection)
+                {
+                    connection.Open();
+                    var sql = "SELECT planes.* from planes INNER JOIN especialidades ON planes.id_especialidad = especialidades.id_especialidad WHERE especialidades.id_especialidad = @idArea;";
+
+                    using (SqlCommand command = new SqlCommand(sql, connection))
+                    {
+                        command.Parameters.AddWithValue("@idArea", area.IdArea);
+
+                        using (SqlDataReader reader = command.ExecuteReader())
+                        {
+                            List<Entities.Curriculum> curr = new List<Entities.Curriculum>();
+                            while (reader.Read())
+                            {
+                                curr.Add(new Entities.Curriculum(Int32.Parse(reader["id_plan"].ToString()), reader["desc_plan"].ToString(), null, Int32.Parse(reader["anio"].ToString()), reader["resolucion"].ToString()  ));
+
+                            }
+                            return curr;
+                        }
+
                     }
                 }
 

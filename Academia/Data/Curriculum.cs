@@ -10,25 +10,13 @@ namespace Data
 {
     public class Curriculum
     {
-        SqlConnection connection;
 
-        private static SqlConnection GetConnection()
-        {
-            SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder();
-            builder.DataSource = "DESKTOP-1T6I08B";
-            builder.UserID = @"DESKTOP-1T6I08B\agust";
-            //builder.Password = "<your_password>";
-            builder.InitialCatalog = "academia";
-            builder.TrustServerCertificate = true;
-            builder.IntegratedSecurity = true;
-
-            return new SqlConnection(builder.ConnectionString);
-        }
 
         public async static Task<Entities.Curriculum> Create(Entities.Curriculum newCurriculum)
         {
 
-            SqlConnection connection = Data.Curriculum.GetConnection();
+
+            SqlConnection connection = Data.Util.GetConnection();
             try
             {
                 using (connection)
@@ -68,7 +56,9 @@ namespace Data
         }
 
         public async static Task<List<Entities.Curriculum>> FindAll() {
-            SqlConnection connection = Data.Curriculum.GetConnection();
+
+            SqlConnection connection = Data.Util.GetConnection();
+
 
 
             try
@@ -105,7 +95,9 @@ namespace Data
         }
     
         public async static Task<Entities.Curriculum> FindOne(int id) {
-            SqlConnection connection = Data.Curriculum.GetConnection();
+
+            SqlConnection connection = Data.Util.GetConnection();
+
 
             Entities.Curriculum curriculum = null;
             try
@@ -148,7 +140,9 @@ namespace Data
         public async static Task<int> Update(Entities.Curriculum updatedCurr)
         {
 
-            SqlConnection conn = Data.Curriculum.GetConnection();
+
+            SqlConnection conn = Data.Util.GetConnection();
+
 
             try
             {
@@ -186,7 +180,9 @@ namespace Data
     
         public async static Task<int> Delete(int id)
         {
-            SqlConnection connection = Data.Curriculum.GetConnection();
+
+            SqlConnection connection = Data.Util.GetConnection();
+
             try
             {
                 using (connection)

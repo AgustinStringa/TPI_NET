@@ -53,5 +53,14 @@ namespace UI.Desktop
                 this.Dispose();
             }
         }
+
+        private void crearUsuarioToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            frmCrearUsuario appUser = new frmCrearUsuario();
+            if (appUser.ShowDialog() != DialogResult.OK)
+            {
+                this.Dispose();
+            }
+        }
     }
 }
