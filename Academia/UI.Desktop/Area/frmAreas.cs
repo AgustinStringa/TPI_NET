@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using UI.Desktop;
 using UI.Desktop.Area;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace UI.Desktop.Area
 {
@@ -26,6 +27,16 @@ namespace UI.Desktop.Area
 
         private async void LoadAreas()
         {
+            var service = new Domain.Services.AreaService();
+            var areasList = service.GetAll();
+
+            foreach (Domain.Model.Area item in areasList)
+            {
+                ListViewItem nuevoItem = new ListViewItem(item.Id.ToString());
+                nuevoItem.SubItems.Add(item.Description);
+                lstvAreas.Items.Add(nuevoItem);
+            }
+
             DataTable dataTable = new DataTable();
             DataColumn column_id = new DataColumn("id");
             dataTable.Columns.Add(column_id);

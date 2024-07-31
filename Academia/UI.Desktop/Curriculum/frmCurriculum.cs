@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -21,8 +22,19 @@ namespace UI.Desktop.Curriculum
 
         private async void LoadCurriculums()
         {
-
-            var curriculums = await Data.Curriculum.FindAll();
+            var service = new Domain.Services.CurriculumService();
+            var curriculumsList = service.GetAll();
+            foreach (Domain.Model.Curriculum item in curriculumsList)
+            {
+                ListViewItem nuevoItem = new ListViewItem(item.Id.ToString());
+                nuevoItem.SubItems.Add(item.Description);
+                nuevoItem.SubItems.Add(item.Area.Description);
+                nuevoItem.SubItems.Add(item.Year.ToString());
+                nuevoItem.SubItems.Add(item.Resolution);
+                lstvCurriculum.Items.Add(nuevoItem);
+            }
+            
+                var curriculums = await Data.Curriculum.FindAll();
             DataTable dataTable = new DataTable();
             DataColumn column_id = new DataColumn("id");
             dataTable.Columns.Add(column_id);
