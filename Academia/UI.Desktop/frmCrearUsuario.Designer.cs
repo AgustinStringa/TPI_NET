@@ -221,9 +221,9 @@
             lblLegajoError.ForeColor = Color.FromArgb(220, 38, 38);
             lblLegajoError.Location = new Point(330, 623);
             lblLegajoError.Name = "lblLegajoError";
-            lblLegajoError.Size = new Size(188, 21);
+            lblLegajoError.Size = new Size(159, 21);
             lblLegajoError.TabIndex = 29;
-            lblLegajoError.Text = "Este campo es obligatorio";
+            lblLegajoError.Text = "Campo es obligatorio";
             lblLegajoError.Visible = false;
             // 
             // txtLegajo
@@ -255,7 +255,7 @@
             lblAddressError.Name = "lblAddressError";
             lblAddressError.Size = new Size(221, 42);
             lblAddressError.TabIndex = 26;
-            lblAddressError.Text = "Este campo es obligatorio. \r\nIntroduce una dirección válida.";
+            lblAddressError.Text = "Campo obligatorio. \r\nIntroduce una dirección válida.";
             lblAddressError.Visible = false;
             // 
             // lblDireccion
@@ -285,7 +285,7 @@
             lblPhoneNumberError.Name = "lblPhoneNumberError";
             lblPhoneNumberError.Size = new Size(200, 42);
             lblPhoneNumberError.TabIndex = 23;
-            lblPhoneNumberError.Text = "Este campo es obligatorio. \r\nIntroduce un telfono válido.";
+            lblPhoneNumberError.Text = "Campo obligatorio. \r\nIntroduce un telfono válido.";
             lblPhoneNumberError.Visible = false;
             // 
             // lblTelefono
@@ -313,9 +313,9 @@
             lblFechaNacimientoError.ForeColor = Color.FromArgb(220, 38, 38);
             lblFechaNacimientoError.Location = new Point(324, 72);
             lblFechaNacimientoError.Name = "lblFechaNacimientoError";
-            lblFechaNacimientoError.Size = new Size(188, 21);
+            lblFechaNacimientoError.Size = new Size(140, 21);
             lblFechaNacimientoError.TabIndex = 20;
-            lblFechaNacimientoError.Text = "Este campo es obligatorio";
+            lblFechaNacimientoError.Text = "Campo obligatorio";
             lblFechaNacimientoError.Visible = false;
             // 
             // lblApellidoError
@@ -323,11 +323,11 @@
             lblApellidoError.AutoSize = true;
             lblApellidoError.Font = new Font("Segoe UI", 12F);
             lblApellidoError.ForeColor = Color.FromArgb(220, 38, 38);
-            lblApellidoError.Location = new Point(13, 623);
+            lblApellidoError.Location = new Point(13, 538);
             lblApellidoError.Name = "lblApellidoError";
             lblApellidoError.Size = new Size(199, 42);
             lblApellidoError.TabIndex = 19;
-            lblApellidoError.Text = "Este campo es obligatorio.\r\nIntroduce un apellido váldo";
+            lblApellidoError.Text = "Campo  obligatorio.\r\nIntroduce un apellido váldo";
             lblApellidoError.Visible = false;
             // 
             // lblNombreError
@@ -339,14 +339,14 @@
             lblNombreError.Name = "lblNombreError";
             lblNombreError.Size = new Size(206, 42);
             lblNombreError.TabIndex = 18;
-            lblNombreError.Text = "Este campo es obligatorio.\r\nIntroduce un nombre válido.";
+            lblNombreError.Text = "Campo obligatorio.\r\nIntroduce un nombre válido.";
             lblNombreError.Visible = false;
             // 
             // lblApellido
             // 
             lblApellido.AutoSize = true;
             lblApellido.Font = new Font("Segoe UI", 12F);
-            lblApellido.Location = new Point(13, 567);
+            lblApellido.Location = new Point(13, 482);
             lblApellido.Name = "lblApellido";
             lblApellido.Size = new Size(85, 21);
             lblApellido.TabIndex = 6;
@@ -355,7 +355,7 @@
             // txtApellido
             // 
             txtApellido.Font = new Font("Segoe UI", 12F);
-            txtApellido.Location = new Point(13, 591);
+            txtApellido.Location = new Point(13, 506);
             txtApellido.Name = "txtApellido";
             txtApellido.Size = new Size(285, 29);
             txtApellido.TabIndex = 4;
@@ -367,9 +367,9 @@
             lblEmailError.ForeColor = Color.FromArgb(220, 38, 38);
             lblEmailError.Location = new Point(14, 319);
             lblEmailError.Name = "lblEmailError";
-            lblEmailError.Size = new Size(188, 21);
+            lblEmailError.Size = new Size(140, 21);
             lblEmailError.TabIndex = 17;
-            lblEmailError.Text = "Este campo es obligatorio";
+            lblEmailError.Text = "Campo obligatorio";
             lblEmailError.Visible = false;
             // 
             // lblNombre
@@ -399,7 +399,7 @@
             lblClaveError.Name = "lblClaveError";
             lblClaveError.Size = new Size(242, 63);
             lblClaveError.TabIndex = 16;
-            lblClaveError.Text = "Este campo es obligatorio.\r\nMínimo 6 caracteres.\r\nAl menos: una mayus, un número";
+            lblClaveError.Text = "Campo obligatorio.\r\nMínimo 6 caracteres.\r\nAl menos: una mayus, un número";
             lblClaveError.Visible = false;
             // 
             // lblEmail
@@ -446,9 +446,9 @@
             lblUsernameError.ForeColor = Color.FromArgb(220, 38, 38);
             lblUsernameError.Location = new Point(13, 72);
             lblUsernameError.Name = "lblUsernameError";
-            lblUsernameError.Size = new Size(195, 42);
+            lblUsernameError.Size = new Size(151, 42);
             lblUsernameError.TabIndex = 16;
-            lblUsernameError.Text = "Este campo es obligatorio. \r\nMinimo 4 caracteres";
+            lblUsernameError.Text = "Campo obligatorio. \r\nMinimo 4 caracteres";
             lblUsernameError.Visible = false;
             // 
             // lblCuitError

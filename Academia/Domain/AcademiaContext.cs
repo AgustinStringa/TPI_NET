@@ -12,6 +12,8 @@ namespace Domain
     internal class AcademiaContext : DbContext
     {
         internal DbSet<User> Users { get; set; }
+        internal DbSet<Area> Areas { get; set; }
+        internal DbSet<Curriculum> Curriculums { get; set; }
 
         private readonly string _connectionString = "";
 
@@ -31,5 +33,24 @@ namespace Domain
         {
             optionsBuilder.UseSqlServer(_connectionString);
         }
+
+        //protected override void OnModelCreating(ModelBuilder modelBuilder)
+        //{
+        //    modelBuilder.Entity<Area>()
+        //        .HasMany(a => a.Curriculums)
+        //        .WithOne(c => c.Area)
+        //        .HasForeignKey(c => c.AreaId);
+        //}
+
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            
+            modelBuilder.Entity<Curriculum>()
+                .HasOne(c => c.Area)
+                .WithMany(a => a.Curriculums)
+                .HasForeignKey(c => c.AreaId);
+        }
+
     }
 }

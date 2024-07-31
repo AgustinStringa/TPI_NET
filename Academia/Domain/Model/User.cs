@@ -48,11 +48,20 @@ namespace Domain.Model
 
 
         [Column("fecha_nacimiento")]
-        public string BirthDate { get; set; }
+        public DateTime BirthDate { get; set; }
 
 
         [Column("cuit")]
         [AllowNull]
         public string Cuit { get; set; }
+
+        #region navigation properties
+
+        [Column("id_plan")]
+        [AllowNull]
+        public int CurriculumId { get; set; }
+        public virtual Curriculum Curriculum{ get; set; }
+
+        #endregion
     }
 }
