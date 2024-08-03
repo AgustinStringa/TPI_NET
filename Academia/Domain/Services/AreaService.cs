@@ -23,5 +23,43 @@ namespace Domain.Services
             var area = context.Areas.Find(Id);
             return area;
         }
+
+        public int Delete(int Id)
+        {
+            var context = new AcademiaContext();
+            var area = context.Areas.Find(Id);
+            if(area != null) {
+                 context.Areas.Remove(area);
+                int rowsAffected = context.SaveChanges();
+                return rowsAffected;
+            } else {
+            return 0;
+            
+            }
+        }
+
+        public void Create(Area area)
+        {
+            var context = new AcademiaContext();
+            context.Areas.Add(area);
+            context.SaveChanges();
+
+        }
+
+        public int Update(Area updatedArea)
+        {
+            var context = new AcademiaContext();
+            try { 
+                context.Areas.Update(updatedArea);
+                int rowsAffected = context.SaveChanges();
+                return rowsAffected;
+            
+            } catch (Exception ex)
+            {
+                return 0;
+                throw ex;
+            }
+
+        }
     }
 }

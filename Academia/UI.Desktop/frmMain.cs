@@ -62,5 +62,14 @@ namespace UI.Desktop
                 this.Dispose();
             }
         }
+
+        private void alumnosToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            frmAlumnos appStudents = new frmAlumnos();
+            if (appStudents.ShowDialog() != DialogResult.OK)
+            {
+                this.Dispose();
+            }
+        }
     }
 }

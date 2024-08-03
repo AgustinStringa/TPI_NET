@@ -8,13 +8,15 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Entities;
+using Domain;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace UI.Desktop.Area
 {
     public partial class frmActionArea : Form
     {
         private Mode mode;
-        public Entities.Area area;
+        public Domain.Model.Area area;
         public frmActionArea(Mode mode)
         {
             this.mode = mode;
@@ -47,31 +49,47 @@ namespace UI.Desktop.Area
 
 
         private async void GetArea(int id){
-            area = await Business.Area.FindOne(id);
+
+            var service = new Domain.Services.AreaService();
+            this.area = service.GetById(id);
+            txtId.Text = area.Id.ToString();
             txtAreaName.Text = area.Description;
-            txtId.Text = area.IdArea.ToString();
+            //area = await Business.Area.FindOne(id);
+            //this area = area.Description;
         }
         private async void CreateArea(Entities.Area newArea)
         {
 
             try
             {
-                var newAreaResult = await Business.Area.Create(newArea);
-                MessageBox.Show(newAreaResult.Description + " creada correctamente");
-                this.Dispose();
+                var newDescription = txtAreaName.Text.Trim();
+                if (newDescription != null) {
+                    area = new Domain.Model.Area{ Description = newDescription };
+                    var service = new Domain.Services.AreaService();
+                    service.Create(area);
+                    MessageBox.Show(area.Description + " creada correctamente");
+                    this.Dispose();
+                
+                }
+
+                
             }
             catch (Exception e)
             {
                 MessageBox.Show(e.Message);
-                //throw;
-            } 
+                throw e;
+            }
 
         }
 
         private async void  EditArea(Entities.Area newArea) {
-            var updatedAreaResult = await Business.Area.Update(new Entities.Area(newArea.Description, area.IdArea));
-            MessageBox.Show(updatedAreaResult.Description + " actualizada correctamente");
-            this.Dispose();
+            string newDescription = txtAreaName.Text.Trim();
+            if (newDescription != null) { 
+                this.area.Description = newDescription;
+                var service = new Domain.Services.AreaService();
+                service.Update(this.area);
+                this.Dispose();
+            }
 
         }
 
