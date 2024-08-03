@@ -85,7 +85,7 @@ namespace Business
             string value = lastname.Trim();
             if (value.Length <= 1) return false;
 
-            string pattern = @"^[a-zA-Z]+(?: [a-zA-Z]+)*$";
+            string pattern = @"^[a-zA-ZáéíóúÁÉÍÓÚ]+(?: [a-zA-ZáéíóúÁÉÍÓÚ]+)*$";
 
             Regex regex = new Regex(pattern);
 
@@ -96,7 +96,7 @@ namespace Business
         {
             string value = password.Trim();
             if(value.Length <6) return false;
-            string pattern = @"^[a-zA-ZáéíóúÁÉÍÓÚ]+(?: [a-zA-ZáéíóúÁÉÍÓÚ]+)*$";
+            string pattern = @"^[a-zA-Z0-9áéíóúÁÉÍÓÚ]+(?: [a-zA-Z0-9áéíóúÁÉÍÓÚ]+)*$";
 
 
 

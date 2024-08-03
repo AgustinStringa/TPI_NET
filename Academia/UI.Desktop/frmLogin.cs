@@ -20,10 +20,14 @@ namespace UI.Desktop
 
         private void btnIngresar_Click(object sender, EventArgs e)
         {
-            if (new Domain.Services.UserService().ValidateCredentials(txtUsuario.Text.Trim(), txtContra.Text.Trim()))
+            var service = new Domain.Services.UserService() ;
+            var user = service.ValidateCredentials(txtUsuario.Text.Trim(), txtContra.Text.Trim());
+            if (user != null)
             {
                 this.DialogResult = DialogResult.OK;
                 MessageBox.Show("Autenticado correctamente");
+                frmMain form = new frmMain(user);
+                form.ShowDialog();
             }
             else
             {

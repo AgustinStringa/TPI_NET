@@ -27,6 +27,7 @@ namespace UI.Desktop
         {
             try
             {
+                int usertype = 3;
                 if (!rbtnUserAdministrative.Checked
                     && !rbtnUserStudent.Checked
                     && !rbtnUserTeacher.Checked)
@@ -34,6 +35,26 @@ namespace UI.Desktop
                     MessageBox.Show("Seleccione el tipo de usuario (Alumno, Docente, Administrativo)");
                     return;
                 }
+                else {
+                    if (rbtnUserAdministrative.Checked)
+                    {
+
+                        usertype = 1;
+                    }
+                    else if (rbtnUserTeacher.Checked)
+                    {
+                        usertype = 2;
+
+                    }
+                    else if (rbtnUserStudent.Checked)
+                    {
+                        usertype = 3;
+
+                    }
+                    
+                }
+
+
 
                 //USERNAME
                 string username = txtUsername.Text.Trim();
@@ -277,6 +298,7 @@ namespace UI.Desktop
                             PhoneNumber = phoneNumber,
                             BirthDate = birthDate,
                             Cuit = cuit,
+                            UserType = usertype
                         };
 
                         service.Add(newAdministrative);
@@ -345,6 +367,8 @@ namespace UI.Desktop
                             PhoneNumber = phoneNumber,
                             BirthDate = birthDate,
                             StudentId = studentId,
+                            UserType = usertype
+
                         };
 
                         service.Add(newAlumno);
@@ -358,7 +382,7 @@ namespace UI.Desktop
                 }
 
                 //REINICIAR FORM
-                ResetForm();
+                //ResetForm();
 
             }
             catch (Exception ex)

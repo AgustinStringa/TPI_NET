@@ -55,6 +55,9 @@ namespace Domain.Model
         [AllowNull]
         public string Cuit { get; set; }
 
+        [Column("tipo_usuario")]
+        public int UserType { get; set; }
+
         #region navigation properties
 
         [Column("id_plan")]

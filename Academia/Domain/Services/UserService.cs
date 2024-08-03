@@ -40,17 +40,31 @@ namespace Domain.Services
             throw new NotImplementedException();
         }
 
-        public bool ValidateCredentials(string username, string password)
+        public User ValidateCredentials(string username, string password)
         {
 
             var context = new AcademiaContext();
-            Domain.Model.User user = context.Users.First(u => u.Username == username);
-            byte[] sentHashValue = Convert.FromHexString(user.Password);
+            Domain.Model.User user = context.Users.FirstOrDefault(u => u.Username == username);
+            if (user != null) { 
+                byte[] sentHashValue = Convert.FromHexString(user.Password);
+                byte[] messageBytes1 = Encoding.UTF8.GetBytes(password);
+                byte[] compareHashValue = SHA256.HashData(messageBytes1);
+                if (sentHashValue.SequenceEqual(compareHashValue))
+                {
+                    return user;
+                }
+                else {
+                    return null;
+                }
 
-            byte[] messageBytes1 = Encoding.UTF8.GetBytes(password);
-            byte[] compareHashValue = SHA256.HashData(messageBytes1);
+            }
+            else
+            {
+                return null;
+            }
 
-            return sentHashValue.SequenceEqual(compareHashValue);
+
+
         }
     }
 }

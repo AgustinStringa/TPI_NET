@@ -9,14 +9,20 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using UI.Desktop.Curriculum;
 using UI.Desktop.Area;
-
+using Domain.Model;
 namespace UI.Desktop
 {
     public partial class frmMain : Form
     {
         private bool administrative = false;
-        public frmMain()
+
+        public frmMain(User user)
         {
+            InitializeComponent();
+            administrative = (user.UserType == 1);
+        }
+
+        public frmMain() {
             InitializeComponent();
         }
 
@@ -28,7 +34,10 @@ namespace UI.Desktop
 
         private void frmMain_Shown(object sender, EventArgs e)
         {
-            //especialidadesToolStripMenuItem.Visible = !administrative;
+            usuariosToolStripMenuItem.Visible = administrative;
+            especialidadesToolStripMenuItem.Visible = administrative;
+            planesDeEstudioToolStripMenuItem.Visible = administrative;
+            profesoresToolStripMenuItem.Visible = administrative;
             //frmMain appLogin = new frmMain();
             //if (appLogin.ShowDialog() != DialogResult.OK)
             //{
