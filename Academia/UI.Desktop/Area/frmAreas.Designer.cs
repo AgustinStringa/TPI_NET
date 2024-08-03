@@ -113,7 +113,7 @@
             lstvAreas.GridLines = true;
             lstvAreas.Location = new Point(54, 128);
             lstvAreas.Name = "lstvAreas";
-            lstvAreas.Size = new Size(678, 99);
+            lstvAreas.Size = new Size(678, 173);
             lstvAreas.TabIndex = 3;
             lstvAreas.UseCompatibleStateImageBehavior = false;
             lstvAreas.View = View.Details;

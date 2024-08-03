@@ -269,7 +269,7 @@ namespace UI.Desktop
                         var newAdministrative = new User
                         {
                             Username = username,
-                            Password = password,
+                            Password = Data.Util.EncodePassword(password),
                             Email = email,
                             Name = name,
                             Lastname = lastname,
@@ -337,7 +337,7 @@ namespace UI.Desktop
                         var newAlumno = new User
                         {
                             Username = username,
-                            Password = password,
+                            Password = Data.Util.EncodePassword( password),
                             Email = email,
                             Name = name,
                             Lastname = lastname,

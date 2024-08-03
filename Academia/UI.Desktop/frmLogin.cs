@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Domain;
 
 namespace UI.Desktop
 {
@@ -19,9 +20,10 @@ namespace UI.Desktop
 
         private void btnIngresar_Click(object sender, EventArgs e)
         {
-            if (this.txtUsuario.Text == "Admin" && this.txtContra.Text == "admin")
+            if (new Domain.Services.UserService().ValidateCredentials(txtUsuario.Text.Trim(), txtContra.Text.Trim()))
             {
                 this.DialogResult = DialogResult.OK;
+                MessageBox.Show("Autenticado correctamente");
             }
             else
             {

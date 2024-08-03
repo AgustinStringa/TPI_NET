@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Security.Cryptography;
 
 namespace Domain.Services
 {
@@ -37,6 +38,19 @@ namespace Domain.Services
         public void Update()
         {
             throw new NotImplementedException();
+        }
+
+        public bool ValidateCredentials(string username, string password)
+        {
+
+            var context = new AcademiaContext();
+            Domain.Model.User user = context.Users.First(u => u.Username == username);
+            byte[] sentHashValue = Convert.FromHexString(user.Password);
+
+            byte[] messageBytes1 = Encoding.UTF8.GetBytes(password);
+            byte[] compareHashValue = SHA256.HashData(messageBytes1);
+
+            return sentHashValue.SequenceEqual(compareHashValue);
         }
     }
 }
