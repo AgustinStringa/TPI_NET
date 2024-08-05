@@ -31,7 +31,11 @@
             mnsPrincipal = new MenuStrip();
             mnuArchivo = new ToolStripMenuItem();
             frmSalir = new ToolStripMenuItem();
+            usuariosToolStripMenuItem = new ToolStripMenuItem();
+            crearUsuarioToolStripMenuItem1 = new ToolStripMenuItem();
             alumnosToolStripMenuItem = new ToolStripMenuItem();
+            docentesToolStripMenuItem = new ToolStripMenuItem();
+            administrativosToolStripMenuItem = new ToolStripMenuItem();
             especialidadesToolStripMenuItem = new ToolStripMenuItem();
             planesDeEstudioToolStripMenuItem = new ToolStripMenuItem();
             profesoresToolStripMenuItem = new ToolStripMenuItem();
@@ -44,8 +48,9 @@
             // 
             // mnsPrincipal
             // 
-            mnsPrincipal.ImageScalingSize = new Size(20, 20);
-            mnsPrincipal.Items.AddRange(new ToolStripItem[] { mnuArchivo, alumnosToolStripMenuItem, especialidadesToolStripMenuItem, planesDeEstudioToolStripMenuItem, profesoresToolStripMenuItem, materiasToolStripMenuItem, comisionesToolStripMenuItem, cursosToolStripMenuItem, crearUsuarioToolStripMenuItem });
+
+            mnsPrincipal.Items.AddRange(new ToolStripItem[] { mnuArchivo, usuariosToolStripMenuItem, especialidadesToolStripMenuItem, planesDeEstudioToolStripMenuItem, profesoresToolStripMenuItem, materiasToolStripMenuItem, comisionesToolStripMenuItem, cursosToolStripMenuItem, crearUsuarioToolStripMenuItem });
+
             mnsPrincipal.Location = new Point(0, 0);
             mnsPrincipal.Name = "mnsPrincipal";
             mnsPrincipal.Padding = new Padding(7, 3, 0, 3);
@@ -67,11 +72,40 @@
             frmSalir.Text = "Salir";
             frmSalir.Click += frmSalir_Click;
             // 
+            // usuariosToolStripMenuItem
+            // 
+            usuariosToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { crearUsuarioToolStripMenuItem1, alumnosToolStripMenuItem, docentesToolStripMenuItem, administrativosToolStripMenuItem });
+            usuariosToolStripMenuItem.Name = "usuariosToolStripMenuItem";
+            usuariosToolStripMenuItem.Size = new Size(64, 20);
+            usuariosToolStripMenuItem.Text = "Usuarios";
+            // 
+            // crearUsuarioToolStripMenuItem1
+            // 
+            crearUsuarioToolStripMenuItem1.Name = "crearUsuarioToolStripMenuItem1";
+            crearUsuarioToolStripMenuItem1.Size = new Size(180, 22);
+            crearUsuarioToolStripMenuItem1.Text = "Crear Usuario";
+            crearUsuarioToolStripMenuItem1.Click += crearUsuarioToolStripMenuItem_Click;
+            // 
             // alumnosToolStripMenuItem
             // 
             alumnosToolStripMenuItem.Name = "alumnosToolStripMenuItem";
-            alumnosToolStripMenuItem.Size = new Size(81, 24);
+
+            alumnosToolStripMenuItem.Size = new Size(180, 22);
+
             alumnosToolStripMenuItem.Text = "Alumnos";
+            alumnosToolStripMenuItem.Click += alumnosToolStripMenuItem_Click;
+            // 
+            // docentesToolStripMenuItem
+            // 
+            docentesToolStripMenuItem.Name = "docentesToolStripMenuItem";
+            docentesToolStripMenuItem.Size = new Size(180, 22);
+            docentesToolStripMenuItem.Text = "Docentes";
+            // 
+            // administrativosToolStripMenuItem
+            // 
+            administrativosToolStripMenuItem.Name = "administrativosToolStripMenuItem";
+            administrativosToolStripMenuItem.Size = new Size(180, 22);
+            administrativosToolStripMenuItem.Text = "Administrativos";
             // 
             // especialidadesToolStripMenuItem
             // 
@@ -149,11 +183,15 @@
         private ToolStripMenuItem frmSalir;
         private ToolStripMenuItem especialidadesToolStripMenuItem;
         private ToolStripMenuItem planesDeEstudioToolStripMenuItem;
-        private ToolStripMenuItem alumnosToolStripMenuItem;
+        private ToolStripMenuItem usuariosToolStripMenuItem;
         private ToolStripMenuItem profesoresToolStripMenuItem;
         private ToolStripMenuItem materiasToolStripMenuItem;
         private ToolStripMenuItem comisionesToolStripMenuItem;
         private ToolStripMenuItem cursosToolStripMenuItem;
         private ToolStripMenuItem crearUsuarioToolStripMenuItem;
+        private ToolStripMenuItem crearUsuarioToolStripMenuItem1;
+        private ToolStripMenuItem alumnosToolStripMenuItem;
+        private ToolStripMenuItem docentesToolStripMenuItem;
+        private ToolStripMenuItem administrativosToolStripMenuItem;
     }
 }

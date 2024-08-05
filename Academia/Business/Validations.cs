@@ -73,7 +73,8 @@ namespace Business
             name = name.Replace(".", "");
             if (name.Length <= 4) return false;
 
-            string pattern = @"^[a-zA-Z]+(?:\s[a-zA-Z]+)*$";
+            string pattern = @"^[a-zA-ZáéíóúÁÉÍÓÚ]+(?:\s[a-zA-ZáéíóúÁÉÍÓÚ]+)*$";
+
             Regex regex = new Regex(pattern);
 
             return regex.IsMatch(name);
@@ -82,9 +83,10 @@ namespace Business
         public static bool IsValidLastname(string lastname)
         {
             string value = lastname.Trim();
-            if (value.Length <= 4) return false;
+            if (value.Length <= 1) return false;
 
-            string pattern = @"^[a-zA-Z]+$";
+            string pattern = @"^[a-zA-ZáéíóúÁÉÍÓÚ]+(?: [a-zA-ZáéíóúÁÉÍÓÚ]+)*$";
+
             Regex regex = new Regex(pattern);
 
             return regex.IsMatch(value) ;
@@ -94,9 +96,10 @@ namespace Business
         {
             string value = password.Trim();
             if(value.Length <6) return false;
-            string pattern = @"^(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{6,25}$";
+            string pattern = @"^[a-zA-Z0-9áéíóúÁÉÍÓÚ]+(?: [a-zA-Z0-9áéíóúÁÉÍÓÚ]+)*$";
 
-          
+
+
             Regex regex = new Regex(pattern);
 
             return regex.IsMatch(value) && !string.IsNullOrWhiteSpace(value);
@@ -107,7 +110,8 @@ namespace Business
         {
             string value = address.Trim();
 
-            string pattern = @"^[a-zA-Z0-9,. ]+$";
+            string pattern = @"^[a-zA-Z0-9áéíóúÁÉÍÓÚñÑçÇüÜ,. ]+$";
+
             Regex regex = new Regex(pattern);
 
             return regex.IsMatch(value) && !string.IsNullOrWhiteSpace(value);

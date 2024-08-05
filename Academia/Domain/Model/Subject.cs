@@ -27,8 +27,11 @@ namespace Domain.Model
         [Column("id_plan")]
         public int IdCurriculum { get; set; }
 
-
         public virtual Curriculum Curriculum { get; set; }
+
+
+        public virtual ICollection<Subject> Correlatives { get; set; } = new List<Subject>();
+
 
     }
 }

@@ -26,6 +26,12 @@ namespace Domain.Model
 
         public virtual Subject Subject { get; set; }
 
+
+        //public virtual ICollection<User> Teachers { get; set; } = new List<User>();
+
+        //public virtual ICollection<User> Students { get; set; } = new List<User>();
+
+
         //[Column("id_comision")]
         //public int IdCommition { get; set; }
 

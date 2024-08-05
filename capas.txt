@@ -1,3 +1,0 @@
-capa datos -> definicion de clase
-capa negocio -> validacion de datos. metodos que invocan a metodos de la capa de datos.
-capa presentacion -> vista

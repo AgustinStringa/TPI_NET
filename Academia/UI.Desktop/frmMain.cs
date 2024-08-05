@@ -9,15 +9,24 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using UI.Desktop.Curriculum;
 using UI.Desktop.Area;
+
+using Domain.Model;
 using UI.Desktop.Subject;
+
 
 namespace UI.Desktop
 {
     public partial class frmMain : Form
     {
         private bool administrative = false;
-        public frmMain()
+
+        public frmMain(User user)
         {
+            InitializeComponent();
+            administrative = (user.UserType == 1);
+        }
+
+        public frmMain() {
             InitializeComponent();
         }
 
@@ -29,7 +38,10 @@ namespace UI.Desktop
 
         private void frmMain_Shown(object sender, EventArgs e)
         {
-            //especialidadesToolStripMenuItem.Visible = !administrative;
+            usuariosToolStripMenuItem.Visible = administrative;
+            especialidadesToolStripMenuItem.Visible = administrative;
+            planesDeEstudioToolStripMenuItem.Visible = administrative;
+            profesoresToolStripMenuItem.Visible = administrative;
             //frmMain appLogin = new frmMain();
             //if (appLogin.ShowDialog() != DialogResult.OK)
             //{
@@ -64,10 +76,17 @@ namespace UI.Desktop
             }
         }
 
+
+        private void alumnosToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            frmAlumnos appStudents = new frmAlumnos();
+            if (appStudents.ShowDialog() != DialogResult.OK)
+
         private void materiasToolStripMenuItem_Click(object sender, EventArgs e)
         {
             frmMateria appCurr = new frmMateria();
             if (appCurr.ShowDialog() != DialogResult.OK)
+
             {
                 this.Dispose();
             }
