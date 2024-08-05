@@ -24,6 +24,9 @@ namespace Domain.Model
         [Column("hs_totales")]
         public int TotalHours { get; set; }
 
+        [Column("nivel")]
+        public int Level { get; set; }
+
         [Column("id_plan")]
         public int IdCurriculum { get; set; }
 
