@@ -16,6 +16,9 @@
     <Compile Update="frmAlumnos.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Update="frmInscripcionMateria.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="frmMain.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -23,6 +26,9 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Update="frmCrearUsuario.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="frmMisMaterias.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Update="Subject\frmActionSubject.cs">
