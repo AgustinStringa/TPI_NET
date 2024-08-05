@@ -11,44 +11,55 @@ using UI.Desktop.Curriculum;
 
 namespace UI.Desktop.Subject
 {
-    
+
     public partial class frmActionSubject : Form
     {
 
         #region fields
+        private Entities.Subject currentSubject;
         private Mode mode;
-        public Entities.Subject subject;
         #endregion
 
 
-#region constructors
+        #region constructors
         public frmActionSubject()
         {
             InitializeComponent();
         }
 
 
-        public frmActionSubject(Mode mode)
+        public frmActionSubject(Mode mode, Entities.Subject subj)
         {
-            this.mode = mode;
             InitializeComponent();
-            switch (mode)
+            currentSubject = subj;
+            LoadCurriculums();
+            if (mode == Mode.Edit)
             {
-                case Mode.Create:
 
-                    break;
             }
-
         }
 
-        private async void LoadCurriculums()
+        public frmActionSubject(Mode mode)
         {
-            var areas = await Business.Curriculum.FindAll();
+            InitializeComponent();
+            LoadCurriculums();
+            this.mode = mode;
+            if (mode == Mode.Create)
+            {
+
+            }
+        }
+
+
+
+        #endregion}
+        public async void LoadCurriculums()
+        {
+            var curriculums = await Business.Curriculum.FindAll();
             cbCurriculums.DataSource = curriculums;
-            cbCurriculums.ValueMember = "id_plan";
+            cbCurriculums.ValueMember = "Id";
             cbCurriculums.DisplayMember = "Description";
             cbCurriculums.SelectedIndex = 0;
         }
-
-    }
+    } 
 }

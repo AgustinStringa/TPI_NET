@@ -32,7 +32,7 @@
             label1 = new Label();
             txtWeekHours = new TextBox();
             label2 = new Label();
-            cbArea = new ComboBox();
+            cbCurriculums = new ComboBox();
             label3 = new Label();
             label4 = new Label();
             cbLevel = new ComboBox();
@@ -72,13 +72,13 @@
             label2.TabIndex = 3;
             label2.Text = "Horas semanales";
             // 
-            // cbArea
+            // cbCurriculums
             // 
-            cbArea.FormattingEnabled = true;
-            cbArea.Location = new Point(428, 152);
-            cbArea.Name = "cbArea";
-            cbArea.Size = new Size(221, 28);
-            cbArea.TabIndex = 4;
+            cbCurriculums.FormattingEnabled = true;
+            cbCurriculums.Location = new Point(428, 152);
+            cbCurriculums.Name = "cbCurriculums";
+            cbCurriculums.Size = new Size(221, 28);
+            cbCurriculums.TabIndex = 4;
             // 
             // label3
             // 
@@ -134,7 +134,7 @@
             Controls.Add(label4);
             Controls.Add(cbLevel);
             Controls.Add(label3);
-            Controls.Add(cbArea);
+            Controls.Add(cbCurriculums);
             Controls.Add(label2);
             Controls.Add(txtWeekHours);
             Controls.Add(label1);
@@ -151,7 +151,7 @@
         private Label label1;
         private TextBox txtWeekHours;
         private Label label2;
-        private ComboBox cbArea;
+        private ComboBox cbCurriculums;
         private Label label3;
         private Label label4;
         private ComboBox cbLevel;

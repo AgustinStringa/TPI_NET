@@ -50,7 +50,7 @@
             // tsbtnAdd
             // 
             tsbtnAdd.DisplayStyle = ToolStripItemDisplayStyle.Image;
-            tsbtnAdd.Image = Properties.Resources.Add;
+            //tsbtnAdd.Image = Properties.Resources.Add;
             tsbtnAdd.ImageTransparentColor = Color.Magenta;
             tsbtnAdd.Name = "tsbtnAdd";
             tsbtnAdd.Size = new Size(23, 22);
@@ -60,7 +60,7 @@
             // tsbtnEdit
             // 
             tsbtnEdit.DisplayStyle = ToolStripItemDisplayStyle.Image;
-            tsbtnEdit.Image = Properties.Resources.Edit;
+            //tsbtnEdit.Image = Properties.Resources.Edit;
             tsbtnEdit.ImageTransparentColor = Color.Magenta;
             tsbtnEdit.Name = "tsbtnEdit";
             tsbtnEdit.Size = new Size(23, 22);
@@ -70,7 +70,7 @@
             // tsbtnRemove
             // 
             tsbtnRemove.DisplayStyle = ToolStripItemDisplayStyle.Image;
-            tsbtnRemove.Image = Properties.Resources.Delete;
+            //tsbtnRemove.Image = Properties.Resources.Delete;
             tsbtnRemove.ImageTransparentColor = Color.Magenta;
             tsbtnRemove.Name = "tsbtnRemove";
             tsbtnRemove.Size = new Size(23, 22);
