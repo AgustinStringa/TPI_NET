@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMateria));
             toolStrip1 = new ToolStrip();
             tsbtnAdd = new ToolStripButton();
             tsbtnEdit = new ToolStripButton();
@@ -53,7 +52,7 @@
             // tsbtnAdd
             // 
             tsbtnAdd.DisplayStyle = ToolStripItemDisplayStyle.Image;
-            tsbtnAdd.Image = (Image)resources.GetObject("tsbtnAdd.Image");
+            tsbtnAdd.Image = Properties.Resources.Add;
             tsbtnAdd.ImageTransparentColor = Color.Magenta;
             tsbtnAdd.Name = "tsbtnAdd";
             tsbtnAdd.Size = new Size(24, 24);
@@ -62,24 +61,20 @@
             // 
             // tsbtnEdit
             // 
-
-            toolStripButton2.DisplayStyle = ToolStripItemDisplayStyle.Image;
-            toolStripButton2.Image = Properties.Resources.Edit;
-            toolStripButton2.ImageTransparentColor = Color.Magenta;
-            toolStripButton2.Name = "toolStripButton2";
-            toolStripButton2.Size = new Size(24, 24);
-            toolStripButton2.Text = "edit";
-
+            tsbtnEdit.DisplayStyle = ToolStripItemDisplayStyle.Image;
+            tsbtnEdit.Image = Properties.Resources.Edit;
+            tsbtnEdit.ImageTransparentColor = Color.Magenta;
+            tsbtnEdit.Name = "tsbtnEdit";
+            tsbtnEdit.Size = new Size(24, 24);
+            tsbtnEdit.Text = "edit";
             // 
             // tsbtnDelete
             // 
-
-            toolStripButton3.DisplayStyle = ToolStripItemDisplayStyle.Image;
-            toolStripButton3.Image = Properties.Resources.Delete;
-            toolStripButton3.ImageTransparentColor = Color.Magenta;
-            toolStripButton3.Name = "toolStripButton3";
-            toolStripButton3.Size = new Size(24, 24);
-
+            tsbtnDelete.DisplayStyle = ToolStripItemDisplayStyle.Image;
+            tsbtnDelete.Image = Properties.Resources.Delete;
+            tsbtnDelete.ImageTransparentColor = Color.Magenta;
+            tsbtnDelete.Name = "tsbtnDelete";
+            tsbtnDelete.Size = new Size(24, 24);
             // 
             // dataGridView1
             // 

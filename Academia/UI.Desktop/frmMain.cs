@@ -26,7 +26,8 @@ namespace UI.Desktop
             administrative = (user.UserType == 1);
         }
 
-        public frmMain() {
+        public frmMain()
+        {
             InitializeComponent();
         }
 
@@ -80,8 +81,12 @@ namespace UI.Desktop
         private void alumnosToolStripMenuItem_Click(object sender, EventArgs e)
         {
             frmAlumnos appStudents = new frmAlumnos();
-            if (appStudents.ShowDialog() != DialogResult.OK)
+            if (appStudents.ShowDialog() != DialogResult.OK) {
+                this.Dispose();
+            }
 
+
+        }
         private void materiasToolStripMenuItem_Click(object sender, EventArgs e)
         {
             frmMateria appCurr = new frmMateria();
