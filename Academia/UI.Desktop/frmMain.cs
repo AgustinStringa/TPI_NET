@@ -9,7 +9,11 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using UI.Desktop.Curriculum;
 using UI.Desktop.Area;
+
 using Domain.Model;
+using UI.Desktop.Subject;
+
+
 namespace UI.Desktop
 {
     public partial class frmMain : Form
@@ -72,10 +76,17 @@ namespace UI.Desktop
             }
         }
 
+
         private void alumnosToolStripMenuItem_Click(object sender, EventArgs e)
         {
             frmAlumnos appStudents = new frmAlumnos();
             if (appStudents.ShowDialog() != DialogResult.OK)
+
+        private void materiasToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            frmMateria appCurr = new frmMateria();
+            if (appCurr.ShowDialog() != DialogResult.OK)
+
             {
                 this.Dispose();
             }

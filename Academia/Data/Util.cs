@@ -14,8 +14,8 @@ namespace Data
         public static SqlConnection GetConnection()
         {
             SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder();
-            builder.DataSource = "DESKTOP-1T6I08B";
-            builder.UserID = @"DESKTOP-1T6I08B\agust";
+            builder.DataSource = @"ELISITO\SQLEXPRESS";
+            builder.UserID = @"Elisito\elias";
             //builder.Password = "<your_password>";
             builder.InitialCatalog = "academia";
             builder.TrustServerCertificate = true;

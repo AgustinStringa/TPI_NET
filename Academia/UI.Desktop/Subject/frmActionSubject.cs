@@ -7,33 +7,59 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using UI.Desktop.Curriculum;
 
 namespace UI.Desktop.Subject
 {
-    
+
     public partial class frmActionSubject : Form
     {
 
-
+        #region fields
+        private Entities.Subject currentSubject;
         private Mode mode;
-        public Entities.Subject subject;
+        #endregion
+
+
+        #region constructors
         public frmActionSubject()
         {
             InitializeComponent();
         }
 
 
+        public frmActionSubject(Mode mode, Entities.Subject subj)
+        {
+            InitializeComponent();
+            currentSubject = subj;
+            LoadCurriculums();
+            if (mode == Mode.Edit)
+            {
+
+            }
+        }
+
         public frmActionSubject(Mode mode)
         {
-            this.mode = mode;
             InitializeComponent();
-            switch (mode)
+            LoadCurriculums();
+            this.mode = mode;
+            if (mode == Mode.Create)
             {
-                case Mode.Create:
 
-                    break;
             }
-
         }
-    }
+
+
+
+        #endregion}
+        public async void LoadCurriculums()
+        {
+            var curriculums = await Business.Curriculum.FindAll();
+            cbCurriculums.DataSource = curriculums;
+            cbCurriculums.ValueMember = "Id";
+            cbCurriculums.DisplayMember = "Description";
+            cbCurriculums.SelectedIndex = 0;
+        }
+    } 
 }

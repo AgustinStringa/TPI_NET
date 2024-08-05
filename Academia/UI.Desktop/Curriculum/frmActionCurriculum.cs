@@ -22,7 +22,7 @@ namespace UI.Desktop.Curriculum
         public frmActionCurriculum()
         {
             InitializeComponent();
-            LoadAreas();
+
         }
 
         public frmActionCurriculum(Mode mode, Entities.Curriculum curr)
