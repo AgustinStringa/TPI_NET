@@ -45,25 +45,25 @@ namespace Business
 
             }
             if (cuit.Length != 11) return false;
+            return true;
+            //int[] weights = { 5, 4, 3, 2, 7, 6, 5, 4, 3, 2 };
 
-            int[] weights = { 5, 4, 3, 2, 7, 6, 5, 4, 3, 2 };
+            //// Convertir cada caracter del CUIT en un número y calcular el dígito verificador esperado
+            //int sum = 0;
+            //for (int i = 0; i < 10; i++)
+            //{
+            //    sum += (cuit[i] - '0') * weights[i];
+            //}
 
-            // Convertir cada caracter del CUIT en un número y calcular el dígito verificador esperado
-            int sum = 0;
-            for (int i = 0; i < 10; i++)
-            {
-                sum += (cuit[i] - '0') * weights[i];
-            }
+            //int expectedCheckDigit = 11 - (sum % 11);
 
-            int expectedCheckDigit = 11 - (sum % 11);
+            //// Ajustes específicos según las reglas del CUIT
+            //if (expectedCheckDigit == 11) expectedCheckDigit = 0;
+            //else if (expectedCheckDigit == 10) expectedCheckDigit = 9;
 
-            // Ajustes específicos según las reglas del CUIT
-            if (expectedCheckDigit == 11) expectedCheckDigit = 0;
-            else if (expectedCheckDigit == 10) expectedCheckDigit = 9;
-
-            // Compara el dígito verificador esperado con el real
-            int actualCheckDigit = cuit[10] - '0';
-            return expectedCheckDigit == actualCheckDigit;
+            //// Compara el dígito verificador esperado con el real
+            //int actualCheckDigit = cuit[10] - '0';
+            //return expectedCheckDigit == actualCheckDigit;
         }
 
 
@@ -159,18 +159,22 @@ namespace Business
             phonenumber = phonenumber.Trim();
             if (phonenumber.Length <= 0) return false;
 
-            if (phonenumber[0] != '+') {
-                phonenumber = phonenumber.Insert(0, "+");
-            }
-
-            if (phonenumber.Length > 16 || phonenumber.Length <=0) return false;
-
-
-            string pattern = @"^\+\d{1,15}$";
+            string pattern = @"^\d{1,15}$";
             Regex regex = new Regex(pattern);
 
             return regex.IsMatch(phonenumber);
         }
 
+
+        public static bool IsValidStudentId(string studentid) {
+            studentid = studentid.Trim();
+            if (studentid.Length <= 0) return false;
+
+            string pattern = @"^\d{1,15}$";
+            Regex regex = new Regex(pattern);
+
+            return regex.IsMatch(studentid);
+
+        }
     }
 }

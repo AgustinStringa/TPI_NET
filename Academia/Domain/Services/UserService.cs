@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Domain.Model;
+using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,12 +8,14 @@ using System.Threading.Tasks;
 
 namespace Domain.Services
 {
-    internal class UserService : IUserService
+    public class UserService : IUserService
     {
-        public void Add()
+        
+        public void Add(User user)
         {
-            
-            throw new NotImplementedException();
+            var context = new AcademiaContext();
+            context.Users.Add(user);
+            context.SaveChanges();
         }
 
         public void Delete()
@@ -19,12 +23,13 @@ namespace Domain.Services
             throw new NotImplementedException();
         }
 
-        public void GetAll()
+        public IEnumerable<User> GetAll()
         {
-            throw new NotImplementedException();
+            var context = new AcademiaContext();
+            return context.Users.Include(u => u.CurriculumId).ToList();
         }
 
-        public void GetById()
+        public User GetById()
         {
             throw new NotImplementedException();
         }
