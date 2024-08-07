@@ -8,70 +8,71 @@ namespace API.Controllers
     public class AreaController : Controller
     {
         [HttpGet]
-        public List<Area> GetAll()
+        public async Task<ActionResult<IEnumerable<Area>>> GetAll()
         {
             var context = new AcademiaContext();
-            return context.Areas.Include(a => a.Curriculums).ToList();
+            return await context.Areas.Include(a => a.Curriculums).ToListAsync();
         }
 
         [HttpGet("{id}")]
-        public Area GetById(int id)
+        public async Task<ActionResult<Area>> GetById(int id)
         {
             var context = new AcademiaContext();
-            var area = context.Areas.Find(id);
-            if (area != null)
+            var area = await context.Areas.FindAsync(id);
+            if (area == null)
             {
-                return area;
+                return NotFound();
             }
             else
             {
-                return null;
+                return area;
             }
         }
 
         [HttpPost]
-        public async Task<Area> Create(Area newArea)
+        public async Task<ActionResult<Area>> Create(Area newArea)
         {
             var context = new AcademiaContext();
             context.Areas.Add(newArea);
             await context.SaveChangesAsync();
-            return newArea;
+            return CreatedAtAction(
+            nameof(GetById),
+            new { id = newArea.Id }, newArea);
         }
 
         [HttpDelete("{id}")]
-        public async Task<Area> Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
             var context = new AcademiaContext();
-            var deletedArea = context.Areas.Find(id);
-            if (deletedArea != null)
+            var deletedArea = await context.Areas.FindAsync(id);
+            if (deletedArea == null)
             {
-                context.Areas.Remove(deletedArea);
-                await context.SaveChangesAsync();
-
+                return NotFound();
             }
-            return deletedArea;
-
+            context.Areas.Remove(deletedArea);
+            await context.SaveChangesAsync();
+            return NoContent();
         }
 
         [HttpPut("{id}")]
-        public async Task<Area> Update(int id, Area updatedArea)
+        public async Task<IActionResult> Update(int id, Area updatedArea)
         {
             if (id != updatedArea.Id)
             {
-                //return BadRequest();
-                return null;
+                return BadRequest();
+
             }
             var context = new AcademiaContext();
             var area = await context.Areas.FindAsync(id);
             if (area == null)
             {
-                //return NotFound();
-                return null;
+                return NotFound();
+
             }
             //prop by prop        
             area.Description = updatedArea.Description;
             await context.SaveChangesAsync();
-            return area;
+            return NoContent();
         }
     }
 }
