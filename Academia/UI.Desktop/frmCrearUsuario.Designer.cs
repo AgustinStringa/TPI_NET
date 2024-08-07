@@ -232,7 +232,7 @@
             txtLegajo.Location = new Point(330, 591);
             txtLegajo.Name = "txtLegajo";
             txtLegajo.Size = new Size(285, 29);
-            txtLegajo.TabIndex = 27;
+            txtLegajo.TabIndex = 9;
             txtLegajo.Visible = false;
             // 
             // lblLegajo
@@ -274,7 +274,7 @@
             txtAddress.Location = new Point(324, 287);
             txtAddress.Name = "txtAddress";
             txtAddress.Size = new Size(285, 29);
-            txtAddress.TabIndex = 25;
+            txtAddress.TabIndex = 8;
             // 
             // lblPhoneNumberError
             // 
@@ -304,7 +304,7 @@
             txtPhoneNumber.Location = new Point(324, 151);
             txtPhoneNumber.Name = "txtPhoneNumber";
             txtPhoneNumber.Size = new Size(285, 29);
-            txtPhoneNumber.TabIndex = 22;
+            txtPhoneNumber.TabIndex = 7;
             // 
             // lblFechaNacimientoError
             // 
@@ -358,7 +358,7 @@
             txtApellido.Location = new Point(13, 506);
             txtApellido.Name = "txtApellido";
             txtApellido.Size = new Size(285, 29);
-            txtApellido.TabIndex = 4;
+            txtApellido.TabIndex = 5;
             // 
             // lblEmailError
             // 
@@ -388,18 +388,18 @@
             txtNombre.Location = new Point(13, 384);
             txtNombre.Name = "txtNombre";
             txtNombre.Size = new Size(285, 29);
-            txtNombre.TabIndex = 3;
+            txtNombre.TabIndex = 4;
             // 
             // lblClaveError
             // 
             lblClaveError.AutoSize = true;
             lblClaveError.Font = new Font("Segoe UI", 12F);
             lblClaveError.ForeColor = Color.FromArgb(220, 38, 38);
-            lblClaveError.Location = new Point(13, 184);
+            lblClaveError.Location = new Point(14, 184);
             lblClaveError.Name = "lblClaveError";
-            lblClaveError.Size = new Size(242, 63);
+            lblClaveError.Size = new Size(143, 21);
             lblClaveError.TabIndex = 16;
-            lblClaveError.Text = "Campo obligatorio.\r\nMínimo 6 caracteres.\r\nAl menos: una mayus, un número";
+            lblClaveError.Text = "Campo obligatorio.";
             lblClaveError.Visible = false;
             // 
             // lblEmail
@@ -418,7 +418,7 @@
             txtEmail.Location = new Point(14, 287);
             txtEmail.Name = "txtEmail";
             txtEmail.Size = new Size(285, 29);
-            txtEmail.TabIndex = 5;
+            txtEmail.TabIndex = 3;
             // 
             // lblClave
             // 
@@ -497,7 +497,7 @@
             dtpBirthDate.Location = new Point(324, 40);
             dtpBirthDate.Name = "dtpBirthDate";
             dtpBirthDate.Size = new Size(285, 29);
-            dtpBirthDate.TabIndex = 14;
+            dtpBirthDate.TabIndex = 6;
             // 
             // txtCuit
             // 
@@ -535,7 +535,7 @@
             btnCrearUsuario.Location = new Point(756, 614);
             btnCrearUsuario.Name = "btnCrearUsuario";
             btnCrearUsuario.Size = new Size(141, 47);
-            btnCrearUsuario.TabIndex = 6;
+            btnCrearUsuario.TabIndex = 10;
             btnCrearUsuario.Text = "Crear Usuario";
             btnCrearUsuario.UseVisualStyleBackColor = false;
             btnCrearUsuario.Click += btnCrearUsuario_Click;

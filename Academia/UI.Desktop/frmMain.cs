@@ -19,11 +19,15 @@ namespace UI.Desktop
     public partial class frmMain : Form
     {
         private bool administrative = false;
+        private bool student = false;
+        private User user;
 
         public frmMain(User user)
         {
-            InitializeComponent();
+            this.user = user;
             administrative = (user.UserType == 1);
+            student = (user.UserType == 3);
+            InitializeComponent();
         }
 
         public frmMain()
@@ -43,58 +47,50 @@ namespace UI.Desktop
             especialidadesToolStripMenuItem.Visible = administrative;
             planesDeEstudioToolStripMenuItem.Visible = administrative;
             profesoresToolStripMenuItem.Visible = administrative;
-            //frmMain appLogin = new frmMain();
-            //if (appLogin.ShowDialog() != DialogResult.OK)
-            //{
-            //    this.Dispose();
-            //}
+            crearUsuarioToolStripMenuItem.Visible = administrative;
+            cursadosActivosToolStripMenuItem.Visible = student;
         }
 
         private void especialidadesToolStripMenuItem_Click(object sender, EventArgs e)
         {
             frmAreas appLogin = new frmAreas();
-            if (appLogin.ShowDialog() != DialogResult.OK)
-            {
-                this.Dispose();
-            }
+            appLogin.ShowDialog();
+
         }
 
         private void planesDeEstudioToolStripMenuItem_Click(object sender, EventArgs e)
         {
             frmCurriculum appCurr = new frmCurriculum();
-            if (appCurr.ShowDialog() != DialogResult.OK)
-            {
-                this.Dispose();
-            }
+            appCurr.ShowDialog();
+
         }
 
         private void crearUsuarioToolStripMenuItem_Click(object sender, EventArgs e)
         {
             frmCrearUsuario appUser = new frmCrearUsuario();
-            if (appUser.ShowDialog() != DialogResult.OK)
-            {
-                this.Dispose();
-            }
+            appUser.ShowDialog();
+
         }
 
 
         private void alumnosToolStripMenuItem_Click(object sender, EventArgs e)
         {
             frmAlumnos appStudents = new frmAlumnos();
-            if (appStudents.ShowDialog() != DialogResult.OK) {
-                this.Dispose();
-            }
+            appStudents.ShowDialog();
+
 
 
         }
         private void materiasToolStripMenuItem_Click(object sender, EventArgs e)
         {
             frmMateria appCurr = new frmMateria();
-            if (appCurr.ShowDialog() != DialogResult.OK)
+            appCurr.ShowDialog();
 
-            {
-                this.Dispose();
-            }
+        }
+        private void inscripcionACursadoToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            frmInscripcionCursado appInscripcionCursado = new frmInscripcionCursado(this.user);
+            appInscripcionCursado.ShowDialog();
         }
     }
 }

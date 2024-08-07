@@ -367,7 +367,8 @@ namespace UI.Desktop
                             PhoneNumber = phoneNumber,
                             BirthDate = birthDate,
                             StudentId = studentId,
-                            UserType = usertype
+                            UserType = usertype,
+                            CurriculumId = curriculum.Id,
 
                         };
 
