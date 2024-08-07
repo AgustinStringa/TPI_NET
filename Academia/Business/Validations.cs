@@ -22,7 +22,7 @@ namespace Business
         public static bool IsValidUsername(string username)
         {
             string value = username.Trim();
-            if (value.Length <= 4) return false;
+            if (value.Length < 4) return false;
 
             string pattern = @"^[a-zA-Z]+$";
             Regex regex = new Regex(pattern);
@@ -95,7 +95,7 @@ namespace Business
         public static bool IsValidPassword(string password)
         {
             string value = password.Trim();
-            if(value.Length <6) return false;
+            //if(value.Length <6) return false;
             string pattern = @"^[a-zA-Z0-9áéíóúÁÉÍÓÚ]+(?: [a-zA-Z0-9áéíóúÁÉÍÓÚ]+)*$";
 
 

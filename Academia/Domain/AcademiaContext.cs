@@ -11,6 +11,7 @@ namespace Domain
 {
     internal class AcademiaContext : DbContext
     {
+        internal DbSet<Course> Courses { get; set; }
         internal DbSet<User> Users { get; set; }
         internal DbSet<Area> Areas { get; set; }
         internal DbSet<Curriculum> Curriculums { get; set; }

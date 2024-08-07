@@ -1,3 +1,5 @@
+using System.Text.Json.Serialization;
+
 namespace API
 {
     public class Program
@@ -5,10 +7,13 @@ namespace API
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+            builder.Services.AddControllers().AddJsonOptions(x =>x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve);
+            builder.Services.AddEndpointsApiExplorer();
+            builder.Services.AddSwaggerGen();
             var app = builder.Build();
-
-            app.MapGet("/", () => "Hello World!");
-
+            app.UseSwagger();
+            app.UseSwaggerUI();
+            app.MapControllers();
             app.Run();
         }
     }

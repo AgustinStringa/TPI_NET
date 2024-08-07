@@ -1,6 +1,6 @@
 ﻿namespace UI.Desktop
 {
-    partial class frmInscripcionMateria
+    partial class frmInscripcionCursado
     {
         /// <summary>
         /// Required designer variable.
@@ -31,7 +31,7 @@
             label1 = new Label();
             comboBox1 = new ComboBox();
             label2 = new Label();
-            comboBox2 = new ComboBox();
+            cmbCourse = new ComboBox();
             label3 = new Label();
             button1 = new Button();
             button2 = new Button();
@@ -63,13 +63,13 @@
             label2.TabIndex = 0;
             label2.Text = "Cursado:";
             // 
-            // comboBox2
+            // cmbCourse
             // 
-            comboBox2.FormattingEnabled = true;
-            comboBox2.Location = new Point(83, 240);
-            comboBox2.Name = "comboBox2";
-            comboBox2.Size = new Size(228, 23);
-            comboBox2.TabIndex = 1;
+            cmbCourse.FormattingEnabled = true;
+            cmbCourse.Location = new Point(83, 240);
+            cmbCourse.Name = "cmbCourse";
+            cmbCourse.Size = new Size(228, 23);
+            cmbCourse.TabIndex = 1;
             // 
             // label3
             // 
@@ -100,7 +100,7 @@
             button2.UseVisualStyleBackColor = true;
             button2.Click += button1_Click;
             // 
-            // frmInscripcionMateria
+            // frmInscripcionCursado
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
@@ -108,11 +108,11 @@
             Controls.Add(button2);
             Controls.Add(button1);
             Controls.Add(label3);
-            Controls.Add(comboBox2);
+            Controls.Add(cmbCourse);
             Controls.Add(comboBox1);
             Controls.Add(label2);
             Controls.Add(label1);
-            Name = "frmInscripcionMateria";
+            Name = "frmInscripcionCursado";
             Text = "frmInscripcionMateria";
             ResumeLayout(false);
             PerformLayout();
@@ -123,7 +123,7 @@
         private Label label1;
         private ComboBox comboBox1;
         private Label label2;
-        private ComboBox comboBox2;
+        private ComboBox cmbCourse;
         private Label label3;
         private Button button1;
         private Button button2;
