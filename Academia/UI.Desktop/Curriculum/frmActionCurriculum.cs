@@ -117,16 +117,16 @@ namespace UI.Desktop.Curriculum
                     };
 
                     var service = new Domain.Services.CurriculumService();
-                    var createdCurr = service.Create(newCurr);
-
-                    if (createdCurr != null)
+                    try
                     {
-                        MessageBox.Show(createdCurr.Description + " creado correctamente");
+                        service.Create(newCurr);
+                        MessageBox.Show(newCurr.Description + " creado correctamente");
                         this.Dispose();
                     }
-                    else
+                    catch (Exception ex)
                     {
-                        MessageBox.Show("ERROR");
+                        MessageBox.Show(ex.Message);
+                        throw ex;
                     }
                 }
                 else if (mode == Mode.Edit)
