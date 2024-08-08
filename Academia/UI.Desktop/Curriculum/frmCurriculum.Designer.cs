@@ -33,7 +33,6 @@
             tsbtnEdit = new ToolStripButton();
             tsbtnRemove = new ToolStripButton();
             label1 = new Label();
-            dgvCurriculums = new DataGridView();
             lstvCurriculum = new ListView();
             idCurriculum = new ColumnHeader();
             Description = new ColumnHeader();
@@ -41,7 +40,6 @@
             Year = new ColumnHeader();
             Resolution = new ColumnHeader();
             toolStrip1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)dgvCurriculums).BeginInit();
             SuspendLayout();
             // 
             // toolStrip1
@@ -92,25 +90,14 @@
             label1.TabIndex = 4;
             label1.Text = "Planes de Estudio";
             // 
-            // dgvCurriculums
-            // 
-            dgvCurriculums.AllowUserToAddRows = false;
-            dgvCurriculums.AllowUserToDeleteRows = false;
-            dgvCurriculums.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvCurriculums.Location = new Point(37, 111);
-            dgvCurriculums.Name = "dgvCurriculums";
-            dgvCurriculums.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgvCurriculums.Size = new Size(678, 150);
-            dgvCurriculums.TabIndex = 3;
-            // 
             // lstvCurriculum
             // 
             lstvCurriculum.Columns.AddRange(new ColumnHeader[] { idCurriculum, Description, Area, Year, Resolution });
             lstvCurriculum.FullRowSelect = true;
             lstvCurriculum.GridLines = true;
-            lstvCurriculum.Location = new Point(37, 299);
+            lstvCurriculum.Location = new Point(37, 142);
             lstvCurriculum.Name = "lstvCurriculum";
-            lstvCurriculum.Size = new Size(678, 99);
+            lstvCurriculum.Size = new Size(701, 335);
             lstvCurriculum.TabIndex = 5;
             lstvCurriculum.UseCompatibleStateImageBehavior = false;
             lstvCurriculum.View = View.Details;
@@ -146,13 +133,11 @@
             ClientSize = new Size(800, 501);
             Controls.Add(lstvCurriculum);
             Controls.Add(label1);
-            Controls.Add(dgvCurriculums);
             Controls.Add(toolStrip1);
             Name = "frmCurriculum";
             Text = "Planes de Estudio";
             toolStrip1.ResumeLayout(false);
             toolStrip1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)dgvCurriculums).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -164,7 +149,6 @@
         private ToolStripButton tsbtnEdit;
         private ToolStripButton tsbtnRemove;
         private Label label1;
-        private DataGridView dgvCurriculums;
         private ListView lstvCurriculum;
         private ColumnHeader idCurriculum;
         private ColumnHeader Description;

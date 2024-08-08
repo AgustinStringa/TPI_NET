@@ -13,7 +13,7 @@ using UI.Desktop.Area;
 namespace UI.Desktop.Area
 {
 
-    public enum Mode { Edit, Create };
+
     public partial class frmAreas : Form
     {
         private IEnumerable<Domain.Model.Area> areasList;
