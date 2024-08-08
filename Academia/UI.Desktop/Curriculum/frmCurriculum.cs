@@ -92,5 +92,12 @@ namespace UI.Desktop.Curriculum
                 MessageBox.Show("Seleccione 1 area antes de remover");
             }
         }
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+            var filteredCurriculums = this.curriculumList.Where(a => a.Description.ToLower().Contains(((System.Windows.Forms.TextBox)sender).Text.ToLower()));
+            lstvCurriculum.Items.Clear();
+            AdaptCurriculumsToListView(filteredCurriculums);
+            lstvCurriculum.Refresh();
+        }
     }
 }

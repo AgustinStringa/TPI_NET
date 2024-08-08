@@ -39,6 +39,7 @@
             Area = new ColumnHeader();
             Year = new ColumnHeader();
             Resolution = new ColumnHeader();
+            textBox1 = new TextBox();
             toolStrip1.SuspendLayout();
             SuspendLayout();
             // 
@@ -84,9 +85,10 @@
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(37, 83);
+            label1.Font = new Font("Segoe UI", 12F);
+            label1.Location = new Point(37, 64);
             label1.Name = "label1";
-            label1.Size = new Size(99, 15);
+            label1.Size = new Size(131, 21);
             label1.TabIndex = 4;
             label1.Text = "Planes de Estudio";
             // 
@@ -126,11 +128,21 @@
             Resolution.Text = "Resolucion";
             Resolution.Width = 200;
             // 
+            // textBox1
+            // 
+            textBox1.Location = new Point(37, 98);
+            textBox1.Name = "textBox1";
+            textBox1.PlaceholderText = "Search...";
+            textBox1.Size = new Size(250, 23);
+            textBox1.TabIndex = 6;
+            textBox1.TextChanged += textBox1_TextChanged;
+            // 
             // frmCurriculum
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 501);
+            Controls.Add(textBox1);
             Controls.Add(lstvCurriculum);
             Controls.Add(label1);
             Controls.Add(toolStrip1);
@@ -155,5 +167,6 @@
         private ColumnHeader Area;
         private ColumnHeader Year;
         private ColumnHeader Resolution;
+        private TextBox textBox1;
     }
 }
