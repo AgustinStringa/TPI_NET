@@ -26,7 +26,7 @@ namespace UI.Desktop
             cmbCourse.Items.Clear();
             cmbCourse.DataSource = cursos;
             cmbCourse.ValueMember = "Id";
-            cmbCourse.DisplayMember = "CalendarYear";
+            cmbCourse.DisplayMember = "IdSubject";
         }
         private void button1_Click(object sender, EventArgs e)
         {
