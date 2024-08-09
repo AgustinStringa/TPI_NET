@@ -7,6 +7,7 @@ namespace API
     {
         public DbSet<Area> Areas { get; set; } = null!;
         public DbSet<Curriculum> Curriculums { get; set; } = null!;
+        public DbSet<User> Users { get; set; } = null!;
 
         private string _connectionString = "";
         public AcademiaContext()

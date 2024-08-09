@@ -23,6 +23,7 @@ namespace Domain.Model
         public string Password { get; set; }
 
         [Column("habilitado")]
+        [AllowNull]
         public bool Authorized { get; set; }
 
         [Column("nombre")]
@@ -48,6 +49,7 @@ namespace Domain.Model
 
 
         [Column("fecha_nacimiento")]
+        [AllowNull]
         public DateTime BirthDate { get; set; }
 
 
