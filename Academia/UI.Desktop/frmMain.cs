@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using UI.Desktop.Curriculum;
 using UI.Desktop.Area;
+using UI.Desktop.Commission;
 
 using Domain.Model;
 using UI.Desktop.Subject;
@@ -91,6 +92,15 @@ namespace UI.Desktop
         {
             frmInscripcionCursado appInscripcionCursado = new frmInscripcionCursado(this.user);
             appInscripcionCursado.ShowDialog();
+        }
+
+        private void comisionesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            frmCommissions appCom = new frmCommissions();
+            if (appCom.ShowDialog() != DialogResult.OK)
+            {
+                this.Dispose();
+            }
         }
     }
 }

@@ -7,6 +7,12 @@
     <Compile Update="Area\frmAreas.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Update="Commission\frmActionCommission.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Commission\frmCommission.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="Curriculum\frmActionCurriculum.cs">
       <SubType>Form</SubType>
     </Compile>
