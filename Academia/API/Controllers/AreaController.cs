@@ -10,69 +10,109 @@ namespace API.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Area>>> GetAll()
         {
-            var context = new AcademiaContext();
-            return await context.Areas.Include(a => a.Curriculums).ToListAsync();
+            try
+            {
+                var context = new AcademiaContext();
+                return await context.Areas.Include(a => a.Curriculums).ToListAsync();
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, new { message = "An error occurred while processing your request" });
+                throw e;
+            }
         }
 
         [HttpGet("{id}")]
         public async Task<ActionResult<Area>> GetById(int id)
         {
-            var context = new AcademiaContext();
-            var area = await context.Areas.FindAsync(id);
-            if (area == null)
+            try
             {
-                return NotFound();
+                var context = new AcademiaContext();
+                var area = await context.Areas.FindAsync(id);
+                if (area == null)
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    return area;
+                }
             }
-            else
+            catch (Exception e)
             {
-                return area;
+                return StatusCode(500, new { message = "An error occurred while processing your request" });
+                throw e;
             }
         }
 
         [HttpPost]
         public async Task<ActionResult<Area>> Create(Area newArea)
         {
-            var context = new AcademiaContext();
-            context.Areas.Add(newArea);
-            await context.SaveChangesAsync();
-            return CreatedAtAction(
-            nameof(GetById),
-            new { id = newArea.Id }, newArea);
+            try
+            {
+                var context = new AcademiaContext();
+                context.Areas.Add(newArea);
+                await context.SaveChangesAsync();
+                return CreatedAtAction(
+                nameof(GetById),
+                new { id = newArea.Id }, newArea);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, new { message = "An error occurred while processing your request" });
+                throw e;
+            }
+
         }
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
-            var context = new AcademiaContext();
-            var deletedArea = await context.Areas.FindAsync(id);
-            if (deletedArea == null)
+            try
             {
-                return NotFound();
+                var context = new AcademiaContext();
+                var deletedArea = await context.Areas.FindAsync(id);
+                if (deletedArea == null)
+                {
+                    return NotFound();
+                }
+                context.Areas.Remove(deletedArea);
+                await context.SaveChangesAsync();
+                return NoContent();
             }
-            context.Areas.Remove(deletedArea);
-            await context.SaveChangesAsync();
-            return NoContent();
+            catch (Exception e)
+            {
+                return StatusCode(500, new { message = "An error occurred while processing your request" });
+                throw e;
+            }
         }
 
         [HttpPut("{id}")]
         public async Task<IActionResult> Update(int id, Area updatedArea)
         {
-            if (id != updatedArea.Id)
+            try
             {
-                return BadRequest();
-
+                if (id != updatedArea.Id)
+                {
+                    return BadRequest();
+                }
+                var context = new AcademiaContext();
+                var area = await context.Areas.FindAsync(id);
+                if (area == null)
+                {
+                    return NotFound();
+                }
+                //prop by prop        
+                area.Description = updatedArea.Description;
+                await context.SaveChangesAsync();
+                return NoContent();
             }
-            var context = new AcademiaContext();
-            var area = await context.Areas.FindAsync(id);
-            if (area == null)
+            catch (Exception e)
             {
-                return NotFound();
-
+                return StatusCode(500, new { message = "An error occurred while processing your request" });
+                throw e;
             }
-            //prop by prop        
-            area.Description = updatedArea.Description;
-            await context.SaveChangesAsync();
-            return NoContent();
+
         }
     }
 }
