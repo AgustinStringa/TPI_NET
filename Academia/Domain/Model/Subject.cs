@@ -32,8 +32,10 @@ namespace Domain.Model
 
         public virtual Curriculum Curriculum { get; set; }
 
+        public virtual ICollection<Course> Courses { get; set; } = new List<Course>();
 
-        public virtual ICollection<Subject> Correlatives { get; set; } = new List<Subject>();
+        //COMO MANEJO ESTO??
+        //public virtual ICollection<Subject> Correlatives { get; set; } = new List<Subject>();
 
 
     }

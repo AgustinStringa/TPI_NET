@@ -12,13 +12,15 @@ namespace Domain
     internal class AcademiaContext : DbContext
     {
         internal DbSet<Course> Courses { get; set; }
+        internal DbSet<Subject> Subjects { get; set; }
         internal DbSet<User> Users { get; set; }
         internal DbSet<Area> Areas { get; set; }
         internal DbSet<Curriculum> Curriculums { get; set; }
 
         private readonly string _connectionString = "";
 
-        internal AcademiaContext() {
+        internal AcademiaContext()
+        {
 
             //SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder();
             //builder.DataSource = "DESKTOP-1T6I08B";
@@ -46,11 +48,20 @@ namespace Domain
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            
             modelBuilder.Entity<Curriculum>()
                 .HasOne(c => c.Area)
                 .WithMany(a => a.Curriculums)
                 .HasForeignKey(c => c.AreaId);
+
+            modelBuilder.Entity<Subject>()
+                .HasOne(s => s.Curriculum)
+                .WithMany(c => c.Subjects)
+                .HasForeignKey(s => s.IdCurriculum);
+
+            modelBuilder.Entity<Course>()
+                .HasOne(c => c.Subject)
+                .WithMany(s => s.Courses)
+                .HasForeignKey(c => c.IdSubject);
         }
 
     }

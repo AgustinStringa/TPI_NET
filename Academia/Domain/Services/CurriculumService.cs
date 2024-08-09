@@ -13,8 +13,64 @@ namespace Domain.Services
     {
         public IEnumerable<Curriculum> GetAll()
         {
-            var context = new AcademiaContext();
-            return context.Curriculums.Include(c => c.Area).ToList();
+            try
+            {
+                var context = new AcademiaContext();
+                return context.Curriculums.Include(c => c.Area).ToList();
+            }
+            catch (Exception e)
+            {
+                return null;
+                throw e;
+            }
+        }
+
+        public void Create(Curriculum curriculum)
+        {
+            try
+            {
+                var context = new AcademiaContext();
+                context.Curriculums.Add(curriculum);
+                context.SaveChanges();
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+
+        }
+
+        public void Update(Curriculum curriculum)
+        {
+            try
+            {
+                var context = new AcademiaContext();
+                context.Curriculums.Update(curriculum);
+                context.SaveChanges();
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+
+        }
+
+        public void Delete(int id)
+        {
+            try
+            {
+                var context = new AcademiaContext();
+                var curriculum = context.Curriculums.Find(id);
+                if (curriculum != null)
+                {
+                    context.Curriculums.Remove(curriculum);
+                    context.SaveChanges();
+                }
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
         }
     }
 }

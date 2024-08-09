@@ -14,8 +14,12 @@ namespace Domain.Services
         {
             var context = new AcademiaContext();
             var studentIdParameter = new SqlParameter("@id_alumno", user.Id);
-            return await context.Courses.FromSqlRaw<Course>("GetAvailableCourses @id_alumno", studentIdParameter)
-                .ToListAsync();
+            var courses = await context.Courses.FromSqlRaw<Course>("GetAvailableCourses @id_alumno", studentIdParameter).ToListAsync();
+            foreach (var course in courses)
+            {
+                await context.Entry(course).Reference(c => c.Subject).LoadAsync();
+            }
+            return courses;
         }
     }
 }

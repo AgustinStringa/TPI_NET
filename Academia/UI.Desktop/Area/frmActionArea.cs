@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Entities;
-using Domain;
+using Domain.Model;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace UI.Desktop.Area
@@ -16,7 +16,7 @@ namespace UI.Desktop.Area
     public partial class frmActionArea : Form
     {
         private Mode mode;
-        public Domain.Model.Area area;
+        private Domain.Model.Area area;
         public frmActionArea(Mode mode)
         {
             this.mode = mode;
@@ -30,9 +30,10 @@ namespace UI.Desktop.Area
                     break;
             }
         }
-        public frmActionArea(Mode mode, int id)
+        public frmActionArea(Mode mode, Domain.Model.Area area)
         {
             this.mode = mode;
+            this.area = area;
             InitializeComponent();
             switch (mode)
             {
@@ -40,86 +41,70 @@ namespace UI.Desktop.Area
                     btnActionArea.Text = "Guardar Especialidad";
                     lblId.Visible = true;
                     txtId.Visible = true;
-                    txtId.Text = id.ToString();
-                    GetArea(id);
+                    txtId.Text = area.Id.ToString();
+                    txtAreaName.Text = area.Description.ToString();
                     break;
             }
-
         }
 
-
-        private async void GetArea(int id){
-
-            var service = new Domain.Services.AreaService();
-            this.area = service.GetById(id);
-            txtId.Text = area.Id.ToString();
-            txtAreaName.Text = area.Description;
-            //area = await Business.Area.FindOne(id);
-            //this area = area.Description;
-        }
-        private async void CreateArea(Entities.Area newArea)
+        private async void CreateArea(Domain.Model.Area newArea)
         {
-
             try
             {
-                var newDescription = txtAreaName.Text.Trim();
-                if (newDescription != null) {
-                    area = new Domain.Model.Area{ Description = newDescription };
-                    var service = new Domain.Services.AreaService();
-                    service.Create(area);
-                    MessageBox.Show(area.Description + " creada correctamente");
-                    this.Dispose();
-                
-                }
-
-                
+                var service = new Domain.Services.AreaService();
+                service.Create(newArea);
+                MessageBox.Show(newArea.Description + " creada correctamente");
+                this.Dispose();
             }
             catch (Exception e)
             {
                 MessageBox.Show(e.Message);
                 throw e;
             }
-
         }
 
-        private async void  EditArea(Entities.Area newArea) {
-            string newDescription = txtAreaName.Text.Trim();
-            if (newDescription != null) { 
-                this.area.Description = newDescription;
+        private async void EditArea(string areaDescription)
+        {
+            try
+            {
+                this.area.Description = areaDescription;
                 var service = new Domain.Services.AreaService();
                 service.Update(this.area);
                 this.Dispose();
             }
-
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message);
+                throw e;
+            }
         }
 
         private void txtAreaName_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Enter)
             {
-                //CreateArea();
                 btnActionArea.PerformClick();
             }
         }
 
         private async void btnActionArea_Click(object sender, EventArgs e)
         {
-            string areaName = txtAreaName.Text;
-            if (String.IsNullOrEmpty(areaName.Trim()))
+            string areaDescription = txtAreaName.Text.Trim();
+            if (String.IsNullOrEmpty(areaDescription))
             {
-                //finalizar ejecucion
+                return;
             }
-            else {
+            else
+            {
                 if (mode == Mode.Create)
                 {
-                    CreateArea(new Entities.Area(areaName.Trim()));
+                    CreateArea(new Domain.Model.Area { Description = areaDescription });
                 }
                 else if (mode == Mode.Edit)
                 {
-                    EditArea(new Entities.Area(areaName.Trim()));
+                    EditArea(areaDescription);
                 }
             }
-
         }
     }
 }

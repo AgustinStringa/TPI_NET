@@ -12,52 +12,75 @@ namespace Domain.Services
     {
         public IEnumerable<Area> GetAll()
         {
-            var context = new AcademiaContext();
-            return context.Areas.Include(a => a.Curriculums).ToList();
+            try
+            {
+                var context = new AcademiaContext();
+                return context.Areas.Include(a => a.Curriculums).ToList();
+            }
+            catch (Exception e)
+            {
+                return null;
+                throw e;
+            }
         }
-
-
-        public Area GetById(int Id)
+        public void Create(Area area)
         {
-            var context = new AcademiaContext();
-            var area = context.Areas.Find(Id);
-            return area;
-        }
-
-        public int Delete(int Id)
-        {
-            var context = new AcademiaContext();
-            var area = context.Areas.Find(Id);
-            if(area != null) {
-                 context.Areas.Remove(area);
-                int rowsAffected = context.SaveChanges();
-                return rowsAffected;
-            } else {
-            return 0;
-            
+            try
+            {
+                var context = new AcademiaContext();
+                context.Areas.Add(area);
+                context.SaveChanges();
+            }
+            catch (Exception e)
+            {
+                throw e;
             }
         }
 
-        public void Create(Area area)
+        public void Update(Area area)
         {
             var context = new AcademiaContext();
-            context.Areas.Add(area);
-            context.SaveChanges();
-
-        }
-
-        public int Update(Area updatedArea)
-        {
-            var context = new AcademiaContext();
-            try { 
-                context.Areas.Update(updatedArea);
-                int rowsAffected = context.SaveChanges();
-                return rowsAffected;
-            
-            } catch (Exception ex)
+            try
             {
-                return 0;
+                context.Areas.Update(area);
+                context.SaveChanges();
+            }
+            catch (Exception ex)
+            {
                 throw ex;
+            }
+        }
+        
+        public void Delete(int Id)
+        {
+            try
+            {
+                var context = new AcademiaContext();
+                var area = context.Areas.Find(Id);
+                if (area != null)
+                {
+                    context.Areas.Remove(area);
+                    context.SaveChanges();
+                }
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+        
+        public Area GetById(int Id)
+        {
+            try
+            {
+                var context = new AcademiaContext();
+                var area = context.Areas.Find(Id);
+                return area;
+            }
+            catch (Exception e)
+            {
+                return null;
+                throw e;
             }
 
         }
