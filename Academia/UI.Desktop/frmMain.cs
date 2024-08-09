@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using UI.Desktop.Curriculum;
 using UI.Desktop.Area;
+using UI.Desktop.Commission;
 
 namespace UI.Desktop
 {
@@ -58,6 +59,15 @@ namespace UI.Desktop
         {
             frmCrearUsuario appUser = new frmCrearUsuario();
             if (appUser.ShowDialog() != DialogResult.OK)
+            {
+                this.Dispose();
+            }
+        }
+
+        private void comisionesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            frmCommissions appCom = new frmCommissions();
+            if (appCom.ShowDialog() != DialogResult.OK)
             {
                 this.Dispose();
             }
