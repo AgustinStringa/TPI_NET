@@ -12,7 +12,7 @@ namespace API.Controllers
         {
             try
             {
-                var context = new AcademiaContext();
+                var context = new API.AcademiaContext();
                 return await context.Areas.Include(a => a.Curriculums).ToListAsync();
             }
             catch (Exception e)
@@ -27,7 +27,7 @@ namespace API.Controllers
         {
             try
             {
-                var context = new AcademiaContext();
+                var context = new API.AcademiaContext();
                 var area = await context.Areas.FindAsync(id);
                 if (area == null)
                 {
@@ -50,7 +50,7 @@ namespace API.Controllers
         {
             try
             {
-                var context = new AcademiaContext();
+                var context = new API.AcademiaContext();
                 context.Areas.Add(newArea);
                 await context.SaveChangesAsync();
                 return CreatedAtAction(
@@ -70,7 +70,7 @@ namespace API.Controllers
         {
             try
             {
-                var context = new AcademiaContext();
+                var context = new API.AcademiaContext();
                 var deletedArea = await context.Areas.FindAsync(id);
                 if (deletedArea == null)
                 {
@@ -96,7 +96,7 @@ namespace API.Controllers
                 {
                     return BadRequest();
                 }
-                var context = new AcademiaContext();
+                var context = new API.AcademiaContext();
                 var area = await context.Areas.FindAsync(id);
                 if (area == null)
                 {
