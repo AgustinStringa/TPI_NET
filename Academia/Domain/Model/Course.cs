@@ -24,7 +24,14 @@ namespace Domain.Model
         [Column("id_materia")]
         public int IdSubject { get; set; }
 
-        //public virtual Subject Subject { get; set; }
+        public virtual Subject Subject { get; set; }
+
+        [NotMapped]
+        public string ToStringProperty {  get => this.ToString(); }
+        public override string ToString()
+        {
+            return $"Cursado {Id} idComision {CalendarYear} ";
+        }
 
 
         //public virtual ICollection<User> Teachers { get; set; } = new List<User>();

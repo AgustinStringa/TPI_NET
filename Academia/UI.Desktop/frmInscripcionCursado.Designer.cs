@@ -29,12 +29,14 @@
         private void InitializeComponent()
         {
             label1 = new Label();
-            comboBox1 = new ComboBox();
+            cmbSubjects = new ComboBox();
             label2 = new Label();
             cmbCourse = new ComboBox();
             label3 = new Label();
             button1 = new Button();
             button2 = new Button();
+            lblmat = new Label();
+            lblcur = new Label();
             SuspendLayout();
             // 
             // label1
@@ -46,13 +48,14 @@
             label1.TabIndex = 0;
             label1.Text = "Materia:";
             // 
-            // comboBox1
+            // cmbSubjects
             // 
-            comboBox1.FormattingEnabled = true;
-            comboBox1.Location = new Point(83, 164);
-            comboBox1.Name = "comboBox1";
-            comboBox1.Size = new Size(228, 23);
-            comboBox1.TabIndex = 1;
+            cmbSubjects.FormattingEnabled = true;
+            cmbSubjects.Location = new Point(83, 164);
+            cmbSubjects.Name = "cmbSubjects";
+            cmbSubjects.Size = new Size(228, 23);
+            cmbSubjects.TabIndex = 1;
+            cmbSubjects.SelectedValueChanged += cmbSubjects_SelectedValueChanged;
             // 
             // label2
             // 
@@ -100,16 +103,36 @@
             button2.UseVisualStyleBackColor = true;
             button2.Click += button1_Click;
             // 
+            // lblmat
+            // 
+            lblmat.AutoSize = true;
+            lblmat.Location = new Point(476, 171);
+            lblmat.Name = "lblmat";
+            lblmat.Size = new Size(38, 15);
+            lblmat.TabIndex = 4;
+            lblmat.Text = "label4";
+            // 
+            // lblcur
+            // 
+            lblcur.AutoSize = true;
+            lblcur.Location = new Point(485, 252);
+            lblcur.Name = "lblcur";
+            lblcur.Size = new Size(38, 15);
+            lblcur.TabIndex = 5;
+            lblcur.Text = "label5";
+            // 
             // frmInscripcionCursado
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
+            Controls.Add(lblcur);
+            Controls.Add(lblmat);
             Controls.Add(button2);
             Controls.Add(button1);
             Controls.Add(label3);
             Controls.Add(cmbCourse);
-            Controls.Add(comboBox1);
+            Controls.Add(cmbSubjects);
             Controls.Add(label2);
             Controls.Add(label1);
             Name = "frmInscripcionCursado";
@@ -121,11 +144,13 @@
         #endregion
 
         private Label label1;
-        private ComboBox comboBox1;
+        private ComboBox cmbSubjects;
         private Label label2;
         private ComboBox cmbCourse;
         private Label label3;
         private Button button1;
         private Button button2;
+        private Label lblmat;
+        private Label lblcur;
     }
 }
