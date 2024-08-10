@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Text;
 using System.Security.Cryptography;
+using Microsoft.AspNetCore.Authorization;
 
 namespace API.Controllers
 {
@@ -21,6 +22,7 @@ namespace API.Controllers
 
 
         [HttpGet]
+        [Authorize]
         public async Task<ActionResult<IEnumerable<User>>> GetAll()
         {
             try
@@ -59,7 +61,7 @@ namespace API.Controllers
         }
 
         [HttpPost("auth")]
-        public async Task<ActionResult<User>> Auth(LoginDto credentials)
+        public async Task<ActionResult<string>> Auth(LoginDto credentials)
         {
             try
             {
@@ -73,7 +75,10 @@ namespace API.Controllers
                     byte[] compareHashValue = SHA256.HashData(messageBytes1);
                     if (sentHashValue.SequenceEqual(compareHashValue))
                     {
-                        return user;
+                       
+                        var jwt = API.Helpers.AuthHelpers.GenerateJWTToken(user);
+                        return Ok(jwt);
+                        //return user;
                     }
                     else
                     {
