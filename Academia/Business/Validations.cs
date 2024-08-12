@@ -71,7 +71,7 @@ namespace Business
         {
              name = name.Trim();
             name = name.Replace(".", "");
-            if (name.Length <= 4) return false;
+
 
             string pattern = @"^[a-zA-ZáéíóúÁÉÍÓÚ]+(?:\s[a-zA-ZáéíóúÁÉÍÓÚ]+)*$";
 
