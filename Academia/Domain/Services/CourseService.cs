@@ -21,5 +21,12 @@ namespace Domain.Services
             }
             return courses;
         }
+
+        public async Task<IEnumerable<Course>> GetAll()
+        {
+            var context = new AcademiaContext();
+            var courses = await context.Courses.Include(c => c.Subject).ToListAsync();
+            return courses;
+        }
     }
 }
