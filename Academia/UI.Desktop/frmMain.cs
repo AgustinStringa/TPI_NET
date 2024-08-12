@@ -12,6 +12,7 @@ using UI.Desktop.Area;
 
 using Domain.Model;
 using UI.Desktop.Subject;
+using UI.Desktop.Course;
 
 
 namespace UI.Desktop
@@ -48,6 +49,11 @@ namespace UI.Desktop
             planesDeEstudioToolStripMenuItem.Visible = administrative;
             profesoresToolStripMenuItem.Visible = administrative;
             crearUsuarioToolStripMenuItem.Visible = administrative;
+            cursadosActivosToolStripMenuItem.Visible = student;
+            materiasToolStripMenuItem.Visible = administrative;
+            comisionesToolStripMenuItem.Visible = administrative;
+            crearCursadoToolStripMenuItem.Visible = administrative;
+            inscripcionACursadoToolStripMenuItem.Visible = student;
             cursadosActivosToolStripMenuItem.Visible = student;
         }
 
@@ -91,6 +97,12 @@ namespace UI.Desktop
         {
             frmInscripcionCursado appInscripcionCursado = new frmInscripcionCursado(this.user);
             appInscripcionCursado.ShowDialog();
+        }
+
+        private void administrarCursadosToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            frmCourse frm = new frmCourse();
+            frm.ShowDialog();
         }
     }
 }

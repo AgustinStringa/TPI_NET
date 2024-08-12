@@ -30,16 +30,17 @@ namespace UI.Desktop.Curriculum
                     lblCurriculumId.Visible = false;
                     txtCurriculumId.Visible = false;
                     lblTitle.Text = "Crear Plan de Estudios";
-                    LoadAreas();
+                    Utilities.LoadAreas(cbAreas);
                     break;
             }
         }
 
         public frmActionCurriculum(Mode mode, Domain.Model.Curriculum curr)
         {
-            InitializeComponent();
             this.curriculum = curr;
-            LoadAreas();
+            InitializeComponent();
+            Utilities.LoadAreas(cbAreas);
+            this.mode = mode;
             if (mode == Mode.Edit)
             {
                 btnActionCurriculum.Text = "Guardar Plan de Estudios";
@@ -132,18 +133,19 @@ namespace UI.Desktop.Curriculum
                 else if (mode == Mode.Edit)
                 {
                     var area = cbAreas.SelectedItem as Domain.Model.Area;
-                    curriculum.Description = description;
-                    curriculum.Year = year;
-                    curriculum.Resolution = resolution;
-                    curriculum.AreaId = idArea;
-                    curriculum.Area = area;
                     var service = new Domain.Services.CurriculumService();
-                    service.Update(curriculum);
+                    this.curriculum.Description = description;
+                    this.curriculum.Year = year;
+                    this.curriculum.Resolution = resolution;
+                    this.curriculum.AreaId = idArea;
+                    this.curriculum.Area = area;
+                    service.Update(this.curriculum);
                     MessageBox.Show("Actualizado correctamente");
+                    this.Dispose();
 
                 }
 
-                this.Dispose();
+                
 
             }
         }

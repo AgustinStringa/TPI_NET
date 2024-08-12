@@ -62,9 +62,9 @@ namespace UI.Desktop.Curriculum
         {
             if (lstvCurriculum.SelectedItems.Count > 0)
             {
-                Domain.Model.Curriculum selectedCurriulum = (Domain.Model.Curriculum)lstvCurriculum.SelectedItems[0].Tag;
+                var selectedCurriculum = (Domain.Model.Curriculum)lstvCurriculum.SelectedItems[0].Tag;
                 var service = new Domain.Services.CurriculumService();
-                frmActionCurriculum frm = new frmActionCurriculum(Mode.Edit, selectedCurriulum);
+                frmActionCurriculum frm = new frmActionCurriculum(Mode.Edit, selectedCurriculum);
                 frm.ShowDialog();
                 lstvCurriculum.Items.Clear();
                 AdaptCurriculumsToListView(service.GetAll());

@@ -14,7 +14,7 @@ namespace UI.Desktop
     public partial class frmInscripcionCursado : Form
     {
         private User user;
-        private IEnumerable<Course> courses;
+        private IEnumerable<Domain.Model.Course> courses;
         private List<Domain.Model.Subject> subjects = new List<Domain.Model.Subject>();
         public frmInscripcionCursado(User user)
         {

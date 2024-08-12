@@ -45,8 +45,12 @@ namespace Domain.Services
             try
             {
                 var context = new AcademiaContext();
-                context.Curriculums.Update(curriculum);
-                context.SaveChanges();
+                var existingCurriculum = context.Curriculums.Find(curriculum.Id);
+                if (existingCurriculum != null)
+                {
+                    context.Entry(existingCurriculum).CurrentValues.SetValues(curriculum);
+                    context.SaveChanges();
+                }
             }
             catch (Exception e)
             {

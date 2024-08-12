@@ -20,7 +20,7 @@ namespace UI.Desktop
         public frmCrearUsuario()
         {
             InitializeComponent();
-            LoadAreas();
+            Utilities.LoadAreas(cbAreas);
         }
 
         private async void btnCrearUsuario_Click(object sender, EventArgs e)
@@ -401,7 +401,7 @@ namespace UI.Desktop
                 cbAreas.Enabled = true;
                 if (cbAreas.DataSource is null)
                 {
-                    LoadAreas();
+                    Utilities.LoadAreas(cbAreas);
                 }
               
                 cbAreas.SelectedIndex = 0;
