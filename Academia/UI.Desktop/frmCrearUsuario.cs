@@ -35,7 +35,8 @@ namespace UI.Desktop
                     MessageBox.Show("Seleccione el tipo de usuario (Alumno, Docente, Administrativo)");
                     return;
                 }
-                else {
+                else
+                {
                     if (rbtnUserAdministrative.Checked)
                     {
 
@@ -51,7 +52,7 @@ namespace UI.Desktop
                         usertype = 3;
 
                     }
-                    
+
                 }
 
 
@@ -314,8 +315,10 @@ namespace UI.Desktop
 
                         }
                         MessageBox.Show("USUARIO " + tipoUsuario + " CREADO");
+                        //REINICIAR FORM
+                        ResetForm();
                     }
-                    
+
                 }
 
                 else if (rbtnUserStudent.Checked)
@@ -349,17 +352,16 @@ namespace UI.Desktop
                     }
 
 
-                    bool correctForm = validUsername && validName && validLastname
-                && validEmail && validPassword && validAddress && validPhoneNumber && validBirthDate
-               && validCurriculum && validStudentId;
+                    bool correctForm = validUsername && validName && validLastname && validEmail && validPassword && validAddress && validPhoneNumber && validBirthDate
+                    && validCurriculum && validStudentId;
 
                     if (correctForm)
                     {
-                        IUserService service = new Domain.Services.UserService();
+                        UserService service = new Domain.Services.UserService();
                         var newAlumno = new User
                         {
                             Username = username,
-                            Password = Data.Util.EncodePassword( password),
+                            Password = Data.Util.EncodePassword(password),
                             Email = email,
                             Name = name,
                             Lastname = lastname,
@@ -374,16 +376,36 @@ namespace UI.Desktop
 
                         service.Add(newAlumno);
                         MessageBox.Show("USUARIO ALUMNO CREADO");
+                        //REINICIAR FORM
+                        ResetForm();
+                    }
+                    else {
+                        var debug = "";
+
+                     
+
+                        debug += "username" + validUsername;
+                        debug += "name" + validName;
+                        debug += "lastname" + validLastname;
+                        debug += "email" + validEmail;
+                        debug += "pass" + validPassword;
+                        debug += "address" + validAddress;
+                        debug += "phone" + validPhoneNumber;
+                        debug += "birth" + validBirthDate;
+                        debug += "curr" + validCurriculum;
+                        debug += "leg" + validStudentId;
+                        MessageBox.Show(debug);
                     }
 
 
                 }
-                else {
+                else
+                {
+               
                     return;
                 }
 
-                //REINICIAR FORM
-                //ResetForm();
+
 
             }
             catch (Exception ex)
@@ -403,7 +425,7 @@ namespace UI.Desktop
                 {
                     Utilities.LoadAreas(cbAreas);
                 }
-              
+
                 cbAreas.SelectedIndex = 0;
                 cbAreas.Visible = true;
                 lblArea.Visible = true;
@@ -446,23 +468,12 @@ namespace UI.Desktop
 
         }
 
-        
 
-        private async void LoadAreas()
+
+
+
+        private void ResetForm()
         {
-            var service = new Domain.Services.AreaService();
-            var areasServ = service.GetAll().ToList();
-            cbAreas.DataSource = areasServ;
-            cbAreas.ValueMember = "Id";
-            cbAreas.DisplayMember = "Description";
-            if (cbAreas.Items.Count > 0)
-            {
-                cbAreas.SelectedIndex = 0;
-            }
-
-        }
-
-        private void ResetForm() { 
             txtUsername.ResetText();
             mtbClave.ResetText();
             txtEmail.ResetText();

@@ -38,15 +38,6 @@ namespace Domain
             optionsBuilder.UseSqlServer(_connectionString);
         }
 
-        //protected override void OnModelCreating(ModelBuilder modelBuilder)
-        //{
-        //    modelBuilder.Entity<Area>()
-        //        .HasMany(a => a.Curriculums)
-        //        .WithOne(c => c.Area)
-        //        .HasForeignKey(c => c.AreaId);
-        //}
-
-
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Curriculum>()
@@ -63,6 +54,16 @@ namespace Domain
                 .HasOne(c => c.Subject)
                 .WithMany(s => s.Courses)
                 .HasForeignKey(c => c.IdSubject);
+
+            modelBuilder.Entity<User>()
+                .HasMany(u => u.UserCourses)
+                .WithOne(uc => uc.User)
+                .HasForeignKey(uc => uc.UserId);
+
+            modelBuilder.Entity<Course>()
+                .HasMany(c => c.UserCourses)
+                .WithOne(uc => uc.Course)
+                .HasForeignKey(uc => uc.CourseId);
         }
 
     }

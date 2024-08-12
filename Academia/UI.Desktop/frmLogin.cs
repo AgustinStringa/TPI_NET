@@ -18,10 +18,10 @@ namespace UI.Desktop
             InitializeComponent();
         }
 
-        private void btnIngresar_Click(object sender, EventArgs e)
+        private async void btnIngresar_Click(object sender, EventArgs e)
         {
             var service = new Domain.Services.UserService() ;
-            var user = service.ValidateCredentials(txtUsuario.Text.Trim(), txtContra.Text.Trim());
+            var user = await service.ValidateCredentials(txtUsuario.Text.Trim(), txtContra.Text.Trim());
             if (user != null)
             {
                 this.DialogResult = DialogResult.OK;

@@ -67,6 +67,7 @@ namespace Domain.Model
         public int CurriculumId { get; set; }
         public virtual Curriculum Curriculum{ get; set; }
 
+        public virtual ICollection<UserCourse> UserCourses { get; set; } = new List<UserCourse>();
         #endregion
     }
 }

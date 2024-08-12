@@ -34,9 +34,8 @@ namespace Domain.Model
 
         public virtual ICollection<Course> Courses { get; set; } = new List<Course>();
 
-        //COMO MANEJO ESTO??
-        //public virtual ICollection<Subject> Correlatives { get; set; } = new List<Subject>();
-
+        public List<Subject> CorrelativesParents{ get; } = [];
+        public List<Subject> CorrelativesChildren { get; } = [];
 
     }
 }

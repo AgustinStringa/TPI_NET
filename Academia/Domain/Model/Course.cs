@@ -32,7 +32,7 @@ namespace Domain.Model
         {
             return $"Cursado {Id} idComision {CalendarYear} ";
         }
-
+        public virtual ICollection<UserCourse> UserCourses { get; set; } = new List<UserCourse>();
 
         //public virtual ICollection<User> Teachers { get; set; } = new List<User>();
 
