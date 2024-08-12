@@ -104,5 +104,11 @@ namespace UI.Desktop
             frmCourse frm = new frmCourse();
             frm.ShowDialog();
         }
+
+        private void cursadosActivosToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            frmMyCourses frm = new frmMyCourses(user);
+            frm.ShowDialog();
+        }
     }
 }

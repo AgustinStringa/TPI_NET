@@ -164,7 +164,8 @@
             // 
             cursadosActivosToolStripMenuItem.Name = "cursadosActivosToolStripMenuItem";
             cursadosActivosToolStripMenuItem.Size = new Size(188, 22);
-            cursadosActivosToolStripMenuItem.Text = "Cursados Activos";
+            cursadosActivosToolStripMenuItem.Text = "Mis Cursados";
+            cursadosActivosToolStripMenuItem.Click += cursadosActivosToolStripMenuItem_Click;
             // 
             // crearCursadoToolStripMenuItem
             // 
