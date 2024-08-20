@@ -21,7 +21,14 @@ namespace UI.Desktop
         private async void btnIngresar_Click(object sender, EventArgs e)
         {
             var service = new Domain.Services.UserService() ;
-            var user = await service.ValidateCredentials(txtUsuario.Text.Trim(), txtContra.Text.Trim());
+            string username, password;
+            username = txtUsuario.Text.Trim();
+            password = txtContra.Text.Trim();
+            if (String.IsNullOrEmpty(username) || String.IsNullOrEmpty(password)) {
+                MessageBox.Show("Completa todos los campos");
+                return;
+            }
+            var user = await service.ValidateCredentials(username, password);
             if (user != null)
             {
                 this.DialogResult = DialogResult.OK;
