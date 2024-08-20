@@ -8,7 +8,8 @@ using Microsoft.AspNetCore.Authorization;
 namespace API.Controllers
 {
 
-    public class LoginDto {
+    public class LoginDto
+    {
         public string Username { get; set; }
         public string Password { get; set; }
         public LoginDto() { }
@@ -18,9 +19,6 @@ namespace API.Controllers
     [ApiController]
     public class UserController : Controller
     {
-       
-
-
         [HttpGet]
         [Authorize]
         public async Task<ActionResult<IEnumerable<User>>> GetAll()
@@ -66,8 +64,8 @@ namespace API.Controllers
             try
             {
                 var context = new API.AcademiaContext();
-                
-                var user = await context.Users.FirstAsync(u => (u.Username==credentials.Username));
+
+                var user = await context.Users.FirstAsync(u => (u.Username == credentials.Username));
                 if (user != null)
                 {
                     byte[] sentHashValue = Convert.FromHexString(user.Password);
@@ -75,14 +73,14 @@ namespace API.Controllers
                     byte[] compareHashValue = SHA256.HashData(messageBytes1);
                     if (sentHashValue.SequenceEqual(compareHashValue))
                     {
-                       
+
                         var jwt = API.Helpers.AuthHelpers.GenerateJWTToken(user);
                         return Ok(jwt);
                         //return user;
                     }
                     else
                     {
-                        return StatusCode(401, new { message = "username or password wrong"});
+                        return StatusCode(401, new { message = "username or password wrong" });
                     }
 
                 }
@@ -98,5 +96,25 @@ namespace API.Controllers
             }
         }
 
+
+        [HttpPost()]
+        public async Task<ActionResult<User>> Create(User newUser)
+        {
+            try
+            {
+                var context = new API.AcademiaContext();
+                newUser.Password = Data.Util.EncodePassword(newUser.Password);
+                context.Users.Add(newUser);
+                await context.SaveChangesAsync();
+                return CreatedAtAction(
+                nameof(GetById),
+                new { id = newUser.Id }, newUser);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, new { message = e.InnerException.Message });
+                throw e;
+            }
+        }
     }
 }
