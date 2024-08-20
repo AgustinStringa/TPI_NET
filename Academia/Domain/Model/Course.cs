@@ -22,6 +22,7 @@ namespace Domain.Model
         public int Capacity { get; set; }
 
         [Column("id_materia")]
+        [ForeignKey("Subject")]
         public int IdSubject { get; set; }
 
         public virtual Subject Subject { get; set; }

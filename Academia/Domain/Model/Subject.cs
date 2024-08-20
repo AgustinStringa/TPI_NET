@@ -28,6 +28,7 @@ namespace Domain.Model
         public int Level { get; set; }
 
         [Column("id_plan")]
+        [ForeignKey("Curriculum")]
         public int IdCurriculum { get; set; }
 
         public virtual Curriculum Curriculum { get; set; }
