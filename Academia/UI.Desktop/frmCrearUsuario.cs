@@ -27,7 +27,11 @@ namespace UI.Desktop
         {
             try
             {
-                int usertype = 3;
+                bool correctForm = false;
+                int usertype = 0;
+                string studentId = null;
+                string cuit = null;
+                Domain.Model.Curriculum curriculum = null;
                 if (!rbtnUserAdministrative.Checked
                     && !rbtnUserStudent.Checked
                     && !rbtnUserTeacher.Checked)
@@ -259,18 +263,16 @@ namespace UI.Desktop
 
 
 
-
-                if (rbtnUserAdministrative.Checked || rbtnUserTeacher.Checked)
+                if (usertype == 1 || usertype == 2)
                 {
                     //CUIT
 
-                    string cuit = txtCuit.Text.Trim();
+                    cuit = txtCuit.Text.Trim();
                     bool validCuit = Business.Validations.IsValidCuit(cuit);
                     if (!validCuit)
                     {
                         txtCuit.ForeColor = System.Drawing.Color.FromArgb(1, 220, 38, 38);
                         lblCuitError.Visible = true;
-                        return;
                     }
                     else
                     {
@@ -281,50 +283,15 @@ namespace UI.Desktop
 
 
 
-                    bool correctForm = validUsername && validName && validLastname
+                    correctForm = validUsername && validName && validLastname
                         && validEmail && validPassword && validAddress && validPhoneNumber && validBirthDate
                        && validCuit;
-                    if (correctForm)
-                    {
-
-                        IUserService service = new Domain.Services.UserService();
-                        var newAdministrative = new User
-                        {
-                            Username = username,
-                            Password = Data.Util.EncodePassword(password),
-                            Email = email,
-                            Name = name,
-                            Lastname = lastname,
-                            Address = address,
-                            PhoneNumber = phoneNumber,
-                            BirthDate = birthDate,
-                            Cuit = cuit,
-                            UserType = usertype
-                        };
-
-                        service.Add(newAdministrative);
-
-                        string tipoUsuario;
-                        if (rbtnUserTeacher.Checked)
-                        {
-                            tipoUsuario = "DOCENTE";
-                        }
-                        else
-                        {
-                            tipoUsuario = "ADMINISTRATIVO";
-
-                        }
-                        MessageBox.Show("USUARIO " + tipoUsuario + " CREADO");
-                        //REINICIAR FORM
-                        ResetForm();
-                    }
-
                 }
 
-                else if (rbtnUserStudent.Checked)
+                else if (usertype == 3)
                 {
                     //LEGAJO
-                    string studentId = txtLegajo.Text.Trim();
+                    studentId = txtLegajo.Text.Trim();
                     studentId = studentId.Replace(".", "");
                     bool validStudentId = Business.Validations.IsValidStudentId(studentId);
 
@@ -341,7 +308,7 @@ namespace UI.Desktop
 
                     bool validCurriculum = false;
 
-                    Domain.Model.Curriculum curriculum = (Domain.Model.Curriculum)cbCurriculums.SelectedItem;
+                    curriculum = (Domain.Model.Curriculum)cbCurriculums.SelectedItem;
                     if (curriculum == null)
                     {
                         return;
@@ -352,68 +319,46 @@ namespace UI.Desktop
                     }
 
 
-                    bool correctForm = validUsername && validName && validLastname && validEmail && validPassword && validAddress && validPhoneNumber && validBirthDate
+                    correctForm = validUsername && validName && validLastname && validEmail && validPassword && validAddress && validPhoneNumber && validBirthDate
                     && validCurriculum && validStudentId;
-
-                    if (correctForm)
-                    {
-                        UserService service = new Domain.Services.UserService();
-                        var newAlumno = new User
-                        {
-                            Username = username,
-                            Password = Data.Util.EncodePassword(password),
-                            Email = email,
-                            Name = name,
-                            Lastname = lastname,
-                            Address = address,
-                            PhoneNumber = phoneNumber,
-                            BirthDate = birthDate,
-                            StudentId = studentId,
-                            UserType = usertype,
-                            CurriculumId = curriculum.Id,
-
-                        };
-
-                        service.Add(newAlumno);
-                        MessageBox.Show("USUARIO ALUMNO CREADO");
-                        //REINICIAR FORM
-                        ResetForm();
-                    }
-                    else {
-                        var debug = "";
-
-                     
-
-                        debug += "username" + validUsername;
-                        debug += "name" + validName;
-                        debug += "lastname" + validLastname;
-                        debug += "email" + validEmail;
-                        debug += "pass" + validPassword;
-                        debug += "address" + validAddress;
-                        debug += "phone" + validPhoneNumber;
-                        debug += "birth" + validBirthDate;
-                        debug += "curr" + validCurriculum;
-                        debug += "leg" + validStudentId;
-                        MessageBox.Show(debug);
-                    }
-
-
                 }
                 else
                 {
-               
                     return;
                 }
 
+                if (correctForm)
+                {
+                    IUserService service = new Domain.Services.UserService();
 
-
+                    var newUser = new User
+                    {
+                        Username = username,
+                        Password = Data.Util.EncodePassword(password),
+                        Email = email,
+                        Name = name,
+                        Lastname = lastname,
+                        Address = address,
+                        PhoneNumber = phoneNumber,
+                        BirthDate = birthDate,
+                        Cuit = cuit,
+                        UserType = usertype,
+                        StudentId = studentId,
+                    };
+                    if (curriculum != null)
+                    {
+                        newUser.CurriculumId = curriculum.Id;
+                    }
+                    service.Add(newUser);
+                    MessageBox.Show("Usuario creado");
+                    ResetForm();
+                }
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
                 throw ex;
             }
-
         }
 
         private void rbtn_CheckedChanged(object sender, EventArgs e)
@@ -467,10 +412,6 @@ namespace UI.Desktop
             cbCurriculums.DisplayMember = "Description";
 
         }
-
-
-
-
 
         private void ResetForm()
         {
