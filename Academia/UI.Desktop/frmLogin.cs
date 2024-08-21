@@ -32,13 +32,13 @@ namespace UI.Desktop
             if (user != null)
             {
                 this.DialogResult = DialogResult.OK;
-                MessageBox.Show("Autenticado correctamente");
+                MessageBox.Show("Autenticado correctamente","Autenticado", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 frmMain form = new frmMain(user);
                 form.ShowDialog();
             }
             else
             {
-                MessageBox.Show("Usuario y/o contraseña incorrectos", "Login", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Usuario y/o contraseña incorrectos", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
