@@ -21,5 +21,17 @@ namespace API
         {
             optionsBuilder.UseSqlServer(_connectionString);
         }
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Subject>()
+                .HasMany(s => s.CorrelativesChildren)
+                .WithOne(c => c.Subject)
+                .HasForeignKey(c => c.SubjectId);
+
+            modelBuilder.Entity<Subject>()
+                .HasMany(s => s.CorrelativesParents)
+                .WithOne(c => c.CorrelativeSubject)
+                .HasForeignKey(c => c.CorrelativeId);
+        }
     }
 }
