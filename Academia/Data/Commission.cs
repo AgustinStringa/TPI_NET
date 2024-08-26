@@ -37,13 +37,12 @@ namespace Data
 
                     connection.Open();
 
-                    var sql = "insert into comisiones(desc_comision, anio_especialidad, id_plan) values (@description, @year, @idcurriculum);";
+                    var sql = "insert into comisiones(desc_comision, anio_especialidad) values (@description, @year);";
 
                     using (SqlCommand command = new SqlCommand(sql, connection))
                     {
                         command.Parameters.AddWithValue("@description", newCommission.Description);
                         command.Parameters.AddWithValue("@year", newCommission.Year);
-                        command.Parameters.AddWithValue("@idcurriculum", newCommission.IdCurriculum);
                         command.ExecuteNonQuery();
                         return newCommission;
                     }
@@ -76,8 +75,7 @@ namespace Data
                             while (reader.Read())
                             {
 
-                                commission = new Entities.Commission(reader["desc_comision"].ToString(), Int32.Parse((reader["anio_especialidad"].ToString())), 
-                                    Int32.Parse((reader["id_plan"].ToString())), Int32.Parse(reader["id_comision"].ToString()));
+                                commission = new Entities.Commission(reader["desc_comision"].ToString(), Int32.Parse((reader["anio_especialidad"].ToString())), Int32.Parse(reader["id_comision"].ToString()));
 
                             }
                             return commission;
@@ -112,7 +110,7 @@ namespace Data
                             List<Entities.Commission> commission = new List<Entities.Commission>();
                             while (reader.Read())
                             {
-                                commission.Add(new Entities.Commission(reader["desc_comision"].ToString(), Int32.Parse((reader["anio_especialidad"].ToString())), Int32.Parse((reader["id_plan"].ToString())), Int32.Parse((reader["id_comision"].ToString()))));
+                                commission.Add(new Entities.Commission(reader["desc_comision"].ToString(), Int32.Parse((reader["anio_especialidad"].ToString())), Int32.Parse((reader["id_comision"].ToString()))));
 
                             }
                             return commission;
@@ -142,14 +140,13 @@ namespace Data
 
                     connection.Open();
 
-                    var sql = "UPDATE comisiones SET desc_comisiones = @description, anio_especialidad = @year, id_plan = @id_curriculum WHERE id_comision = @id;";
+                    var sql = "UPDATE comisiones SET desc_comisiones = @description, anio_especialidad = @year WHERE id_comision = @id;";
 
 
                     using (SqlCommand command = new SqlCommand(sql, connection))
                     {
                         command.Parameters.AddWithValue("@description", updatedCommission.Description);
                         command.Parameters.AddWithValue("@year", updatedCommission.Year);
-                        command.Parameters.AddWithValue("@id_curriculum", updatedCommission.IdCurriculum);
                         command.Parameters.AddWithValue("@id", updatedCommission.IdCommission);
 
                         return command.ExecuteNonQuery();

@@ -12,7 +12,6 @@ namespace Entities
         private int _Id;
         private string _Description;
         private int _Year;
-        private int _IdCurriculum;
         #endregion
 
         #region properties
@@ -31,27 +30,21 @@ namespace Entities
             get { return _Year; }
             set { _Year = value; }
         }
-        public int IdCurriculum
-        {
-            get { return _IdCurriculum; }
-            set { _IdCurriculum = value; }
-        }
+        
         #endregion
 
         #region constructors
-        public Commission(string description, int year, int id_curriculum)
+        public Commission(string description, int year)
         {
             _Description = description;
             _Year = year;
-            _IdCurriculum = id_curriculum;
         }
 
-        public Commission(string description, int year, int idCurriculum, int id)
+        public Commission(string description, int year, int id)
         {
             _Id = id;
             _Description = description;
             _Year = year;
-            _IdCurriculum = idCurriculum;
         }
         #endregion
     }

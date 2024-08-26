@@ -31,10 +31,8 @@
             panel1 = new Panel();
             btnActionCommission = new Button();
             txtCommissionYear = new TextBox();
-            txtCommissionIdCurriculum = new TextBox();
             txtId = new TextBox();
             txtCommissionDescription = new TextBox();
-            lblIdCurriculum = new Label();
             lblYear = new Label();
             lblId = new Label();
             lblDescription = new Label();
@@ -45,10 +43,8 @@
             // 
             panel1.Controls.Add(btnActionCommission);
             panel1.Controls.Add(txtCommissionYear);
-            panel1.Controls.Add(txtCommissionIdCurriculum);
             panel1.Controls.Add(txtId);
             panel1.Controls.Add(txtCommissionDescription);
-            panel1.Controls.Add(lblIdCurriculum);
             panel1.Controls.Add(lblYear);
             panel1.Controls.Add(lblId);
             panel1.Controls.Add(lblDescription);
@@ -74,13 +70,6 @@
             txtCommissionYear.Size = new Size(100, 23);
             txtCommissionYear.TabIndex = 7;
             // 
-            // txtCommissionIdCurriculum
-            // 
-            txtCommissionIdCurriculum.Location = new Point(112, 191);
-            txtCommissionIdCurriculum.Name = "txtCommissionIdCurriculum";
-            txtCommissionIdCurriculum.Size = new Size(100, 23);
-            txtCommissionIdCurriculum.TabIndex = 6;
-            // 
             // txtId
             // 
             txtId.Location = new Point(112, 85);
@@ -94,15 +83,6 @@
             txtCommissionDescription.Name = "txtCommissionDescription";
             txtCommissionDescription.Size = new Size(297, 23);
             txtCommissionDescription.TabIndex = 4;
-            // 
-            // lblIdCurriculum
-            // 
-            lblIdCurriculum.AutoSize = true;
-            lblIdCurriculum.Location = new Point(60, 194);
-            lblIdCurriculum.Name = "lblIdCurriculum";
-            lblIdCurriculum.Size = new Size(46, 15);
-            lblIdCurriculum.TabIndex = 3;
-            lblIdCurriculum.Text = "Id Plan:";
             // 
             // lblYear
             // 
@@ -149,12 +129,10 @@
         private Panel panel1;
         private Label lblId;
         private Label lblDescription;
-        private Label lblIdCurriculum;
         private Label lblYear;
         private TextBox txtId;
         private TextBox txtCommissionDescription;
         private TextBox txtCommissionYear;
-        private TextBox txtCommissionIdCurriculum;
         private Button btnActionCommission;
     }
 }
