@@ -31,15 +31,12 @@ namespace UI.Desktop.Commission
             dataTable.Columns.Add(column_description);
             DataColumn column_year = new DataColumn("Year");
             dataTable.Columns.Add(column_year);
-            DataColumn column_id_curriculum = new DataColumn("IdCurriculum");
-            dataTable.Columns.Add(column_id_curriculum);
             commissions = await Business.Commission.FindAll();
             foreach (Entities.Commission commission in commissions)
             {
                 var row = dataTable.NewRow();
                 row["Description"] = commission.Description;
                 row["Year"] = commission.Year;
-                row["IdCurriculum"] = commission.IdCurriculum;
                 row["Id"] = commission.IdCommission;
 
                 dataTable.Rows.Add(row);

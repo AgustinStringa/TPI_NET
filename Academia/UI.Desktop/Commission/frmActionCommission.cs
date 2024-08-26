@@ -23,7 +23,7 @@ namespace UI.Desktop.Commission
             switch (mode)
             {
                 case Mode.Create:
-                    btnActionCommission.Text = "Crear Especialidad";
+                    btnActionCommission.Text = "Crear comisión";
                     lblId.Visible = false;
                     txtId.Visible = false;
                     break;
@@ -36,7 +36,7 @@ namespace UI.Desktop.Commission
             switch (mode)
             {
                 case Mode.Edit:
-                    btnActionCommission.Text = "Guardar Especialidad";
+                    btnActionCommission.Text = "Guardar comisión";
                     lblId.Visible = true;
                     txtId.Visible = true;
                     txtId.Text = id.ToString();
@@ -63,7 +63,7 @@ namespace UI.Desktop.Commission
 
         private async void EditCommission(Entities.Commission newCommission)
         {
-            var updatedCommissionResult = await Business.Commission.Update(new Entities.Commission(newCommission.Description, newCommission.Year, newCommission.IdCurriculum, Commission.IdCommission));
+            var updatedCommissionResult = await Business.Commission.Update(new Entities.Commission(newCommission.Description, newCommission.Year, Commission.IdCommission));
             MessageBox.Show(updatedCommissionResult.Year + "0" + updatedCommissionResult.Description + " actualizada correctamente");
             this.Dispose();
         }
@@ -80,7 +80,6 @@ namespace UI.Desktop.Commission
         {
             string commissionDescription = txtCommissionDescription.Text;
             int commissionYear = Int32.Parse(txtCommissionYear.Text);
-            int commissionIdCurriculum = Int32.Parse(txtCommissionIdCurriculum.Text);
             if (String.IsNullOrEmpty(commissionDescription.Trim()))
             {
                 //finalizar ejecucion
@@ -89,11 +88,11 @@ namespace UI.Desktop.Commission
             {
                 if (mode == Mode.Create)
                 {
-                    CreateCommission(new Entities.Commission(commissionDescription.Trim(), commissionYear, commissionIdCurriculum));
+                    CreateCommission(new Entities.Commission(commissionDescription.Trim(), commissionYear));
                 }
                 else if (mode == Mode.Edit)
                 {
-                    EditCommission(new Entities.Commission(commissionDescription.Trim(), commissionYear, commissionIdCurriculum));
+                    EditCommission(new Entities.Commission(commissionDescription.Trim(), commissionYear));
                 }
             }
 
