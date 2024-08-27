@@ -14,7 +14,7 @@ namespace Domain.Services
         User GetById();
 
         void Delete();
-        IEnumerable<User> GetAll();
+        Task<IEnumerable<User>> GetAll();
     }
 
 }

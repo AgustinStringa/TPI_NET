@@ -33,10 +33,10 @@ namespace Domain.Services
             throw new NotImplementedException();
         }
 
-        public IEnumerable<User> GetAll()
+        public async Task<IEnumerable<Domain.Model.User>> GetAll()
         {
             var context = new AcademiaContext();
-            return context.Users.Include(u => u.CurriculumId).ToList();
+            return await context.Users.Include(u => u.Curriculum).ToListAsync();
         }
 
         public User GetById()

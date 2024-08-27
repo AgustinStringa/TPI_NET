@@ -11,12 +11,12 @@ namespace Domain.Services
 {
     public class CurriculumService
     {
-        public IEnumerable<Curriculum> GetAll()
+        public async Task<IEnumerable<Curriculum>> GetAll()
         {
             try
             {
                 var context = new AcademiaContext();
-                return context.Curriculums.Include(c => c.Area).ToList();
+                return await context.Curriculums.Include(c => c.Area).ToListAsync();
             }
             catch (Exception e)
             {
