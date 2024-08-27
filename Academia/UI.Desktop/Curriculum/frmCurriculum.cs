@@ -39,7 +39,7 @@ namespace UI.Desktop.Curriculum
             try
             {
                 var service = new Domain.Services.CurriculumService();
-                this.curriculumList = service.GetAll();
+                this.curriculumList = await service.GetAll();
                 AdaptCurriculumsToListView(curriculumList);
             }
             catch (Exception e)
@@ -48,13 +48,13 @@ namespace UI.Desktop.Curriculum
                 throw e;
             }
         }
-        private void tsbtnAdd_Click(object sender, EventArgs e)
+        private async void tsbtnAdd_Click(object sender, EventArgs e)
         {
             frmActionCurriculum frm = new frmActionCurriculum(Mode.Create);
             frm.ShowDialog();
             var service = new Domain.Services.CurriculumService();
             lstvCurriculum.Items.Clear();
-            AdaptCurriculumsToListView(service.GetAll());
+            AdaptCurriculumsToListView(await service.GetAll());
             lstvCurriculum.Refresh();
         }
 
@@ -67,7 +67,7 @@ namespace UI.Desktop.Curriculum
                 frmActionCurriculum frm = new frmActionCurriculum(Mode.Edit, selectedCurriculum);
                 frm.ShowDialog();
                 lstvCurriculum.Items.Clear();
-                AdaptCurriculumsToListView(service.GetAll());
+                AdaptCurriculumsToListView(await service.GetAll());
                 lstvCurriculum.Refresh();
             }
             else
@@ -84,7 +84,7 @@ namespace UI.Desktop.Curriculum
                 Domain.Services.CurriculumService service = new Domain.Services.CurriculumService();
                 service.Delete(selectedCurriulum.Id);
                 lstvCurriculum.Items.Clear();
-                AdaptCurriculumsToListView(service.GetAll());
+                AdaptCurriculumsToListView(await service.GetAll());
                 lstvCurriculum.Refresh();
             }
             else
@@ -94,7 +94,7 @@ namespace UI.Desktop.Curriculum
         }
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
-            var filteredCurriculums = this.curriculumList.Where(a => a.Description.ToLower().Contains(((System.Windows.Forms.TextBox)sender).Text.ToLower()));
+            var filteredCurriculums = this.curriculumList.Where(a => Data.Util.DeleteDiacritic(a.Description.ToLower()).Contains(Data.Util.DeleteDiacritic(((System.Windows.Forms.TextBox)sender).Text.ToLower())));
             lstvCurriculum.Items.Clear();
             AdaptCurriculumsToListView(filteredCurriculums);
             lstvCurriculum.Refresh();
