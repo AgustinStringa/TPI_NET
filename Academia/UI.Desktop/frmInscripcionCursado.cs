@@ -13,10 +13,10 @@ namespace UI.Desktop
 {
     public partial class frmInscripcionCursado : Form
     {
-        private User user;
+        private Domain.Model.User user;
         private IEnumerable<Domain.Model.Course> courses;
         private List<Domain.Model.Subject> subjects = new List<Domain.Model.Subject>();
-        public frmInscripcionCursado(User user)
+        public frmInscripcionCursado(Domain.Model.User user)
         {
             this.user = user;
             InitializeComponent();

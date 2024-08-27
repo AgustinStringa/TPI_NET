@@ -331,7 +331,7 @@ namespace UI.Desktop
                 {
                     IUserService service = new Domain.Services.UserService();
 
-                    var newUser = new User
+                    var newUser = new Domain.Model.User
                     {
                         Username = username,
                         Password = Data.Util.EncodePassword(password),

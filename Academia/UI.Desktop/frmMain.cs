@@ -13,6 +13,7 @@ using UI.Desktop.Area;
 using Domain.Model;
 using UI.Desktop.Subject;
 using UI.Desktop.Course;
+using UI.Desktop.User;
 
 
 namespace UI.Desktop
@@ -21,9 +22,9 @@ namespace UI.Desktop
     {
         private bool administrative = false;
         private bool student = false;
-        private User user;
+        private Domain.Model.User user;
 
-        public frmMain(User user)
+        public frmMain(Domain.Model.User user)
         {
             this.user = user;
             administrative = (user.UserType == 1);
@@ -47,7 +48,6 @@ namespace UI.Desktop
             usuariosToolStripMenuItem.Visible = administrative;
             especialidadesToolStripMenuItem.Visible = administrative;
             planesDeEstudioToolStripMenuItem.Visible = administrative;
-            profesoresToolStripMenuItem.Visible = administrative;
             crearUsuarioToolStripMenuItem.Visible = administrative;
             cursadosActivosToolStripMenuItem.Visible = student;
             materiasToolStripMenuItem.Visible = administrative;
@@ -55,6 +55,7 @@ namespace UI.Desktop
             crearCursadoToolStripMenuItem.Visible = administrative;
             inscripcionACursadoToolStripMenuItem.Visible = student;
             cursadosActivosToolStripMenuItem.Visible = student;
+            administrarCursadosToolStripMenuItem.Visible = administrative;
         }
 
         private void especialidadesToolStripMenuItem_Click(object sender, EventArgs e)
@@ -108,6 +109,12 @@ namespace UI.Desktop
         private void cursadosActivosToolStripMenuItem_Click(object sender, EventArgs e)
         {
             frmMyCourses frm = new frmMyCourses(user);
+            frm.ShowDialog();
+        }
+
+        private void usuariosToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            frmUser frm = new frmUser();
             frm.ShowDialog();
         }
     }
