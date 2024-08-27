@@ -34,7 +34,10 @@ namespace UI.Desktop
                 this.DialogResult = DialogResult.OK;
                 MessageBox.Show("Autenticado correctamente","Autenticado", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 frmMain form = new frmMain(user);
+                this.Visible = false;
                 form.ShowDialog();
+                this.Visible = true;
+
             }
             else
             {
