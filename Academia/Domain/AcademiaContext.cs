@@ -13,6 +13,7 @@ namespace Domain
     {
         internal DbSet<Course> Courses { get; set; }
         internal DbSet<Subject> Subjects { get; set; }
+        internal DbSet<Correlative> Correlatives { get; set; }
         internal DbSet<User> Users { get; set; }
         internal DbSet<Area> Areas { get; set; }
         internal DbSet<Curriculum> Curriculums { get; set; }
@@ -64,6 +65,16 @@ namespace Domain
                 .HasMany(c => c.UserCourses)
                 .WithOne(uc => uc.Course)
                 .HasForeignKey(uc => uc.CourseId);
+
+            modelBuilder.Entity<Subject>()
+                .HasMany(s => s.CorrelativesChildren)
+                .WithOne(c => c.Subject)
+                .HasForeignKey(c => c.SubjectId);
+
+            modelBuilder.Entity<Subject>()
+                .HasMany(s => s.CorrelativesParents)
+                .WithOne(c => c.CorrelativeSubject)
+                .HasForeignKey(c => c.CorrelativeId);
         }
 
     }
