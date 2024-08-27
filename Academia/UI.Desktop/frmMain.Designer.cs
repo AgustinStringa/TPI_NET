@@ -132,6 +132,7 @@
             comisionesToolStripMenuItem.Name = "comisionesToolStripMenuItem";
             comisionesToolStripMenuItem.Size = new Size(81, 20);
             comisionesToolStripMenuItem.Text = "Comisiones";
+            comisionesToolStripMenuItem.Click += comisionesToolStripMenuItem_Click;
             // 
             // crearUsuarioToolStripMenuItem
             // 
