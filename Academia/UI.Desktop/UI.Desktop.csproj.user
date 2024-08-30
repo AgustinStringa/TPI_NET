@@ -7,6 +7,15 @@
     <Compile Update="Area\frmAreas.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Update="Course\frmActionCourse.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Course\frmCourse.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Course\frmMyCourses.cs">
+          <SubType>Form</SubType>
+    </Compile>
     <Compile Update="Commission\frmActionCommission.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -19,6 +28,12 @@
     <Compile Update="Curriculum\frmCurriculum.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Update="frmAlumnos.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="frmInscripcionCursado.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="frmMain.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -28,10 +43,19 @@
     <Compile Update="frmCrearUsuario.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Update="frmMisMaterias.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="Subject\frmActionSubject.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Update="Subject\frmMateria.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Subject\SubjectList.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="User\frmUser.cs">
       <SubType>Form</SubType>
     </Compile>
   </ItemGroup>

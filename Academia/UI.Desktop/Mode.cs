@@ -7,4 +7,5 @@ using System.Threading.Tasks;
 namespace UI.Desktop
 {
     public enum Mode { Edit, Create };
+    public enum CorrelativeType { Parent, Children};
 }

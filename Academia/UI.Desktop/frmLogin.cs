@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Domain;
 
 namespace UI.Desktop
 {
@@ -17,15 +18,30 @@ namespace UI.Desktop
             InitializeComponent();
         }
 
-        private void btnIngresar_Click(object sender, EventArgs e)
+        private async void btnIngresar_Click(object sender, EventArgs e)
         {
-            if (this.txtUsuario.Text == "Admin" && this.txtContra.Text == "admin")
+            var service = new Domain.Services.UserService() ;
+            string username, password;
+            username = txtUsuario.Text.Trim();
+            password = txtContra.Text.Trim();
+            if (String.IsNullOrEmpty(username) || String.IsNullOrEmpty(password)) {
+                MessageBox.Show("Completa todos los campos");
+                return;
+            }
+            var user = await service.ValidateCredentials(username, password);
+            if (user != null)
             {
                 this.DialogResult = DialogResult.OK;
+                MessageBox.Show("Autenticado correctamente","Autenticado", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                frmMain form = new frmMain(user);
+                this.Visible = false;
+                form.ShowDialog();
+                this.Visible = true;
+
             }
             else
             {
-                MessageBox.Show("Usuario y/o contraseña incorrectos", "Login", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Usuario y/o contraseña incorrectos", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 

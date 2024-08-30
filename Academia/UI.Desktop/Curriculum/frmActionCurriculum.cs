@@ -7,83 +7,68 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Domain.Model;
+using Org.BouncyCastle.Asn1.Ocsp;
 using UI.Desktop.Area;
 
 namespace UI.Desktop.Curriculum
 {
     public partial class frmActionCurriculum : Form
     {
-        #region fields
-        private Entities.Curriculum currentCurriculum;
+
+        private Domain.Model.Curriculum curriculum;
         private Mode mode;
-        #endregion
-
-        #region constructors
-        public frmActionCurriculum()
-        {
-            InitializeComponent();
-            LoadAreas();
-        }
-
-        public frmActionCurriculum(Mode mode, Entities.Curriculum curr)
-        {
-            InitializeComponent();
-            currentCurriculum = curr;
-            LoadAreas();
-            if (mode == Mode.Edit)
-            {
-                btnActionCurriculum.Text = "Guardar Plan de Estudios";
-                txtCurriculumId.Visible = true;
-                txtCurriculumId.Text = currentCurriculum.Id.ToString();
-                lblCurriculumId.Visible = true;
-
-                txtCurriculumDescription.Text = currentCurriculum.Description;
-                
-                txtCurriculumYear.Text = currentCurriculum.Year.ToString();
-
-                txtCurriculumResolution.Text = currentCurriculum.Resolution.ToString().Trim();
-
-                //selected value esta bindeado a una lista de areas
-                cbAreas.SelectedValue = currentCurriculum.Area.IdArea;
-
-            }
-        }
 
         public frmActionCurriculum(Mode mode)
         {
-            InitializeComponent();
-            LoadAreas();
             this.mode = mode;
-            if (mode == Mode.Create) {
-                btnActionCurriculum.Text = "Crear Plan de Estudios";
-
-                txtCurriculumId.Visible = false;
-                lblCurriculumId.Visible = false;
+            InitializeComponent();
+            switch (mode)
+            {
+                case Mode.Create:
+                    btnActionCurriculum.Text = "Crear Plan de Estudios";
+                    lblCurriculumId.Visible = false;
+                    txtCurriculumId.Visible = false;
+                    lblTitle.Text = "Crear Plan de Estudios";
+                    Utilities.LoadAreas(cbAreas);
+                    break;
             }
         }
-        #endregion
 
+        public frmActionCurriculum(Mode mode, Domain.Model.Curriculum curr)
+        {
+            this.curriculum = curr;
+            InitializeComponent();
+            Utilities.LoadAreas(cbAreas);
+            this.mode = mode;
+            if (mode == Mode.Edit)
+            {
+                btnActionCurriculum.Text = "Guardar Plan de Estudios";
+                lblTitle.Text = "Editar Plan de Estudios";
+                txtCurriculumId.Visible = true;
+                txtCurriculumId.Text = curriculum.Id.ToString();
+                lblCurriculumId.Visible = true;
+                txtCurriculumDescription.Text = curriculum.Description;
+                txtCurriculumYear.Text = curriculum.Year.ToString();
+                txtCurriculumResolution.Text = curriculum.Resolution?.ToString().Trim();
+                cbAreas.SelectedValue = curriculum.Area.Id;
+            }
+        }
 
         private async void LoadAreas()
         {
-            var areas = await Business.Area.FindAll();
-            cbAreas.DataSource = areas;
-            cbAreas.ValueMember = "IdArea";
-            cbAreas.DisplayMember = "Description";
-            cbAreas.SelectedIndex = 0;
-        }
-        private void label3_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label5_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label4_Click(object sender, EventArgs e)
-        {
+            try
+            {
+                var service = new Domain.Services.AreaService();
+                cbAreas.DataSource = service.GetAll();
+                cbAreas.ValueMember = "Id";
+                cbAreas.DisplayMember = "Description";
+                cbAreas.SelectedIndex = 0;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
 
         }
 
@@ -92,76 +77,77 @@ namespace UI.Desktop.Curriculum
             string description = txtCurriculumDescription.Text;
             int year = 0;
             string resolution = txtCurriculumResolution.Text;
+
+            bool validYear = false;
             try
             {
                 lblCurriculumYearError.Visible = false;
                 year = Int32.Parse(txtCurriculumYear.Text);
+                validYear = true;
             }
             catch (Exception ex)
-            { 
+            {
+                validYear = false;
                 lblCurriculumYearError.Visible = true;
             }
 
-            if (String.IsNullOrEmpty(description))
+            bool validDescription = !String.IsNullOrEmpty(description);
+            if (!validDescription)
             {
                 lblCurriculumDescriptionError.Visible = true;
             }
             else
             {
+                validDescription = true;
                 lblCurriculumDescriptionError.Visible = false;
             }
+            bool validArea = cbAreas.SelectedValue != null;
 
-            if (cbAreas.SelectedValue != null)
+            if (validArea && validDescription && validYear)
             {
                 int idArea = (int)cbAreas.SelectedValue;
 
                 if (mode == Mode.Create)
                 {
-                    Entities.Curriculum newCurr = new Entities.Curriculum(description, idArea, year, resolution);
-
-                    var curr = await Business.Curriculum.Create(newCurr);
-
-                    if (curr != null)
+                    Domain.Model.Curriculum newCurr = new Domain.Model.Curriculum
                     {
-                        MessageBox.Show(curr.Description + " creado correctamente");
+                        Description = description,
+                        AreaId = idArea,
+                        Year = year,
+                        Resolution = resolution
+                    };
+
+                    var service = new Domain.Services.CurriculumService();
+                    try
+                    {
+                        service.Create(newCurr);
+                        MessageBox.Show(newCurr.Description + " creado correctamente");
                         this.Dispose();
                     }
-                    else
+                    catch (Exception ex)
                     {
-
-                        MessageBox.Show("ERROR");
+                        MessageBox.Show(ex.Message);
+                        throw ex;
                     }
                 }
                 else if (mode == Mode.Edit)
                 {
-                    var area = cbAreas.SelectedItem as Entities.Area;
-                    
-                    var updatedCurriculum = new Entities.Curriculum(
-                        currentCurriculum.Id,
-                        description,
-                        area,
-                        year,
-                        resolution
-                        );
-                    //llamada a update negocio
-                    var update = await Business.Curriculum.Update(updatedCurriculum);
-                    if (update != null)
-                    {
-                        //actualizo campos o cierro form
-                        MessageBox.Show("Actualizado correctamente");
-                    }
-                    else { 
-                        MessageBox.Show("Error al actualizar");
+                    var area = cbAreas.SelectedItem as Domain.Model.Area;
+                    var service = new Domain.Services.CurriculumService();
+                    this.curriculum.Description = description;
+                    this.curriculum.Year = year;
+                    this.curriculum.Resolution = resolution;
+                    this.curriculum.AreaId = idArea;
+                    this.curriculum.Area = area;
+                    service.Update(this.curriculum);
+                    MessageBox.Show("Actualizado correctamente");
+                    this.Dispose();
 
-                    }
                 }
 
-                this.Dispose();
+                
 
             }
-
-
-
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -9,75 +10,94 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using UI.Desktop.Area;
 
+
 namespace UI.Desktop.Curriculum
 {
     public partial class frmCurriculum : Form
     {
+        private IEnumerable<Domain.Model.Curriculum> curriculumList;
         public frmCurriculum()
         {
             InitializeComponent();
             LoadCurriculums();
         }
-
+        private void AdaptCurriculumsToListView(IEnumerable<Domain.Model.Curriculum> curriculumList)
+        {
+            foreach (Domain.Model.Curriculum item in curriculumList)
+            {
+                ListViewItem nuevoItem = new ListViewItem(item.Id.ToString());
+                nuevoItem.Tag = item;
+                nuevoItem.SubItems.Add(item.Description);
+                nuevoItem.SubItems.Add(item.Area.Description);
+                nuevoItem.SubItems.Add(item.Year.ToString());
+                nuevoItem.SubItems.Add(item.Resolution);
+                lstvCurriculum.Items.Add(nuevoItem);
+            }
+        }
         private async void LoadCurriculums()
         {
-
-            var curriculums = await Data.Curriculum.FindAll();
-            DataTable dataTable = new DataTable();
-            DataColumn column_id = new DataColumn("id");
-            dataTable.Columns.Add(column_id);
-            DataColumn column_description = new DataColumn("description");
-            dataTable.Columns.Add(column_description);
-            DataColumn column_resolucion = new DataColumn("resolucion");
-            dataTable.Columns.Add(column_resolucion);
-            DataColumn column_anio = new DataColumn("anio");
-            dataTable.Columns.Add(column_anio);
-            //
-            DataColumn columm_area = new DataColumn("especialidad");
-            dataTable.Columns.Add(columm_area);
-            foreach (var curriculum in curriculums)
+            try
             {
-                var row = dataTable.NewRow();
-                row["id"] = curriculum.Id;
-                row["description"] = curriculum.Description;
-                row["resolucion"] = curriculum.Resolution;
-                row["anio"] = curriculum.Year;
-                row["especialidad"] = curriculum.Area.Description;
-                dataTable.Rows.Add(row);
+                var service = new Domain.Services.CurriculumService();
+                this.curriculumList = await service.GetAll();
+                AdaptCurriculumsToListView(curriculumList);
             }
-            dgvCurriculums.DataSource = dataTable;
-
-
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message);
+                throw e;
+            }
         }
-        private void tsbtnAdd_Click(object sender, EventArgs e)
+        private async void tsbtnAdd_Click(object sender, EventArgs e)
         {
             frmActionCurriculum frm = new frmActionCurriculum(Mode.Create);
             frm.ShowDialog();
-            LoadCurriculums();
+            var service = new Domain.Services.CurriculumService();
+            lstvCurriculum.Items.Clear();
+            AdaptCurriculumsToListView(await service.GetAll());
+            lstvCurriculum.Refresh();
         }
 
         private async void tsbtnEdit_Click(object sender, EventArgs e)
         {
-            if (dgvCurriculums.SelectedRows[0] != null)
+            if (lstvCurriculum.SelectedItems.Count > 0)
             {
-
-                var id = (dgvCurriculums.SelectedRows[0].Cells[0].Value).ToString().Trim();
-                var curr = await Business.Curriculum.FindOne(Int32.Parse(id));
-                frmActionCurriculum frm = new frmActionCurriculum(Mode.Edit, curr);
+                var selectedCurriculum = (Domain.Model.Curriculum)lstvCurriculum.SelectedItems[0].Tag;
+                var service = new Domain.Services.CurriculumService();
+                frmActionCurriculum frm = new frmActionCurriculum(Mode.Edit, selectedCurriculum);
                 frm.ShowDialog();
-                LoadCurriculums();
+                lstvCurriculum.Items.Clear();
+                AdaptCurriculumsToListView(await service.GetAll());
+                lstvCurriculum.Refresh();
+            }
+            else
+            {
+                MessageBox.Show("Seleccione 1 area antes de edit");
             }
         }
 
         private async void tsbtnRemove_Click(object sender, EventArgs e)
         {
-            if (dgvCurriculums.SelectedRows[0] != null)
+            if (lstvCurriculum.SelectedItems.Count > 0)
             {
-
-                var id = (dgvCurriculums.SelectedRows[0].Cells[0].Value).ToString().Trim();
-                var curr = await Data.Curriculum.Delete(Int32.Parse(id));
-                LoadCurriculums();
+                Domain.Model.Curriculum selectedCurriulum = (Domain.Model.Curriculum)lstvCurriculum.SelectedItems[0].Tag;
+                Domain.Services.CurriculumService service = new Domain.Services.CurriculumService();
+                service.Delete(selectedCurriulum.Id);
+                lstvCurriculum.Items.Clear();
+                AdaptCurriculumsToListView(await service.GetAll());
+                lstvCurriculum.Refresh();
             }
+            else
+            {
+                MessageBox.Show("Seleccione 1 area antes de remover");
+            }
+        }
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+            var filteredCurriculums = this.curriculumList.Where(a => Data.Util.DeleteDiacritic(a.Description.ToLower()).Contains(Data.Util.DeleteDiacritic(((System.Windows.Forms.TextBox)sender).Text.ToLower())));
+            lstvCurriculum.Items.Clear();
+            AdaptCurriculumsToListView(filteredCurriculums);
+            lstvCurriculum.Refresh();
         }
     }
 }

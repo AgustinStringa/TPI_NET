@@ -13,10 +13,10 @@ using UI.Desktop.Area;
 namespace UI.Desktop.Area
 {
 
-    public enum Mode { Edit, Create };
+
     public partial class frmAreas : Form
     {
-        private List<Entities.Area> areas = [];
+        private IEnumerable<Domain.Model.Area> areasList;
         public frmAreas()
         {
             InitializeComponent();
@@ -26,67 +26,82 @@ namespace UI.Desktop.Area
 
         private async void LoadAreas()
         {
-            DataTable dataTable = new DataTable();
-            DataColumn column_id = new DataColumn("id");
-            dataTable.Columns.Add(column_id);
-            DataColumn column_name = new DataColumn("Description");
-            dataTable.Columns.Add(column_name);
-            areas = await Business.Area.FindAll();
-            foreach (Entities.Area area in areas)
+            try
             {
-                var row = dataTable.NewRow();
-                row["Description"] = area.Description;
-                row["Id"] = area.IdArea;
-
-                dataTable.Rows.Add(row);
+                var service = new Domain.Services.AreaService();
+                this.areasList = service.GetAll();
+                AdaptAreasToListView(areasList);
             }
-            dgvAreas.DataSource = dataTable;
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message);
+                throw;
+            }
         }
-
-
 
         private void tsbtnAdd_Click(object sender, EventArgs e)
         {
             frmActionArea frm = new frmActionArea(Mode.Create);
             frm.ShowDialog();
-            LoadAreas();
+            var service = new Domain.Services.AreaService();
+            lstvAreas.Items.Clear();
+            AdaptAreasToListView(service.GetAll());
+            lstvAreas.Refresh();
         }
 
         private void tsbtnEdit_Click(object sender, EventArgs e)
         {
 
-            if (dgvAreas.SelectedRows.Count > 0)
+            if (lstvAreas.SelectedItems.Count > 0)
             {
-                var row = dgvAreas.SelectedRows[0];
-                int id = Int32.Parse(row.Cells[0].Value.ToString());
-                frmActionArea frm = new frmActionArea(Mode.Edit,id);
+                Domain.Model.Area selectedArea = (Domain.Model.Area)lstvAreas.SelectedItems[0].Tag;
+                var service = new Domain.Services.AreaService();
+                frmActionArea frm = new frmActionArea(Mode.Edit, selectedArea);
                 frm.ShowDialog();
-                LoadAreas();
+                lstvAreas.Items.Clear();
+                AdaptAreasToListView(service.GetAll());
+                lstvAreas.Refresh();
+            }
+            else
+            {
+                MessageBox.Show("Seleccione 1 area antes de edit");
             }
         }
 
         private async void tsbtnRemove_Click(object sender, EventArgs e)
         {
-            if (dgvAreas.SelectedRows.Count > 0)
+
+            if (lstvAreas.SelectedItems.Count > 0)
             {
-                var row = dgvAreas.SelectedRows[0];
-                int id = Int32.Parse(row.Cells[0].Value.ToString());
-                await Business.Area.Delete(id);
-                LoadAreas();
+                Domain.Model.Area selectedArea = (Domain.Model.Area)lstvAreas.SelectedItems[0].Tag;
+                var service = new Domain.Services.AreaService();
+                service.Delete(selectedArea.Id);
+                lstvAreas.Items.Clear();
+                AdaptAreasToListView(service.GetAll());
+                lstvAreas.Refresh();
+            }
+            else
+            {
+                MessageBox.Show("Seleccione 1 area antes de remover");
             }
         }
 
-        private void dgvAreas_SelectionChanged(object sender, EventArgs e)
+        private void AdaptAreasToListView(IEnumerable<Domain.Model.Area> areas)
         {
-            if (dgvAreas.SelectedRows.Count <= 0)
+            foreach (Domain.Model.Area item in areas)
             {
-                tsbtnEdit.Enabled = false;
-                tsbtnRemove.Enabled = false;
+                ListViewItem nuevoItem = new ListViewItem(item.Id.ToString());
+                nuevoItem.Tag = item;
+                nuevoItem.SubItems.Add(item.Description);
+                lstvAreas.Items.Add(nuevoItem);
             }
-            else {
-                tsbtnEdit.Enabled = true;
-                tsbtnRemove.Enabled = true;
-            }
+        }
+        private void txtSearchArea_TextChanged(object sender, EventArgs e)
+        {
+            var areasFiltradas = this.areasList.Where(a => a.Description.ToLower().Contains(((System.Windows.Forms.TextBox)sender).Text.ToLower()));
+            lstvAreas.Items.Clear();
+            AdaptAreasToListView(areasFiltradas);
+            lstvAreas.Refresh();
         }
     }
 }
