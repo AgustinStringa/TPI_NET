@@ -32,14 +32,14 @@
             tsbtnAdd = new ToolStripButton();
             tsbtnEdit = new ToolStripButton();
             tsbtnRemove = new ToolStripButton();
-            dgvAreas = new DataGridView();
-            label1 = new Label();
-
-
             colorDialog1 = new ColorDialog();
-
+            lstvAreas = new ListView();
+            idArea = new ColumnHeader();
+            Description = new ColumnHeader();
+            backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
+            txtSearchArea = new TextBox();
+            label1 = new Label();
             toolStrip1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)dgvAreas).BeginInit();
             SuspendLayout();
             // 
             // toolStrip1
@@ -48,7 +48,7 @@
             toolStrip1.Items.AddRange(new ToolStripItem[] { tsbtnAdd, tsbtnEdit, tsbtnRemove });
             toolStrip1.Location = new Point(0, 0);
             toolStrip1.Name = "toolStrip1";
-            toolStrip1.Size = new Size(914, 27);
+            toolStrip1.Size = new Size(800, 27);
             toolStrip1.TabIndex = 0;
             toolStrip1.Text = "toolStrip1";
             // 
@@ -58,7 +58,7 @@
             tsbtnAdd.Image = Properties.Resources.Add;
             tsbtnAdd.ImageTransparentColor = Color.Magenta;
             tsbtnAdd.Name = "tsbtnAdd";
-            tsbtnAdd.Size = new Size(29, 24);
+            tsbtnAdd.Size = new Size(24, 24);
             tsbtnAdd.Text = "Crear Especialidad";
             tsbtnAdd.Click += tsbtnAdd_Click;
             // 
@@ -68,7 +68,7 @@
             tsbtnEdit.Image = Properties.Resources.Edit;
             tsbtnEdit.ImageTransparentColor = Color.Magenta;
             tsbtnEdit.Name = "tsbtnEdit";
-            tsbtnEdit.Size = new Size(29, 24);
+            tsbtnEdit.Size = new Size(24, 24);
             tsbtnEdit.Text = "Editar Especialidad";
             tsbtnEdit.Click += tsbtnEdit_Click;
             // 
@@ -78,53 +78,64 @@
             tsbtnRemove.Image = Properties.Resources.Delete;
             tsbtnRemove.ImageTransparentColor = Color.Magenta;
             tsbtnRemove.Name = "tsbtnRemove";
-            tsbtnRemove.Size = new Size(29, 24);
+            tsbtnRemove.Size = new Size(24, 24);
             tsbtnRemove.Text = "Eliminar Especialidad";
             tsbtnRemove.Click += tsbtnRemove_Click;
             // 
-            // dgvAreas
+            // lstvAreas
             // 
-            dgvAreas.AllowUserToAddRows = false;
-            dgvAreas.AllowUserToDeleteRows = false;
-            dgvAreas.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvAreas.Location = new Point(62, 132);
-            dgvAreas.Margin = new Padding(3, 4, 3, 4);
-            dgvAreas.Name = "dgvAreas";
-            dgvAreas.RowHeadersWidth = 51;
-            dgvAreas.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgvAreas.Size = new Size(775, 200);
-            dgvAreas.TabIndex = 1;
-            dgvAreas.SelectionChanged += dgvAreas_SelectionChanged;
+            lstvAreas.Columns.AddRange(new ColumnHeader[] { idArea, Description });
+            lstvAreas.FullRowSelect = true;
+            lstvAreas.GridLines = true;
+            lstvAreas.Location = new Point(54, 154);
+            lstvAreas.Name = "lstvAreas";
+            lstvAreas.Size = new Size(678, 173);
+            lstvAreas.TabIndex = 3;
+            lstvAreas.UseCompatibleStateImageBehavior = false;
+            lstvAreas.View = View.Details;
+            // 
+            // idArea
+            // 
+            idArea.Text = "Id especialidad";
+            idArea.Width = 200;
+            // 
+            // Description
+            // 
+            Description.Text = "Descripcion";
+            Description.Width = 200;
+            // 
+            // txtSearchArea
+            // 
+            txtSearchArea.Location = new Point(54, 95);
+            txtSearchArea.Name = "txtSearchArea";
+            txtSearchArea.PlaceholderText = "Search...";
+            txtSearchArea.Size = new Size(232, 23);
+            txtSearchArea.TabIndex = 4;
+            txtSearchArea.TextChanged += txtSearchArea_TextChanged;
             // 
             // label1
             // 
             label1.AutoSize = true;
-
-            label1.Location = new Point(62, 89);
+            label1.Font = new Font("Segoe UI", 12F);
+            label1.Location = new Point(54, 61);
             label1.Name = "label1";
-            label1.Size = new Size(50, 20);
-            label1.TabIndex = 2;
-            label1.Text = "label1";
-
-
+            label1.Size = new Size(110, 21);
+            label1.TabIndex = 5;
+            label1.Text = "Especialidades";
             // 
             // frmAreas
             // 
-            AutoScaleDimensions = new SizeF(8F, 20F);
+            AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-
-            ClientSize = new Size(914, 600);
-
-
+            ClientSize = new Size(800, 664);
             Controls.Add(label1);
-            Controls.Add(dgvAreas);
+            Controls.Add(txtSearchArea);
+            Controls.Add(lstvAreas);
             Controls.Add(toolStrip1);
-            Margin = new Padding(3, 4, 3, 4);
             Name = "frmAreas";
             Text = "Especialidades";
             toolStrip1.ResumeLayout(false);
             toolStrip1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)dgvAreas).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -133,13 +144,16 @@
 
         private ToolStrip toolStrip1;
         private ToolStripButton tsbtnAdd;
-        private DataGridView dgvAreas;
         private ToolStripButton tsbtnEdit;
         private ToolStripButton tsbtnRemove;
-        private Label label1;
 
 
         private ColorDialog colorDialog1;
-
+        private ListView lstvAreas;
+        private System.ComponentModel.BackgroundWorker backgroundWorker1;
+        private ColumnHeader idArea;
+        private ColumnHeader Description;
+        private TextBox txtSearchArea;
+        private Label label1;
     }
 }

@@ -30,22 +30,30 @@
         {
             toolStrip1 = new ToolStrip();
             tsbtnAdd = new ToolStripButton();
-            toolStripButton2 = new ToolStripButton();
-            toolStripButton3 = new ToolStripButton();
-            dataGridView1 = new DataGridView();
-            label1 = new Label();
-            button1 = new Button();
+            tsbtnEdit = new ToolStripButton();
+            tsbtnDelete = new ToolStripButton();
+            listView1 = new ListView();
+            description = new ColumnHeader();
+            curriculumDescription = new ColumnHeader();
+            level = new ColumnHeader();
+            weeklyHours = new ColumnHeader();
+            totalHours = new ColumnHeader();
+            txtSearchSubject = new TextBox();
+            label2 = new Label();
+            label3 = new Label();
+            label4 = new Label();
+            panel1 = new Panel();
+            btnResetFilters = new Button();
             toolStrip1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             SuspendLayout();
             // 
             // toolStrip1
             // 
             toolStrip1.ImageScalingSize = new Size(20, 20);
-            toolStrip1.Items.AddRange(new ToolStripItem[] { tsbtnAdd, toolStripButton2, toolStripButton3 });
+            toolStrip1.Items.AddRange(new ToolStripItem[] { tsbtnAdd, tsbtnEdit, tsbtnDelete });
             toolStrip1.Location = new Point(0, 0);
             toolStrip1.Name = "toolStrip1";
-            toolStrip1.Size = new Size(950, 27);
+            toolStrip1.Size = new Size(1213, 27);
             toolStrip1.TabIndex = 11;
             toolStrip1.Text = "toolStrip1";
             // 
@@ -55,69 +63,136 @@
             tsbtnAdd.Image = Properties.Resources.Add;
             tsbtnAdd.ImageTransparentColor = Color.Magenta;
             tsbtnAdd.Name = "tsbtnAdd";
-            tsbtnAdd.Size = new Size(29, 24);
+            tsbtnAdd.Size = new Size(24, 24);
             tsbtnAdd.Text = "add";
-            tsbtnAdd.Click += this.tsbtnAdd_Click;
+            tsbtnAdd.Click += tsbtnAdd_Click;
             // 
-            // toolStripButton2
+            // tsbtnEdit
             // 
-            toolStripButton2.DisplayStyle = ToolStripItemDisplayStyle.Image;
-            toolStripButton2.Image = Properties.Resources.Edit;
-            toolStripButton2.ImageTransparentColor = Color.Magenta;
-            toolStripButton2.Name = "toolStripButton2";
-            toolStripButton2.Size = new Size(29, 24);
-            toolStripButton2.Text = "edit";
+            tsbtnEdit.DisplayStyle = ToolStripItemDisplayStyle.Image;
+            tsbtnEdit.Image = Properties.Resources.Edit;
+            tsbtnEdit.ImageTransparentColor = Color.Magenta;
+            tsbtnEdit.Name = "tsbtnEdit";
+            tsbtnEdit.Size = new Size(24, 24);
+            tsbtnEdit.Text = "edit";
+            tsbtnEdit.Click += tsbtnEdit_Click;
             // 
-            // toolStripButton3
+            // tsbtnDelete
             // 
-            toolStripButton3.DisplayStyle = ToolStripItemDisplayStyle.Image;
-            toolStripButton3.Image = Properties.Resources.Delete;
-            toolStripButton3.ImageTransparentColor = Color.Magenta;
-            toolStripButton3.Name = "toolStripButton3";
-            toolStripButton3.Size = new Size(29, 24);
-            toolStripButton3.Text = "delete";
+            tsbtnDelete.DisplayStyle = ToolStripItemDisplayStyle.Image;
+            tsbtnDelete.Image = Properties.Resources.Delete;
+            tsbtnDelete.ImageTransparentColor = Color.Magenta;
+            tsbtnDelete.Name = "tsbtnDelete";
+            tsbtnDelete.Size = new Size(24, 24);
+            tsbtnDelete.Click += tsbtnDelete_Click;
             // 
-            // dataGridView1
+            // listView1
             // 
-            dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Location = new Point(88, 104);
-            dataGridView1.Name = "dataGridView1";
-            dataGridView1.RowHeadersWidth = 51;
-            dataGridView1.Size = new Size(751, 279);
-            dataGridView1.TabIndex = 12;
+            listView1.Columns.AddRange(new ColumnHeader[] { description, curriculumDescription, level, weeklyHours, totalHours });
+            listView1.FullRowSelect = true;
+            listView1.Location = new Point(180, 141);
+            listView1.Name = "listView1";
+            listView1.Size = new Size(950, 216);
+            listView1.TabIndex = 15;
+            listView1.UseCompatibleStateImageBehavior = false;
+            listView1.View = View.Details;
             // 
-            // label1
+            // description
             // 
-            label1.AutoSize = true;
-            label1.Location = new Point(88, 66);
-            label1.Name = "label1";
-            label1.Size = new Size(50, 20);
-            label1.TabIndex = 13;
-            label1.Text = "label1";
+            description.Text = "Nombre";
+            description.Width = 300;
             // 
-            // button1
+            // curriculumDescription
             // 
-            button1.Location = new Point(745, 57);
-            button1.Name = "button1";
-            button1.Size = new Size(94, 29);
-            button1.TabIndex = 14;
-            button1.Text = "button1";
-            button1.UseVisualStyleBackColor = true;
+            curriculumDescription.Text = "Plan de Estudios";
+            curriculumDescription.Width = 200;
+            // 
+            // level
+            // 
+            level.Text = "Nivel";
+            level.Width = 100;
+            // 
+            // weeklyHours
+            // 
+            weeklyHours.Text = "Horas Semanales";
+            weeklyHours.Width = 120;
+            // 
+            // totalHours
+            // 
+            totalHours.Text = "Horas Totales";
+            totalHours.Width = 100;
+            // 
+            // txtSearchSubject
+            // 
+            txtSearchSubject.Location = new Point(180, 96);
+            txtSearchSubject.Name = "txtSearchSubject";
+            txtSearchSubject.Size = new Size(252, 23);
+            txtSearchSubject.TabIndex = 16;
+            txtSearchSubject.TextChanged += txtSearchSubject_TextChanged;
+            // 
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.Location = new Point(180, 69);
+            label2.Name = "label2";
+            label2.Size = new Size(54, 15);
+            label2.TabIndex = 17;
+            label2.Text = "Nombre:";
+            // 
+            // label3
+            // 
+            label3.AutoSize = true;
+            label3.Location = new Point(30, 69);
+            label3.Name = "label3";
+            label3.Size = new Size(40, 15);
+            label3.TabIndex = 18;
+            label3.Text = "Filtrar:";
+            // 
+            // label4
+            // 
+            label4.AutoSize = true;
+            label4.Location = new Point(20, 104);
+            label4.Name = "label4";
+            label4.Size = new Size(96, 15);
+            label4.TabIndex = 18;
+            label4.Text = "Plan de estudios:";
+            // 
+            // panel1
+            // 
+            panel1.AutoScroll = true;
+            panel1.Location = new Point(20, 168);
+            panel1.Name = "panel1";
+            panel1.Size = new Size(115, 307);
+            panel1.TabIndex = 20;
+            // 
+            // btnResetFilters
+            // 
+            btnResetFilters.Location = new Point(20, 122);
+            btnResetFilters.Name = "btnResetFilters";
+            btnResetFilters.Size = new Size(75, 23);
+            btnResetFilters.TabIndex = 21;
+            btnResetFilters.Text = "restablecer";
+            btnResetFilters.UseVisualStyleBackColor = true;
+            btnResetFilters.Click += btnResetFilters_Click;
             // 
             // frmMateria
             // 
-            AutoScaleDimensions = new SizeF(8F, 20F);
+            AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(950, 474);
-            Controls.Add(button1);
-            Controls.Add(label1);
-            Controls.Add(dataGridView1);
+            ClientSize = new Size(1213, 542);
+            Controls.Add(btnResetFilters);
+            Controls.Add(panel1);
+            Controls.Add(label4);
+            Controls.Add(label3);
+            Controls.Add(label2);
+            Controls.Add(txtSearchSubject);
+            Controls.Add(listView1);
             Controls.Add(toolStrip1);
+            Margin = new Padding(3, 2, 3, 2);
             Name = "frmMateria";
             Text = "frmMateria";
             toolStrip1.ResumeLayout(false);
             toolStrip1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -126,10 +201,19 @@
         private TextBox txtTotalHour;
         private ToolStrip toolStrip1;
         private ToolStripButton tsbtnAdd;
-        private ToolStripButton toolStripButton2;
-        private ToolStripButton toolStripButton3;
-        private DataGridView dataGridView1;
-        private Label label1;
-        private Button button1;
+        private ToolStripButton tsbtnEdit;
+        private ToolStripButton tsbtnDelete;
+        private ListView listView1;
+        private ColumnHeader description;
+        private ColumnHeader curriculumDescription;
+        private ColumnHeader level;
+        private ColumnHeader weeklyHours;
+        private ColumnHeader totalHours;
+        private TextBox txtSearchSubject;
+        private Label label2;
+        private Label label3;
+        private Label label4;
+        private Panel panel1;
+        private Button btnResetFilters;
     }
 }
