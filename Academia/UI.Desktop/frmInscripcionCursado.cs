@@ -34,10 +34,10 @@ namespace UI.Desktop
                     this.subjects.Add(course.Subject);
                 }
             }
-            cmbSubjects.Items.Clear();
-            cmbSubjects.DataSource = this.subjects;
-            cmbSubjects.ValueMember = "Id";
-            cmbSubjects.DisplayMember = "Description";
+            cmbSubject.Items.Clear();
+            cmbSubject.DataSource = this.subjects;
+            cmbSubject.ValueMember = "Id";
+            cmbSubject.DisplayMember = "Description";
         }
         private void button1_Click(object sender, EventArgs e)
         {
@@ -46,11 +46,36 @@ namespace UI.Desktop
 
         private void cmbSubjects_SelectedValueChanged(object sender, EventArgs e)
         {
-            int subjectId = ((Domain.Model.Subject)(cmbSubjects.SelectedItem)).Id;
+            int subjectId = ((Domain.Model.Subject)(cmbSubject.SelectedItem)).Id;
             var filteredCourses = this.courses.Where(c => c.Subject.Id == subjectId);
             cmbCourse.DataSource = filteredCourses.ToList();
             cmbCourse.ValueMember = "Id";
             cmbCourse.DisplayMember = "ToStringProperty";
+        }
+
+        private void btnInscription_Click(object sender, EventArgs e)
+        {
+
+            if(cmbCourse.SelectedItem == null || cmbSubject.SelectedItem == null)
+            {
+                MessageBox.Show("Debe seleccionar un curso", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            var UserCourseService = new Domain.Services.UserCourseService();
+
+            var userCourse = new Domain.Model.UserCourse()
+            {
+                UserId = this.user.Id,
+                CourseId = ((Domain.Model.Course)cmbCourse.SelectedItem).Id,
+                Status = "inscripto"
+            };
+
+            UserCourseService.Add(userCourse);
+            MessageBox.Show( "Inscripción realizada con éxito", "Inscripción", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            this.Dispose();
+
+
         }
     }
 }
