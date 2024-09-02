@@ -10,12 +10,12 @@ namespace Domain.Services
 {
     public class CommissionService
     {
-        public IEnumerable<Commission> GetAll()
+        public async Task<IEnumerable<Commission>> GetAll()
         {
             try
             {
                 var context = new AcademiaContext();
-                return context.Commissions.ToList();
+                return await context.Commissions.Include(c => c.Curriculum).ToListAsync();
             }
             catch (Exception e) 
             {
