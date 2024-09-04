@@ -22,7 +22,7 @@ namespace UI.Desktop
             Application.SetCompatibleTextRenderingDefault(false);
 
             ApplicationConfiguration.Initialize();
-            Application.Run(new Commission.frmCommissions());
+            Application.Run(new frmLogin());
         }
     }
 }
