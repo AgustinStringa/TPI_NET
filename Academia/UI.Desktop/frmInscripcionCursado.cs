@@ -66,7 +66,7 @@ namespace UI.Desktop
             cmbCourse.DisplayMember = "ToStringProperty";
         }
 
-        private void btnInscription_Click(object sender, EventArgs e)
+        private async void btnInscription_Click(object sender, EventArgs e)
         {
             try
             {
@@ -76,8 +76,6 @@ namespace UI.Desktop
                     return;
                 }
 
-                var userCourseService = new Domain.Services.UserCourseService();
-
                 var userCourse = new Domain.Model.UserCourse()
                 {
                     UserId = this.user.Id,
@@ -85,15 +83,18 @@ namespace UI.Desktop
                     Status = "inscripto"
                 };
 
-                userCourseService.Add(userCourse);
+                var userCourseService = new Domain.Services.UserCourseService();
+                await userCourseService.AddAsync(userCourse);
+
                 MessageBox.Show("Inscripción realizada con éxito", "Inscripción", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 this.Dispose();
             }
-            catch
+            catch (Exception ex)
             {
-                MessageBox.Show("Ocurrió un error al procesar la inscripción.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"Ocurrió un error: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
 
     }
 }
