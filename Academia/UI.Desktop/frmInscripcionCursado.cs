@@ -26,14 +26,22 @@ namespace UI.Desktop
         {
             var courseService = new CourseService();
             this.courses = await courseService.GetAvailableCourses(user);
+
             foreach (var course in this.courses)
             {
-
-                if (!this.subjects.Contains(course.Subject))
+                if (course.Subject != null && !this.subjects.Contains(course.Subject))
                 {
                     this.subjects.Add(course.Subject);
                 }
             }
+
+            if (this.subjects.Count == 0)
+            {
+                MessageBox.Show("No hay materias disponibles.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                this.Dispose();
+                return;
+            }
+
             cmbSubject.Items.Clear();
             cmbSubject.DataSource = this.subjects;
             cmbSubject.ValueMember = "Id";
@@ -46,6 +54,11 @@ namespace UI.Desktop
 
         private void cmbSubjects_SelectedValueChanged(object sender, EventArgs e)
         {
+          
+            if (cmbSubject.SelectedItem == null)
+            {
+                return;
+            }
             int subjectId = ((Domain.Model.Subject)(cmbSubject.SelectedItem)).Id;
             var filteredCourses = this.courses.Where(c => c.Subject.Id == subjectId);
             cmbCourse.DataSource = filteredCourses.ToList();
@@ -55,27 +68,32 @@ namespace UI.Desktop
 
         private void btnInscription_Click(object sender, EventArgs e)
         {
-
-            if(cmbCourse.SelectedItem == null || cmbSubject.SelectedItem == null)
+            try
             {
-                MessageBox.Show("Debe seleccionar un curso", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
+                if (cmbCourse.SelectedItem == null || cmbSubject.SelectedItem == null)
+                {
+                    MessageBox.Show("Debe seleccionar un curso", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+                var userCourseService = new Domain.Services.UserCourseService();
+
+                var userCourse = new Domain.Model.UserCourse()
+                {
+                    UserId = this.user.Id,
+                    CourseId = ((Domain.Model.Course)cmbCourse.SelectedItem).Id,
+                    Status = "inscripto"
+                };
+
+                userCourseService.Add(userCourse);
+                MessageBox.Show("Inscripción realizada con éxito", "Inscripción", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                this.Dispose();
             }
-
-            var UserCourseService = new Domain.Services.UserCourseService();
-
-            var userCourse = new Domain.Model.UserCourse()
+            catch
             {
-                UserId = this.user.Id,
-                CourseId = ((Domain.Model.Course)cmbCourse.SelectedItem).Id,
-                Status = "inscripto"
-            };
-
-            UserCourseService.Add(userCourse);
-            MessageBox.Show( "Inscripción realizada con éxito", "Inscripción", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            this.Dispose();
-
-
+                MessageBox.Show("Ocurrió un error al procesar la inscripción.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
+
     }
 }
