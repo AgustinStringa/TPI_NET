@@ -8,14 +8,20 @@ namespace UI.Desktop
 {
     public class Utilities
     {
-        public static async void LoadAreas(ComboBox cb) {
+        public static async void LoadAreas(ComboBox cb)
+        {
             try
             {
                 var service = new Domain.Services.AreaService();
-                cb.DataSource = service.GetAll();
-                cb.ValueMember = "Id";
-                cb.DisplayMember = "Description";
-                cb.SelectedIndex = 0;
+                var areas = service.GetAll();
+                if (areas.Count() > 0)
+                {
+                    cb.DataSource = areas;
+                    cb.ValueMember = "Id";
+                    cb.DisplayMember = "Description";
+                    cb.SelectedIndex = 0;
+
+                }
             }
             catch (Exception)
             {
@@ -23,16 +29,19 @@ namespace UI.Desktop
             }
         }
 
-        public static async void LoadAreas(IEnumerable<Domain.Model.Area> areasList ,ComboBox cb)
+        public static async void LoadAreas(IEnumerable<Domain.Model.Area> areasList, ComboBox cb)
         {
             try
             {
                 var service = new Domain.Services.AreaService();
                 areasList = service.GetAll();
-                cb.DataSource = areasList;
-                cb.ValueMember = "Id";
-                cb.DisplayMember = "Description";
-                cb.SelectedIndex = 0;
+                if (areasList.Count() > 0)
+                {
+                    cb.DataSource = areasList;
+                    cb.ValueMember = "Id";
+                    cb.DisplayMember = "Description";
+                    cb.SelectedIndex = 0;
+                }
             }
             catch (Exception)
             {
@@ -45,7 +54,7 @@ namespace UI.Desktop
             try
             {
                 var service = new Domain.Services.CurriculumService();
-                curriculums =  await service.GetAll();
+                curriculums = await service.GetAll();
                 cb.DataSource = curriculums;
                 cb.ValueMember = "Id";
                 cb.DisplayMember = "Description";
@@ -73,5 +82,24 @@ namespace UI.Desktop
                 throw;
             }
         }
+
+
+        public static async void LoadCurriculums(ComboBox cb)
+        {
+            try
+            {
+                var service = new Domain.Services.CurriculumService();
+                var curriculums = await service.GetAll();
+                cb.DataSource = curriculums;
+                cb.ValueMember = "Id";
+                cb.DisplayMember = "Description";
+                cb.SelectedIndex = 0;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
     }
 }

@@ -29,8 +29,11 @@
         private void InitializeComponent()
         {
             panel1 = new Panel();
+            cbCurriculum = new ComboBox();
+            lblIdCurriculumError = new Label();
+            lblIdError = new Label();
+            lblDescriptionError = new Label();
             btnActionCommission = new Button();
-            txtCommissionYear = new TextBox();
             txtId = new TextBox();
             txtCommissionDescription = new TextBox();
             lblYear = new Label();
@@ -41,8 +44,11 @@
             // 
             // panel1
             // 
+            panel1.Controls.Add(cbCurriculum);
+            panel1.Controls.Add(lblIdCurriculumError);
+            panel1.Controls.Add(lblIdError);
+            panel1.Controls.Add(lblDescriptionError);
             panel1.Controls.Add(btnActionCommission);
-            panel1.Controls.Add(txtCommissionYear);
             panel1.Controls.Add(txtId);
             panel1.Controls.Add(txtCommissionDescription);
             panel1.Controls.Add(lblYear);
@@ -52,6 +58,44 @@
             panel1.Name = "panel1";
             panel1.Size = new Size(465, 298);
             panel1.TabIndex = 0;
+            // 
+            // cbCurriculum
+            // 
+            cbCurriculum.FormattingEnabled = true;
+            cbCurriculum.Location = new Point(112, 157);
+            cbCurriculum.Name = "cbCurriculum";
+            cbCurriculum.Size = new Size(100, 23);
+            cbCurriculum.TabIndex = 12;
+            // 
+            // lblIdCurriculumError
+            // 
+            lblIdCurriculumError.AutoSize = true;
+            lblIdCurriculumError.ForeColor = Color.Red;
+            lblIdCurriculumError.Location = new Point(112, 183);
+            lblIdCurriculumError.Name = "lblIdCurriculumError";
+            lblIdCurriculumError.Size = new Size(123, 15);
+            lblIdCurriculumError.TabIndex = 11;
+            lblIdCurriculumError.Text = "Ingrese un plan válido";
+            // 
+            // lblIdError
+            // 
+            lblIdError.AutoSize = true;
+            lblIdError.ForeColor = Color.Red;
+            lblIdError.Location = new Point(112, 124);
+            lblIdError.Name = "lblIdError";
+            lblIdError.Size = new Size(110, 15);
+            lblIdError.TabIndex = 10;
+            lblIdError.Text = "Ingrese un id válido";
+            // 
+            // lblDescriptionError
+            // 
+            lblDescriptionError.AutoSize = true;
+            lblDescriptionError.ForeColor = Color.Red;
+            lblDescriptionError.Location = new Point(112, 68);
+            lblDescriptionError.Name = "lblDescriptionError";
+            lblDescriptionError.Size = new Size(166, 15);
+            lblDescriptionError.TabIndex = 9;
+            lblDescriptionError.Text = "Ingrese una descripción válida";
             // 
             // btnActionCommission
             // 
@@ -63,16 +107,9 @@
             btnActionCommission.UseVisualStyleBackColor = true;
             btnActionCommission.Click += btnActionCommission_Click;
             // 
-            // txtCommissionYear
-            // 
-            txtCommissionYear.Location = new Point(112, 138);
-            txtCommissionYear.Name = "txtCommissionYear";
-            txtCommissionYear.Size = new Size(100, 23);
-            txtCommissionYear.TabIndex = 7;
-            // 
             // txtId
             // 
-            txtId.Location = new Point(112, 85);
+            txtId.Location = new Point(112, 98);
             txtId.Name = "txtId";
             txtId.Size = new Size(100, 23);
             txtId.TabIndex = 5;
@@ -87,16 +124,16 @@
             // lblYear
             // 
             lblYear.AutoSize = true;
-            lblYear.Location = new Point(74, 143);
+            lblYear.Location = new Point(60, 160);
             lblYear.Name = "lblYear";
-            lblYear.Size = new Size(32, 15);
+            lblYear.Size = new Size(46, 15);
             lblYear.TabIndex = 2;
-            lblYear.Text = "Año:";
+            lblYear.Text = "Id plan:";
             // 
             // lblId
             // 
             lblId.AutoSize = true;
-            lblId.Location = new Point(86, 88);
+            lblId.Location = new Point(86, 98);
             lblId.Name = "lblId";
             lblId.Size = new Size(20, 15);
             lblId.TabIndex = 1;
@@ -132,7 +169,10 @@
         private Label lblYear;
         private TextBox txtId;
         private TextBox txtCommissionDescription;
-        private TextBox txtCommissionYear;
         private Button btnActionCommission;
+        private Label lblDescriptionError;
+        private Label lblIdCurriculumError;
+        private Label lblIdError;
+        private ComboBox cbCurriculum;
     }
 }

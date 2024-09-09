@@ -18,6 +18,8 @@ namespace Domain
         internal DbSet<Area> Areas { get; set; }
         internal DbSet<Curriculum> Curriculums { get; set; }
         internal DbSet<UserCourse> UserCourses { get; set; }
+        internal DbSet<Commission> Commissions { get; set; }
+
 
         private readonly string _connectionString = "";
 
@@ -76,6 +78,16 @@ namespace Domain
                 .HasMany(s => s.CorrelativesParents)
                 .WithOne(c => c.CorrelativeSubject)
                 .HasForeignKey(c => c.CorrelativeId);
+
+            modelBuilder.Entity<Commission>()
+                .HasMany(c => c.Courses)
+                .WithOne(c => c.Commission)
+                .HasForeignKey(c => c.IdCommission);
+
+            //modelBuilder.Entity<Commission>()
+            //    .HasOne(c => c.Curriculum)
+            //    .WithMany(a => a.Commissions)
+            //    .HasForeignKey(a => a.Curriculum);
         }
 
     }
