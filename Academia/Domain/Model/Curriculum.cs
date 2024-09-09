@@ -35,5 +35,6 @@ namespace Domain.Model
 
 
         public virtual ICollection<Subject> Subjects { get; set; } = new List<Subject>();
+        public virtual ICollection<Commission> Commissions { get; set; } = new List<Commission>();
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Domain.Services;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -9,92 +10,116 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using UI.Desktop.Commission;
+using UI.Desktop.Curriculum;
 
 namespace UI.Desktop.Commission
 {
     public partial class frmCommissions : Form
     {
-        private List<Entities.Commission> commissions = [];
+        private IEnumerable<Domain.Model.Commission> commissionsList = [];
         public frmCommissions()
         {
             InitializeComponent();
             LoadCommissions();
         }
 
+        private void AdaptCommissionToListView(IEnumerable<Domain.Model.Commission> commissionList)
+        {
+            foreach (Domain.Model.Commission item in commissionList)
+            {
+                ListViewItem nuevoItem = new ListViewItem(item.Id.ToString());
+                nuevoItem.Tag = item;
+                nuevoItem.SubItems.Add(item.Description);
+                nuevoItem.SubItems.Add(item.Curriculum.Description.ToString());
+                lstvCommission.Items.Add(nuevoItem);
+            }
+        }
 
         private async void LoadCommissions()
         {
-            DataTable dataTable = new DataTable();
-            DataColumn column_id = new DataColumn("id");
-            dataTable.Columns.Add(column_id);
-            DataColumn column_description = new DataColumn("Description");
-            dataTable.Columns.Add(column_description);
-            DataColumn column_year = new DataColumn("Year");
-            dataTable.Columns.Add(column_year);
-            commissions = await Business.Commission.FindAll();
-            foreach (Entities.Commission commission in commissions)
+            try
             {
-                var row = dataTable.NewRow();
-                row["Description"] = commission.Description;
-                row["Year"] = commission.Year;
-                row["Id"] = commission.IdCommission;
-
-                dataTable.Rows.Add(row);
+                var service = new Domain.Services.CommissionService();
+                this.commissionsList = await service.GetAll();
+                AdaptCommissionToListView(this.commissionsList);
             }
-            dgvCommissions.DataSource = dataTable;
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message);
+                throw e;
+            }
         }
 
-        private void button1_Click(object sender, EventArgs e)
-        {
-            label1.Text = dgvCommissions.SelectedRows.Count.ToString();
-        }
-
-
-        private void tsbtnAdd_Click(object sender, EventArgs e)
+        private async void tsbtnAdd_Click(object sender, EventArgs e)
         {
             frmActionCommission frm = new frmActionCommission(Mode.Create);
             frm.ShowDialog();
+            var service = new Domain.Services.CommissionService();
+            lstvCommission.Items.Clear();
+            AdaptCommissionToListView(await service.GetAll());
+            lstvCommission.Refresh();
+            lstvCommission.Items.Clear();
             LoadCommissions();
         }
 
-        private void tsbtnEdit_Click(object sender, EventArgs e)
+        private async void tsbtnEdit_Click(object sender, EventArgs e)
         {
-
-            if (dgvCommissions.SelectedRows.Count > 0)
+            if (lstvCommission.SelectedItems.Count > 0)
             {
-                var row = dgvCommissions.SelectedRows[0];
-                label1.Text = row.Cells[0].Value.ToString();
-                int id = Int32.Parse(row.Cells[0].Value.ToString());
-                frmActionCommission frm = new frmActionCommission(Mode.Edit, id);
+                var selectedCommission = (Domain.Model.Commission)lstvCommission.SelectedItems[0].Tag;
+                var service = new Domain.Services.CommissionService();
+                frmActionCommission frm = new frmActionCommission(Mode.Edit, selectedCommission);
                 frm.ShowDialog();
+                lstvCommission.Items.Clear();
+                lstvCommission.Refresh();
+                AdaptCommissionToListView(await service.GetAll());
+                lstvCommission.Refresh();
+                lstvCommission.Items.Clear();
                 LoadCommissions();
+            }
+            else
+            {
+                MessageBox.Show("Seleccione una comisión antes de editar");
             }
         }
 
         private async void tsbtnRemove_Click(object sender, EventArgs e)
         {
-            if (dgvCommissions.SelectedRows.Count > 0)
+            if (lstvCommission.SelectedItems.Count > 0)
             {
-                var row = dgvCommissions.SelectedRows[0];
-                int id = Int32.Parse(row.Cells[0].Value.ToString());
-                await Business.Commission.Delete(id);
-                LoadCommissions();
-            }
-        }
-
-        private void dgvCommissions_SelectionChanged(object sender, EventArgs e)
-        {
-            if (dgvCommissions.SelectedRows.Count <= 0)
-            {
-                tsbtnEdit.Enabled = false;
-                tsbtnRemove.Enabled = false;
+                Domain.Model.Commission selectedCommission = (Domain.Model.Commission)lstvCommission.SelectedItems[0].Tag;
+                Domain.Services.CommissionService service = new Domain.Services.CommissionService();
+                service.Delete(selectedCommission.Id);
+                lstvCommission.Items.Clear();
+                AdaptCommissionToListView(await service.GetAll());
+                lstvCommission.Refresh();
             }
             else
             {
-                tsbtnEdit.Enabled = true;
-                tsbtnRemove.Enabled = true;
+                MessageBox.Show("Seleccione una comisión antes de remover");
             }
         }
 
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+            var filteredCommissions = this.commissionsList.Where(a => Data.Util.DeleteDiacritic(a.Description.ToLower()).Contains(Data.Util.DeleteDiacritic(((System.Windows.Forms.TextBox)sender).Text.ToLower())));
+            lstvCommission.Items.Clear();
+            AdaptCommissionToListView(filteredCommissions);
+            lstvCommission.Refresh();
+        }
+
+        private void txtSearch_TextChanged(object sender, EventArgs e)
+        {
+            var commissionsFiltered = this.commissionsList.Where(a => a.Description.ToLower().Contains(((System.Windows.Forms.TextBox)sender).Text.ToLower()));
+            lstvCommission.Items.Clear();
+            AdaptCommissionToListView(commissionsFiltered);
+            lstvCommission.Refresh();
+        }
+
+        private void btnRefresh_Click(object sender, EventArgs e)
+        {
+            lstvCommission.Items.Clear();
+            LoadCommissions();
+        }
     }
 }

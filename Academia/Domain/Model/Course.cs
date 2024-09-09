@@ -40,9 +40,10 @@ namespace Domain.Model
         //public virtual ICollection<User> Students { get; set; } = new List<User>();
 
 
-        //[Column("id_comision")]
-        //public int IdCommition { get; set; }
+        [Column("id_comision")]
+        [ForeignKey("Commission")]
+        public int IdCommission { get; set; }
 
-        //public virtual Commition Comittion { get; set; }
+        public virtual Commission Commission { get; set; }
     }
 }

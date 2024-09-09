@@ -11,11 +11,10 @@ using Entities;
 
 namespace UI.Desktop.Commission
 {
-    public enum Mode { Edit, Create };
     public partial class frmActionCommission : Form
     {
         private Mode mode;
-        public Entities.Commission Commission;
+        public Domain.Model.Commission commission;
         public frmActionCommission(Mode mode)
         {
             this.mode = mode;
@@ -26,48 +25,144 @@ namespace UI.Desktop.Commission
                     btnActionCommission.Text = "Crear comisión";
                     lblId.Visible = false;
                     txtId.Visible = false;
+                    lblDescriptionError.Visible = false;
+                    lblIdCurriculumError.Visible = false;
+                    lblIdError.Visible = false;
+                    Utilities.LoadCurriculums(cbCurriculum);
                     break;
             }
         }
-        public frmActionCommission(Mode mode, int id)
+        public frmActionCommission(Mode mode, Domain.Model.Commission comm)
         {
-            this.mode = mode;
+            this.commission = comm;
             InitializeComponent();
+            Utilities.LoadCurriculums(cbCurriculum);
+            this.mode = mode;
             switch (mode)
             {
                 case Mode.Edit:
                     btnActionCommission.Text = "Guardar comisión";
-                    lblId.Visible = true;
-                    txtId.Visible = true;
-                    txtId.Text = id.ToString();
-                    GetCommission(id);
+                    lblId.Visible = false;
+                    lblDescriptionError.Visible = false;
+                    lblIdCurriculumError.Visible = false;
+                    lblIdError.Visible = false;
+                    txtId.Visible = false;
+                    //txtId.Text = commission.Id.ToString();
+                    txtCommissionDescription.Text = commission.Description.ToString();
+                    cbCurriculum.SelectedValue = commission.Curriculum.Id;
                     break;
             }
 
         }
 
-        private async void GetCommission(int id)
+        private async void LoadCurriculum()
         {
-            Commission = await Business.Commission.FindOne(id);
-            txtCommissionDescription.Text =Commission.Description;
-            txtId.Text = Commission.IdCommission.ToString();
+            try
+            {
+                var service = new Domain.Services.AreaService();
+                cbCurriculum.DataSource = service.GetAll();
+                cbCurriculum.ValueMember = "Id";
+                cbCurriculum.DisplayMember = "Description";
+                cbCurriculum.SelectedIndex = 0;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+
         }
 
-        private async void CreateCommission(Entities.Commission newCommission)
+        private async void btnActionCommission_Click(object sender, EventArgs e)
+        {
+            string commissionDescription = txtCommissionDescription.Text;
+
+            bool validDescription = !String.IsNullOrEmpty(commissionDescription);
+            if (!validDescription)
+            {
+                lblDescriptionError.Visible = true;
+            }
+            else
+            {
+                validDescription = true;
+                lblDescriptionError.Visible = false;
+            }
+
+            bool validCurriculum = cbCurriculum.SelectedValue != null;
+
+            if (validDescription && validCurriculum)
+            {
+                int idCurriculum = (int)cbCurriculum.SelectedValue;
+                if (mode == Mode.Create)
+                {
+                    Domain.Model.Commission newComm = new Domain.Model.Commission
+                    {
+                        Description = commissionDescription,
+                        IdCurriculum = idCurriculum
+
+                    };
+                    var service = new Domain.Services.CommissionService();
+                    try
+                    {
+                        CreateCommission(newComm, service);
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.Message);
+                        throw ex;
+                    }
+                }
+                else if (mode == Mode.Edit)
+                {
+                    var service = new Domain.Services.CommissionService();
+                    EditCommission(commissionDescription, idCurriculum, service);
+                }
+            }
+
+            /*
+            else
+            {
+                if (mode == Mode.Create)
+                {
+                    CreateCommission(new Entities.Commission(commissionDescription.Trim(), commissionIdCurriculum));
+                }
+                else if (mode == Mode.Edit)
+                {
+                    EditCommission(new Entities.Commission(commissionDescription.Trim(), commissionIdCurriculum));
+                }
+            }
+            */
+        }
+
+
+
+
+
+        /*
+        private async void getcommission(int id)
+        {
+            commission = await business.commission.findone(id);
+            txtcommissiondescription.text = commission.description;
+            txtid.text = commission.idcommission.tostring();
+        }
+        */
+        private async void CreateCommission(Domain.Model.Commission newCommission, Domain.Services.CommissionService service)
         {
 
-            var newCommissionResult = await Business.Commission.Create(newCommission);
-            MessageBox.Show(newCommissionResult.Year + "0" + newCommissionResult.Description + " creada correctamente");
+            service.Create(newCommission);
+            MessageBox.Show(newCommission.Description + " creada correctamente");
             this.Dispose();
         }
 
-        private async void EditCommission(Entities.Commission newCommission)
+        private async void EditCommission(string description, int idCurriculum, Domain.Services.CommissionService service)
         {
-            var updatedCommissionResult = await Business.Commission.Update(new Entities.Commission(newCommission.Description, newCommission.Year, Commission.IdCommission));
-            MessageBox.Show(updatedCommissionResult.Year + "0" + updatedCommissionResult.Description + " actualizada correctamente");
+            this.commission.Description = description;
+            this.commission.IdCurriculum = idCurriculum;
+            service.Update(this.commission);
+            MessageBox.Show(this.commission.Description + " actualizada correctamente");
             this.Dispose();
         }
 
+        /*
         private void txtCommissionName_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Enter)
@@ -76,27 +171,7 @@ namespace UI.Desktop.Commission
                 btnActionCommission.PerformClick();
             }
         }
-        private async void btnActionCommission_Click(object sender, EventArgs e)
-        {
-            string commissionDescription = txtCommissionDescription.Text;
-            int commissionYear = Int32.Parse(txtCommissionYear.Text);
-            if (String.IsNullOrEmpty(commissionDescription.Trim()))
-            {
-                //finalizar ejecucion
-            }
-            else
-            {
-                if (mode == Mode.Create)
-                {
-                    CreateCommission(new Entities.Commission(commissionDescription.Trim(), commissionYear));
-                }
-                else if (mode == Mode.Edit)
-                {
-                    EditCommission(new Entities.Commission(commissionDescription.Trim(), commissionYear));
-                }
-            }
-
-        }
+        */
 
     }
 }
