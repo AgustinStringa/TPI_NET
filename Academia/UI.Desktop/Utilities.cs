@@ -82,5 +82,24 @@ namespace UI.Desktop
                 throw;
             }
         }
+
+
+        public static async void LoadCurriculums(ComboBox cb)
+        {
+            try
+            {
+                var service = new Domain.Services.CurriculumService();
+                var curriculums = await service.GetAll();
+                cb.DataSource = curriculums;
+                cb.ValueMember = "Id";
+                cb.DisplayMember = "Description";
+                cb.SelectedIndex = 0;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
     }
 }

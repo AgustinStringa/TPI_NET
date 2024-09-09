@@ -37,12 +37,13 @@ namespace Data
 
                     connection.Open();
 
-                    var sql = "insert into comisiones(desc_comision, anio_especialidad) values (@description, @year);";
+                    var sql = "insert into comisiones(desc_comision, id_plan) values (@description, @idCurriculum);";
 
                     using (SqlCommand command = new SqlCommand(sql, connection))
                     {
                         command.Parameters.AddWithValue("@description", newCommission.Description);
-                        command.Parameters.AddWithValue("@year", newCommission.Year);
+                        // command.Parameters.AddWithValue("@year", newCommission.Year);
+                        command.Parameters.AddWithValue("@idCurriculum", newCommission.IdCurriculum);
                         command.ExecuteNonQuery();
                         return newCommission;
                     }
@@ -74,8 +75,12 @@ namespace Data
                         {
                             while (reader.Read())
                             {
-
-                                commission = new Entities.Commission(reader["desc_comision"].ToString(), Int32.Parse((reader["anio_especialidad"].ToString())), Int32.Parse(reader["id_comision"].ToString()));
+                                var curriculum = await Data.Curriculum.FindOne((int)reader["id_plan"]);
+                                // commission = new Entities.Commission(reader["desc_comision"].ToString(),
+                                // Int32.Parse((reader["anio_especialidad"].ToString())),
+                                // Int32.Parse(reader["id_comision"].ToString()));
+                                commission = new Entities.Commission(reader["desc_comision"].ToString(), curriculum, 
+                                    Int32.Parse(reader["id_comision"].ToString()));
 
                             }
                             return commission;
@@ -110,7 +115,12 @@ namespace Data
                             List<Entities.Commission> commission = new List<Entities.Commission>();
                             while (reader.Read())
                             {
-                                commission.Add(new Entities.Commission(reader["desc_comision"].ToString(), Int32.Parse((reader["anio_especialidad"].ToString())), Int32.Parse((reader["id_comision"].ToString()))));
+                                var curriculum = await Data.Curriculum.FindOne((int)reader["id_plan"]);
+                                //commission.Add(new Entities.Commission(reader["desc_comision"].ToString(), 
+                                //    Int32.Parse((reader["anio_especialidad"].ToString())),
+                                //    Int32.Parse((reader["id_comision"].ToString()))));
+                                commission.Add(new Entities.Commission(reader["desc_comision"].ToString(), curriculum,
+                                    Int32.Parse((reader["id_comision"].ToString()))));
 
                             }
                             return commission;
@@ -140,13 +150,13 @@ namespace Data
 
                     connection.Open();
 
-                    var sql = "UPDATE comisiones SET desc_comisiones = @description, anio_especialidad = @year WHERE id_comision = @id;";
+                    var sql = "UPDATE comisiones SET desc_comisiones = @description, id_plan = @idCurriculum WHERE id_comision = @id;";
 
 
                     using (SqlCommand command = new SqlCommand(sql, connection))
                     {
                         command.Parameters.AddWithValue("@description", updatedCommission.Description);
-                        command.Parameters.AddWithValue("@year", updatedCommission.Year);
+                        command.Parameters.AddWithValue("@idCurriculum", updatedCommission.IdCurriculum);
                         command.Parameters.AddWithValue("@id", updatedCommission.IdCommission);
 
                         return command.ExecuteNonQuery();
