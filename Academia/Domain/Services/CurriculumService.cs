@@ -25,13 +25,13 @@ namespace Domain.Services
             }
         }
 
-        public void Create(Curriculum curriculum)
+        public async Task Create(Curriculum curriculum)
         {
             try
             {
                 var context = new AcademiaContext();
-                context.Curriculums.Add(curriculum);
-                context.SaveChanges();
+                await context.Curriculums.AddAsync(curriculum);
+                await context.SaveChangesAsync();
             }
             catch (Exception e)
             {
@@ -40,16 +40,16 @@ namespace Domain.Services
 
         }
 
-        public void Update(Curriculum curriculum)
+        public async Task Update(Curriculum curriculum)
         {
             try
             {
                 var context = new AcademiaContext();
-                var existingCurriculum = context.Curriculums.Find(curriculum.Id);
+                var existingCurriculum = await context.Curriculums.FindAsync(curriculum.Id);
                 if (existingCurriculum != null)
                 {
                     context.Entry(existingCurriculum).CurrentValues.SetValues(curriculum);
-                    context.SaveChanges();
+                    await context.SaveChangesAsync();
                 }
             }
             catch (Exception e)
@@ -59,16 +59,16 @@ namespace Domain.Services
 
         }
 
-        public void Delete(int id)
+        public async Task Delete(int id)
         {
             try
             {
                 var context = new AcademiaContext();
-                var curriculum = context.Curriculums.Find(id);
+                var curriculum = await context.Curriculums.FindAsync(id);
                 if (curriculum != null)
                 {
                     context.Curriculums.Remove(curriculum);
-                    context.SaveChanges();
+                    await context.SaveChangesAsync();
                 }
             }
             catch (Exception e)

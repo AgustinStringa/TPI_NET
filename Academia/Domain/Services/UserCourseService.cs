@@ -10,15 +10,15 @@ namespace Domain.Services
 {
     public class UserCourseService
     {
-
-        public void Update(UserCourse userCourse)
+        
+        public async Task Update(UserCourse userCourse)
         {
             try
             {
                 using (var context = new AcademiaContext())
                 {
                     context.UserCourses.Update(userCourse);
-                    context.SaveChanges();
+                    await context.SaveChangesAsync();
                 }
             }
             catch (Exception e)
@@ -27,7 +27,7 @@ namespace Domain.Services
             }
         }
 
-        public async Task DeleteAsync(int userId, int courseId)
+        public async Task Delete(int userId, int courseId)
         {
             try
             {
@@ -50,16 +50,16 @@ namespace Domain.Services
             }
         }
 
-        public async Task AddAsync(UserCourse userCourse)
+        public async Task Add(UserCourse userCourse)
         {
             try
             {
                 using (var context = new AcademiaContext())
                 {
-                    // Cargar el curso si es necesario
+     
                     userCourse.Course = await context.Courses.FirstOrDefaultAsync(c => c.Id == userCourse.CourseId);
 
-                    if (await IsUserAlreadyEnrolledAsync(userCourse.UserId, userCourse.CourseId, userCourse.Course.CalendarYear))
+                    if (await IsUserAlreadyEnrolled(userCourse.UserId, userCourse.CourseId, userCourse.Course.CalendarYear))
                     {
                         throw new InvalidOperationException("El usuario ya está inscrito en este curso bajo las condiciones especificadas.");
                     }
@@ -76,7 +76,7 @@ namespace Domain.Services
 
 
 
-        public async Task<bool> IsUserAlreadyEnrolledAsync(int userId, int courseId, string calendarYear)
+        public async Task<bool> IsUserAlreadyEnrolled(int userId, int courseId, string calendarYear)
         {
             using (var context = new AcademiaContext())
             {
