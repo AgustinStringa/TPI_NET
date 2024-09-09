@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Domain.Model;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Migrations.Operations;
 namespace Domain.Services
 {
     public class CourseService
@@ -27,6 +28,70 @@ namespace Domain.Services
             var context = new AcademiaContext();
             var courses = await context.Courses.Include(c => c.Subject).ToListAsync();
             return courses;
+        }
+
+        public void Create(Course course)
+        {
+            try
+            {
+                var context = new AcademiaContext();
+                context.Courses.Add(course);
+                context.SaveChanges();
+            }
+            catch (Exception e)
+            {
+                throw;
+            }
+        }
+
+        public void Update(Course course)
+        {
+            try
+            {
+                var context = new AcademiaContext();
+                var existingCourse = context.Courses.Find(course.Id);
+                if (existingCourse != null)
+                {
+                    context.Entry(existingCourse).CurrentValues.SetValues(course);
+                    context.SaveChanges();
+                }
+            }
+            catch (Exception e)
+            {
+                throw;
+            }
+        }
+
+        public void Delete(Course course)
+        {
+            try
+            {
+                var context = new AcademiaContext();
+                var existingCourse = context.Courses.Find(course.Id);
+                if (existingCourse != null)
+                {
+                    context.Courses.Remove(existingCourse);
+                    context.SaveChanges();
+                }
+            }
+            catch (Exception e)
+            {
+                throw;
+            }
+        }
+
+        public void Add(Course course)
+        {
+            try
+            {
+                var context = new AcademiaContext();
+                context.Courses.Add(course);
+                context.SaveChanges();
+            }
+            catch (Exception e)
+            {
+                throw;
+            }
         }
     }
 }

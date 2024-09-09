@@ -17,7 +17,9 @@ namespace Domain
         internal DbSet<User> Users { get; set; }
         internal DbSet<Area> Areas { get; set; }
         internal DbSet<Curriculum> Curriculums { get; set; }
+        internal DbSet<UserCourse> UserCourses { get; set; }
         internal DbSet<Commission> Commissions { get; set; }
+
 
         private readonly string _connectionString = "";
 
@@ -31,7 +33,7 @@ namespace Domain
             //builder.IntegratedSecurity = true;
             //builder.InitialCatalog = "net-tpi";
             //_connectionString = builder.ConnectionString;
-            _connectionString = "Data Source=DESKTOP-1T6I08B;Initial Catalog=academia;Integrated Security=True;TrustServerCertificate=True;\r\n";
+            _connectionString = @"Data Source=ELISITO\SQLEXPRESS;Initial Catalog=academia;Integrated Security=True;TrustServerCertificate=True;";
             this.Database.EnsureCreated();
         }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
