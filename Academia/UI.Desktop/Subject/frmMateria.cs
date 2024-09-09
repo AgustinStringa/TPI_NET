@@ -142,7 +142,7 @@ namespace UI.Desktop.Subject
                 if (MessageBox.Show("¿Desea Eliminar la asignatura ' " + selectedSubject.Description + " '  ?", "Eliminar asignatura", MessageBoxButtons.OKCancel, MessageBoxIcon.Information) == DialogResult.OK)
                 {
                     var service = new SubjectService();
-                    service.Delete(selectedSubject.Id);
+                    await service.Delete(selectedSubject.Id);
                     listView1.Items.Clear();
                     this.subjects = await service.GetAll();
                     AdaptSubjectsToListView(this.subjects);

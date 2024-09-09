@@ -120,7 +120,7 @@ namespace UI.Desktop.Curriculum
                     var service = new Domain.Services.CurriculumService();
                     try
                     {
-                        service.Create(newCurr);
+                        await service.Create(newCurr);
                         MessageBox.Show(newCurr.Description + " creado correctamente");
                         this.Dispose();
                     }
@@ -139,7 +139,7 @@ namespace UI.Desktop.Curriculum
                     this.curriculum.Resolution = resolution;
                     this.curriculum.AreaId = idArea;
                     this.curriculum.Area = area;
-                    service.Update(this.curriculum);
+                    await service.Update(this.curriculum);
                     MessageBox.Show("Actualizado correctamente");
                     this.Dispose();
 

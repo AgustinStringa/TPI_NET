@@ -1,5 +1,7 @@
 ﻿using Domain.Model;
 using Microsoft.EntityFrameworkCore;
+using System.Configuration;
+using Microsoft.Extensions.Configuration;
 
 namespace API
 {
@@ -9,11 +11,17 @@ namespace API
         public DbSet<Course> Courses { get; set; } = null!;
         public DbSet<Curriculum> Curriculums { get; set; } = null!;
         public DbSet<User> Users { get; set; } = null!;
+        public DbSet<UserCourse> UserCourses { get; set; } = null!;
 
         private string _connectionString = "";
         public AcademiaContext()
         {
-            _connectionString = "Data Source=DESKTOP-1T6I08B;Initial Catalog=academia;Integrated Security=True;TrustServerCertificate=True;\r\n";
+
+            var configuration = new ConfigurationBuilder()
+          .SetBasePath(Directory.GetCurrentDirectory())
+          .AddJsonFile("appsettings.json")
+          .Build();
+            _connectionString = configuration.GetConnectionString("AcademiaDevConnectionString");         
             this.Database.EnsureCreated();
         }
 

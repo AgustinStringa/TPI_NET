@@ -1,35 +1,36 @@
-﻿using Domain.Model;
-using Microsoft.EntityFrameworkCore;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+using Domain.Model;
 
 namespace Domain.Services
 {
-    public class AreaService
+    public class CommissionService
     {
-        public async Task<IEnumerable<Area>> GetAll()
+        public async Task<IEnumerable<Commission>> GetAll()
         {
             try
             {
                 var context = new AcademiaContext();
-                return context.Areas.Include(a => a.Curriculums).ToList();
+                return await context.Commissions.Include(c => c.Curriculum).ToListAsync();
             }
-            catch (Exception e)
+            catch (Exception e) 
             {
                 return null;
                 throw e;
             }
         }
-        public async Task Create(Area area)
+
+        public void Create(Commission commission)
         {
             try
             {
                 var context = new AcademiaContext();
-                await context.Areas.AddAsync(area);
-                await context.SaveChangesAsync();
+                context.Commissions.Add(commission);
+                context.SaveChanges();
             }
             catch (Exception e)
             {
@@ -37,30 +38,30 @@ namespace Domain.Services
             }
         }
 
-        public async Task Update(Area area)
+        public void Update(Commission commission)
         {
             var context = new AcademiaContext();
             try
             {
-                context.Areas.Update(area);
-                await context.SaveChangesAsync();
+                context.Commissions.Update(commission);
+                context.SaveChanges();
             }
-            catch (Exception ex)
+            catch (Exception e)
             {
-                throw ex;
+                throw e;
             }
         }
-        
-        public async Task Delete(int Id)
+
+        public void Delete(int id)
         {
             try
             {
                 var context = new AcademiaContext();
-                var area = await context.Areas.FindAsync(Id);
-                if (area != null)
+                var commission = context.Commissions.Find(id);
+                if (commission != null)
                 {
-                    context.Areas.Remove(area);
-                    await context.SaveChangesAsync();
+                    context.Commissions.Remove(commission);
+                    context.SaveChanges();
                 }
             }
             catch (Exception e)
@@ -68,21 +69,20 @@ namespace Domain.Services
                 throw e;
             }
         }
-        
-        public async Task<Area> GetById(int Id)
+
+        public Commission GetById(int id)
         {
             try
             {
                 var context = new AcademiaContext();
-                var area = await context.Areas.FindAsync(Id);
-                return area;
+                var commission = context.Commissions.Find(id);
+                return commission;
             }
             catch (Exception e)
             {
                 return null;
                 throw e;
             }
-
         }
     }
 }

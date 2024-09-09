@@ -32,11 +32,14 @@
             tsbtnAdd = new ToolStripButton();
             tsbtnEdit = new ToolStripButton();
             tsbtnRemove = new ToolStripButton();
-            dgvCommissions = new DataGridView();
-            button1 = new Button();
             label1 = new Label();
+            txtSearch = new TextBox();
+            lstvCommission = new ListView();
+            id = new ColumnHeader();
+            description = new ColumnHeader();
+            idCurriculum = new ColumnHeader();
+            btnRefresh = new Button();
             toolStrip1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)dgvCommissions).BeginInit();
             SuspendLayout();
             // 
             // toolStrip1
@@ -78,50 +81,76 @@
             tsbtnRemove.Text = "Eliminar Comisión";
             tsbtnRemove.Click += tsbtnRemove_Click;
             // 
-            // dgvCommissions
-            // 
-            dgvCommissions.AllowUserToAddRows = false;
-            dgvCommissions.AllowUserToDeleteRows = false;
-            dgvCommissions.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvCommissions.Location = new Point(61, 150);
-            dgvCommissions.Name = "dgvCommissions";
-            dgvCommissions.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgvCommissions.Size = new Size(678, 150);
-            dgvCommissions.TabIndex = 2;
-            dgvCommissions.SelectionChanged += dgvCommissions_SelectionChanged;
-            // 
-            // button1
-            // 
-            button1.Location = new Point(555, 100);
-            button1.Name = "button1";
-            button1.Size = new Size(75, 23);
-            button1.TabIndex = 4;
-            button1.Text = "button1";
-            button1.UseVisualStyleBackColor = true;
-            // 
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(95, 100);
+            label1.Font = new Font("Segoe UI", 12F);
+            label1.Location = new Point(61, 51);
             label1.Name = "label1";
-            label1.Size = new Size(38, 15);
+            label1.Size = new Size(91, 21);
             label1.TabIndex = 5;
-            label1.Text = "label1";
+            label1.Text = "Comisiones";
+            // 
+            // txtSearch
+            // 
+            txtSearch.Location = new Point(61, 90);
+            txtSearch.Name = "txtSearch";
+            txtSearch.PlaceholderText = "Search...";
+            txtSearch.Size = new Size(250, 23);
+            txtSearch.TabIndex = 7;
+            txtSearch.TextChanged += txtSearch_TextChanged;
+            // 
+            // lstvCommission
+            // 
+            lstvCommission.Columns.AddRange(new ColumnHeader[] { id, description, idCurriculum });
+            lstvCommission.FullRowSelect = true;
+            lstvCommission.GridLines = true;
+            lstvCommission.Location = new Point(50, 137);
+            lstvCommission.Name = "lstvCommission";
+            lstvCommission.Size = new Size(701, 256);
+            lstvCommission.TabIndex = 8;
+            lstvCommission.UseCompatibleStateImageBehavior = false;
+            lstvCommission.View = View.Details;
+            // 
+            // id
+            // 
+            id.Text = "Id comisión";
+            id.Width = 150;
+            // 
+            // description
+            // 
+            description.Text = "Descripcion";
+            description.Width = 150;
+            // 
+            // idCurriculum
+            // 
+            idCurriculum.Text = "Plan de estudio";
+            idCurriculum.Width = 200;
+            // 
+            // btnRefresh
+            // 
+            btnRefresh.Location = new Point(605, 89);
+            btnRefresh.Name = "btnRefresh";
+            btnRefresh.Size = new Size(128, 23);
+            btnRefresh.TabIndex = 9;
+            btnRefresh.Text = "Actualizar";
+            btnRefresh.UseVisualStyleBackColor = true;
+            btnRefresh.Click += btnRefresh_Click;
             // 
             // frmCommissions
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
+            Controls.Add(btnRefresh);
+            Controls.Add(lstvCommission);
+            Controls.Add(txtSearch);
             Controls.Add(label1);
-            Controls.Add(button1);
-            Controls.Add(dgvCommissions);
             Controls.Add(toolStrip1);
             Name = "frmCommissions";
             Text = "Comisiones";
             toolStrip1.ResumeLayout(false);
             toolStrip1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)dgvCommissions).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -132,8 +161,12 @@
         private ToolStripButton tsbtnAdd;
         private ToolStripButton tsbtnEdit;
         private ToolStripButton tsbtnRemove;
-        private DataGridView dgvCommissions;
-        private Button button1;
         private Label label1;
+        private TextBox txtSearch;
+        private ListView lstvCommission;
+        private ColumnHeader id;
+        private ColumnHeader description;
+        private ColumnHeader idCurriculum;
+        private Button btnRefresh;
     }
 }

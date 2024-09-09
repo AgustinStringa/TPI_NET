@@ -11,7 +11,9 @@ namespace Entities
         #region fields
         private int _Id;
         private string _Description;
-        private int _Year;
+        //private int _Year;
+        private Curriculum _Curriculum;
+        private int _IdCurriculum;
         #endregion
 
         #region properties
@@ -25,26 +27,50 @@ namespace Entities
             get { return _Description; }
             set { _Description = value; }
         }
-        public int Year
+        //public int Year
+        //{
+        //    get { return _Year; }
+        //    set { _Year = value; }
+        //}
+        public Curriculum Curriculum
         {
-            get { return _Year; }
-            set { _Year = value; }
+            get { return _Curriculum; }
+            set { _Curriculum = value; }
         }
-        
+        public int IdCurriculum
+        {
+            get { return _IdCurriculum; }
+            set { _IdCurriculum = value; }
+        }
         #endregion
 
         #region constructors
-        public Commission(string description, int year)
+        //public Commission(string description, int year)
+        //{
+        //    _Description = description;
+        //    _Year = year;
+        //}
+
+        //public Commission(string description, int year, int id)
+        //{
+        //    _Id = id;
+        //    _Description = description;
+        //    _Year = year;
+        //}
+
+        // constructor provided by user
+        public Commission(string description,  int curriculum)
         {
             _Description = description;
-            _Year = year;
+            _IdCurriculum = curriculum;
         }
 
-        public Commission(string description, int year, int id)
+        //constructor provided by database
+        public Commission(string description, Curriculum curriculum, int id)
         {
-            _Id = id;
+            _Curriculum = curriculum;
             _Description = description;
-            _Year = year;
+            _Id = id;
         }
         #endregion
     }

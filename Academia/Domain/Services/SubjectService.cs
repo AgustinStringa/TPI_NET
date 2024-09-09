@@ -25,7 +25,7 @@ namespace Domain.Services
             return subjects;
         }
 
-        public async void Create(Subject subject)
+        public async Task Create(Subject subject)
         {
             try
             {
@@ -39,7 +39,7 @@ namespace Domain.Services
             }
         }
 
-        public async void Update(Subject subject)
+        public async Task Update(Subject subject)
         {
             try
             {
@@ -58,7 +58,7 @@ namespace Domain.Services
 
         }
 
-        public async void Delete(int Id)
+        public async Task Delete(int Id)
         {
             try
             {
