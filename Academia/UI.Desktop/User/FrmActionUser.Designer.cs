@@ -1,6 +1,6 @@
 ﻿namespace UI.Desktop
 {
-    partial class frmCrearUsuario
+    partial class FrmActionUser
     {
         /// <summary>
         /// Required designer variable.
@@ -39,27 +39,27 @@
             rbtnUserTeacher = new RadioButton();
             rbtnUserAdministrative = new RadioButton();
             lblLegajoError = new Label();
-            txtLegajo = new TextBox();
-            lblLegajo = new Label();
+            txtStudentId = new TextBox();
+            lblStudentId = new Label();
             lblAddressError = new Label();
-            lblDireccion = new Label();
+            lblAddress = new Label();
             txtAddress = new TextBox();
             lblPhoneNumberError = new Label();
-            lblTelefono = new Label();
+            lblPhoneNumber = new Label();
             txtPhoneNumber = new TextBox();
             lblFechaNacimientoError = new Label();
             lblApellidoError = new Label();
             lblNombreError = new Label();
-            lblApellido = new Label();
-            txtApellido = new TextBox();
+            lblLastName = new Label();
+            txtLastName = new TextBox();
             lblEmailError = new Label();
-            lblNombre = new Label();
-            txtNombre = new TextBox();
+            lblName = new Label();
+            txtName = new TextBox();
             lblClaveError = new Label();
             lblEmail = new Label();
             txtEmail = new TextBox();
-            lblClave = new Label();
-            mtbClave = new MaskedTextBox();
+            lblPassword = new Label();
+            mtbPassword = new MaskedTextBox();
             lblUsernameError = new Label();
             lblCuitError = new Label();
             lblUsername = new Label();
@@ -69,7 +69,7 @@
             txtCuit = new TextBox();
             lblCuit = new Label();
             lblOutput = new Label();
-            btnCrearUsuario = new Button();
+            btnActionUser = new Button();
             panel1.SuspendLayout();
             panel2.SuspendLayout();
             SuspendLayout();
@@ -78,27 +78,27 @@
             // 
             panel1.Controls.Add(panel2);
             panel1.Controls.Add(lblLegajoError);
-            panel1.Controls.Add(txtLegajo);
-            panel1.Controls.Add(lblLegajo);
+            panel1.Controls.Add(txtStudentId);
+            panel1.Controls.Add(lblStudentId);
             panel1.Controls.Add(lblAddressError);
-            panel1.Controls.Add(lblDireccion);
+            panel1.Controls.Add(lblAddress);
             panel1.Controls.Add(txtAddress);
             panel1.Controls.Add(lblPhoneNumberError);
-            panel1.Controls.Add(lblTelefono);
+            panel1.Controls.Add(lblPhoneNumber);
             panel1.Controls.Add(txtPhoneNumber);
             panel1.Controls.Add(lblFechaNacimientoError);
             panel1.Controls.Add(lblApellidoError);
             panel1.Controls.Add(lblNombreError);
-            panel1.Controls.Add(lblApellido);
-            panel1.Controls.Add(txtApellido);
+            panel1.Controls.Add(lblLastName);
+            panel1.Controls.Add(txtLastName);
             panel1.Controls.Add(lblEmailError);
-            panel1.Controls.Add(lblNombre);
-            panel1.Controls.Add(txtNombre);
+            panel1.Controls.Add(lblName);
+            panel1.Controls.Add(txtName);
             panel1.Controls.Add(lblClaveError);
             panel1.Controls.Add(lblEmail);
             panel1.Controls.Add(txtEmail);
-            panel1.Controls.Add(lblClave);
-            panel1.Controls.Add(mtbClave);
+            panel1.Controls.Add(lblPassword);
+            panel1.Controls.Add(mtbPassword);
             panel1.Controls.Add(lblUsernameError);
             panel1.Controls.Add(lblCuitError);
             panel1.Controls.Add(lblUsername);
@@ -108,7 +108,7 @@
             panel1.Controls.Add(txtCuit);
             panel1.Controls.Add(lblCuit);
             panel1.Controls.Add(lblOutput);
-            panel1.Controls.Add(btnCrearUsuario);
+            panel1.Controls.Add(btnActionUser);
             panel1.Location = new Point(103, 34);
             panel1.Name = "panel1";
             panel1.Size = new Size(915, 686);
@@ -226,25 +226,25 @@
             lblLegajoError.Text = "Campo es obligatorio";
             lblLegajoError.Visible = false;
             // 
-            // txtLegajo
+            // txtStudentId
             // 
-            txtLegajo.Font = new Font("Segoe UI", 12F);
-            txtLegajo.Location = new Point(330, 591);
-            txtLegajo.Name = "txtLegajo";
-            txtLegajo.Size = new Size(285, 29);
-            txtLegajo.TabIndex = 9;
-            txtLegajo.Visible = false;
+            txtStudentId.Font = new Font("Segoe UI", 12F);
+            txtStudentId.Location = new Point(330, 591);
+            txtStudentId.Name = "txtStudentId";
+            txtStudentId.Size = new Size(285, 29);
+            txtStudentId.TabIndex = 9;
+            txtStudentId.Visible = false;
             // 
-            // lblLegajo
+            // lblStudentId
             // 
-            lblLegajo.AutoSize = true;
-            lblLegajo.Font = new Font("Segoe UI", 12F);
-            lblLegajo.Location = new Point(330, 567);
-            lblLegajo.Name = "lblLegajo";
-            lblLegajo.Size = new Size(74, 21);
-            lblLegajo.TabIndex = 28;
-            lblLegajo.Text = "Legajo : *";
-            lblLegajo.Visible = false;
+            lblStudentId.AutoSize = true;
+            lblStudentId.Font = new Font("Segoe UI", 12F);
+            lblStudentId.Location = new Point(330, 567);
+            lblStudentId.Name = "lblStudentId";
+            lblStudentId.Size = new Size(74, 21);
+            lblStudentId.TabIndex = 28;
+            lblStudentId.Text = "Legajo : *";
+            lblStudentId.Visible = false;
             // 
             // lblAddressError
             // 
@@ -258,15 +258,15 @@
             lblAddressError.Text = "Campo obligatorio. \r\nIntroduce una dirección válida.";
             lblAddressError.Visible = false;
             // 
-            // lblDireccion
+            // lblAddress
             // 
-            lblDireccion.AutoSize = true;
-            lblDireccion.Font = new Font("Segoe UI", 12F);
-            lblDireccion.Location = new Point(324, 261);
-            lblDireccion.Name = "lblDireccion";
-            lblDireccion.Size = new Size(93, 21);
-            lblDireccion.TabIndex = 24;
-            lblDireccion.Text = "Dirección : *";
+            lblAddress.AutoSize = true;
+            lblAddress.Font = new Font("Segoe UI", 12F);
+            lblAddress.Location = new Point(324, 261);
+            lblAddress.Name = "lblAddress";
+            lblAddress.Size = new Size(93, 21);
+            lblAddress.TabIndex = 24;
+            lblAddress.Text = "Dirección : *";
             // 
             // txtAddress
             // 
@@ -288,15 +288,15 @@
             lblPhoneNumberError.Text = "Campo obligatorio. \r\nIntroduce un telfono válido.";
             lblPhoneNumberError.Visible = false;
             // 
-            // lblTelefono
+            // lblPhoneNumber
             // 
-            lblTelefono.AutoSize = true;
-            lblTelefono.Font = new Font("Segoe UI", 12F);
-            lblTelefono.Location = new Point(324, 125);
-            lblTelefono.Name = "lblTelefono";
-            lblTelefono.Size = new Size(86, 21);
-            lblTelefono.TabIndex = 21;
-            lblTelefono.Text = "Telefono : *";
+            lblPhoneNumber.AutoSize = true;
+            lblPhoneNumber.Font = new Font("Segoe UI", 12F);
+            lblPhoneNumber.Location = new Point(324, 125);
+            lblPhoneNumber.Name = "lblPhoneNumber";
+            lblPhoneNumber.Size = new Size(86, 21);
+            lblPhoneNumber.TabIndex = 21;
+            lblPhoneNumber.Text = "Telefono : *";
             // 
             // txtPhoneNumber
             // 
@@ -342,23 +342,23 @@
             lblNombreError.Text = "Campo obligatorio.\r\nIntroduce un nombre válido.";
             lblNombreError.Visible = false;
             // 
-            // lblApellido
+            // lblLastName
             // 
-            lblApellido.AutoSize = true;
-            lblApellido.Font = new Font("Segoe UI", 12F);
-            lblApellido.Location = new Point(13, 482);
-            lblApellido.Name = "lblApellido";
-            lblApellido.Size = new Size(85, 21);
-            lblApellido.TabIndex = 6;
-            lblApellido.Text = "Apellido : *";
+            lblLastName.AutoSize = true;
+            lblLastName.Font = new Font("Segoe UI", 12F);
+            lblLastName.Location = new Point(13, 482);
+            lblLastName.Name = "lblLastName";
+            lblLastName.Size = new Size(85, 21);
+            lblLastName.TabIndex = 6;
+            lblLastName.Text = "Apellido : *";
             // 
-            // txtApellido
+            // txtLastName
             // 
-            txtApellido.Font = new Font("Segoe UI", 12F);
-            txtApellido.Location = new Point(13, 506);
-            txtApellido.Name = "txtApellido";
-            txtApellido.Size = new Size(285, 29);
-            txtApellido.TabIndex = 5;
+            txtLastName.Font = new Font("Segoe UI", 12F);
+            txtLastName.Location = new Point(13, 506);
+            txtLastName.Name = "txtLastName";
+            txtLastName.Size = new Size(285, 29);
+            txtLastName.TabIndex = 5;
             // 
             // lblEmailError
             // 
@@ -372,23 +372,23 @@
             lblEmailError.Text = "Campo obligatorio";
             lblEmailError.Visible = false;
             // 
-            // lblNombre
+            // lblName
             // 
-            lblNombre.AutoSize = true;
-            lblNombre.Font = new Font("Segoe UI", 12F);
-            lblNombre.Location = new Point(13, 360);
-            lblNombre.Name = "lblNombre";
-            lblNombre.Size = new Size(86, 21);
-            lblNombre.TabIndex = 4;
-            lblNombre.Text = "Nombre : *";
+            lblName.AutoSize = true;
+            lblName.Font = new Font("Segoe UI", 12F);
+            lblName.Location = new Point(13, 360);
+            lblName.Name = "lblName";
+            lblName.Size = new Size(86, 21);
+            lblName.TabIndex = 4;
+            lblName.Text = "Nombre : *";
             // 
-            // txtNombre
+            // txtName
             // 
-            txtNombre.Font = new Font("Segoe UI", 12F);
-            txtNombre.Location = new Point(13, 384);
-            txtNombre.Name = "txtNombre";
-            txtNombre.Size = new Size(285, 29);
-            txtNombre.TabIndex = 4;
+            txtName.Font = new Font("Segoe UI", 12F);
+            txtName.Location = new Point(13, 384);
+            txtName.Name = "txtName";
+            txtName.Size = new Size(285, 29);
+            txtName.TabIndex = 4;
             // 
             // lblClaveError
             // 
@@ -420,24 +420,24 @@
             txtEmail.Size = new Size(285, 29);
             txtEmail.TabIndex = 3;
             // 
-            // lblClave
+            // lblPassword
             // 
-            lblClave.AutoSize = true;
-            lblClave.Font = new Font("Segoe UI", 12F);
-            lblClave.Location = new Point(14, 125);
-            lblClave.Name = "lblClave";
-            lblClave.Size = new Size(66, 21);
-            lblClave.TabIndex = 2;
-            lblClave.Text = "Clave : *";
+            lblPassword.AutoSize = true;
+            lblPassword.Font = new Font("Segoe UI", 12F);
+            lblPassword.Location = new Point(14, 125);
+            lblPassword.Name = "lblPassword";
+            lblPassword.Size = new Size(66, 21);
+            lblPassword.TabIndex = 2;
+            lblPassword.Text = "Clave : *";
             // 
-            // mtbClave
+            // mtbPassword
             // 
-            mtbClave.Font = new Font("Segoe UI", 12F);
-            mtbClave.Location = new Point(14, 149);
-            mtbClave.Name = "mtbClave";
-            mtbClave.PasswordChar = '*';
-            mtbClave.Size = new Size(285, 29);
-            mtbClave.TabIndex = 2;
+            mtbPassword.Font = new Font("Segoe UI", 12F);
+            mtbPassword.Location = new Point(14, 149);
+            mtbPassword.Name = "mtbPassword";
+            mtbPassword.PasswordChar = '*';
+            mtbPassword.Size = new Size(285, 29);
+            mtbPassword.TabIndex = 2;
             // 
             // lblUsernameError
             // 
@@ -528,19 +528,19 @@
             lblOutput.TabIndex = 5;
             lblOutput.Text = "output here";
             // 
-            // btnCrearUsuario
+            // btnActionUser
             // 
-            btnCrearUsuario.BackColor = SystemColors.ActiveCaption;
-            btnCrearUsuario.Font = new Font("Segoe UI", 12F);
-            btnCrearUsuario.Location = new Point(756, 614);
-            btnCrearUsuario.Name = "btnCrearUsuario";
-            btnCrearUsuario.Size = new Size(141, 47);
-            btnCrearUsuario.TabIndex = 10;
-            btnCrearUsuario.Text = "Crear Usuario";
-            btnCrearUsuario.UseVisualStyleBackColor = false;
-            btnCrearUsuario.Click += btnCrearUsuario_Click;
+            btnActionUser.BackColor = SystemColors.ActiveCaption;
+            btnActionUser.Font = new Font("Segoe UI", 12F);
+            btnActionUser.Location = new Point(756, 614);
+            btnActionUser.Name = "btnActionUser";
+            btnActionUser.Size = new Size(141, 47);
+            btnActionUser.TabIndex = 10;
+            btnActionUser.Text = "Crear Usuario";
+            btnActionUser.UseVisualStyleBackColor = false;
+            btnActionUser.Click += btnActionUser_Click;
             // 
-            // frmCrearUsuario
+            // FrmActionUser
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
@@ -548,7 +548,7 @@
             BackColor = Color.White;
             ClientSize = new Size(1072, 732);
             Controls.Add(panel1);
-            Name = "frmCrearUsuario";
+            Name = "FrmActionUser";
             Text = "Crear Usuario";
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
@@ -559,13 +559,13 @@
 
         #endregion
         private Panel panel1;
-        private TextBox txtApellido;
-        private Label lblApellido;
-        private TextBox txtNombre;
-        private Label lblNombre;
+        private TextBox txtLastName;
+        private Label lblLastName;
+        private TextBox txtName;
+        private Label lblName;
         private TextBox txtEmail;
         private Label lblEmail;
-        private Button btnCrearUsuario;
+        private Button btnActionUser;
         private Label lblOutput;
         private RadioButton rbtnUserAdministrative;
         private RadioButton rbtnUserStudent;
@@ -581,21 +581,21 @@
         private Label lblApellidoError;
         private Label lblCuitError;
         private Label lblClaveError;
-        private Label lblClave;
-        private MaskedTextBox mtbClave;
+        private Label lblPassword;
+        private MaskedTextBox mtbPassword;
         private Label lblFechaNacimientoError;
         private Label lblUsernameError;
         private Label lblUsername;
         private TextBox txtUsername;
         private Label lblAddressError;
-        private Label lblDireccion;
+        private Label lblAddress;
         private TextBox txtAddress;
         private Label lblPhoneNumberError;
-        private Label lblTelefono;
+        private Label lblPhoneNumber;
         private TextBox txtPhoneNumber;
         private Label lblLegajoError;
-        private TextBox txtLegajo;
-        private Label lblLegajo;
+        private TextBox txtStudentId;
+        private Label lblStudentId;
         private Panel panel2;
         private Label lblCurriculum;
         private Label lblArea;

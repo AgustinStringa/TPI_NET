@@ -11,56 +11,41 @@ using Entities;
 using Domain;
 using Domain.Model;
 using Domain.Services;
+using Windows.System;
 
 namespace UI.Desktop
 {
-    public partial class frmCrearUsuario : Form
+    public partial class FrmActionUser : Form
     {
-
-        public frmCrearUsuario()
+        private Mode Mode;
+        private Domain.Model.User User;
+        public FrmActionUser(Mode mode)
         {
-            InitializeComponent();
-            Utilities.LoadAreas(cbAreas);
+            if (mode == Mode.Create)
+            {
+                this.Mode = mode;
+                InitializeComponent();
+                btnActionUser.Text = "Crear Usuario";
+                Utilities.LoadAreas(cbAreas);
+            }
+        }
+        public FrmActionUser(Mode mode, Domain.Model.User user)
+        {
+            if (mode == Mode.Edit)
+            {
+                this.Mode = mode;
+                this.User = user;
+                InitializeComponent();
+                btnActionUser.Text = "Guardar Usuario";
+                FillFields();
+            }
         }
 
-        private async void btnCrearUsuario_Click(object sender, EventArgs e)
+        private async void btnActionUser_Click(object sender, EventArgs e)
         {
             try
             {
                 bool correctForm = false;
-                int usertype = 0;
-                string studentId = null;
-                string cuit = null;
-                Domain.Model.Curriculum curriculum = null;
-                if (!rbtnUserAdministrative.Checked
-                    && !rbtnUserStudent.Checked
-                    && !rbtnUserTeacher.Checked)
-                {
-                    MessageBox.Show("Seleccione el tipo de usuario (Alumno, Docente, Administrativo)");
-                    return;
-                }
-                else
-                {
-                    if (rbtnUserAdministrative.Checked)
-                    {
-
-                        usertype = 1;
-                    }
-                    else if (rbtnUserTeacher.Checked)
-                    {
-                        usertype = 2;
-
-                    }
-                    else if (rbtnUserStudent.Checked)
-                    {
-                        usertype = 3;
-
-                    }
-
-                }
-
-
-
                 //USERNAME
                 string username = txtUsername.Text.Trim();
                 bool validUsername = Business.Validations.IsValidUsername(username);
@@ -77,44 +62,44 @@ namespace UI.Desktop
 
 
                 //NAME
-                string name = txtNombre.Text.Trim();
+                string name = txtName.Text.Trim();
                 bool validName = Business.Validations.IsValidName(name);
                 if (!validName)
                 {
-                    txtNombre.ForeColor = System.Drawing.Color.FromArgb(1, 220, 38, 38);
+                    txtName.ForeColor = System.Drawing.Color.FromArgb(1, 220, 38, 38);
                     lblNombreError.Visible = true;
                 }
                 else
                 {
-                    txtNombre.ForeColor = SystemColors.WindowText;
+                    txtName.ForeColor = SystemColors.WindowText;
                     lblNombreError.Visible = false;
                 }
 
                 //LASTANAME
-                string lastname = txtApellido.Text.Trim();
+                string lastname = txtLastName.Text.Trim();
                 bool validLastname = Business.Validations.IsValidLastname(lastname);
                 if (!validLastname)
                 {
-                    txtApellido.ForeColor = System.Drawing.Color.FromArgb(1, 220, 38, 38);
+                    txtLastName.ForeColor = System.Drawing.Color.FromArgb(1, 220, 38, 38);
                     lblApellidoError.Visible = true;
                 }
                 else
                 {
-                    txtApellido.ForeColor = SystemColors.WindowText;
+                    txtLastName.ForeColor = SystemColors.WindowText;
                     lblApellidoError.Visible = false;
                 }
 
                 //PASSWORD
-                string password = mtbClave.Text.Trim();
+                string password = mtbPassword.Text.Trim();
                 bool validPassword = Business.Validations.IsValidPassword(password);
                 if (!validPassword)
                 {
-                    mtbClave.ForeColor = System.Drawing.Color.FromArgb(1, 220, 38, 38);
+                    mtbPassword.ForeColor = System.Drawing.Color.FromArgb(1, 220, 38, 38);
                     lblClaveError.Visible = true;
                 }
                 else
                 {
-                    mtbClave.ForeColor = SystemColors.WindowText;
+                    mtbPassword.ForeColor = SystemColors.WindowText;
                     lblClaveError.Visible = false;
                 }
 
@@ -179,6 +164,199 @@ namespace UI.Desktop
                     dtpBirthDate.ForeColor = SystemColors.WindowText;
                     lblBirthDate.Visible = false;
                 }
+
+
+                //CUIT
+                bool validCuit;
+                string cuit = txtCuit.Text.Trim();
+                if (panel2.Visible == true)
+                {
+                    validCuit = Business.Validations.IsValidCuit(cuit);
+                    if (!validCuit)
+                    {
+                        txtCuit.ForeColor = System.Drawing.Color.FromArgb(1, 220, 38, 38);
+                        lblCuitError.Visible = true;
+                    }
+                    else
+                    {
+                        txtCuit.ForeColor = SystemColors.WindowText;
+                        lblCuitError.Visible = false;
+                        cuit = cuit.Replace("-", "");
+                    }
+                }
+                else
+                {
+                    validCuit = false;
+                }
+                bool validStudentId;
+
+                string studentId = null;
+                if (txtStudentId.Visible == true)
+                {
+                    //LEGAJO
+                    studentId = txtStudentId.Text.Trim();
+                    studentId = studentId.Replace(".", "");
+                    validStudentId = Business.Validations.IsValidStudentId(studentId);
+
+                    if (!validStudentId)
+                    {
+                        txtStudentId.ForeColor = System.Drawing.Color.FromArgb(1, 220, 38, 38);
+                        lblLegajoError.Visible = true;
+                    }
+                    else
+                    {
+                        txtStudentId.ForeColor = SystemColors.WindowText;
+                        lblStudentId.Visible = false;
+                    }
+                }
+                else
+                {
+                    validStudentId = false;
+                }
+
+
+                if (this.Mode == Mode.Create)
+                {
+                    int usertype = 0;
+
+                    Domain.Model.Curriculum curriculum = null;
+                    if (!rbtnUserAdministrative.Checked
+                    && !rbtnUserStudent.Checked
+                    && !rbtnUserTeacher.Checked)
+                    {
+                        MessageBox.Show("Seleccione el tipo de usuario (Alumno, Docente, Administrativo)");
+                        return;
+                    }
+                    else
+                    {
+                        if (rbtnUserAdministrative.Checked)
+                        {
+
+                            usertype = 1;
+                        }
+                        else if (rbtnUserTeacher.Checked)
+                        {
+                            usertype = 2;
+
+                        }
+                        else if (rbtnUserStudent.Checked)
+                        {
+                            usertype = 3;
+
+                        }
+
+                    }
+                    if (usertype == 1 || usertype == 2)
+                    {
+
+
+
+                        correctForm = validUsername && validName && validLastname
+                            && validEmail && validPassword && validAddress && validPhoneNumber && validBirthDate
+                           && validCuit;
+                    }
+
+                    else if (usertype == 3)
+                    {
+                        bool validCurriculum = false;
+
+                        curriculum = (Domain.Model.Curriculum)cbCurriculums.SelectedItem;
+                        if (curriculum == null)
+                        {
+                            return;
+                        }
+                        else
+                        {
+                            validCurriculum = true;
+                        }
+
+
+                        correctForm = validUsername && validName && validLastname && validEmail && validPassword && validAddress && validPhoneNumber && validBirthDate
+                        && validCurriculum && validStudentId;
+                    }
+                    else
+                    {
+                        return;
+                    }
+
+                    if (correctForm)
+                    {
+                        UserService service = new Domain.Services.UserService();
+
+                        var newUser = new Domain.Model.User
+                        {
+                            Username = username,
+                            Password = Data.Util.EncodePassword(password),
+                            Email = email,
+                            Name = name,
+                            Lastname = lastname,
+                            Address = address,
+                            PhoneNumber = phoneNumber,
+                            BirthDate = birthDate,
+                            Cuit = cuit,
+                            UserType = usertype,
+                            StudentId = studentId,
+                        };
+                        if (curriculum != null)
+                        {
+                            newUser.CurriculumId = curriculum.Id;
+                        }
+                        service.Add(newUser);
+                        MessageBox.Show("Usuario creado");
+                        ResetForm();
+                    }
+                }
+                else if (this.Mode == Mode.Edit)
+                {
+                    var usertype = User.UserType;
+
+                    correctForm = validUsername && validName && validLastname
+                       && validEmail && validPassword && validAddress && validPhoneNumber && validBirthDate
+                       ;
+
+                    User.Username = username;
+                    User.Password = Data.Util.EncodePassword(password);
+                    User.Email = email;
+                    User.Name = name;
+                    User.Lastname = lastname;
+                    User.BirthDate = birthDate;
+                    User.PhoneNumber = phoneNumber;
+                    
+                    User.Address = address;
+                    
+                    if (usertype == 1 || usertype == 2)
+                    {
+                        //admin
+                        correctForm = correctForm && validCuit;
+                        User.Cuit = cuit;
+                    }
+                    else if (usertype == 3)
+                    {
+                        correctForm = correctForm && validStudentId;
+                        User.StudentId = studentId;
+                    }
+
+                    if (correctForm)
+                    {
+                        try
+                        {
+                            var userService = new UserService();
+                            userService.Update(User);
+                            MessageBox.Show("User updated successfully");
+                                   
+                        }
+                        catch (Exception)
+                        {
+                            throw;
+                        }
+
+                    }
+
+                }
+
+
+
+
 
 
                 #region SEND EMAIL
@@ -259,100 +437,11 @@ namespace UI.Desktop
                 //    lblOutput.Text = ex.Message;
                 //    throw ex;
                 //}
-                #endregion 
+                #endregion
 
 
 
-                if (usertype == 1 || usertype == 2)
-                {
-                    //CUIT
 
-                    cuit = txtCuit.Text.Trim();
-                    bool validCuit = Business.Validations.IsValidCuit(cuit);
-                    if (!validCuit)
-                    {
-                        txtCuit.ForeColor = System.Drawing.Color.FromArgb(1, 220, 38, 38);
-                        lblCuitError.Visible = true;
-                    }
-                    else
-                    {
-                        txtCuit.ForeColor = SystemColors.WindowText;
-                        lblCuitError.Visible = false;
-                        cuit = cuit.Replace("-", "");
-                    }
-
-
-
-                    correctForm = validUsername && validName && validLastname
-                        && validEmail && validPassword && validAddress && validPhoneNumber && validBirthDate
-                       && validCuit;
-                }
-
-                else if (usertype == 3)
-                {
-                    //LEGAJO
-                    studentId = txtLegajo.Text.Trim();
-                    studentId = studentId.Replace(".", "");
-                    bool validStudentId = Business.Validations.IsValidStudentId(studentId);
-
-                    if (!validStudentId)
-                    {
-                        txtLegajo.ForeColor = System.Drawing.Color.FromArgb(1, 220, 38, 38);
-                        lblLegajoError.Visible = true;
-                    }
-                    else
-                    {
-                        txtLegajo.ForeColor = SystemColors.WindowText;
-                        lblLegajo.Visible = false;
-                    }
-
-                    bool validCurriculum = false;
-
-                    curriculum = (Domain.Model.Curriculum)cbCurriculums.SelectedItem;
-                    if (curriculum == null)
-                    {
-                        return;
-                    }
-                    else
-                    {
-                        validCurriculum = true;
-                    }
-
-
-                    correctForm = validUsername && validName && validLastname && validEmail && validPassword && validAddress && validPhoneNumber && validBirthDate
-                    && validCurriculum && validStudentId;
-                }
-                else
-                {
-                    return;
-                }
-
-                if (correctForm)
-                {
-                    IUserService service = new Domain.Services.UserService();
-
-                    var newUser = new Domain.Model.User
-                    {
-                        Username = username,
-                        Password = Data.Util.EncodePassword(password),
-                        Email = email,
-                        Name = name,
-                        Lastname = lastname,
-                        Address = address,
-                        PhoneNumber = phoneNumber,
-                        BirthDate = birthDate,
-                        Cuit = cuit,
-                        UserType = usertype,
-                        StudentId = studentId,
-                    };
-                    if (curriculum != null)
-                    {
-                        newUser.CurriculumId = curriculum.Id;
-                    }
-                    service.Add(newUser);
-                    MessageBox.Show("Usuario creado");
-                    ResetForm();
-                }
             }
             catch (Exception ex)
             {
@@ -378,8 +467,8 @@ namespace UI.Desktop
                 cbCurriculums.Visible = true;
                 lblCurriculum.Visible = true;
 
-                txtLegajo.Visible = true;
-                lblLegajo.Visible = true;
+                txtStudentId.Visible = true;
+                lblStudentId.Visible = true;
                 txtCuit.Visible = false;
                 lblCuit.Visible = false;
             }
@@ -397,8 +486,8 @@ namespace UI.Desktop
                 txtCuit.Visible = true;
                 txtCuit.Enabled = true;
                 lblCuit.Visible = true;
-                txtLegajo.Visible = false;
-                lblLegajo.Visible = false;
+                txtStudentId.Visible = false;
+                lblStudentId.Visible = false;
             }
         }
 
@@ -416,15 +505,32 @@ namespace UI.Desktop
         private void ResetForm()
         {
             txtUsername.ResetText();
-            mtbClave.ResetText();
+            mtbPassword.ResetText();
             txtEmail.ResetText();
-            txtNombre.ResetText();
-            txtApellido.ResetText();
+            txtName.ResetText();
+            txtLastName.ResetText();
             txtPhoneNumber.ResetText();
             txtAddress.ResetText();
-            txtLegajo.ResetText();
+            txtStudentId.ResetText();
             txtCuit.ResetText();
             dtpBirthDate.ResetText();
+        }
+
+        private void FillFields()
+        {
+            txtUsername.Text = User.Username;
+            mtbPassword.Text = User.Password; // VER HASH
+            txtEmail.Text = User.Email;
+            txtName.Text = User.Name;
+            txtLastName.Text = User.Lastname;
+            dtpBirthDate.Value = User.BirthDate;
+            txtPhoneNumber.Text = User.PhoneNumber;
+            txtAddress.Text = User.Address;
+            txtStudentId.Visible = true;
+            lblStudentId.Visible = true;
+            panel2.Visible = false;
+            txtStudentId.Text = User.StudentId;
+
         }
 
     }
