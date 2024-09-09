@@ -52,7 +52,7 @@ namespace UI.Desktop.Area
             try
             {
                 var service = new Domain.Services.AreaService();
-                service.Create(newArea);
+                await service.Create(newArea);
                 MessageBox.Show(newArea.Description + " creada correctamente");
                 this.Dispose();
             }
@@ -69,7 +69,7 @@ namespace UI.Desktop.Area
             {
                 this.area.Description = areaDescription;
                 var service = new Domain.Services.AreaService();
-                service.Update(this.area);
+                await service.Update(this.area);
                 this.Dispose();
             }
             catch (Exception e)

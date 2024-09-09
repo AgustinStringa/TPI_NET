@@ -13,7 +13,7 @@ namespace UI.Desktop
             try
             {
                 var service = new Domain.Services.AreaService();
-                var areas = service.GetAll();
+                var areas = await service.GetAll();
                 if (areas.Count() > 0)
                 {
                     cb.DataSource = areas;
@@ -34,7 +34,7 @@ namespace UI.Desktop
             try
             {
                 var service = new Domain.Services.AreaService();
-                areasList = service.GetAll();
+                areasList = await service.GetAll();
                 if (areasList.Count() > 0)
                 {
                     cb.DataSource = areasList;
