@@ -1,6 +1,6 @@
 ﻿namespace UI.Desktop
 {
-    partial class frmMain
+    partial class FrmMain
     {
         /// <summary>
         /// Required designer variable.
@@ -33,9 +33,7 @@
             frmSalir = new ToolStripMenuItem();
             usuariosToolStripMenuItem = new ToolStripMenuItem();
             crearUsuarioToolStripMenuItem1 = new ToolStripMenuItem();
-            alumnosToolStripMenuItem = new ToolStripMenuItem();
-            docentesToolStripMenuItem = new ToolStripMenuItem();
-            administrativosToolStripMenuItem = new ToolStripMenuItem();
+            usuariosToolStripMenuItem1 = new ToolStripMenuItem();
             especialidadesToolStripMenuItem = new ToolStripMenuItem();
             planesDeEstudioToolStripMenuItem = new ToolStripMenuItem();
             materiasToolStripMenuItem = new ToolStripMenuItem();
@@ -46,7 +44,6 @@
             cursadosActivosToolStripMenuItem = new ToolStripMenuItem();
             crearCursadoToolStripMenuItem = new ToolStripMenuItem();
             administrarCursadosToolStripMenuItem = new ToolStripMenuItem();
-            usuariosToolStripMenuItem1 = new ToolStripMenuItem();
             mnsPrincipal.SuspendLayout();
             SuspendLayout();
             // 
@@ -75,7 +72,7 @@
             // 
             // usuariosToolStripMenuItem
             // 
-            usuariosToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { crearUsuarioToolStripMenuItem1, usuariosToolStripMenuItem1, alumnosToolStripMenuItem, docentesToolStripMenuItem, administrativosToolStripMenuItem });
+            usuariosToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { usuariosToolStripMenuItem1, crearUsuarioToolStripMenuItem1 });
             usuariosToolStripMenuItem.Name = "usuariosToolStripMenuItem";
             usuariosToolStripMenuItem.Size = new Size(64, 20);
             usuariosToolStripMenuItem.Text = "Usuarios";
@@ -83,28 +80,16 @@
             // crearUsuarioToolStripMenuItem1
             // 
             crearUsuarioToolStripMenuItem1.Name = "crearUsuarioToolStripMenuItem1";
-            crearUsuarioToolStripMenuItem1.Size = new Size(180, 22);
+            crearUsuarioToolStripMenuItem1.Size = new Size(145, 22);
             crearUsuarioToolStripMenuItem1.Text = "Crear Usuario";
             crearUsuarioToolStripMenuItem1.Click += crearUsuarioToolStripMenuItem_Click;
             // 
-            // alumnosToolStripMenuItem
+            // usuariosToolStripMenuItem1
             // 
-            alumnosToolStripMenuItem.Name = "alumnosToolStripMenuItem";
-            alumnosToolStripMenuItem.Size = new Size(180, 22);
-            alumnosToolStripMenuItem.Text = "Alumnos";
-            alumnosToolStripMenuItem.Click += alumnosToolStripMenuItem_Click;
-            // 
-            // docentesToolStripMenuItem
-            // 
-            docentesToolStripMenuItem.Name = "docentesToolStripMenuItem";
-            docentesToolStripMenuItem.Size = new Size(180, 22);
-            docentesToolStripMenuItem.Text = "Docentes";
-            // 
-            // administrativosToolStripMenuItem
-            // 
-            administrativosToolStripMenuItem.Name = "administrativosToolStripMenuItem";
-            administrativosToolStripMenuItem.Size = new Size(180, 22);
-            administrativosToolStripMenuItem.Text = "Administrativos";
+            usuariosToolStripMenuItem1.Name = "usuariosToolStripMenuItem1";
+            usuariosToolStripMenuItem1.Size = new Size(145, 22);
+            usuariosToolStripMenuItem1.Text = "Usuarios";
+            usuariosToolStripMenuItem1.Click += usuariosToolStripMenuItem1_Click;
             // 
             // especialidadesToolStripMenuItem
             // 
@@ -175,13 +160,6 @@
             administrarCursadosToolStripMenuItem.Text = "Administrar Cursados";
             administrarCursadosToolStripMenuItem.Click += administrarCursadosToolStripMenuItem_Click;
             // 
-            // usuariosToolStripMenuItem1
-            // 
-            usuariosToolStripMenuItem1.Name = "usuariosToolStripMenuItem1";
-            usuariosToolStripMenuItem1.Size = new Size(180, 22);
-            usuariosToolStripMenuItem1.Text = "Usuarios";
-            usuariosToolStripMenuItem1.Click += usuariosToolStripMenuItem1_Click;
-            // 
             // frmMain
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -216,9 +194,6 @@
         private ToolStripMenuItem comisionesToolStripMenuItem;
         private ToolStripMenuItem crearUsuarioToolStripMenuItem;
         private ToolStripMenuItem crearUsuarioToolStripMenuItem1;
-        private ToolStripMenuItem alumnosToolStripMenuItem;
-        private ToolStripMenuItem docentesToolStripMenuItem;
-        private ToolStripMenuItem administrativosToolStripMenuItem;
         private ToolStripMenuItem cursadoToolStripMenuItem;
         private ToolStripMenuItem inscripcionACursadoToolStripMenuItem;
         private ToolStripMenuItem cursadosActivosToolStripMenuItem;
