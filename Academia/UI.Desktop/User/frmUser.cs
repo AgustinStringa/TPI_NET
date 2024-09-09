@@ -14,8 +14,8 @@ namespace UI.Desktop.User
 
     public partial class FrmUser : Form
     {
-        private IEnumerable<Domain.Model.User> users;
-        private IEnumerable<Domain.Model.User> filteredUsers;
+        private IEnumerable<Domain.Model.User> users= [];
+        private IEnumerable<Domain.Model.User> filteredUsers = [];
         private string textSearch = "";
         private List<int> typeUserFilters = [1, 2, 3];
         public FrmUser()
@@ -86,8 +86,8 @@ namespace UI.Desktop.User
             this.filteredUsers = this.users.Where(
                 u => Data.Util.DeleteDiacritic(u.Name.ToLower()).Contains(this.textSearch)
                   || Data.Util.DeleteDiacritic(u.Lastname.ToLower()).Contains(this.textSearch)
-                   || ((u.StudentId != null) ? Data.Util.DeleteDiacritic(u.StudentId.ToLower()).Contains(this.textSearch) : false)
-                 || ((u.Cuit != null) ? Data.Util.DeleteDiacritic(u.Cuit.ToLower()).Contains(this.textSearch) : false)
+                   || ((u.StudentId != null) && Data.Util.DeleteDiacritic(u.StudentId.ToLower()).Contains(this.textSearch))
+                 || ((u.Cuit != null) && Data.Util.DeleteDiacritic(u.Cuit.ToLower()).Contains(this.textSearch))
                    );
             lstUsers.Items.Clear();
             this.filteredUsers = this.filteredUsers.Where(u => this.typeUserFilters.Contains(u.UserType));
