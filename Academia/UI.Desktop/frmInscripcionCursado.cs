@@ -84,7 +84,7 @@ namespace UI.Desktop
                 };
 
                 var userCourseService = new Domain.Services.UserCourseService();
-                await userCourseService.AddAsync(userCourse);
+                await userCourseService.Add(userCourse);
 
                 MessageBox.Show("Inscripción realizada con éxito", "Inscripción", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 this.Dispose();

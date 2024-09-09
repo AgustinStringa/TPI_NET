@@ -43,13 +43,13 @@ namespace API.Controllers
                 };
 
                 // Check if the user is already enrolled
-                var isEnrolled = await _userCourseService.IsUserAlreadyEnrolledAsync(userCourse.UserId, userCourse.CourseId, course.CalendarYear);
+                var isEnrolled = await _userCourseService.IsUserAlreadyEnrolled(userCourse.UserId, userCourse.CourseId, course.CalendarYear);
                 if (isEnrolled)
                 {
                     return Conflict(new { message = "User is already enrolled in this course under the specified conditions" });
                 }
 
-                await _userCourseService.AddAsync(userCourse);
+                await _userCourseService.Add(userCourse);
 
                 return Ok(new { message = "Enrollment successful" });
             }
@@ -64,7 +64,7 @@ namespace API.Controllers
         {
             try
             {
-                await _userCourseService.DeleteAsync(userId, courseId);
+                await _userCourseService.Delete(userId, courseId);
                 return Ok(new { message = "Unenrollment successful" });
             }
             catch (Exception e)

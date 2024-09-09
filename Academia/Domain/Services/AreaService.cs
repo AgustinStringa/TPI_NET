@@ -10,7 +10,7 @@ namespace Domain.Services
 {
     public class AreaService
     {
-        public IEnumerable<Area> GetAll()
+        public async Task<IEnumerable<Area>> GetAll()
         {
             try
             {
@@ -23,13 +23,13 @@ namespace Domain.Services
                 throw e;
             }
         }
-        public void Create(Area area)
+        public async Task Create(Area area)
         {
             try
             {
                 var context = new AcademiaContext();
-                context.Areas.Add(area);
-                context.SaveChanges();
+                await context.Areas.AddAsync(area);
+                await context.SaveChangesAsync();
             }
             catch (Exception e)
             {
@@ -37,13 +37,13 @@ namespace Domain.Services
             }
         }
 
-        public void Update(Area area)
+        public async Task Update(Area area)
         {
             var context = new AcademiaContext();
             try
             {
                 context.Areas.Update(area);
-                context.SaveChanges();
+                await context.SaveChangesAsync();
             }
             catch (Exception ex)
             {
@@ -51,16 +51,16 @@ namespace Domain.Services
             }
         }
         
-        public void Delete(int Id)
+        public async Task Delete(int Id)
         {
             try
             {
                 var context = new AcademiaContext();
-                var area = context.Areas.Find(Id);
+                var area = await context.Areas.FindAsync(Id);
                 if (area != null)
                 {
                     context.Areas.Remove(area);
-                    context.SaveChanges();
+                    await context.SaveChangesAsync();
                 }
             }
             catch (Exception e)
@@ -69,12 +69,12 @@ namespace Domain.Services
             }
         }
         
-        public Area GetById(int Id)
+        public async Task<Area> GetById(int Id)
         {
             try
             {
                 var context = new AcademiaContext();
-                var area = context.Areas.Find(Id);
+                var area = await context.Areas.FindAsync(Id);
                 return area;
             }
             catch (Exception e)

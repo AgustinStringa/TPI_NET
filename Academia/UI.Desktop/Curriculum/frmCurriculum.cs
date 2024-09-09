@@ -82,7 +82,7 @@ namespace UI.Desktop.Curriculum
             {
                 Domain.Model.Curriculum selectedCurriulum = (Domain.Model.Curriculum)lstvCurriculum.SelectedItems[0].Tag;
                 Domain.Services.CurriculumService service = new Domain.Services.CurriculumService();
-                service.Delete(selectedCurriulum.Id);
+                await service.Delete(selectedCurriulum.Id);
                 lstvCurriculum.Items.Clear();
                 AdaptCurriculumsToListView(await service.GetAll());
                 lstvCurriculum.Refresh();

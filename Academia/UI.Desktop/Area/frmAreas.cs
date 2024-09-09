@@ -29,7 +29,7 @@ namespace UI.Desktop.Area
             try
             {
                 var service = new Domain.Services.AreaService();
-                this.areasList = service.GetAll();
+                this.areasList = await service.GetAll();
                 AdaptAreasToListView(areasList);
             }
             catch (Exception e)
@@ -39,17 +39,17 @@ namespace UI.Desktop.Area
             }
         }
 
-        private void tsbtnAdd_Click(object sender, EventArgs e)
+        private async void tsbtnAdd_Click(object sender, EventArgs e)
         {
             frmActionArea frm = new frmActionArea(Mode.Create);
             frm.ShowDialog();
             var service = new Domain.Services.AreaService();
             lstvAreas.Items.Clear();
-            AdaptAreasToListView(service.GetAll());
+            AdaptAreasToListView(await service.GetAll());
             lstvAreas.Refresh();
         }
 
-        private void tsbtnEdit_Click(object sender, EventArgs e)
+        private async void tsbtnEdit_Click(object sender, EventArgs e)
         {
 
             if (lstvAreas.SelectedItems.Count > 0)
@@ -59,7 +59,7 @@ namespace UI.Desktop.Area
                 frmActionArea frm = new frmActionArea(Mode.Edit, selectedArea);
                 frm.ShowDialog();
                 lstvAreas.Items.Clear();
-                AdaptAreasToListView(service.GetAll());
+                AdaptAreasToListView(await service.GetAll());
                 lstvAreas.Refresh();
             }
             else
@@ -75,9 +75,9 @@ namespace UI.Desktop.Area
             {
                 Domain.Model.Area selectedArea = (Domain.Model.Area)lstvAreas.SelectedItems[0].Tag;
                 var service = new Domain.Services.AreaService();
-                service.Delete(selectedArea.Id);
+                await service.Delete(selectedArea.Id);
                 lstvAreas.Items.Clear();
-                AdaptAreasToListView(service.GetAll());
+                AdaptAreasToListView(await service.GetAll());
                 lstvAreas.Refresh();
             }
             else
