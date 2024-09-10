@@ -123,11 +123,7 @@ namespace UI.Desktop
         private void comisionesToolStripMenuItem_Click(object sender, EventArgs e)
         {
             frmCommissions appCom = new frmCommissions();
-            if (appCom.ShowDialog() != DialogResult.OK)
-            {
-                this.Dispose();
-            }
-
+            appCom.ShowDialog();
         }
     }
 }
