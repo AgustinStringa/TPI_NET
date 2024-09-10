@@ -49,7 +49,6 @@ namespace UI.Desktop
             usuariosToolStripMenuItem.Visible = administrative;
             especialidadesToolStripMenuItem.Visible = administrative;
             planesDeEstudioToolStripMenuItem.Visible = administrative;
-            crearUsuarioToolStripMenuItem.Visible = administrative;
             cursadosActivosToolStripMenuItem.Visible = student;
             materiasToolStripMenuItem.Visible = administrative;
             comisionesToolStripMenuItem.Visible = administrative;
