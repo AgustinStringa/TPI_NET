@@ -313,9 +313,9 @@
             lblFechaNacimientoError.ForeColor = Color.FromArgb(220, 38, 38);
             lblFechaNacimientoError.Location = new Point(324, 72);
             lblFechaNacimientoError.Name = "lblFechaNacimientoError";
-            lblFechaNacimientoError.Size = new Size(140, 21);
+            lblFechaNacimientoError.Size = new Size(348, 21);
             lblFechaNacimientoError.TabIndex = 20;
-            lblFechaNacimientoError.Text = "Campo obligatorio";
+            lblFechaNacimientoError.Text = "Campo obligatorio. Debes ser mayor de 18 años ";
             lblFechaNacimientoError.Visible = false;
             // 
             // lblApellidoError
@@ -504,6 +504,7 @@
             txtCuit.Font = new Font("Segoe UI", 12F);
             txtCuit.Location = new Point(330, 591);
             txtCuit.Name = "txtCuit";
+            txtCuit.PlaceholderText = "(11 digitos) ej : 2453678763";
             txtCuit.Size = new Size(285, 29);
             txtCuit.TabIndex = 12;
             txtCuit.Visible = false;

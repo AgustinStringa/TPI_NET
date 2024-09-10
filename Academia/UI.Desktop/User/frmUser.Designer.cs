@@ -37,12 +37,14 @@
             label1 = new Label();
             txtSearchUsers = new TextBox();
             panel1 = new Panel();
+            chbAll = new CheckBox();
             chbTeacher = new CheckBox();
             chbStudent = new CheckBox();
             chbAdministrative = new CheckBox();
             toolStrip1 = new ToolStrip();
             tsbtnEditUser = new ToolStripButton();
             tsbtnDeleteUser = new ToolStripButton();
+            tsbtnAddUser = new ToolStripButton();
             panel1.SuspendLayout();
             toolStrip1.SuspendLayout();
             SuspendLayout();
@@ -105,13 +107,29 @@
             // 
             // panel1
             // 
+            panel1.Controls.Add(chbAll);
             panel1.Controls.Add(chbTeacher);
             panel1.Controls.Add(chbStudent);
             panel1.Controls.Add(chbAdministrative);
             panel1.Location = new Point(32, 164);
             panel1.Name = "panel1";
-            panel1.Size = new Size(165, 100);
+            panel1.Size = new Size(165, 156);
             panel1.TabIndex = 3;
+            // 
+            // chbAll
+            // 
+            chbAll.AutoSize = true;
+            chbAll.Checked = true;
+            chbAll.CheckState = CheckState.Checked;
+            chbAll.Font = new Font("Segoe UI", 12F);
+            chbAll.Location = new Point(4, 96);
+            chbAll.Name = "chbAll";
+            chbAll.Size = new Size(69, 25);
+            chbAll.TabIndex = 3;
+            chbAll.Tag = "2";
+            chbAll.Text = "Todos";
+            chbAll.UseVisualStyleBackColor = true;
+            chbAll.Click += chbAll_Click;
             // 
             // chbTeacher
             // 
@@ -121,10 +139,10 @@
             chbTeacher.Font = new Font("Segoe UI", 12F);
             chbTeacher.Location = new Point(3, 65);
             chbTeacher.Name = "chbTeacher";
-            chbTeacher.Size = new Size(80, 25);
+            chbTeacher.Size = new Size(103, 25);
             chbTeacher.TabIndex = 2;
             chbTeacher.Tag = "2";
-            chbTeacher.Text = "teacher";
+            chbTeacher.Text = "Profesores";
             chbTeacher.UseVisualStyleBackColor = true;
             chbTeacher.CheckedChanged += checkBoxFilter_CheckedChanged;
             // 
@@ -136,10 +154,10 @@
             chbStudent.Font = new Font("Segoe UI", 12F);
             chbStudent.Location = new Point(3, 34);
             chbStudent.Name = "chbStudent";
-            chbStudent.Size = new Size(81, 25);
+            chbStudent.Size = new Size(108, 25);
             chbStudent.TabIndex = 1;
             chbStudent.Tag = "3";
-            chbStudent.Text = "student";
+            chbStudent.Text = "Estudiantes";
             chbStudent.UseVisualStyleBackColor = true;
             chbStudent.CheckedChanged += checkBoxFilter_CheckedChanged;
             // 
@@ -151,16 +169,16 @@
             chbAdministrative.Font = new Font("Segoe UI", 12F);
             chbAdministrative.Location = new Point(3, 3);
             chbAdministrative.Name = "chbAdministrative";
-            chbAdministrative.Size = new Size(128, 25);
+            chbAdministrative.Size = new Size(138, 25);
             chbAdministrative.TabIndex = 0;
             chbAdministrative.Tag = "1";
-            chbAdministrative.Text = "administrative";
+            chbAdministrative.Text = "Administrativos";
             chbAdministrative.UseVisualStyleBackColor = true;
             chbAdministrative.CheckedChanged += checkBoxFilter_CheckedChanged;
             // 
             // toolStrip1
             // 
-            toolStrip1.Items.AddRange(new ToolStripItem[] { tsbtnEditUser, tsbtnDeleteUser });
+            toolStrip1.Items.AddRange(new ToolStripItem[] { tsbtnAddUser, tsbtnEditUser, tsbtnDeleteUser });
             toolStrip1.Location = new Point(0, 0);
             toolStrip1.Name = "toolStrip1";
             toolStrip1.Size = new Size(1220, 25);
@@ -187,7 +205,17 @@
             tsbtnDeleteUser.Text = "Delete User";
             tsbtnDeleteUser.Click += tsbtnDeleteUser_Click;
             // 
-            // frmUser
+            // tsbtnAddUser
+            // 
+            tsbtnAddUser.DisplayStyle = ToolStripItemDisplayStyle.Image;
+            tsbtnAddUser.Image = Properties.Resources.Add;
+            tsbtnAddUser.ImageTransparentColor = Color.Magenta;
+            tsbtnAddUser.Name = "tsbtnAddUser";
+            tsbtnAddUser.Size = new Size(23, 22);
+            tsbtnAddUser.Text = "toolStripButton1";
+            tsbtnAddUser.Click += tsbtnAddUser_Click;
+            // 
+            // FrmUser
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
@@ -197,7 +225,7 @@
             Controls.Add(txtSearchUsers);
             Controls.Add(label1);
             Controls.Add(lstUsers);
-            Name = "frmUser";
+            Name = "FrmUser";
             Text = "       ";
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
@@ -224,5 +252,7 @@
         private ToolStrip toolStrip1;
         private ToolStripButton tsbtnEditUser;
         private ToolStripButton tsbtnDeleteUser;
+        private CheckBox chbAll;
+        private ToolStripButton tsbtnAddUser;
     }
 }

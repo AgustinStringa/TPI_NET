@@ -27,6 +27,7 @@ namespace UI.Desktop
                 InitializeComponent();
                 btnActionUser.Text = "Crear Usuario";
                 Utilities.LoadAreas(cbAreas);
+                dtpBirthDate.Value = DateTime.Now;
             }
         }
         public FrmActionUser(Mode mode, Domain.Model.User user)
@@ -169,7 +170,7 @@ namespace UI.Desktop
                 //CUIT
                 bool validCuit;
                 string cuit = txtCuit.Text.Trim();
-                if (panel2.Visible == true)
+                if (txtCuit.Visible == true)
                 {
                     validCuit = Business.Validations.IsValidCuit(cuit);
                     if (!validCuit)
@@ -303,7 +304,7 @@ namespace UI.Desktop
                         }
                         service.Add(newUser);
                         MessageBox.Show("Usuario creado");
-                        ResetForm();
+                        this.Dispose();
                     }
                 }
                 else if (this.Mode == Mode.Edit)
@@ -321,12 +322,11 @@ namespace UI.Desktop
                     User.Lastname = lastname;
                     User.BirthDate = birthDate;
                     User.PhoneNumber = phoneNumber;
-                    
+
                     User.Address = address;
-                    
+
                     if (usertype == 1 || usertype == 2)
                     {
-                        //admin
                         correctForm = correctForm && validCuit;
                         User.Cuit = cuit;
                     }
@@ -343,7 +343,7 @@ namespace UI.Desktop
                             var userService = new UserService();
                             userService.Update(User);
                             MessageBox.Show("User updated successfully");
-                                   
+                            this.Dispose();
                         }
                         catch (Exception)
                         {
@@ -525,10 +525,24 @@ namespace UI.Desktop
             dtpBirthDate.Value = User.BirthDate;
             txtPhoneNumber.Text = User.PhoneNumber;
             txtAddress.Text = User.Address;
-            txtStudentId.Visible = true;
-            lblStudentId.Visible = true;
             panel2.Visible = false;
-            txtStudentId.Text = User.StudentId;
+            if (User.UserType == 3)
+            {
+                txtStudentId.Visible = true;
+                lblStudentId.Visible = true;
+                txtCuit.Visible = false;
+                lblCuit.Visible = false;
+
+                txtStudentId.Text = User.StudentId;
+            }
+            else if (User.UserType == 1 || User.UserType == 2)
+            {
+                txtStudentId.Visible = false;
+                lblStudentId.Visible = false;
+                txtCuit.Visible = true;
+                lblCuit.Visible = true;
+                txtCuit.Text = User.Cuit;
+            }
 
         }
 

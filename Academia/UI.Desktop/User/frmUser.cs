@@ -14,13 +14,16 @@ namespace UI.Desktop.User
 
     public partial class FrmUser : Form
     {
-        private IEnumerable<Domain.Model.User> users= [];
+        private IEnumerable<Domain.Model.User> users = [];
         private IEnumerable<Domain.Model.User> filteredUsers = [];
         private string textSearch = "";
-        private List<int> typeUserFilters = [1, 2, 3];
+        private List<UserType> userTypeFilters = [UserType.Student, UserType.Teacher, UserType.Administrative];
         public FrmUser()
         {
             InitializeComponent();
+            chbAdministrative.Tag = UserType.Administrative;
+            chbStudent.Tag = UserType.Student;
+            chbTeacher.Tag = UserType.Teacher;
             LoadUsers();
         }
 
@@ -61,22 +64,21 @@ namespace UI.Desktop.User
         private void checkBoxFilter_CheckedChanged(object sender, EventArgs e)
         {
             CheckBox checkBox = sender as CheckBox;
-            int userType;
-            int.TryParse(checkBox.Tag.ToString(), out userType);
+            UserType userType = (UserType)checkBox.Tag;
+            chbAll.Checked = false;
             if (checkBox.Checked)
             {
-                if (!this.typeUserFilters.Contains(userType))
+                if (!this.userTypeFilters.Contains(userType))
                 {
-                    this.typeUserFilters.Add(userType);
+                    this.userTypeFilters.Add(userType);
                     ApplyFilters();
                 }
-
             }
             else
             {
-                if (this.typeUserFilters.Contains(userType))
+                if (this.userTypeFilters.Contains(userType))
                 {
-                    this.typeUserFilters.Remove(userType);
+                    this.userTypeFilters.Remove(userType);
                     ApplyFilters();
                 }
             }
@@ -90,7 +92,7 @@ namespace UI.Desktop.User
                  || ((u.Cuit != null) && Data.Util.DeleteDiacritic(u.Cuit.ToLower()).Contains(this.textSearch))
                    );
             lstUsers.Items.Clear();
-            this.filteredUsers = this.filteredUsers.Where(u => this.typeUserFilters.Contains(u.UserType));
+            this.filteredUsers = this.filteredUsers.Where(u => this.userTypeFilters.Contains(GetUserType(u.UserType)));
             AdaptUsersToListView(this.filteredUsers);
             lstUsers.Refresh();
         }
@@ -150,6 +152,40 @@ namespace UI.Desktop.User
             {
                 MessageBox.Show(ex.Message);
             }
+        }
+        private UserType GetUserType(int val)
+        {
+            switch (val)
+            {
+                case 1:
+                    return UserType.Administrative;
+                    break;
+                case 2:
+                    return UserType.Teacher;
+                    break;
+                case 3:
+                    return UserType.Student;
+                    break;
+                default:
+                    return UserType.Administrative;
+                    break;
+            }
+
+        }
+        private void chbAll_Click(object sender, EventArgs e)
+        {
+            if (chbAll.Checked)
+            {
+                chbAdministrative.Checked = true;
+                chbTeacher.Checked = true;
+                chbStudent.Checked = true;
+                this.userTypeFilters = [UserType.Student, UserType.Teacher, UserType.Administrative];
+            }
+        }
+        private void tsbtnAddUser_Click(object sender, EventArgs e)
+        {
+            FrmActionUser AppCreateUser = new FrmActionUser(Mode.Create);
+            AppCreateUser.ShowDialog();
         }
     }
 }
