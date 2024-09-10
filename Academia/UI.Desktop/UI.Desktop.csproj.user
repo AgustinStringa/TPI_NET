@@ -1,55 +1,55 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Compile Update="Area\frmActionArea.cs">
+    <Compile Update="Area\FrmActionArea.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="Area\frmAreas.cs">
+    <Compile Update="Area\FrmAreas.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="Course\frmActionCourse.cs">
+    <Compile Update="Course\FrmActionCourse.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="Course\frmCourse.cs">
+    <Compile Update="Course\FrmCourse.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="Course\frmMyCourses.cs">
+    <Compile Update="Course\FrmMyCourses.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="Commission\frmActionCommission.cs">
+    <Compile Update="Commission\FrmActionCommission.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="Commission\frmCommission.cs">
+    <Compile Update="Commission\FrmCommission.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="Curriculum\frmActionCurriculum.cs">
+    <Compile Update="Curriculum\FrmActionCurriculum.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="Curriculum\frmCurriculum.cs">
+    <Compile Update="Curriculum\FrmCurriculum.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="frmAlumnos.cs">
+    <Compile Update="FrmAlumnos.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="frmInscripcionCursado.cs">
+    <Compile Update="FrmInscripcionCursado.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="frmMain.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Update="frmLogin.cs">
+    <Compile Update="FrmMain.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Update="User\FrmActionUser.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="frmMisMaterias.cs">
+    <Compile Update="FrmLogin.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="Subject\frmActionSubject.cs">
+    <Compile Update="FrmMisMaterias.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="Subject\frmMateria.cs">
+    <Compile Update="Subject\FrmActionSubject.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Subject\FrmMateria.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Update="Subject\SubjectList.cs">
