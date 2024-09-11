@@ -27,7 +27,6 @@ namespace UI.Desktop.Subject
             var service = new SubjectService();
             subjects = await service.GetAll();
             AdaptSubjectsToListView(subjects);
-            CreateRbtnFilters();
         }
 
         private void tsbtnAdd_Click(object sender, EventArgs e)
@@ -41,6 +40,7 @@ namespace UI.Desktop.Subject
         {
             listView1.Items.Clear();
             this.curriculums.Clear();
+            this.curriculums.Add(new Domain.Model.Curriculum { Description = "Todos los planes" });
             foreach (Domain.Model.Subject item in subjectList)
             {
                 if (!this.curriculums.Contains(item.Curriculum))
@@ -55,33 +55,7 @@ namespace UI.Desktop.Subject
                 nuevoItem.SubItems.Add(item.TotalHours.ToString());
                 listView1.Items.Add(nuevoItem);
             }
-        }
-        private void CreateRbtnFilters()
-        {
-            foreach (System.Windows.Forms.Control element in panel1.Controls)
-            {
-                try
-                {
-                    panel1.Controls.Clear();
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message);
-                }
-            }
-            int i = 0;
-            foreach (var curriculum in this.curriculums)
-            {
-
-                var newControl = new System.Windows.Forms.RadioButton();
-                newControl.Tag = curriculum;
-                newControl.Text = curriculum.Description;
-                newControl.Location = new Point(10, 20 + (i * 30));
-                newControl.AutoSize = true;
-                newControl.CheckedChanged += new EventHandler(RadioButton_CheckedChanged);
-                panel1.Controls.Add(newControl);
-                i++;
-            }
+            LoadCurriculumFilter();
         }
         private void RadioButton_CheckedChanged(object sender, EventArgs e)
         {
@@ -98,39 +72,6 @@ namespace UI.Desktop.Subject
         {
             AdaptSubjectsToListView(this.subjects);
             listView1.Refresh();
-            foreach (System.Windows.Forms.Control element in panel1.Controls)
-            {
-                try
-                {
-                    if (element.GetType() == typeof(System.Windows.Forms.RadioButton))
-                    {
-                        ((System.Windows.Forms.RadioButton)element).Checked = false;
-                    }
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message);
-                }
-            }
-        }
-
-        private void btnResetFilters_Click(object sender, EventArgs e)
-        {
-            ResetFilters();
-            foreach (System.Windows.Forms.Control element in panel1.Controls)
-            {
-                try
-                {
-                    if (element.GetType() == typeof(System.Windows.Forms.RadioButton))
-                    {
-                        ((System.Windows.Forms.RadioButton)element).Checked = false;
-                    }
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message);
-                }
-            }
         }
 
         private async void tsbtnDelete_Click(object sender, EventArgs e)
@@ -147,7 +88,6 @@ namespace UI.Desktop.Subject
                     this.subjects = await service.GetAll();
                     AdaptSubjectsToListView(this.subjects);
                     listView1.Refresh();
-                    CreateRbtnFilters();
                     ResetFilters();
 
                     MessageBox.Show("Asginatura eliminada");
@@ -175,6 +115,31 @@ namespace UI.Desktop.Subject
                 frmActionSubject frm = new frmActionSubject(Mode.Edit, selectedSubject);
                 frm.ShowDialog();
                 LoadSubjects();
+            }
+        }
+        private void LoadCurriculumFilter()
+        {
+            cbCurriculum.DataSource = this.curriculums;
+            cbCurriculum.ValueMember = "Id";
+            cbCurriculum.DisplayMember = "Description";
+        }
+
+        private void cbCurriculum_SelectedValueChanged(object sender, EventArgs e)
+        {
+            var cb = (sender as ComboBox);
+            if (cb.SelectedIndex == 0)
+            {
+                var filteredSubjects = this.subjects;
+                listView1.Items.Clear();
+                AdaptSubjectsToListView(filteredSubjects);
+                listView1.Refresh();
+            }
+            else
+            {
+                var filteredSubjects = this.subjects.Where(s => s.IdCurriculum == ((Domain.Model.Curriculum)cb.SelectedItem).Id);
+                listView1.Items.Clear();
+                AdaptSubjectsToListView(filteredSubjects);
+                listView1.Refresh();
             }
         }
     }
