@@ -157,13 +157,13 @@ namespace UI.Desktop
                 if (!validBirthDate)
                 {
                     dtpBirthDate.ForeColor = System.Drawing.Color.FromArgb(1, 220, 38, 38);
-                    lblBirthDate.Visible = true;
+                    lblBirthDateError.Visible = true;
 
                 }
                 else
                 {
                     dtpBirthDate.ForeColor = SystemColors.WindowText;
-                    lblBirthDate.Visible = false;
+                    lblBirthDateError.Visible = false;
                 }
 
 
@@ -518,7 +518,7 @@ namespace UI.Desktop
         private void FillFields()
         {
             txtUsername.Text = User.Username;
-            mtbPassword.Text = User.Password; // VER HASH
+            mtbPassword.Text = ""; // VER HASH
             txtEmail.Text = User.Email;
             txtName.Text = User.Name;
             txtLastName.Text = User.Lastname;

@@ -47,7 +47,7 @@
             lblPhoneNumberError = new Label();
             lblPhoneNumber = new Label();
             txtPhoneNumber = new TextBox();
-            lblFechaNacimientoError = new Label();
+            lblBirthDateError = new Label();
             lblApellidoError = new Label();
             lblNombreError = new Label();
             lblLastName = new Label();
@@ -86,7 +86,7 @@
             panel1.Controls.Add(lblPhoneNumberError);
             panel1.Controls.Add(lblPhoneNumber);
             panel1.Controls.Add(txtPhoneNumber);
-            panel1.Controls.Add(lblFechaNacimientoError);
+            panel1.Controls.Add(lblBirthDateError);
             panel1.Controls.Add(lblApellidoError);
             panel1.Controls.Add(lblNombreError);
             panel1.Controls.Add(lblLastName);
@@ -306,17 +306,17 @@
             txtPhoneNumber.Size = new Size(285, 29);
             txtPhoneNumber.TabIndex = 7;
             // 
-            // lblFechaNacimientoError
+            // lblBirthDateError
             // 
-            lblFechaNacimientoError.AutoSize = true;
-            lblFechaNacimientoError.Font = new Font("Segoe UI", 12F);
-            lblFechaNacimientoError.ForeColor = Color.FromArgb(220, 38, 38);
-            lblFechaNacimientoError.Location = new Point(324, 72);
-            lblFechaNacimientoError.Name = "lblFechaNacimientoError";
-            lblFechaNacimientoError.Size = new Size(348, 21);
-            lblFechaNacimientoError.TabIndex = 20;
-            lblFechaNacimientoError.Text = "Campo obligatorio. Debes ser mayor de 18 años ";
-            lblFechaNacimientoError.Visible = false;
+            lblBirthDateError.AutoSize = true;
+            lblBirthDateError.Font = new Font("Segoe UI", 12F);
+            lblBirthDateError.ForeColor = Color.FromArgb(220, 38, 38);
+            lblBirthDateError.Location = new Point(324, 72);
+            lblBirthDateError.Name = "lblBirthDateError";
+            lblBirthDateError.Size = new Size(348, 21);
+            lblBirthDateError.TabIndex = 20;
+            lblBirthDateError.Text = "Campo obligatorio. Debes ser mayor de 18 años ";
+            lblBirthDateError.Visible = false;
             // 
             // lblApellidoError
             // 
@@ -584,7 +584,7 @@
         private Label lblClaveError;
         private Label lblPassword;
         private MaskedTextBox mtbPassword;
-        private Label lblFechaNacimientoError;
+        private Label lblBirthDateError;
         private Label lblUsernameError;
         private Label lblUsername;
         private TextBox txtUsername;
