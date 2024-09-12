@@ -61,7 +61,7 @@ namespace UI.Desktop
 
         private void especialidadesToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            frmAreas appLogin = new frmAreas();
+            FrmArea appLogin = new FrmArea();
             appLogin.ShowDialog();
 
         }

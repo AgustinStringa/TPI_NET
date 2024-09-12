@@ -1,6 +1,6 @@
 ﻿namespace UI.Desktop.Area
 {
-    partial class frmActionArea
+    partial class FrmActionArea
     {
         /// <summary>
         /// Required designer variable.

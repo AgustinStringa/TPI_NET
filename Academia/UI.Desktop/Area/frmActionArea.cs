@@ -13,11 +13,11 @@ using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace UI.Desktop.Area
 {
-    public partial class frmActionArea : Form
+    public partial class FrmActionArea : Form
     {
         private Mode mode;
         private Domain.Model.Area area;
-        public frmActionArea(Mode mode)
+        public FrmActionArea(Mode mode)
         {
             this.mode = mode;
             InitializeComponent();
@@ -30,7 +30,7 @@ namespace UI.Desktop.Area
                     break;
             }
         }
-        public frmActionArea(Mode mode, Domain.Model.Area area)
+        public FrmActionArea(Mode mode, Domain.Model.Area area)
         {
             this.mode = mode;
             this.area = area;
@@ -53,13 +53,15 @@ namespace UI.Desktop.Area
             {
                 var service = new Domain.Services.AreaService();
                 await service.Create(newArea);
-                MessageBox.Show(newArea.Description + " creada correctamente");
+                MessageBox.Show("Especialidad " + newArea.Description + " creada correctamente.", "Crear especialidad", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 this.Dispose();
             }
             catch (Exception e)
             {
-                MessageBox.Show(e.Message);
-                throw e;
+                if (e.HResult == -2146233088)
+                {
+                    MessageBox.Show("Nombre de especialidad existente.", "No se ha podido eliminar", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
         }
 
