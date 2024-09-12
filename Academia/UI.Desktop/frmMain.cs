@@ -91,7 +91,7 @@ namespace UI.Desktop
         }
         private void materiasToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            frmMateria appCurr = new frmMateria();
+            FrmSubject appCurr = new FrmSubject();
             appCurr.ShowDialog();
 
         }

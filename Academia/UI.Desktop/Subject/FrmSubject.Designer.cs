@@ -1,6 +1,6 @@
 ﻿namespace UI.Desktop.Subject
 {
-    partial class frmMateria
+    partial class FrmSubject
     {
         /// <summary>
         /// Required designer variable.
@@ -42,6 +42,7 @@
             label2 = new Label();
             label4 = new Label();
             cbCurriculum = new ComboBox();
+            btnResetFilters = new Button();
             toolStrip1.SuspendLayout();
             SuspendLayout();
             // 
@@ -155,11 +156,22 @@
             cbCurriculum.TabIndex = 22;
             cbCurriculum.SelectedValueChanged += cbCurriculum_SelectedValueChanged;
             // 
-            // frmMateria
+            // btnResetFilters
+            // 
+            btnResetFilters.Location = new Point(497, 86);
+            btnResetFilters.Name = "btnResetFilters";
+            btnResetFilters.Size = new Size(121, 41);
+            btnResetFilters.TabIndex = 23;
+            btnResetFilters.Text = "Restablecer Filtros";
+            btnResetFilters.UseVisualStyleBackColor = true;
+            btnResetFilters.Click += btnResetFilters_Click;
+            // 
+            // FrmSubject
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1213, 542);
+            Controls.Add(btnResetFilters);
             Controls.Add(cbCurriculum);
             Controls.Add(label4);
             Controls.Add(label2);
@@ -167,7 +179,7 @@
             Controls.Add(listView1);
             Controls.Add(toolStrip1);
             Margin = new Padding(3, 2, 3, 2);
-            Name = "frmMateria";
+            Name = "FrmSubject";
             Text = "frmMateria";
             toolStrip1.ResumeLayout(false);
             toolStrip1.PerformLayout();
@@ -191,5 +203,6 @@
         private Label label2;
         private Label label4;
         private ComboBox cbCurriculum;
+        private Button btnResetFilters;
     }
 }

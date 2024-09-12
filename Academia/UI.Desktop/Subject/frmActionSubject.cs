@@ -14,7 +14,7 @@ using UI.Desktop.Curriculum;
 namespace UI.Desktop.Subject
 {
 
-    public partial class frmActionSubject : Form
+    public partial class FrmActionSubject : Form
     {
 
         #region Fields
@@ -23,9 +23,8 @@ namespace UI.Desktop.Subject
         private Mode Mode;
         #endregion
 
-
         #region Constructors
-        public frmActionSubject(Mode mode, Domain.Model.Subject subj)
+        public FrmActionSubject(Mode mode, Domain.Model.Subject subj)
         {
             InitializeComponent();
             if (mode == Mode.Edit)
@@ -36,11 +35,23 @@ namespace UI.Desktop.Subject
                 txtDescription.Text = subject.Description;
                 txtTotalHours.Text = subject.TotalHours.ToString();
                 txtWeeklyHours.Text = subject.WeeklyHours.ToString();
-                txtLevel.Text = subject.Level.ToString();
+                numLevel.Value = subject.Level;
                 LoadCorrelatives();
             }
         }
+        public FrmActionSubject(Mode mode)
+        {
+            InitializeComponent();
+            if (mode == Mode.Create)
+            {
+                this.Mode = mode;
+                btnAccept.Text = "Crear Materia";
+                Utilities.LoadCurriculums(curriculums, cbCurriculums);
+            }
+        }
+        #endregion
 
+        #region Methods
         private void LoadCorrelatives()
         {
             lstCorrelativesChildren.Items.Clear();
@@ -54,20 +65,9 @@ namespace UI.Desktop.Subject
                 lstCorrelativesParent.Items.Add(new ListBoxItem { DisplayText = item.Subject.Description, Tag = item });
             }
         }
-
-
-        public frmActionSubject(Mode mode)
-        {
-            InitializeComponent();
-            if (mode == Mode.Create)
-            {
-                this.Mode = mode;
-                btnAccept.Text = "Crear Materia";
-                Utilities.LoadCurriculums(curriculums, cbCurriculums);
-            }
-        }
-
         #endregion
+
+        #region Events
         private async void btnAccept_Click(object sender, EventArgs e)
         {
             try
@@ -75,7 +75,7 @@ namespace UI.Desktop.Subject
                 string description = txtDescription.Text.Trim();
                 int totalHours = int.Parse(txtTotalHours.Text.Trim());
                 int weeklyHours = int.Parse(txtWeeklyHours.Text.Trim());
-                int level = int.Parse(txtLevel.Text.Trim());
+                int level = (int)numLevel.Value;
                 Domain.Model.Curriculum curriculum = (Domain.Model.Curriculum)cbCurriculums.SelectedItem;
                 var service = new SubjectService();
                 switch (Mode)
@@ -88,6 +88,7 @@ namespace UI.Desktop.Subject
                         subject.IdCurriculum = curriculum.Id;
                         service.Update(subject);
                         MessageBox.Show("Materia Actualizada correctamente");
+                        this.Dispose();
                         break;
                     case Mode.Create:
                         var newSubject = new Domain.Model.Subject
@@ -100,6 +101,7 @@ namespace UI.Desktop.Subject
                         };
                         service.Create(newSubject);
                         MessageBox.Show("Materia creada correctamente");
+                        this.Dispose();
                         break;
                     default:
                         break;
@@ -122,14 +124,14 @@ namespace UI.Desktop.Subject
             this.Dispose();
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void btnAddCorrelativeParent_Click(object sender, EventArgs e)
         {
             SubjectList frm = new SubjectList(subject, CorrelativeType.Parent);
             frm.ShowDialog();
             LoadCorrelatives();
         }
 
-        private void button4_Click(object sender, EventArgs e)
+        private void btnAddCorrelativeChildren_Click(object sender, EventArgs e)
         {
             SubjectList frm = new SubjectList(subject, CorrelativeType.Children);
             frm.ShowDialog();
@@ -160,5 +162,6 @@ namespace UI.Desktop.Subject
             }
             LoadCorrelatives();
         }
+        #endregion
     }
 }
