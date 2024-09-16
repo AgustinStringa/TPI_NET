@@ -40,8 +40,9 @@ namespace UI.Desktop.Area
                 case Mode.Edit:
                     btnActionArea.Text = "Guardar Especialidad";
                     lblId.Visible = true;
-                    txtId.Visible = true;
-                    txtId.Text = area.Id.ToString();
+                    lblIdValue.Visible = true;
+                    lblIdValue.Text = area.Id.ToString();
+                    txtId.Visible = false;
                     txtAreaName.Text = area.Description.ToString();
                     break;
             }
