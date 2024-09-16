@@ -14,12 +14,12 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Update="Course\frmMyCourses.cs">
-          <SubType>Form</SubType>
-    </Compile>
-    <Compile Update="Commission\frmActionCommission.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="Commission\frmCommission.cs">
+    <Compile Update="Commission\FrmActionCommission.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Commission\FrmCommission.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Update="Curriculum\frmActionCurriculum.cs">

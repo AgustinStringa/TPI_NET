@@ -31,7 +31,7 @@ namespace Domain
             //builder.IntegratedSecurity = true;
             //builder.InitialCatalog = "net-tpi";
             //_connectionString = builder.ConnectionString;
-            _connectionString = "Data Source=DESKTOP-1T6I08B;Initial Catalog=academia;Integrated Security=True;TrustServerCertificate=True;\r\n";
+            _connectionString = "Data Source=DESKTOP-L1E8H85\\SQLEXPRESS;Initial Catalog=academia;Integrated Security=True;TrustServerCertificate=True\r\n";
             this.Database.EnsureCreated();
         }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

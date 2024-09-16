@@ -116,10 +116,5 @@ namespace UI.Desktop.Commission
             lstvCommission.Refresh();
         }
 
-        private void btnRefresh_Click(object sender, EventArgs e)
-        {
-            lstvCommission.Items.Clear();
-            LoadCommissions();
-        }
     }
 }
