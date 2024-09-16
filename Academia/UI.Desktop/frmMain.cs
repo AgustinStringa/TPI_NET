@@ -124,6 +124,7 @@ namespace UI.Desktop
         {
             frmCommissions appCom = new frmCommissions();
             appCom.ShowDialog();
+
         }
     }
 }

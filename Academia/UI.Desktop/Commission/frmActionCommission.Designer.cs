@@ -120,6 +120,7 @@
             txtCommissionDescription.Name = "txtCommissionDescription";
             txtCommissionDescription.Size = new Size(297, 23);
             txtCommissionDescription.TabIndex = 4;
+            txtCommissionDescription.KeyDown += txtCommissionDescription_KeyDown;
             // 
             // lblYear
             // 
