@@ -206,9 +206,32 @@ namespace UI.Desktop.Subject
         }
         #endregion
 
-        private void numLevel_ValueChanged(object sender, EventArgs e)
+        private async void numLevel_ValueChanged(object sender, EventArgs e)
         {
+            try
+            {
+                
+                int selectedLevel = (int)numLevel.Value;
 
+                if (subject != null)
+                {
+                    
+                    var correlativeService = new CorrelativeService();
+
+                    //TODO
+
+                    subject.CorrelativesParents = await correlativeService.GetCorrelativesByLevel(subject.Id, selectedLevel, CorrelativeType.Parent);
+                    subject.CorrelativesChildren = await correlativeService.GetCorrelativesByLevel(subject.Id, selectedLevel, CorrelativeType.Children);
+
+                    
+                    LoadCorrelatives();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al cargar correlativas: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
+
     }
 }

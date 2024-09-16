@@ -1,4 +1,6 @@
 ﻿using Domain.Model;
+using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -48,6 +50,35 @@ namespace Domain.Services
             catch (Exception)
             {
                 throw;
+            }
+        }
+        public async Task<IEnumerable<Domain.Model.Correlative>> GetCorrelativesByLevel(int subjectId, int level, CorrelativeType type)
+        {
+            try
+            {
+                var context = new AcademiaContext();
+
+
+                var subjectIdParameter = new SqlParameter("@subjectId", subjectId);
+                var levelParameter = new SqlParameter("@level", level);
+                var typeParameter = new SqlParameter("@type", type.ToString());
+
+
+                var query = @"SELECT * FROM Correlatives 
+                      WHERE SubjectId = @subjectId 
+                      AND Level = @level 
+                      AND CorrelativeType = @type";
+
+                var correlatives = await context.Correlatives
+                    .FromSqlRaw(query, subjectIdParameter, levelParameter, typeParameter)
+                    .ToListAsync();
+
+                return correlatives;
+            }
+            catch (Exception ex)
+            {
+
+                throw new Exception("Error al obtener correlativas por nivel: " + ex.Message);
             }
         }
     }
