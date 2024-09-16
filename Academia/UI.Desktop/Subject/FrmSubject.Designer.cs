@@ -1,6 +1,6 @@
 ﻿namespace UI.Desktop.Subject
 {
-    partial class frmMateria
+    partial class FrmSubject
     {
         /// <summary>
         /// Required designer variable.
@@ -40,9 +40,8 @@
             totalHours = new ColumnHeader();
             txtSearchSubject = new TextBox();
             label2 = new Label();
-            label3 = new Label();
             label4 = new Label();
-            panel1 = new Panel();
+            cbCurriculum = new ComboBox();
             btnResetFilters = new Button();
             toolStrip1.SuspendLayout();
             SuspendLayout();
@@ -90,7 +89,7 @@
             // 
             listView1.Columns.AddRange(new ColumnHeader[] { description, curriculumDescription, level, weeklyHours, totalHours });
             listView1.FullRowSelect = true;
-            listView1.Location = new Point(180, 141);
+            listView1.Location = new Point(27, 187);
             listView1.Name = "listView1";
             listView1.Size = new Size(950, 216);
             listView1.TabIndex = 15;
@@ -124,7 +123,7 @@
             // 
             // txtSearchSubject
             // 
-            txtSearchSubject.Location = new Point(180, 96);
+            txtSearchSubject.Location = new Point(27, 96);
             txtSearchSubject.Name = "txtSearchSubject";
             txtSearchSubject.Size = new Size(252, 23);
             txtSearchSubject.TabIndex = 16;
@@ -133,63 +132,54 @@
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new Point(180, 69);
+            label2.Location = new Point(27, 69);
             label2.Name = "label2";
-            label2.Size = new Size(54, 15);
+            label2.Size = new Size(45, 15);
             label2.TabIndex = 17;
-            label2.Text = "Nombre:";
-            // 
-            // label3
-            // 
-            label3.AutoSize = true;
-            label3.Location = new Point(30, 69);
-            label3.Name = "label3";
-            label3.Size = new Size(40, 15);
-            label3.TabIndex = 18;
-            label3.Text = "Filtrar:";
+            label2.Text = "Buscar:";
             // 
             // label4
             // 
             label4.AutoSize = true;
-            label4.Location = new Point(20, 104);
+            label4.Location = new Point(27, 145);
             label4.Name = "label4";
             label4.Size = new Size(96, 15);
             label4.TabIndex = 18;
             label4.Text = "Plan de estudios:";
             // 
-            // panel1
+            // cbCurriculum
             // 
-            panel1.AutoScroll = true;
-            panel1.Location = new Point(20, 168);
-            panel1.Name = "panel1";
-            panel1.Size = new Size(115, 307);
-            panel1.TabIndex = 20;
+            cbCurriculum.FormattingEnabled = true;
+            cbCurriculum.Location = new Point(142, 145);
+            cbCurriculum.Name = "cbCurriculum";
+            cbCurriculum.Size = new Size(225, 23);
+            cbCurriculum.TabIndex = 22;
+            cbCurriculum.SelectedValueChanged += cbCurriculum_SelectedValueChanged;
             // 
             // btnResetFilters
             // 
-            btnResetFilters.Location = new Point(20, 122);
+            btnResetFilters.Location = new Point(497, 86);
             btnResetFilters.Name = "btnResetFilters";
-            btnResetFilters.Size = new Size(75, 23);
-            btnResetFilters.TabIndex = 21;
-            btnResetFilters.Text = "restablecer";
+            btnResetFilters.Size = new Size(121, 41);
+            btnResetFilters.TabIndex = 23;
+            btnResetFilters.Text = "Restablecer Filtros";
             btnResetFilters.UseVisualStyleBackColor = true;
             btnResetFilters.Click += btnResetFilters_Click;
             // 
-            // frmMateria
+            // FrmSubject
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1213, 542);
             Controls.Add(btnResetFilters);
-            Controls.Add(panel1);
+            Controls.Add(cbCurriculum);
             Controls.Add(label4);
-            Controls.Add(label3);
             Controls.Add(label2);
             Controls.Add(txtSearchSubject);
             Controls.Add(listView1);
             Controls.Add(toolStrip1);
             Margin = new Padding(3, 2, 3, 2);
-            Name = "frmMateria";
+            Name = "FrmSubject";
             Text = "frmMateria";
             toolStrip1.ResumeLayout(false);
             toolStrip1.PerformLayout();
@@ -211,9 +201,8 @@
         private ColumnHeader totalHours;
         private TextBox txtSearchSubject;
         private Label label2;
-        private Label label3;
         private Label label4;
-        private Panel panel1;
+        private ComboBox cbCurriculum;
         private Button btnResetFilters;
     }
 }
