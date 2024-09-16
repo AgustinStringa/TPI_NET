@@ -9,11 +9,12 @@ namespace API
         public DbSet<Course> Courses { get; set; } = null!;
         public DbSet<Curriculum> Curriculums { get; set; } = null!;
         public DbSet<User> Users { get; set; } = null!;
+        public DbSet<Commission> Commissions { get; set; } = null!;
 
         private string _connectionString = "";
         public AcademiaContext()
         {
-            _connectionString = "Data Source=DESKTOP-1T6I08B;Initial Catalog=academia;Integrated Security=True;TrustServerCertificate=True;\r\n";
+            _connectionString = "Data Source=DESKTOP-L1E8H85\\SQLEXPRESS;Initial Catalog=academia;Integrated Security=True;TrustServerCertificate=True\r\n";
             this.Database.EnsureCreated();
         }
 
