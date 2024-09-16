@@ -54,15 +54,24 @@ namespace UI.Desktop.Subject
         #region Methods
         private void LoadCorrelatives()
         {
-            lstCorrelativesChildren.Items.Clear();
-            lstCorrelativesParent.Items.Clear();
-            foreach (Domain.Model.Correlative item in subject.CorrelativesChildren)
+            if (subject != null)
             {
-                lstCorrelativesChildren.Items.Add(new ListBoxItem { DisplayText = item.CorrelativeSubject.Description, Tag = item });
+                lstCorrelativesChildren.Items.Clear();
+                lstCorrelativesParent.Items.Clear();
+                foreach (Domain.Model.Correlative item in subject.CorrelativesChildren)
+                {
+                    lstCorrelativesChildren.Items.Add(new ListBoxItem { DisplayText = item.CorrelativeSubject.Description, Tag = item });
+                }
+                foreach (Domain.Model.Correlative item in subject.CorrelativesParents)
+                {
+                    lstCorrelativesParent.Items.Add(new ListBoxItem { DisplayText = item.Subject.Description, Tag = item });
+                }
             }
-            foreach (Domain.Model.Correlative item in subject.CorrelativesParents)
+            else
+
             {
-                lstCorrelativesParent.Items.Add(new ListBoxItem { DisplayText = item.Subject.Description, Tag = item });
+                MessageBox.Show("No Podes eliminar una correlativa si no seleccionaste una. ", "No se ha podido eliminar", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
             }
         }
         #endregion
@@ -126,30 +135,63 @@ namespace UI.Desktop.Subject
 
         private void btnAddCorrelativeParent_Click(object sender, EventArgs e)
         {
-            SubjectList frm = new SubjectList(subject, CorrelativeType.Parent);
-            frm.ShowDialog();
-            LoadCorrelatives();
+            if (subject != null)
+            {
+                SubjectList frm = new SubjectList(subject, CorrelativeType.Parent);
+                frm.ShowDialog();
+                LoadCorrelatives();
+            }
+            else
+            {
+                MessageBox.Show("Primero debe guardar la materia antes de agregar correlativas", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void btnAddCorrelativeChildren_Click(object sender, EventArgs e)
         {
-            SubjectList frm = new SubjectList(subject, CorrelativeType.Children);
-            frm.ShowDialog();
-            LoadCorrelatives();
+            if (subject != null)
+            {
+                SubjectList frm = new SubjectList(subject, CorrelativeType.Children);
+                frm.ShowDialog();
+                LoadCorrelatives();
+            }
+            else
+            {
+                MessageBox.Show("Primero debe guardar la materia antes de agregar correlativas", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
         }
 
         private void btnRemoveCorrelativeParent_Click(object sender, EventArgs e)
         {
             if (lstCorrelativesParent.SelectedItems.Count > 0)
             {
-                Domain.Model.Correlative correlativeToDelete = ((ListBoxItem)lstCorrelativesParent.SelectedItems[0]).Tag;
-                var service = new CorrelativeService();
-                service.Delete(correlativeToDelete);
-                subject.CorrelativesParents.Remove(correlativeToDelete);
+                try
+                {
+                    Domain.Model.Correlative correlativeToDelete = ((ListBoxItem)lstCorrelativesParent.SelectedItems[0]).Tag;
+                    var service = new CorrelativeService();
+                    service.Delete(correlativeToDelete);
+                    subject.CorrelativesParents.Remove(correlativeToDelete);
+                }
+                catch (Exception ex)
+                {
+                    //NO NECESSARY
+                   // MessagSeBox.Show("No Podes eliminar una correlativa si no seleccionaste una. ", "No se ha podido eliminar", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                }
             }
+            else
+            {
+               // MessageBox.Show("No puedes eliminar una correlativa si no seleccionaste una.", "No se ha podido eliminar", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
             LoadCorrelatives();
 
         }
+
+
+
+
 
         private void btnRemoveCorrelativeChildren_Click(object sender, EventArgs e)
         {
@@ -163,5 +205,10 @@ namespace UI.Desktop.Subject
             LoadCorrelatives();
         }
         #endregion
+
+        private void numLevel_ValueChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }

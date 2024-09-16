@@ -72,7 +72,7 @@ namespace UI.Desktop.Subject
                         var inner = ex.InnerException as Microsoft.Data.SqlClient.SqlException;
                             if (inner.ErrorCode == -2146232060)
                             {
-                                MessageBox.Show("No puedes eliminar una especialidad con Datos asociados. \n Elimina todos los planes de estudios que referencien a esta especialidad antes de eliminar.", "No se ha podido eliminar", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                MessageBox.Show("No puedes eliminar una especialidad con Datos asociados. \nElimina todos los planes de estudios que referencien a esta especialidad antes de eliminar.", "No se ha podido eliminar", MessageBoxButtons.OK, MessageBoxIcon.Error);
                             }
                     }
                 }

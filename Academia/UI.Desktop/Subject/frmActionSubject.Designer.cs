@@ -53,62 +53,59 @@
             // 
             // txtDescription
             // 
-            txtDescription.Location = new Point(117, 114);
-            txtDescription.Margin = new Padding(3, 2, 3, 2);
+            txtDescription.Location = new Point(134, 152);
             txtDescription.Name = "txtDescription";
-            txtDescription.Size = new Size(194, 23);
+            txtDescription.Size = new Size(221, 27);
             txtDescription.TabIndex = 0;
             // 
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(117, 88);
+            label1.Location = new Point(134, 117);
             label1.Name = "label1";
-            label1.Size = new Size(94, 15);
+            label1.Size = new Size(119, 20);
             label1.TabIndex = 1;
             label1.Text = "Nombre Materia";
             // 
             // txtWeeklyHours
             // 
-            txtWeeklyHours.Location = new Point(117, 181);
-            txtWeeklyHours.Margin = new Padding(3, 2, 3, 2);
+            txtWeeklyHours.Location = new Point(134, 241);
             txtWeeklyHours.Name = "txtWeeklyHours";
-            txtWeeklyHours.Size = new Size(194, 23);
+            txtWeeklyHours.Size = new Size(221, 27);
             txtWeeklyHours.TabIndex = 2;
             // 
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new Point(117, 154);
+            label2.Location = new Point(134, 205);
             label2.Name = "label2";
-            label2.Size = new Size(96, 15);
+            label2.Size = new Size(121, 20);
             label2.TabIndex = 3;
             label2.Text = "Horas semanales";
             // 
             // cbCurriculums
             // 
             cbCurriculums.FormattingEnabled = true;
-            cbCurriculums.Location = new Point(374, 114);
-            cbCurriculums.Margin = new Padding(3, 2, 3, 2);
+            cbCurriculums.Location = new Point(427, 152);
             cbCurriculums.Name = "cbCurriculums";
-            cbCurriculums.Size = new Size(194, 23);
+            cbCurriculums.Size = new Size(221, 28);
             cbCurriculums.TabIndex = 4;
             // 
             // label3
             // 
             label3.AutoSize = true;
-            label3.Location = new Point(374, 88);
+            label3.Location = new Point(427, 117);
             label3.Name = "label3";
-            label3.Size = new Size(88, 15);
+            label3.Size = new Size(111, 20);
             label3.TabIndex = 5;
             label3.Text = "Plan de Estudio";
             // 
             // label4
             // 
             label4.AutoSize = true;
-            label4.Location = new Point(374, 154);
+            label4.Location = new Point(427, 205);
             label4.Name = "label4";
-            label4.Size = new Size(34, 15);
+            label4.Size = new Size(43, 20);
             label4.TabIndex = 7;
             label4.Text = "Nivel";
             // 
@@ -118,10 +115,9 @@
             btnAccept.FlatStyle = FlatStyle.Flat;
             btnAccept.Font = new Font("Segoe UI", 12F);
             btnAccept.ForeColor = SystemColors.ButtonHighlight;
-            btnAccept.Location = new Point(967, 370);
-            btnAccept.Margin = new Padding(3, 2, 3, 2);
+            btnAccept.Location = new Point(1105, 493);
             btnAccept.Name = "btnAccept";
-            btnAccept.Size = new Size(158, 50);
+            btnAccept.Size = new Size(181, 67);
             btnAccept.TabIndex = 8;
             btnAccept.Text = "Registrar Materia";
             btnAccept.UseVisualStyleBackColor = false;
@@ -133,10 +129,9 @@
             btnCancel.FlatStyle = FlatStyle.Flat;
             btnCancel.Font = new Font("Segoe UI", 12F);
             btnCancel.ForeColor = SystemColors.ButtonHighlight;
-            btnCancel.Location = new Point(172, 370);
-            btnCancel.Margin = new Padding(3, 2, 3, 2);
+            btnCancel.Location = new Point(197, 493);
             btnCancel.Name = "btnCancel";
-            btnCancel.Size = new Size(166, 50);
+            btnCancel.Size = new Size(190, 67);
             btnCancel.TabIndex = 9;
             btnCancel.Text = "Cancelar Operacion";
             btnCancel.UseVisualStyleBackColor = false;
@@ -145,62 +140,62 @@
             // label5
             // 
             label5.AutoSize = true;
-            label5.Location = new Point(117, 221);
+            label5.Location = new Point(134, 295);
             label5.Name = "label5";
-            label5.Size = new Size(76, 15);
+            label5.Size = new Size(97, 20);
             label5.TabIndex = 11;
             label5.Text = "Horas totales";
             // 
             // txtTotalHours
             // 
-            txtTotalHours.Location = new Point(117, 248);
-            txtTotalHours.Margin = new Padding(3, 2, 3, 2);
+            txtTotalHours.Location = new Point(134, 331);
             txtTotalHours.Name = "txtTotalHours";
-            txtTotalHours.Size = new Size(194, 23);
+            txtTotalHours.Size = new Size(221, 27);
             txtTotalHours.TabIndex = 10;
             // 
             // lstCorrelativesParent
             // 
             lstCorrelativesParent.FormattingEnabled = true;
-            lstCorrelativesParent.ItemHeight = 15;
-            lstCorrelativesParent.Location = new Point(745, 110);
+            lstCorrelativesParent.Location = new Point(851, 147);
+            lstCorrelativesParent.Margin = new Padding(3, 4, 3, 4);
             lstCorrelativesParent.Name = "lstCorrelativesParent";
-            lstCorrelativesParent.Size = new Size(380, 94);
+            lstCorrelativesParent.Size = new Size(434, 124);
             lstCorrelativesParent.TabIndex = 12;
             // 
             // label6
             // 
             label6.AutoSize = true;
-            label6.Location = new Point(637, 92);
+            label6.Location = new Point(728, 123);
             label6.Name = "label6";
-            label6.Size = new Size(102, 15);
+            label6.Size = new Size(128, 20);
             label6.TabIndex = 13;
             label6.Text = "Correlativas Padre";
             // 
             // label7
             // 
             label7.AutoSize = true;
-            label7.Location = new Point(637, 214);
+            label7.Location = new Point(728, 285);
             label7.Name = "label7";
-            label7.Size = new Size(93, 15);
+            label7.Size = new Size(118, 20);
             label7.TabIndex = 15;
             label7.Text = "Correlativas Hija";
             // 
             // lstCorrelativesChildren
             // 
             lstCorrelativesChildren.FormattingEnabled = true;
-            lstCorrelativesChildren.ItemHeight = 15;
-            lstCorrelativesChildren.Location = new Point(745, 232);
+            lstCorrelativesChildren.Location = new Point(851, 309);
+            lstCorrelativesChildren.Margin = new Padding(3, 4, 3, 4);
             lstCorrelativesChildren.Name = "lstCorrelativesChildren";
-            lstCorrelativesChildren.Size = new Size(380, 94);
+            lstCorrelativesChildren.Size = new Size(434, 124);
             lstCorrelativesChildren.TabIndex = 14;
             // 
             // btnAddCorrelativeParent
             // 
             btnAddCorrelativeParent.Image = Properties.Resources.Add;
-            btnAddCorrelativeParent.Location = new Point(637, 114);
+            btnAddCorrelativeParent.Location = new Point(728, 152);
+            btnAddCorrelativeParent.Margin = new Padding(3, 4, 3, 4);
             btnAddCorrelativeParent.Name = "btnAddCorrelativeParent";
-            btnAddCorrelativeParent.Size = new Size(75, 26);
+            btnAddCorrelativeParent.Size = new Size(86, 35);
             btnAddCorrelativeParent.TabIndex = 16;
             btnAddCorrelativeParent.UseVisualStyleBackColor = true;
             btnAddCorrelativeParent.Click += btnAddCorrelativeParent_Click;
@@ -208,9 +203,10 @@
             // btnRemoveCorrelativeParent
             // 
             btnRemoveCorrelativeParent.Image = Properties.Resources.Delete;
-            btnRemoveCorrelativeParent.Location = new Point(637, 146);
+            btnRemoveCorrelativeParent.Location = new Point(728, 195);
+            btnRemoveCorrelativeParent.Margin = new Padding(3, 4, 3, 4);
             btnRemoveCorrelativeParent.Name = "btnRemoveCorrelativeParent";
-            btnRemoveCorrelativeParent.Size = new Size(75, 27);
+            btnRemoveCorrelativeParent.Size = new Size(86, 36);
             btnRemoveCorrelativeParent.TabIndex = 17;
             btnRemoveCorrelativeParent.UseVisualStyleBackColor = true;
             btnRemoveCorrelativeParent.Click += btnRemoveCorrelativeParent_Click;
@@ -218,9 +214,10 @@
             // btnRemoveCorrelativeChildren
             // 
             btnRemoveCorrelativeChildren.Image = Properties.Resources.Delete;
-            btnRemoveCorrelativeChildren.Location = new Point(637, 268);
+            btnRemoveCorrelativeChildren.Location = new Point(728, 357);
+            btnRemoveCorrelativeChildren.Margin = new Padding(3, 4, 3, 4);
             btnRemoveCorrelativeChildren.Name = "btnRemoveCorrelativeChildren";
-            btnRemoveCorrelativeChildren.Size = new Size(75, 27);
+            btnRemoveCorrelativeChildren.Size = new Size(86, 36);
             btnRemoveCorrelativeChildren.TabIndex = 19;
             btnRemoveCorrelativeChildren.UseVisualStyleBackColor = true;
             btnRemoveCorrelativeChildren.Click += btnRemoveCorrelativeChildren_Click;
@@ -228,27 +225,30 @@
             // btnAddCorrelativeChildren
             // 
             btnAddCorrelativeChildren.Image = Properties.Resources.Add;
-            btnAddCorrelativeChildren.Location = new Point(637, 236);
+            btnAddCorrelativeChildren.Location = new Point(728, 315);
+            btnAddCorrelativeChildren.Margin = new Padding(3, 4, 3, 4);
             btnAddCorrelativeChildren.Name = "btnAddCorrelativeChildren";
-            btnAddCorrelativeChildren.Size = new Size(75, 26);
+            btnAddCorrelativeChildren.Size = new Size(86, 35);
             btnAddCorrelativeChildren.TabIndex = 18;
             btnAddCorrelativeChildren.UseVisualStyleBackColor = true;
             btnAddCorrelativeChildren.Click += btnAddCorrelativeChildren_Click;
             // 
             // numLevel
             // 
-            numLevel.Location = new Point(374, 182);
+            numLevel.Location = new Point(427, 243);
+            numLevel.Margin = new Padding(3, 4, 3, 4);
             numLevel.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
             numLevel.Name = "numLevel";
-            numLevel.Size = new Size(194, 23);
+            numLevel.Size = new Size(222, 27);
             numLevel.TabIndex = 20;
             numLevel.Value = new decimal(new int[] { 1, 0, 0, 0 });
+            numLevel.ValueChanged += numLevel_ValueChanged;
             // 
             // FrmActionSubject
             // 
-            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1216, 431);
+            ClientSize = new Size(1390, 575);
             Controls.Add(numLevel);
             Controls.Add(btnRemoveCorrelativeChildren);
             Controls.Add(btnAddCorrelativeChildren);
@@ -269,7 +269,6 @@
             Controls.Add(txtWeeklyHours);
             Controls.Add(label1);
             Controls.Add(txtDescription);
-            Margin = new Padding(3, 2, 3, 2);
             Name = "FrmActionSubject";
             Text = "frmActionArea";
             ((System.ComponentModel.ISupportInitialize)numLevel).EndInit();
