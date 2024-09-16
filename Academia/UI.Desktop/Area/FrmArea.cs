@@ -25,6 +25,7 @@ namespace UI.Desktop.Area
         {
             InitializeComponent();
             LoadAreas();
+            StartLayoutPanel();
         }
 
         #region Methods
@@ -52,7 +53,8 @@ namespace UI.Desktop.Area
             frm.ShowDialog();
             var service = new Domain.Services.AreaService();
             lstvAreas.Items.Clear();
-            AdaptAreasToListView(await service.GetAll());
+            var areas = await service.GetAll();
+            AdaptAreasToListView(areas);
             lstvAreas.Refresh();
         }
         private async void tsbtnEdit_Click(object sender, EventArgs e)
@@ -70,8 +72,8 @@ namespace UI.Desktop.Area
             }
             else
             {
-                MessageBox.Show("Seleccione 1 area antes de edit");
-            }
+                MessageBox.Show("Seleccione una especialidad antes de editar", "Editar Especialidad", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            }
         }
         private async void tsbtnRemove_Click(object sender, EventArgs e)
         {
@@ -101,7 +103,7 @@ namespace UI.Desktop.Area
             }
             else
             {
-                MessageBox.Show("Seleccione 1 area antes de remover");
+                MessageBox.Show("Seleccione una especialidad antes de eliminar", "Eliminar Especialidad", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
         private void AdaptAreasToListView(IEnumerable<Domain.Model.Area> areas)
@@ -123,5 +125,24 @@ namespace UI.Desktop.Area
         }
 
         #endregion
+
+        private void StartLayoutPanel() {
+            TableLayoutPanel tableLayoutPanel = new TableLayoutPanel();
+            tableLayoutPanel.ColumnCount = 1;
+            tableLayoutPanel.RowCount = 3;
+            tableLayoutPanel.Dock = DockStyle.Fill;
+            tableLayoutPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 75F));
+            tableLayoutPanel.RowStyles.Add(new RowStyle(SizeType.Percent, 20F));
+            tableLayoutPanel.RowStyles.Add(new RowStyle(SizeType.Percent, 20F));
+            tableLayoutPanel.RowStyles.Add(new RowStyle(SizeType.Percent, 60F));
+            label1.Padding = new Padding(0, 60, 0, 20);
+            txtSearchArea.Padding = new Padding(40, 40, 0, 0);
+            lstvAreas.Padding = new Padding(40, 40, 0, 0);
+            tableLayoutPanel.Controls.Add(label1, 0, 0); //(col, row)
+            tableLayoutPanel.Controls.Add(txtSearchArea, 0, 1);
+            tableLayoutPanel.Controls.Add(lstvAreas, 0, 2);
+            tableLayoutPanel.Padding = new Padding(10);
+            this.Controls.Add(tableLayoutPanel);
+        }
     }
 }
