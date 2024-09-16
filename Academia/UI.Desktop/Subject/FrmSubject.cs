@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using UI.Desktop;
 using Domain.Model;
 using Domain.Services;
+using System.Linq.Expressions;
 
 namespace UI.Desktop.Subject
 {
@@ -40,25 +41,51 @@ namespace UI.Desktop.Subject
                 frm.ShowDialog();
                 LoadSubjects();
             }
+
+            else
+            {
+                MessageBox.Show("Seleccione una asignatura antes de editar", "Editar Asignatura", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
         }
         private async void tsbtnDelete_Click(object sender, EventArgs e)
         {
             //encontrar elemento seleccionado
-            if (listView1.SelectedItems.Count > 0)
-            {
-                Domain.Model.Subject selectedSubject = (Domain.Model.Subject)listView1.SelectedItems[0].Tag;
-                if (MessageBox.Show("¿Desea Eliminar la asignatura ' " + selectedSubject.Description + " '  ?", "Eliminar asignatura", MessageBoxButtons.OKCancel, MessageBoxIcon.Information) == DialogResult.OK)
+
+           
+                if (listView1.SelectedItems.Count > 0)
                 {
-                    var service = new SubjectService();
-                    await service.Delete(selectedSubject.Id);
-                    LoadSubjects();
+                    try {
+                        Domain.Model.Subject selectedSubject = (Domain.Model.Subject)listView1.SelectedItems[0].Tag;
+                        if (MessageBox.Show("¿Desea Eliminar la asignatura ' " + selectedSubject.Description + " '  ?", "Eliminar asignatura", MessageBoxButtons.OKCancel, MessageBoxIcon.Information) == DialogResult.OK)
+                        {
+                            var service = new SubjectService();
+                            await service.Delete(selectedSubject.Id);
+                            LoadSubjects();
+                        }
+                        else
+                        {
+                            MessageBox.Show("Asginatura NO eliminada");
+                        }
+                        }
+                    catch (Exception ex)
+                    {
+                        var inner = ex.InnerException as Microsoft.Data.SqlClient.SqlException;
+                            if (inner.ErrorCode == -2146232060)
+                            {
+                                MessageBox.Show("No puedes eliminar una especialidad con Datos asociados. \n Elimina todos los planes de estudios que referencien a esta especialidad antes de eliminar.", "No se ha podido eliminar", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            }
+                    }
                 }
+
                 else
                 {
-                    MessageBox.Show("Asginatura NO eliminada");
+
+                    MessageBox.Show("Seleccione una asignatura antes de eliminar", "Eliminar asignatura", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
-            }
+
         }
+           
+        
         private void txtSearchSubject_TextChanged(object sender, EventArgs e)
         {
             ApplyFilters();
