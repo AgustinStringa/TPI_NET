@@ -26,7 +26,7 @@ namespace Domain.Services
             }
         }
 
-        public async void Delete(Correlative correlative)
+        public async Task Delete(Correlative correlative)
         {
             try
             {
