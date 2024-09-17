@@ -24,13 +24,13 @@ namespace Domain.Services
             }
         }
 
-        public void Create(Commission commission)
+        public async Task Create(Commission commission)
         {
             try
             {
                 var context = new AcademiaContext();
-                context.Commissions.Add(commission);
-                context.SaveChanges();
+                await context.Commissions.AddAsync(commission);
+                await context.SaveChangesAsync();
             }
             catch (Exception e)
             {
@@ -38,13 +38,13 @@ namespace Domain.Services
             }
         }
 
-        public void Update(Commission commission)
+        public async Task Update(Commission commission)
         {
             var context = new AcademiaContext();
             try
             {
                 context.Commissions.Update(commission);
-                context.SaveChanges();
+                await context.SaveChangesAsync();
             }
             catch (Exception e)
             {
@@ -52,16 +52,16 @@ namespace Domain.Services
             }
         }
 
-        public void Delete(int id)
+        public async Task Delete(int id)
         {
             try
             {
                 var context = new AcademiaContext();
-                var commission = context.Commissions.Find(id);
+                var commission = await context.Commissions.FindAsync(id);
                 if (commission != null)
                 {
                     context.Commissions.Remove(commission);
-                    context.SaveChanges();
+                    await context.SaveChangesAsync();
                 }
             }
             catch (Exception e)
@@ -70,12 +70,12 @@ namespace Domain.Services
             }
         }
 
-        public Commission GetById(int id)
+        public async Task<Commission> GetById(int id)
         {
             try
             {
                 var context = new AcademiaContext();
-                var commission = context.Commissions.Find(id);
+                var commission = await context.Commissions.FindAsync(id);
                 return commission;
             }
             catch (Exception e)

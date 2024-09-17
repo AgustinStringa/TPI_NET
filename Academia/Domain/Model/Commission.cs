@@ -21,9 +21,6 @@ namespace Domain.Model
         [Column("desc_comision")]
         public string Description { get; set; }
 
-        //[Column("anio_especialidad")]
-        //public int Year {  get; set; }
-
         [Column("id_plan")]
         [ForeignKey("Curriculum")]
         public int IdCurriculum { get; set; }

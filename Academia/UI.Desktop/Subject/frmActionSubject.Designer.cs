@@ -1,6 +1,6 @@
 ﻿namespace UI.Desktop.Subject
 {
-    partial class frmActionSubject
+    partial class FrmActionSubject
     {
         /// <summary>
         /// Required designer variable.
@@ -37,7 +37,6 @@
             label4 = new Label();
             btnAccept = new Button();
             btnCancel = new Button();
-            txtLevel = new TextBox();
             label5 = new Label();
             txtTotalHours = new TextBox();
             lstCorrelativesParent = new ListBox();
@@ -48,7 +47,8 @@
             btnRemoveCorrelativeParent = new Button();
             btnRemoveCorrelativeChildren = new Button();
             btnAddCorrelativeChildren = new Button();
-            label8 = new Label();
+            numLevel = new NumericUpDown();
+            ((System.ComponentModel.ISupportInitialize)numLevel).BeginInit();
             SuspendLayout();
             // 
             // txtDescription
@@ -114,33 +114,33 @@
             // 
             // btnAccept
             // 
-            btnAccept.Location = new Point(618, 379);
+            btnAccept.BackColor = Color.FromArgb(0, 123, 255);
+            btnAccept.FlatStyle = FlatStyle.Flat;
+            btnAccept.Font = new Font("Segoe UI", 12F);
+            btnAccept.ForeColor = SystemColors.ButtonHighlight;
+            btnAccept.Location = new Point(967, 370);
             btnAccept.Margin = new Padding(3, 2, 3, 2);
             btnAccept.Name = "btnAccept";
-            btnAccept.Size = new Size(139, 22);
+            btnAccept.Size = new Size(158, 50);
             btnAccept.TabIndex = 8;
             btnAccept.Text = "Registrar Materia";
-            btnAccept.UseVisualStyleBackColor = true;
+            btnAccept.UseVisualStyleBackColor = false;
             btnAccept.Click += btnAccept_Click;
             // 
             // btnCancel
             // 
-            btnCancel.Location = new Point(172, 379);
+            btnCancel.BackColor = Color.FromArgb(220, 53, 69);
+            btnCancel.FlatStyle = FlatStyle.Flat;
+            btnCancel.Font = new Font("Segoe UI", 12F);
+            btnCancel.ForeColor = SystemColors.ButtonHighlight;
+            btnCancel.Location = new Point(172, 370);
             btnCancel.Margin = new Padding(3, 2, 3, 2);
             btnCancel.Name = "btnCancel";
-            btnCancel.Size = new Size(139, 22);
+            btnCancel.Size = new Size(166, 50);
             btnCancel.TabIndex = 9;
             btnCancel.Text = "Cancelar Operacion";
-            btnCancel.UseVisualStyleBackColor = true;
+            btnCancel.UseVisualStyleBackColor = false;
             btnCancel.Click += btnCancel_Click;
-            // 
-            // txtLevel
-            // 
-            txtLevel.Location = new Point(374, 181);
-            txtLevel.Margin = new Padding(3, 2, 3, 2);
-            txtLevel.Name = "txtLevel";
-            txtLevel.Size = new Size(194, 23);
-            txtLevel.TabIndex = 2;
             // 
             // label5
             // 
@@ -163,7 +163,7 @@
             // 
             lstCorrelativesParent.FormattingEnabled = true;
             lstCorrelativesParent.ItemHeight = 15;
-            lstCorrelativesParent.Location = new Point(637, 110);
+            lstCorrelativesParent.Location = new Point(745, 110);
             lstCorrelativesParent.Name = "lstCorrelativesParent";
             lstCorrelativesParent.Size = new Size(380, 94);
             lstCorrelativesParent.TabIndex = 12;
@@ -190,7 +190,7 @@
             // 
             lstCorrelativesChildren.FormattingEnabled = true;
             lstCorrelativesChildren.ItemHeight = 15;
-            lstCorrelativesChildren.Location = new Point(637, 232);
+            lstCorrelativesChildren.Location = new Point(745, 232);
             lstCorrelativesChildren.Name = "lstCorrelativesChildren";
             lstCorrelativesChildren.Size = new Size(380, 94);
             lstCorrelativesChildren.TabIndex = 14;
@@ -198,17 +198,17 @@
             // btnAddCorrelativeParent
             // 
             btnAddCorrelativeParent.Image = Properties.Resources.Add;
-            btnAddCorrelativeParent.Location = new Point(1047, 110);
+            btnAddCorrelativeParent.Location = new Point(637, 114);
             btnAddCorrelativeParent.Name = "btnAddCorrelativeParent";
             btnAddCorrelativeParent.Size = new Size(75, 26);
             btnAddCorrelativeParent.TabIndex = 16;
             btnAddCorrelativeParent.UseVisualStyleBackColor = true;
-            btnAddCorrelativeParent.Click += button1_Click;
+            btnAddCorrelativeParent.Click += btnAddCorrelativeParent_Click;
             // 
             // btnRemoveCorrelativeParent
             // 
             btnRemoveCorrelativeParent.Image = Properties.Resources.Delete;
-            btnRemoveCorrelativeParent.Location = new Point(1047, 142);
+            btnRemoveCorrelativeParent.Location = new Point(637, 146);
             btnRemoveCorrelativeParent.Name = "btnRemoveCorrelativeParent";
             btnRemoveCorrelativeParent.Size = new Size(75, 27);
             btnRemoveCorrelativeParent.TabIndex = 17;
@@ -218,7 +218,7 @@
             // btnRemoveCorrelativeChildren
             // 
             btnRemoveCorrelativeChildren.Image = Properties.Resources.Delete;
-            btnRemoveCorrelativeChildren.Location = new Point(1047, 264);
+            btnRemoveCorrelativeChildren.Location = new Point(637, 268);
             btnRemoveCorrelativeChildren.Name = "btnRemoveCorrelativeChildren";
             btnRemoveCorrelativeChildren.Size = new Size(75, 27);
             btnRemoveCorrelativeChildren.TabIndex = 19;
@@ -228,28 +228,28 @@
             // btnAddCorrelativeChildren
             // 
             btnAddCorrelativeChildren.Image = Properties.Resources.Add;
-            btnAddCorrelativeChildren.Location = new Point(1047, 232);
+            btnAddCorrelativeChildren.Location = new Point(637, 236);
             btnAddCorrelativeChildren.Name = "btnAddCorrelativeChildren";
             btnAddCorrelativeChildren.Size = new Size(75, 26);
             btnAddCorrelativeChildren.TabIndex = 18;
             btnAddCorrelativeChildren.UseVisualStyleBackColor = true;
-            btnAddCorrelativeChildren.Click += button4_Click;
+            btnAddCorrelativeChildren.Click += btnAddCorrelativeChildren_Click;
             // 
-            // label8
+            // numLevel
             // 
-            label8.AutoSize = true;
-            label8.Location = new Point(431, 280);
-            label8.Name = "label8";
-            label8.Size = new Size(38, 15);
-            label8.TabIndex = 20;
-            label8.Text = "label8";
+            numLevel.Location = new Point(374, 182);
+            numLevel.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
+            numLevel.Name = "numLevel";
+            numLevel.Size = new Size(194, 23);
+            numLevel.TabIndex = 20;
+            numLevel.Value = new decimal(new int[] { 1, 0, 0, 0 });
             // 
-            // frmActionSubject
+            // FrmActionSubject
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1216, 431);
-            Controls.Add(label8);
+            Controls.Add(numLevel);
             Controls.Add(btnRemoveCorrelativeChildren);
             Controls.Add(btnAddCorrelativeChildren);
             Controls.Add(btnRemoveCorrelativeParent);
@@ -266,13 +266,13 @@
             Controls.Add(label3);
             Controls.Add(cbCurriculums);
             Controls.Add(label2);
-            Controls.Add(txtLevel);
             Controls.Add(txtWeeklyHours);
             Controls.Add(label1);
             Controls.Add(txtDescription);
             Margin = new Padding(3, 2, 3, 2);
-            Name = "frmActionSubject";
+            Name = "FrmActionSubject";
             Text = "frmActionArea";
+            ((System.ComponentModel.ISupportInitialize)numLevel).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -288,7 +288,6 @@
         private Label label4;
         private Button btnAccept;
         private Button btnCancel;
-        private TextBox txtLevel;
         private Label label5;
         private TextBox txtTotalHours;
         private ListBox lstCorrelativesParent;
@@ -299,6 +298,6 @@
         private Button btnRemoveCorrelativeParent;
         private Button btnRemoveCorrelativeChildren;
         private Button btnAddCorrelativeChildren;
-        private Label label8;
+        private NumericUpDown numLevel;
     }
 }

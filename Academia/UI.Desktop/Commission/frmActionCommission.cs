@@ -36,7 +36,7 @@ namespace UI.Desktop.Commission
         {
             this.commission = comm;
             InitializeComponent();
-            Utilities.LoadCurriculums(cbCurriculum);
+            Utilities.LoadCurriculums(cbCurriculum, comm.Curriculum);
             this.mode = mode;
             switch (mode)
             {
@@ -117,34 +117,8 @@ namespace UI.Desktop.Commission
                     EditCommission(commissionDescription, idCurriculum, service);
                 }
             }
-
-            /*
-            else
-            {
-                if (mode == Mode.Create)
-                {
-                    CreateCommission(new Entities.Commission(commissionDescription.Trim(), commissionIdCurriculum));
-                }
-                else if (mode == Mode.Edit)
-                {
-                    EditCommission(new Entities.Commission(commissionDescription.Trim(), commissionIdCurriculum));
-                }
-            }
-            */
         }
 
-
-
-
-
-        /*
-        private async void getcommission(int id)
-        {
-            commission = await business.commission.findone(id);
-            txtcommissiondescription.text = commission.description;
-            txtid.text = commission.idcommission.tostring();
-        }
-        */
         private async void CreateCommission(Domain.Model.Commission newCommission, Domain.Services.CommissionService service)
         {
 
@@ -162,16 +136,12 @@ namespace UI.Desktop.Commission
             this.Dispose();
         }
 
-        /*
-        private void txtCommissionName_KeyDown(object sender, KeyEventArgs e)
+        private void txtCommissionDescription_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Enter)
             {
-                //CreateCommission();
                 btnActionCommission.PerformClick();
             }
         }
-        */
-
     }
 }
