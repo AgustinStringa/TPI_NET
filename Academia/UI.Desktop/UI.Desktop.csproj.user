@@ -4,7 +4,7 @@
     <Compile Update="Area\FrmActionArea.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="Area\FrmAreas.cs">
+    <Compile Update="Area\FrmArea.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Update="Course\FrmActionCourse.cs">
@@ -49,7 +49,7 @@
     <Compile Update="Subject\FrmActionSubject.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="Subject\FrmMateria.cs">
+    <Compile Update="Subject\FrmSubject.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Update="Subject\SubjectList.cs">

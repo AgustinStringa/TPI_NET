@@ -1,6 +1,6 @@
 ﻿namespace UI.Desktop.Area
 {
-    partial class frmActionArea
+    partial class FrmActionArea
     {
         /// <summary>
         /// Required designer variable.
@@ -33,6 +33,7 @@
             btnActionArea = new Button();
             label2 = new Label();
             panel1 = new Panel();
+            lblIdValue = new Label();
             txtId = new TextBox();
             lblId = new Label();
             panel1.SuspendLayout();
@@ -76,6 +77,7 @@
             // 
             // panel1
             // 
+            panel1.Controls.Add(lblIdValue);
             panel1.Controls.Add(txtId);
             panel1.Controls.Add(lblId);
             panel1.Controls.Add(label1);
@@ -86,6 +88,16 @@
             panel1.Name = "panel1";
             panel1.Size = new Size(366, 165);
             panel1.TabIndex = 4;
+            // 
+            // lblIdValue
+            // 
+            lblIdValue.AutoSize = true;
+            lblIdValue.Location = new Point(63, 60);
+            lblIdValue.Name = "lblIdValue";
+            lblIdValue.Size = new Size(38, 15);
+            lblIdValue.TabIndex = 6;
+            lblIdValue.Text = "label3";
+            lblIdValue.Visible = false;
             // 
             // txtId
             // 
@@ -104,13 +116,13 @@
             lblId.TabIndex = 4;
             lblId.Text = "Id:";
             // 
-            // frmCreateArea
+            // FrmActionArea
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(404, 204);
             Controls.Add(panel1);
-            Name = "frmCreateArea";
+            Name = "FrmActionArea";
             Text = "Crear Especilidad";
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
@@ -126,5 +138,6 @@
         private Panel panel1;
         private TextBox txtId;
         private Label lblId;
+        private Label lblIdValue;
     }
 }
