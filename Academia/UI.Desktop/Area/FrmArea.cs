@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using UI.Desktop;
 using UI.Desktop.Area;
+using ClientService;
 
 namespace UI.Desktop.Area
 {
@@ -33,8 +34,7 @@ namespace UI.Desktop.Area
         {
             try
             {
-                var service = new Domain.Services.AreaService();
-                this.areasList = await service.GetAll();
+                this.areasList = await AreaService.GetAll();
                 AdaptAreasToListView(areasList);
             }
             catch (Exception e)
@@ -73,7 +73,7 @@ namespace UI.Desktop.Area
             else
             {
                 MessageBox.Show("Seleccione una especialidad antes de editar", "Editar Especialidad", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                            }
+            }
         }
         private async void tsbtnRemove_Click(object sender, EventArgs e)
         {
@@ -126,7 +126,8 @@ namespace UI.Desktop.Area
 
         #endregion
 
-        private void StartLayoutPanel() {
+        private void StartLayoutPanel()
+        {
             TableLayoutPanel tableLayoutPanel = new TableLayoutPanel();
             tableLayoutPanel.ColumnCount = 1;
             tableLayoutPanel.RowCount = 3;
