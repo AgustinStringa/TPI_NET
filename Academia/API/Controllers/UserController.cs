@@ -1,4 +1,5 @@
 ﻿using Domain.Model;
+using Domain;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Text;
@@ -103,7 +104,7 @@ namespace API.Controllers
             try
             {
                 var context = new API.AcademiaContext();
-                newUser.Password = Data.Util.EncodePassword(newUser.Password);
+                newUser.Password = Util.EncodePassword(newUser.Password);
                 context.Users.Add(newUser);
                 await context.SaveChangesAsync();
                 return CreatedAtAction(
