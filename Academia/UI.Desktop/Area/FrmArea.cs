@@ -83,13 +83,12 @@ namespace UI.Desktop.Area
                 try
                 {
                     Domain.Model.Area selectedArea = (Domain.Model.Area)lstvAreas.SelectedItems[0].Tag;
-                    var service = new Domain.Services.AreaService();
-                    await service.Delete(selectedArea.Id);
+                    await ClientService.AreaService.Delete(selectedArea.Id);
                     lstvAreas.Items.Clear();
-                    AdaptAreasToListView(await service.GetAll());
+                    this.areasList = await ClientService.AreaService.GetAll();
+                    AdaptAreasToListView(areasList);
                     lstvAreas.Refresh();
-                    MessageBox.Show("Especialidad " + selectedArea.Description + "eliminada correctamente.", "Eliminar especialidad", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
+                    MessageBox.Show("Especialidad " + selectedArea.Description + " eliminada correctamente.", "Eliminar especialidad", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
                 catch (Exception ex)
                 {
