@@ -1,10 +1,7 @@
 ﻿using Domain.Model;
 using Newtonsoft.Json;
 using System.Text;
-using System.Text.Json;
-using System.Configuration;
 using Microsoft.Extensions.Configuration;
-using System.Net.Http;
 
 namespace ClientService
 {
@@ -12,9 +9,9 @@ namespace ClientService
     {
         private readonly HttpClient _httpClient;
         private string _apiUrl = "";
-        public AreaService()
+        public AreaService(HttpClient httpClient)
         {
-            _httpClient = new HttpClient();
+            _httpClient = httpClient;
             var configuration = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
                 .AddJsonFile("appsettingsClientService.json", optional: true, reloadOnChange: true)
@@ -30,10 +27,12 @@ namespace ClientService
                 _httpClient.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
                 var response = await _httpClient.GetStringAsync(_apiUrl);
                 var areas = JsonConvert.DeserializeObject<List<Area>>(response);
+                //var areas = System.Text.Json.JsonSerializer.Deserialize<IEnumerable<Area>>(response);
                 return areas;
             }
             catch (Exception e)
             {
+                throw;
                 return null;
             }
         }
@@ -46,10 +45,11 @@ namespace ClientService
                 _httpClient.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
                 using StringContent jsonContent = new(System.Text.Json.JsonSerializer.Serialize(area), Encoding.UTF8, "application/json");
                 var response = await _httpClient.PostAsync(_apiUrl, jsonContent);
+                response.EnsureSuccessStatusCode();
             }
             catch (Exception e)
             {
-                throw e;
+                throw;
             }
         }
 
@@ -61,10 +61,11 @@ namespace ClientService
                 _httpClient.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
                 using StringContent jsonContent = new(System.Text.Json.JsonSerializer.Serialize(area), Encoding.UTF8, "application/json");
                 var response = await _httpClient.PutAsync(_apiUrl + area.Id.ToString(), jsonContent);
+                response.EnsureSuccessStatusCode();
             }
             catch (Exception e)
             {
-                throw e;
+                throw;
             }
         }
 
@@ -85,7 +86,7 @@ namespace ClientService
             }
             catch (Exception e)
             {
-                throw e;
+                throw;
             }
         }
     }

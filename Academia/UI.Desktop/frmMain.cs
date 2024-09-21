@@ -15,6 +15,7 @@ using UI.Desktop.Subject;
 using UI.Desktop.Course;
 using UI.Desktop.User;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Http;
 using ClientService;
 
 
@@ -62,18 +63,17 @@ namespace UI.Desktop
 
         private void especialidadesToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var serviceProvider = new ServiceCollection()
-                .AddSingleton<IAreaService, AreaService>()
-                .BuildServiceProvider();
-            var service = serviceProvider.GetRequiredService<IAreaService>();
-            FrmArea appLogin = new FrmArea(service);
+            var services = new ServiceCollection();
+            services.AddHttpClient<IAreaService, AreaService>(); 
+            var serviceProvider = services.BuildServiceProvider();
+            var service = serviceProvider.GetRequiredService<IAreaService>(); FrmArea appLogin = new FrmArea(service);
             appLogin.ShowDialog();
 
         }
 
         private void planesDeEstudioToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            frmCurriculum appCurr = new frmCurriculum();
+            FrmCurriculum appCurr = new FrmCurriculum();
             appCurr.ShowDialog();
 
         }
