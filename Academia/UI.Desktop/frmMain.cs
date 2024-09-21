@@ -10,22 +10,23 @@ using System.Windows.Forms;
 using UI.Desktop.Curriculum;
 using UI.Desktop.Area;
 using UI.Desktop.Commission;
-
 using Domain.Model;
 using UI.Desktop.Subject;
 using UI.Desktop.Course;
 using UI.Desktop.User;
+using Microsoft.Extensions.DependencyInjection;
+using ClientService;
 
 
 namespace UI.Desktop
 {
-    public partial class frmMain : Form
+    public partial class FrmMain : Form
     {
         private bool administrative = false;
         private bool student = false;
         private Domain.Model.User user;
 
-        public frmMain(Domain.Model.User user)
+        public FrmMain(Domain.Model.User user)
         {
             this.user = user;
             administrative = (user.UserType == 1);
@@ -33,7 +34,7 @@ namespace UI.Desktop
             InitializeComponent();
         }
 
-        public frmMain()
+        public FrmMain()
         {
             InitializeComponent();
         }
@@ -61,7 +62,11 @@ namespace UI.Desktop
 
         private void especialidadesToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            FrmArea appLogin = new FrmArea();
+            var serviceProvider = new ServiceCollection()
+                .AddSingleton<IAreaService, AreaService>()
+                .BuildServiceProvider();
+            var service = serviceProvider.GetRequiredService<IAreaService>();
+            FrmArea appLogin = new FrmArea(service);
             appLogin.ShowDialog();
 
         }

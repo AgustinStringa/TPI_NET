@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using Entities;
 using Domain.Model;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using ClientService;
 
 namespace UI.Desktop.Area
 {
@@ -17,9 +18,11 @@ namespace UI.Desktop.Area
     {
         private Mode mode;
         private Domain.Model.Area area;
-        public FrmActionArea(Mode mode)
+        private IAreaService _areaService;
+        public FrmActionArea(Mode mode, IAreaService service)
         {
             this.mode = mode;
+            this._areaService = service;
             InitializeComponent();
             switch (mode)
             {
@@ -30,10 +33,11 @@ namespace UI.Desktop.Area
                     break;
             }
         }
-        public FrmActionArea(Mode mode, Domain.Model.Area area)
+        public FrmActionArea(Mode mode, Domain.Model.Area area, IAreaService service)
         {
             this.mode = mode;
             this.area = area;
+            this._areaService = service;
             InitializeComponent();
             switch (mode)
             {
@@ -52,7 +56,7 @@ namespace UI.Desktop.Area
         {
             try
             {
-                await ClientService.AreaService.Create(newArea);
+                await _areaService.CreateAsync(newArea);
                 MessageBox.Show("Especialidad " + newArea.Description + " creada correctamente.", "Crear especialidad", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 this.Dispose();
             }
@@ -70,7 +74,7 @@ namespace UI.Desktop.Area
             try
             {
                 this.area.Description = areaDescription;
-                await ClientService.AreaService.Update(area);
+                await _areaService.UpdateAsync(area);
                 this.Dispose();
             }
             catch (Exception e)

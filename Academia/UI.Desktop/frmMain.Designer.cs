@@ -1,6 +1,6 @@
 ﻿namespace UI.Desktop
 {
-    partial class frmMain
+    partial class FrmMain
     {
         /// <summary>
         /// Required designer variable.

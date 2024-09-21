@@ -21,9 +21,11 @@ namespace UI.Desktop.Area
     {
         #region Fields
         private IEnumerable<Domain.Model.Area> areasList;
+        private IAreaService _areaService;
         #endregion
-        public FrmArea()
+        public FrmArea(IAreaService service)
         {
+            this._areaService = service;
             InitializeComponent();
             LoadAreas();
             StartLayoutPanel();
@@ -34,7 +36,7 @@ namespace UI.Desktop.Area
         {
             try
             {
-                this.areasList = await AreaService.GetAll();
+                this.areasList = await _areaService.GetAllAsync();
                 AdaptAreasToListView(areasList);
             }
             catch (Exception e)
@@ -49,12 +51,11 @@ namespace UI.Desktop.Area
         #region Events 
         private async void tsbtnAdd_Click(object sender, EventArgs e)
         {
-            FrmActionArea frm = new FrmActionArea(Mode.Create);
+            FrmActionArea frm = new FrmActionArea(Mode.Create, _areaService);
             frm.ShowDialog();
-            var service = new Domain.Services.AreaService();
             lstvAreas.Items.Clear();
-            var areas = await service.GetAll();
-            AdaptAreasToListView(areas);
+            this.areasList = await _areaService.GetAllAsync();
+            AdaptAreasToListView(this.areasList);
             lstvAreas.Refresh();
         }
         private async void tsbtnEdit_Click(object sender, EventArgs e)
@@ -63,11 +64,11 @@ namespace UI.Desktop.Area
             if (lstvAreas.SelectedItems.Count > 0)
             {
                 Domain.Model.Area selectedArea = (Domain.Model.Area)lstvAreas.SelectedItems[0].Tag;
-                var service = new Domain.Services.AreaService();
-                FrmActionArea frm = new FrmActionArea(Mode.Edit, selectedArea);
+                FrmActionArea frm = new FrmActionArea(Mode.Edit, selectedArea, _areaService);
                 frm.ShowDialog();
                 lstvAreas.Items.Clear();
-                AdaptAreasToListView(await service.GetAll());
+                this.areasList = await _areaService.GetAllAsync();
+                AdaptAreasToListView(areasList);
                 lstvAreas.Refresh();
             }
             else
@@ -83,19 +84,19 @@ namespace UI.Desktop.Area
                 try
                 {
                     Domain.Model.Area selectedArea = (Domain.Model.Area)lstvAreas.SelectedItems[0].Tag;
-                    await ClientService.AreaService.Delete(selectedArea.Id);
+                    await _areaService.DeleteAsync(selectedArea.Id);
                     lstvAreas.Items.Clear();
-                    this.areasList = await ClientService.AreaService.GetAll();
+                    this.areasList = await _areaService.GetAllAsync();
                     AdaptAreasToListView(areasList);
                     lstvAreas.Refresh();
                     MessageBox.Show("Especialidad " + selectedArea.Description + " eliminada correctamente.", "Eliminar especialidad", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
                 catch (Exception ex)
                 {
-                    var inner = ex.InnerException as Microsoft.Data.SqlClient.SqlException;
-                    if (inner.ErrorCode == -2146232060)
+                    
+                    if (ex.HResult == -2146233088)
                     {
-                        MessageBox.Show("No puedes eliminar una especialidad con Datos asociados. \n Elimina todos los planes de estudios que referencien a esta especialidad antes de eliminar.", "No se ha podido eliminar", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        MessageBox.Show("No puedes eliminar una especialidad con Datos asociados.\n Elimina todos los planes de estudios que referencien a esta especialidad antes de eliminar.", "No se ha podido eliminar", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                 }
 
