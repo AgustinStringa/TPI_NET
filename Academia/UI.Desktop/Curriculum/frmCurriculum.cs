@@ -13,10 +13,10 @@ using UI.Desktop.Area;
 
 namespace UI.Desktop.Curriculum
 {
-    public partial class frmCurriculum : Form
+    public partial class FrmCurriculum : Form
     {
         private IEnumerable<Domain.Model.Curriculum> curriculumList;
-        public frmCurriculum()
+        public FrmCurriculum()
         {
             InitializeComponent();
             LoadCurriculums();
@@ -50,7 +50,7 @@ namespace UI.Desktop.Curriculum
         }
         private async void tsbtnAdd_Click(object sender, EventArgs e)
         {
-            frmActionCurriculum frm = new frmActionCurriculum(Mode.Create);
+            FrmActionCurriculum frm = new FrmActionCurriculum(Mode.Create);
             frm.ShowDialog();
             var service = new Domain.Services.CurriculumService();
             lstvCurriculum.Items.Clear();
@@ -64,7 +64,7 @@ namespace UI.Desktop.Curriculum
             {
                 var selectedCurriculum = (Domain.Model.Curriculum)lstvCurriculum.SelectedItems[0].Tag;
                 var service = new Domain.Services.CurriculumService();
-                frmActionCurriculum frm = new frmActionCurriculum(Mode.Edit, selectedCurriculum);
+                FrmActionCurriculum frm = new FrmActionCurriculum(Mode.Edit, selectedCurriculum);
                 frm.ShowDialog();
                 lstvCurriculum.Items.Clear();
                 AdaptCurriculumsToListView(await service.GetAll());

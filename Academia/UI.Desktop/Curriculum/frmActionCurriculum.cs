@@ -13,13 +13,13 @@ using UI.Desktop.Area;
 
 namespace UI.Desktop.Curriculum
 {
-    public partial class frmActionCurriculum : Form
+    public partial class FrmActionCurriculum : Form
     {
 
         private Domain.Model.Curriculum curriculum;
         private Mode mode;
 
-        public frmActionCurriculum(Mode mode)
+        public FrmActionCurriculum(Mode mode)
         {
             this.mode = mode;
             InitializeComponent();
@@ -35,7 +35,7 @@ namespace UI.Desktop.Curriculum
             }
         }
 
-        public frmActionCurriculum(Mode mode, Domain.Model.Curriculum curr)
+        public FrmActionCurriculum(Mode mode, Domain.Model.Curriculum curr)
         {
             this.curriculum = curr;
             InitializeComponent();

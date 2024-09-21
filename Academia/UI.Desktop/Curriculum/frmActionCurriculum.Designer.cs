@@ -1,6 +1,6 @@
 ﻿namespace UI.Desktop.Curriculum
 {
-    partial class frmActionCurriculum
+    partial class FrmActionCurriculum
     {
         /// <summary>
         /// Required designer variable.
