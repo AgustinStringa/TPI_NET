@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Domain.Model;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Data.SqlClient;
 namespace API.Controllers
 {
     [Route("api/areas")]
@@ -82,8 +83,16 @@ namespace API.Controllers
             }
             catch (Exception e)
             {
-                return StatusCode(500, new { message = e.Message });
-                throw e;
+                //TO DO: revisar
+                if ((e.InnerException as SqlException).ErrorCode == -2146232060)
+                {
+                    return StatusCode(400, new { message = "Error de clave foranea" });
+                }
+                else
+                {
+                    return StatusCode(500, new { message = e.Message });
+                }
+
             }
         }
 
