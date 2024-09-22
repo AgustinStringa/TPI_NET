@@ -406,7 +406,6 @@ namespace UI.Desktop
         {
             cbCurriculums.Enabled = true;
             cbCurriculums.ResetText();
-            var service = new Domain.Services.CurriculumService();
             cbCurriculums.DataSource = ((Domain.Model.Area)cbAreas.SelectedItem).Curriculums;
             cbCurriculums.ValueMember = "Id";
             cbCurriculums.DisplayMember = "Description";

@@ -1,6 +1,6 @@
 ﻿namespace UI.Desktop.Area
 {
-    partial class frmAreas
+    partial class FrmArea
     {
         /// <summary>
         /// Required designer variable.
@@ -85,11 +85,12 @@
             // lstvAreas
             // 
             lstvAreas.Columns.AddRange(new ColumnHeader[] { idArea, Description });
+            lstvAreas.Font = new Font("Segoe UI", 12F);
             lstvAreas.FullRowSelect = true;
             lstvAreas.GridLines = true;
             lstvAreas.Location = new Point(54, 154);
             lstvAreas.Name = "lstvAreas";
-            lstvAreas.Size = new Size(678, 173);
+            lstvAreas.Size = new Size(483, 173);
             lstvAreas.TabIndex = 3;
             lstvAreas.UseCompatibleStateImageBehavior = false;
             lstvAreas.View = View.Details;
@@ -106,24 +107,26 @@
             // 
             // txtSearchArea
             // 
-            txtSearchArea.Location = new Point(54, 95);
+            txtSearchArea.Font = new Font("Segoe UI", 12F);
+            txtSearchArea.Location = new Point(54, 102);
             txtSearchArea.Name = "txtSearchArea";
             txtSearchArea.PlaceholderText = "Search...";
-            txtSearchArea.Size = new Size(232, 23);
+            txtSearchArea.Size = new Size(678, 29);
             txtSearchArea.TabIndex = 4;
             txtSearchArea.TextChanged += txtSearchArea_TextChanged;
             // 
             // label1
             // 
             label1.AutoSize = true;
-            label1.Font = new Font("Segoe UI", 12F);
-            label1.Location = new Point(54, 61);
+            label1.Font = new Font("Segoe UI", 20F);
+            label1.Location = new Point(54, 41);
             label1.Name = "label1";
-            label1.Size = new Size(110, 21);
+            label1.Size = new Size(190, 37);
             label1.TabIndex = 5;
             label1.Text = "Especialidades";
+            label1.TextAlign = ContentAlignment.MiddleLeft;
             // 
-            // frmAreas
+            // FrmArea
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
@@ -132,7 +135,7 @@
             Controls.Add(txtSearchArea);
             Controls.Add(lstvAreas);
             Controls.Add(toolStrip1);
-            Name = "frmAreas";
+            Name = "FrmArea";
             Text = "Especialidades";
             toolStrip1.ResumeLayout(false);
             toolStrip1.PerformLayout();

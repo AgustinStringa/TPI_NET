@@ -35,8 +35,6 @@ namespace Data
 
         public static string DeleteDiacritic(string text)
         {
-            string variable = "";
-            string variable2 = "";
 
             var normalizedString = text.Normalize(NormalizationForm.FormD);
             var stringBuilder = new StringBuilder();
