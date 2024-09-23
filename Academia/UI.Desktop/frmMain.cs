@@ -67,7 +67,7 @@ namespace UI.Desktop
 
         private void planesDeEstudioToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            frmCurriculum appCurr = new frmCurriculum();
+            FrmCurriculum appCurr = new FrmCurriculum();
             appCurr.ShowDialog();
 
         }
