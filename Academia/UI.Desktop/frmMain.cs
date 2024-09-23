@@ -19,13 +19,13 @@ using UI.Desktop.User;
 
 namespace UI.Desktop
 {
-    public partial class frmMain : Form
+    public partial class FrmMain : Form
     {
         private bool administrative = false;
         private bool student = false;
         private Domain.Model.User user;
 
-        public frmMain(Domain.Model.User user)
+        public FrmMain(Domain.Model.User user)
         {
             this.user = user;
             administrative = (user.UserType == 1);
@@ -33,7 +33,7 @@ namespace UI.Desktop
             InitializeComponent();
         }
 
-        public frmMain()
+        public FrmMain()
         {
             InitializeComponent();
         }
@@ -49,7 +49,6 @@ namespace UI.Desktop
             usuariosToolStripMenuItem.Visible = administrative;
             especialidadesToolStripMenuItem.Visible = administrative;
             planesDeEstudioToolStripMenuItem.Visible = administrative;
-            crearUsuarioToolStripMenuItem.Visible = administrative;
             cursadosActivosToolStripMenuItem.Visible = student;
             materiasToolStripMenuItem.Visible = administrative;
             comisionesToolStripMenuItem.Visible = administrative;
@@ -75,20 +74,13 @@ namespace UI.Desktop
 
         private void crearUsuarioToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            frmCrearUsuario appUser = new frmCrearUsuario();
+            FrmActionUser appUser = new FrmActionUser(Mode.Create);
             appUser.ShowDialog();
 
         }
 
 
-        private void alumnosToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            frmAlumnos appStudents = new frmAlumnos();
-            appStudents.ShowDialog();
 
-
-
-        }
         private void materiasToolStripMenuItem_Click(object sender, EventArgs e)
         {
             FrmSubject appCurr = new FrmSubject();
@@ -116,7 +108,7 @@ namespace UI.Desktop
 
         private void usuariosToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            frmUser frm = new frmUser();
+            FrmUser frm = new FrmUser();
             frm.ShowDialog();
         }
 
