@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Domain.Model;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 
 namespace Domain
 {
@@ -31,10 +32,14 @@ namespace Domain
             //builder.UserID = @"DESKTOP-1T6I08B\agust";
             //builder.TrustServerCertificate = true;
             //builder.IntegratedSecurity = true;
-            //builder.InitialCatalog = "net-tpi";
+            //builder.InitialCatalog = "academia";
             //_connectionString = builder.ConnectionString;
-            _connectionString = @"Data Source=ELISITO\SQLEXPRESS;Initial Catalog=academia;Integrated Security=True;TrustServerCertificate=True;";
-
+            //_connectionString = @"Data Source=ELISITO\SQLEXPRESS;Initial Catalog=academia;Integrated Security=True;TrustServerCertificate=True;";
+            var configuration = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json")
+                .Build();
+            _connectionString = configuration.GetConnectionString("db-dev-database-first");
             this.Database.EnsureCreated();
         }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
