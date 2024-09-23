@@ -225,7 +225,7 @@ namespace UI.Desktop
                     && !rbtnUserStudent.Checked
                     && !rbtnUserTeacher.Checked)
                     {
-                        MessageBox.Show("Seleccione el tipo de usuario (Alumno, Docente, Administrativo)");
+                        MessageBox.Show("Seleccione el tipo de usuario (Alumno, Docente, Administrativo)", "Tipo de Usuario", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                         return;
                     }
                     else
@@ -303,7 +303,7 @@ namespace UI.Desktop
                             newUser.CurriculumId = curriculum.Id;
                         }
                         service.Add(newUser);
-                        MessageBox.Show("Usuario creado");
+                        MessageBox.Show("Usuario creado exitosamente", "Crear Usuario", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         this.Dispose();
                     }
                 }
@@ -342,7 +342,7 @@ namespace UI.Desktop
                         {
                             var userService = new UserService();
                             userService.Update(User);
-                            MessageBox.Show("User updated successfully");
+                            MessageBox.Show("Usuario actualizado exitosamente", "Editar Usuario", MessageBoxButtons.OK, MessageBoxIcon.Information);
                             this.Dispose();
                         }
                         catch (Exception)

@@ -50,7 +50,7 @@ namespace UI.Desktop.User
             }
             lstUsers.Refresh();
         }
-
+        
         private void txtSearchUsers_TextChanged(object sender, EventArgs e)
         {
             var search = Data.Util.DeleteDiacritic(((System.Windows.Forms.TextBox)sender).Text.ToLower());
@@ -83,6 +83,7 @@ namespace UI.Desktop.User
                 }
             }
         }
+        
         private void ApplyFilters()
         {
             this.filteredUsers = this.users.Where(
@@ -104,8 +105,8 @@ namespace UI.Desktop.User
             if (selectedUser != null)
             {
                 // verificar que haya seleccionado un item
-                var response = MessageBox.Show("You really want to delete the user? \n username: " +
-                    selectedUser.Username + " \n firstName: " + selectedUser.Name + " \n last name: " + selectedUser.Lastname + "\n this will remove all data related to user like inscriptions", "delete user", MessageBoxButtons.OKCancel);
+                var response = MessageBox.Show("¿Estás seguro de eliminar este usuario? \n nombre de usuario: " +
+                    selectedUser.Username + " \n nombres: " + selectedUser.Name + " \n apellidos: " + selectedUser.Lastname + "\n esta acción eliminará todos los datos asociados al usuario, como inscripciones y no se puede deshacer", "Eliminar usuario", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning);
                 if (response == System.Windows.Forms.DialogResult.OK)
                 {
                     try
@@ -113,21 +114,21 @@ namespace UI.Desktop.User
                         var userService = new UserService();
                         userService.Delete(selectedUser);
                         //ver como proceder con error en eliminacion
-                        MessageBox.Show("User removed successfully");
+                        MessageBox.Show("Usuario eliminado exitosamente", "Eliminar Usuario", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
                     catch (Exception ex)
                     {
                         MessageBox.Show(ex.Message);
                     }
+                    finally
+                    {
+                        LoadUsers();
+                    }
                 }
-                else
-                {
-                    MessageBox.Show("Select a user before remove");
-
-                }
-                //system.windows.forms.dialog.DialogResult
-                // System.Windows.Forms.DialogResult.OK
-                //System.Windows.Forms.DialogResult.Cancel
+            }
+            else
+            {
+                MessageBox.Show("Selecciona un usuario antes de eliminar", "Eliminar usuario", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
             }
 
         }
@@ -145,7 +146,7 @@ namespace UI.Desktop.User
                 }
                 else
                 {
-                    MessageBox.Show("Select a user before edit");
+                    MessageBox.Show("Selecciona un usuario antes de editar ", "Editar Usuario", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 }
             }
             catch (Exception ex)
@@ -153,6 +154,7 @@ namespace UI.Desktop.User
                 MessageBox.Show(ex.Message);
             }
         }
+
         private UserType GetUserType(int val)
         {
             switch (val)
@@ -172,6 +174,7 @@ namespace UI.Desktop.User
             }
 
         }
+
         private void chbAll_Click(object sender, EventArgs e)
         {
             if (chbAll.Checked)
@@ -182,10 +185,12 @@ namespace UI.Desktop.User
                 this.userTypeFilters = [UserType.Student, UserType.Teacher, UserType.Administrative];
             }
         }
+
         private void tsbtnAddUser_Click(object sender, EventArgs e)
         {
             FrmActionUser AppCreateUser = new FrmActionUser(Mode.Create);
             AppCreateUser.ShowDialog();
+            LoadUsers();
         }
     }
 }
