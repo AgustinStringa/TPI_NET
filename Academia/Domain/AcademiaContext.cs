@@ -34,6 +34,7 @@ namespace Domain
             //builder.InitialCatalog = "net-tpi";
             //_connectionString = builder.ConnectionString;
             _connectionString = @"Data Source=ELISITO\SQLEXPRESS;Initial Catalog=academia;Integrated Security=True;TrustServerCertificate=True;";
+
             this.Database.EnsureCreated();
         }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

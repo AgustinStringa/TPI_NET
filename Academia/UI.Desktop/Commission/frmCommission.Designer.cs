@@ -38,7 +38,6 @@
             id = new ColumnHeader();
             description = new ColumnHeader();
             idCurriculum = new ColumnHeader();
-            btnRefresh = new Button();
             toolStrip1.SuspendLayout();
             SuspendLayout();
             // 
@@ -127,22 +126,11 @@
             idCurriculum.Text = "Plan de estudio";
             idCurriculum.Width = 200;
             // 
-            // btnRefresh
-            // 
-            btnRefresh.Location = new Point(605, 89);
-            btnRefresh.Name = "btnRefresh";
-            btnRefresh.Size = new Size(128, 23);
-            btnRefresh.TabIndex = 9;
-            btnRefresh.Text = "Actualizar";
-            btnRefresh.UseVisualStyleBackColor = true;
-            btnRefresh.Click += btnRefresh_Click;
-            // 
             // frmCommissions
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
-            Controls.Add(btnRefresh);
             Controls.Add(lstvCommission);
             Controls.Add(txtSearch);
             Controls.Add(label1);
@@ -167,6 +155,5 @@
         private ColumnHeader id;
         private ColumnHeader description;
         private ColumnHeader idCurriculum;
-        private Button btnRefresh;
     }
 }
