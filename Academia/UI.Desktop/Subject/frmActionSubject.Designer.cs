@@ -242,7 +242,6 @@
             numLevel.Size = new Size(222, 27);
             numLevel.TabIndex = 20;
             numLevel.Value = new decimal(new int[] { 1, 0, 0, 0 });
-            numLevel.ValueChanged += numLevel_ValueChanged;
             // 
             // FrmActionSubject
             // 
