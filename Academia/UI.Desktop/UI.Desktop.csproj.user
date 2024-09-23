@@ -37,10 +37,10 @@
     <Compile Update="FrmMain.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="FrmLogin.cs">
+    <Compile Update="User\FrmActionUser.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="FrmCrearUsuario.cs">
+    <Compile Update="FrmLogin.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Update="FrmMisMaterias.cs">
