@@ -16,7 +16,8 @@ namespace ApplicationCore.Services
             try
             {
                 var context = new AcademiaContext();
-                return await context.Curriculums.Include(c => c.Area).ToListAsync();
+                await context.Curriculums.Include(c => c.Area).ToListAsync();
+                return await context.Curriculums.Include(c => c.Subjects).ToListAsync();
             }
             catch (Exception e)
             {
@@ -71,9 +72,9 @@ namespace ApplicationCore.Services
                     await context.SaveChangesAsync();
                 }
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                throw e;
+                throw;
             }
         }
     }

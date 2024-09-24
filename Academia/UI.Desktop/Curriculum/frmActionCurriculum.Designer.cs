@@ -32,20 +32,21 @@
             label8 = new Label();
             lblCurriculumYearError = new Label();
             txtCurriculumYear = new TextBox();
+            lblAreaError = new Label();
             lblCurriculumDescriptionError = new Label();
             label5 = new Label();
             txtCurriculumResolution = new TextBox();
             label4 = new Label();
-            label3 = new Label();
+            lblArea = new Label();
             cbAreas = new ComboBox();
-            txtCurriculumId = new TextBox();
+            lblCurriculumIdValue = new Label();
             lblCurriculumId = new Label();
             label1 = new Label();
             btnActionCurriculum = new Button();
-            label9 = new Label();
+            lblRequiredArea = new Label();
             label2 = new Label();
             txtCurriculumDescription = new TextBox();
-            lblTitle = new Label();
+            lblTitleFrmActionCurriculum = new Label();
             panel1.SuspendLayout();
             SuspendLayout();
             // 
@@ -54,17 +55,18 @@
             panel1.Controls.Add(label8);
             panel1.Controls.Add(lblCurriculumYearError);
             panel1.Controls.Add(txtCurriculumYear);
+            panel1.Controls.Add(lblAreaError);
             panel1.Controls.Add(lblCurriculumDescriptionError);
             panel1.Controls.Add(label5);
             panel1.Controls.Add(txtCurriculumResolution);
             panel1.Controls.Add(label4);
-            panel1.Controls.Add(label3);
+            panel1.Controls.Add(lblArea);
             panel1.Controls.Add(cbAreas);
-            panel1.Controls.Add(txtCurriculumId);
+            panel1.Controls.Add(lblCurriculumIdValue);
             panel1.Controls.Add(lblCurriculumId);
             panel1.Controls.Add(label1);
             panel1.Controls.Add(btnActionCurriculum);
-            panel1.Controls.Add(label9);
+            panel1.Controls.Add(lblRequiredArea);
             panel1.Controls.Add(label2);
             panel1.Controls.Add(txtCurriculumDescription);
             panel1.Location = new Point(28, 67);
@@ -102,6 +104,18 @@
             txtCurriculumYear.Size = new Size(179, 29);
             txtCurriculumYear.TabIndex = 2;
             // 
+            // lblAreaError
+            // 
+            lblAreaError.AutoSize = true;
+            lblAreaError.Font = new Font("Segoe UI", 12F);
+            lblAreaError.ForeColor = Color.FromArgb(192, 0, 0);
+            lblAreaError.Location = new Point(414, 43);
+            lblAreaError.Name = "lblAreaError";
+            lblAreaError.Size = new Size(259, 42);
+            lblAreaError.TabIndex = 10;
+            lblAreaError.Text = "No puedes cambiar la especialidad\r\nde un plan de estudios con materias";
+            lblAreaError.Visible = false;
+            // 
             // lblCurriculumDescriptionError
             // 
             lblCurriculumDescriptionError.AutoSize = true;
@@ -118,7 +132,7 @@
             // 
             label5.AutoSize = true;
             label5.Font = new Font("Segoe UI", 12F);
-            label5.Location = new Point(17, 108);
+            label5.Location = new Point(47, 113);
             label5.Name = "label5";
             label5.Size = new Size(41, 21);
             label5.TabIndex = 0;
@@ -142,15 +156,15 @@
             label4.TabIndex = 0;
             label4.Text = "Resolucion:";
             // 
-            // label3
+            // lblArea
             // 
-            label3.AutoSize = true;
-            label3.Font = new Font("Segoe UI", 12F);
-            label3.Location = new Point(360, 14);
-            label3.Name = "label3";
-            label3.Size = new Size(98, 21);
-            label3.TabIndex = 0;
-            label3.Text = "Especialidad:";
+            lblArea.AutoSize = true;
+            lblArea.Font = new Font("Segoe UI", 12F);
+            lblArea.Location = new Point(360, 14);
+            lblArea.Name = "lblArea";
+            lblArea.Size = new Size(98, 21);
+            lblArea.TabIndex = 0;
+            lblArea.Text = "Especialidad:";
             // 
             // cbAreas
             // 
@@ -161,20 +175,21 @@
             cbAreas.Size = new Size(181, 29);
             cbAreas.TabIndex = 3;
             // 
-            // txtCurriculumId
+            // lblCurriculumIdValue
             // 
-            txtCurriculumId.Enabled = false;
-            txtCurriculumId.Font = new Font("Segoe UI", 12F);
-            txtCurriculumId.Location = new Point(94, 230);
-            txtCurriculumId.Name = "txtCurriculumId";
-            txtCurriculumId.Size = new Size(140, 29);
-            txtCurriculumId.TabIndex = 5;
+            lblCurriculumIdValue.AutoSize = true;
+            lblCurriculumIdValue.Font = new Font("Segoe UI", 12F);
+            lblCurriculumIdValue.Location = new Point(94, 233);
+            lblCurriculumIdValue.Name = "lblCurriculumIdValue";
+            lblCurriculumIdValue.Size = new Size(26, 21);
+            lblCurriculumIdValue.TabIndex = 0;
+            lblCurriculumIdValue.Text = "Id:";
             // 
             // lblCurriculumId
             // 
             lblCurriculumId.AutoSize = true;
             lblCurriculumId.Font = new Font("Segoe UI", 12F);
-            lblCurriculumId.Location = new Point(17, 233);
+            lblCurriculumId.Location = new Point(62, 233);
             lblCurriculumId.Name = "lblCurriculumId";
             lblCurriculumId.Size = new Size(26, 21);
             lblCurriculumId.TabIndex = 0;
@@ -202,15 +217,15 @@
             btnActionCurriculum.UseVisualStyleBackColor = false;
             btnActionCurriculum.Click += btnActionCurriculum_Click;
             // 
-            // label9
+            // lblRequiredArea
             // 
-            label9.AutoSize = true;
-            label9.Font = new Font("Segoe UI", 12F);
-            label9.Location = new Point(656, 14);
-            label9.Name = "label9";
-            label9.Size = new Size(17, 21);
-            label9.TabIndex = 3;
-            label9.Text = "*";
+            lblRequiredArea.AutoSize = true;
+            lblRequiredArea.Font = new Font("Segoe UI", 12F);
+            lblRequiredArea.Location = new Point(656, 14);
+            lblRequiredArea.Name = "lblRequiredArea";
+            lblRequiredArea.Size = new Size(17, 21);
+            lblRequiredArea.TabIndex = 3;
+            lblRequiredArea.Text = "*";
             // 
             // label2
             // 
@@ -230,25 +245,27 @@
             txtCurriculumDescription.Size = new Size(180, 29);
             txtCurriculumDescription.TabIndex = 1;
             // 
-            // lblTitle
+            // lblTitleFrmActionCurriculum
             // 
-            lblTitle.AutoSize = true;
-            lblTitle.Font = new Font("Segoe UI", 15F);
-            lblTitle.Location = new Point(31, 26);
-            lblTitle.Name = "lblTitle";
-            lblTitle.Size = new Size(65, 28);
-            lblTitle.TabIndex = 6;
-            lblTitle.Text = "label6";
+            lblTitleFrmActionCurriculum.AutoSize = true;
+            lblTitleFrmActionCurriculum.Font = new Font("Segoe UI", 15F);
+            lblTitleFrmActionCurriculum.Location = new Point(31, 26);
+            lblTitleFrmActionCurriculum.Name = "lblTitleFrmActionCurriculum";
+            lblTitleFrmActionCurriculum.Size = new Size(210, 28);
+            lblTitleFrmActionCurriculum.TabIndex = 6;
+            lblTitleFrmActionCurriculum.Text = "Editar Plan de Estudios";
             // 
-            // frmActionCurriculum
+            // FrmActionCurriculum
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(753, 387);
-            Controls.Add(lblTitle);
+            Controls.Add(lblTitleFrmActionCurriculum);
             Controls.Add(panel1);
-            Name = "frmActionCurriculum";
-            Text = "frmActionCurriculum";
+            KeyPreview = true;
+            Name = "FrmActionCurriculum";
+            Text = "Planes de Estudio";
+            KeyDown += FrmActionCurriculum_KeyDown;
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
             ResumeLayout(false);
@@ -258,13 +275,12 @@
         #endregion
 
         private Panel panel1;
-        private TextBox txtCurriculumId;
         private Label lblCurriculumId;
         private Label label1;
         private Button btnActionCurriculum;
         private Label label2;
         private TextBox txtCurriculumDescription;
-        private Label label3;
+        private Label lblArea;
         private ComboBox cbAreas;
         private TextBox txtCurriculumYear;
         private Label lblCurriculumDescriptionError;
@@ -273,7 +289,9 @@
         private Label label4;
         private Label lblCurriculumYearError;
         private Label label8;
-        private Label label9;
-        private Label lblTitle;
+        private Label lblRequiredArea;
+        private Label lblTitleFrmActionCurriculum;
+        private Label lblCurriculumIdValue;
+        private Label lblAreaError;
     }
 }

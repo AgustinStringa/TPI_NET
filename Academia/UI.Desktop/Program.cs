@@ -7,8 +7,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using UI.Desktop.Area;
-using UI.Desktop.Curriculum;
 
 namespace UI.Desktop
 {

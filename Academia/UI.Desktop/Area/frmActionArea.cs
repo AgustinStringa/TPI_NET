@@ -64,7 +64,7 @@ namespace UI.Desktop.Area
             {
                 if (e.HResult == -2146233088)
                 {
-                    MessageBox.Show("Nombre de especialidad existente.", "No se ha podido eliminar", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Nombre de especialidad existente.", "No se ha podido crear", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
         }

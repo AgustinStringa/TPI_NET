@@ -55,7 +55,6 @@ namespace UI.Desktop
 			usuariosToolStripMenuItem.Visible = administrative;
 			especialidadesToolStripMenuItem.Visible = administrative;
 			planesDeEstudioToolStripMenuItem.Visible = administrative;
-			crearUsuarioToolStripMenuItem.Visible = administrative;
 			cursadosActivosToolStripMenuItem.Visible = student;
 			materiasToolStripMenuItem.Visible = administrative;
 			comisionesToolStripMenuItem.Visible = administrative;
@@ -64,20 +63,30 @@ namespace UI.Desktop
 			cursadosActivosToolStripMenuItem.Visible = student;
 			administrarCursadosToolStripMenuItem.Visible = administrative;
 		}
-
 		private void especialidadesToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 
 			FrmArea appLogin = new FrmArea(this.serviceProvider);
 			appLogin.ShowDialog();
+		}
 
+
+		private void planesDeEstudioToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			FrmCurriculum appCurr = new FrmCurriculum();
+			appCurr.ShowDialog();
 		}
 
 		private void planesDeEstudioToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			FrmCurriculum appCurr = new FrmCurriculum();
 			appCurr.ShowDialog();
+		}
 
+		private void crearUsuarioToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			FrmActionUser appUser = new FrmActionUser(Mode.Create);
+			appUser.ShowDialog();
 		}
 
 		private void crearUsuarioToolStripMenuItem_Click(object sender, EventArgs e)
@@ -88,14 +97,7 @@ namespace UI.Desktop
 		}
 
 
-		private void alumnosToolStripMenuItem_Click(object sender, EventArgs e)
-		{
-			frmAlumnos appStudents = new frmAlumnos();
-			appStudents.ShowDialog();
 
-
-
-		}
 		private void materiasToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			FrmSubject appCurr = new FrmSubject();
@@ -123,7 +125,7 @@ namespace UI.Desktop
 
 		private void usuariosToolStripMenuItem1_Click(object sender, EventArgs e)
 		{
-			frmUser frm = new frmUser();
+			FrmUser frm = new FrmUser();
 			frm.ShowDialog();
 		}
 

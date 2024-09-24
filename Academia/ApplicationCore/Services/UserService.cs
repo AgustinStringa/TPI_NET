@@ -9,7 +9,7 @@ using System.Security.Cryptography;
 
 namespace ApplicationCore.Services
 {
-    public class UserService : IUserService
+    public class UserService
     {
 
         public void Add(User user)
@@ -23,14 +23,23 @@ namespace ApplicationCore.Services
             }
             catch (Exception)
             {
-               
+
                 throw;
             }
         }
 
-        public void Delete()
+        public async void Delete(User user)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var context = new AcademiaContext();
+                context.Users.Remove(user);
+                await context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         public async Task<IEnumerable<ApplicationCore.Model.User>> GetAll()
@@ -44,9 +53,18 @@ namespace ApplicationCore.Services
             throw new NotImplementedException();
         }
 
-        public void Update()
+        public async void Update(User User)
         {
-            throw new NotImplementedException();
+            var context = new AcademiaContext();
+            try
+            {
+                context.Users.Update(User);
+                context.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         public async Task<User> ValidateCredentials(string username, string password)

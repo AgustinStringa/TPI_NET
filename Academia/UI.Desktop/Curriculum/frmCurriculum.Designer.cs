@@ -32,14 +32,14 @@
             tsbtnAdd = new ToolStripButton();
             tsbtnEdit = new ToolStripButton();
             tsbtnRemove = new ToolStripButton();
-            label1 = new Label();
+            lblTitleFrmCurriculum = new Label();
             lstvCurriculum = new ListView();
             idCurriculum = new ColumnHeader();
             Description = new ColumnHeader();
             Area = new ColumnHeader();
             Year = new ColumnHeader();
             Resolution = new ColumnHeader();
-            textBox1 = new TextBox();
+            txtSearchCurriculum = new TextBox();
             toolStrip1.SuspendLayout();
             SuspendLayout();
             // 
@@ -82,15 +82,15 @@
             tsbtnRemove.Text = "Eliminar Plan de Estudios";
             tsbtnRemove.Click += tsbtnRemove_Click;
             // 
-            // label1
+            // lblTitleFrmCurriculum
             // 
-            label1.AutoSize = true;
-            label1.Font = new Font("Segoe UI", 12F);
-            label1.Location = new Point(37, 64);
-            label1.Name = "label1";
-            label1.Size = new Size(131, 21);
-            label1.TabIndex = 4;
-            label1.Text = "Planes de Estudio";
+            lblTitleFrmCurriculum.AutoSize = true;
+            lblTitleFrmCurriculum.Font = new Font("Segoe UI", 12F);
+            lblTitleFrmCurriculum.Location = new Point(37, 64);
+            lblTitleFrmCurriculum.Name = "lblTitleFrmCurriculum";
+            lblTitleFrmCurriculum.Size = new Size(131, 21);
+            lblTitleFrmCurriculum.TabIndex = 4;
+            lblTitleFrmCurriculum.Text = "Planes de Estudio";
             // 
             // lstvCurriculum
             // 
@@ -128,25 +128,25 @@
             Resolution.Text = "Resolucion";
             Resolution.Width = 200;
             // 
-            // textBox1
+            // txtSearchCurriculum
             // 
-            textBox1.Location = new Point(37, 98);
-            textBox1.Name = "textBox1";
-            textBox1.PlaceholderText = "Search...";
-            textBox1.Size = new Size(250, 23);
-            textBox1.TabIndex = 6;
-            textBox1.TextChanged += textBox1_TextChanged;
+            txtSearchCurriculum.Location = new Point(37, 98);
+            txtSearchCurriculum.Name = "txtSearchCurriculum";
+            txtSearchCurriculum.PlaceholderText = "Search...";
+            txtSearchCurriculum.Size = new Size(250, 23);
+            txtSearchCurriculum.TabIndex = 6;
+            txtSearchCurriculum.TextChanged += txtSearchCurriculum_TextChanged;
             // 
-            // frmCurriculum
+            // FrmCurriculum
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 501);
-            Controls.Add(textBox1);
+            Controls.Add(txtSearchCurriculum);
             Controls.Add(lstvCurriculum);
-            Controls.Add(label1);
+            Controls.Add(lblTitleFrmCurriculum);
             Controls.Add(toolStrip1);
-            Name = "frmCurriculum";
+            Name = "FrmCurriculum";
             Text = "Planes de Estudio";
             toolStrip1.ResumeLayout(false);
             toolStrip1.PerformLayout();
@@ -160,13 +160,13 @@
         private ToolStripButton tsbtnAdd;
         private ToolStripButton tsbtnEdit;
         private ToolStripButton tsbtnRemove;
-        private Label label1;
+        private Label lblTitleFrmCurriculum;
         private ListView lstvCurriculum;
         private ColumnHeader idCurriculum;
         private ColumnHeader Description;
         private ColumnHeader Area;
         private ColumnHeader Year;
         private ColumnHeader Resolution;
-        private TextBox textBox1;
+        private TextBox txtSearchCurriculum;
     }
 }
