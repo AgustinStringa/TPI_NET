@@ -128,7 +128,7 @@ namespace UI.Desktop.Curriculum
                 int idArea = (int)cbAreas.SelectedValue;
                 if (mode == Mode.Create)
                 {
-                    ApplicationCore.Model.Curriculum newCurr = new ApplicationCore.Model.Curriculum
+                    ApplicationCore.Model.Curriculum newCurriculum = new ApplicationCore.Model.Curriculum
                     {
                         Description = description,
                         AreaId = idArea,

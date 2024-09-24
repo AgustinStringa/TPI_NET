@@ -21,7 +21,8 @@ namespace UI.Desktop.Curriculum
             InitializeComponent();
             LoadCurriculums();
         }
-        private void AdaptCurriculumsToListView(IEnumerable<ApplicationCore.Model.Curriculum> curriculumList)
+		#region Methods
+		private void AdaptCurriculumsToListView(IEnumerable<ApplicationCore.Model.Curriculum> curriculumList)
         {
             foreach (ApplicationCore.Model.Curriculum item in curriculumList)
             {
@@ -48,7 +49,7 @@ namespace UI.Desktop.Curriculum
                 MessageBox.Show(e.Message);
             }
         }
-#endregion
+        #endregion
 
         #region Events
         private async void tsbtnAdd_Click(object sender, EventArgs e)

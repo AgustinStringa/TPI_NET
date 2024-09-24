@@ -16,7 +16,7 @@ namespace UI.Desktop
     public partial class FrmActionUser : Form
     {
         private Mode Mode;
-        private Domain.Model.User User;
+        private ApplicationCore.Model.User User;
         public FrmActionUser(Mode mode)
         {
             if (mode == Mode.Create)
@@ -28,7 +28,7 @@ namespace UI.Desktop
                 dtpBirthDate.Value = DateTime.Now;
             }
         }
-        public FrmActionUser(Mode mode, Domain.Model.User user)
+        public FrmActionUser(Mode mode, ApplicationCore.Model.User user)
         {
             if (mode == Mode.Edit)
             {
@@ -61,7 +61,7 @@ namespace UI.Desktop
 
 
                 //NAME
-                string name = txtNombre.Text.Trim();
+                string name = txtName.Text.Trim();
                 bool validName = Validations.IsValidName(name);
                 if (!validName)
                 {
@@ -75,7 +75,7 @@ namespace UI.Desktop
                 }
 
                 //LASTANAME
-                string lastname = txtApellido.Text.Trim();
+                string lastname = txtLastName.Text.Trim();
                 bool validLastname = Validations.IsValidLastname(lastname);
                 if (!validLastname)
                 {
@@ -89,7 +89,7 @@ namespace UI.Desktop
                 }
 
                 //PASSWORD
-                string password = mtbClave.Text.Trim();
+                string password = mtbPassword.Text.Trim();
                 bool validPassword = Validations.IsValidPassword(password);
                 if (!validPassword)
                 {
@@ -170,7 +170,7 @@ namespace UI.Desktop
                 string cuit = txtCuit.Text.Trim();
                 if (txtCuit.Visible == true)
                 {
-                    validCuit = Business.Validations.IsValidCuit(cuit);
+                    validCuit = Validations.IsValidCuit(cuit);
                     if (!validCuit)
                     {
                         txtCuit.ForeColor = System.Drawing.Color.FromArgb(1, 220, 38, 38);
@@ -195,7 +195,7 @@ namespace UI.Desktop
                     //LEGAJO
                     studentId = txtStudentId.Text.Trim();
                     studentId = studentId.Replace(".", "");
-                    validStudentId = Business.Validations.IsValidStudentId(studentId);
+                    validStudentId = Validations.IsValidStudentId(studentId);
 
                     if (!validStudentId)
                     {
@@ -218,7 +218,7 @@ namespace UI.Desktop
                 {
                     int usertype = 0;
 
-                    Domain.Model.Curriculum curriculum = null;
+					ApplicationCore.Model.Curriculum curriculum = null;
                     if (!rbtnUserAdministrative.Checked
                     && !rbtnUserStudent.Checked
                     && !rbtnUserTeacher.Checked)
@@ -259,7 +259,7 @@ namespace UI.Desktop
                     {
                         bool validCurriculum = false;
 
-                        curriculum = (Domain.Model.Curriculum)cbCurriculums.SelectedItem;
+                        curriculum = (ApplicationCore.Model.Curriculum)cbCurriculums.SelectedItem;
                         if (curriculum == null)
                         {
                             return;
@@ -280,12 +280,12 @@ namespace UI.Desktop
 
                     if (correctForm)
                     {
-                        UserService service = new Domain.Services.UserService();
+                        UserService service = new ApplicationCore.Services.UserService();
 
-                        var newUser = new Domain.Model.User
+                        var newUser = new ApplicationCore.Model.User
                         {
                             Username = username,
-                            Password = Data.Util.EncodePassword(password),
+                            Password = Utilities.EncodePassword(password),
                             Email = email,
                             Name = name,
                             Lastname = lastname,
@@ -314,7 +314,7 @@ namespace UI.Desktop
                        ;
 
                     User.Username = username;
-                    User.Password = Data.Util.EncodePassword(password);
+                    User.Password = Utilities.EncodePassword(password);
                     User.Email = email;
                     User.Name = name;
                     User.Lastname = lastname;

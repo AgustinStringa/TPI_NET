@@ -46,11 +46,11 @@ namespace ApplicationCore.Model
 
 
 		[Column("fecha_nacimiento")]
-		public DateTime? BirthDate { get; set; }
+		public DateTime BirthDate { get; set; }
 
 
 		[Column("cuit")]
-		public string Cuit { get; set; }
+		public string? Cuit { get; set; }
 
 		[Column("tipo_usuario")]
 		public int UserType { get; set; }

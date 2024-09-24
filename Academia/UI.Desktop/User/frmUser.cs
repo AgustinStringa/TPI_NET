@@ -53,7 +53,7 @@ namespace UI.Desktop.User
 
         private void txtSearchUsers_TextChanged(object sender, EventArgs e)
         {
-            var search = Data.Util.DeleteDiacritic(((System.Windows.Forms.TextBox)sender).Text.ToLower());
+            var search = Utilities.DeleteDiacritic(((System.Windows.Forms.TextBox)sender).Text.ToLower());
             if (search != this.textSearch)
             {
                 this.textSearch = search;
@@ -87,10 +87,10 @@ namespace UI.Desktop.User
         private void ApplyFilters()
         {
             this.filteredUsers = this.users.Where(
-                u => Data.Util.DeleteDiacritic(u.Name.ToLower()).Contains(this.textSearch)
-                  || Data.Util.DeleteDiacritic(u.Lastname.ToLower()).Contains(this.textSearch)
-                   || ((u.StudentId != null) && Data.Util.DeleteDiacritic(u.StudentId.ToLower()).Contains(this.textSearch))
-                 || ((u.Cuit != null) && Data.Util.DeleteDiacritic(u.Cuit.ToLower()).Contains(this.textSearch))
+                u => Utilities.DeleteDiacritic(u.Name.ToLower()).Contains(this.textSearch)
+                  || Utilities.DeleteDiacritic(u.Lastname.ToLower()).Contains(this.textSearch)
+                   || ((u.StudentId != null) && Utilities.DeleteDiacritic(u.StudentId.ToLower()).Contains(this.textSearch))
+                 || ((u.Cuit != null) && Utilities.DeleteDiacritic(u.Cuit.ToLower()).Contains(this.textSearch))
                    );
             lstUsers.Items.Clear();
             this.filteredUsers = this.filteredUsers.Where(u => this.userTypeFilters.Contains(GetUserType(u.UserType)));
@@ -101,7 +101,7 @@ namespace UI.Desktop.User
         private void tsbtnDeleteUser_Click(object sender, EventArgs e)
         {
 
-            var selectedUser = (lstUsers.SelectedItems[0].Tag as Domain.Model.User);
+            var selectedUser = (lstUsers.SelectedItems[0].Tag as ApplicationCore.Model.User);
             if (selectedUser != null)
             {
                 // verificar que haya seleccionado un item
@@ -137,7 +137,7 @@ namespace UI.Desktop.User
         {
             try
             {
-                var selectedUser = (lstUsers.SelectedItems[0].Tag as Domain.Model.User);
+                var selectedUser = (lstUsers.SelectedItems[0].Tag as ApplicationCore.Model.User);
                 if (selectedUser != null)
                 {
                     FrmActionUser App = new FrmActionUser(Mode.Edit, selectedUser);

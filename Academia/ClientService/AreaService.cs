@@ -12,8 +12,6 @@ namespace ClientService
 		public AreaService(HttpClient httpClient)
 		{
 			_httpClient = httpClient;
-			_httpClient.DefaultRequestHeaders.Accept.Clear();
-			_httpClient.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
 			var configuration = new ConfigurationBuilder()
 				.SetBasePath(Directory.GetCurrentDirectory())
 				.AddJsonFile("appsettingsClientService.json", optional: true, reloadOnChange: true)
@@ -21,11 +19,14 @@ namespace ClientService
 			_apiUrl = configuration["ApiUrl:Base"];
 			_apiUrl += "/areas/";
 		}
-		
+
 		public async Task<IEnumerable<Area>> GetAllAsync()
 		{
 			try
 			{
+				_httpClient.DefaultRequestHeaders.Accept.Clear();
+				_httpClient.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+
 				var response = await _httpClient.GetStringAsync(_apiUrl);
 				var areas = JsonConvert.DeserializeObject<List<Area>>(response);
 				//var areas = System.Text.Json.JsonSerializer.Deserialize<IEnumerable<Area>>(response);
@@ -42,6 +43,9 @@ namespace ClientService
 		{
 			try
 			{
+				_httpClient.DefaultRequestHeaders.Accept.Clear();
+				_httpClient.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+
 				using StringContent jsonContent = new(System.Text.Json.JsonSerializer.Serialize(area), Encoding.UTF8, "application/json");
 				var response = await _httpClient.PostAsync(_apiUrl, jsonContent);
 				response.EnsureSuccessStatusCode();
@@ -56,7 +60,9 @@ namespace ClientService
 		{
 			try
 			{
-				using StringContent jsonContent = new(System.Text.Json.JsonSerializer.Serialize(area), Encoding.UTF8, "application/json");
+				_httpClient.DefaultRequestHeaders.Accept.Clear();
+				_httpClient.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+				using StringContent jsonContent = new(System.Text.Json.JsonSerializer.Serialize(new { Id=area.Id, Description = area.Description}), Encoding.UTF8, "application/json");
 				var response = await _httpClient.PutAsync(_apiUrl + area.Id.ToString(), jsonContent);
 				response.EnsureSuccessStatusCode();
 			}
@@ -70,6 +76,9 @@ namespace ClientService
 		{
 			try
 			{
+				_httpClient.DefaultRequestHeaders.Accept.Clear();
+				_httpClient.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+
 				var response = await _httpClient.DeleteAsync(_apiUrl + id.ToString());
 				response.EnsureSuccessStatusCode();
 			}

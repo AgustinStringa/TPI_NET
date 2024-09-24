@@ -77,26 +77,12 @@ namespace UI.Desktop
 			appCurr.ShowDialog();
 		}
 
-		private void planesDeEstudioToolStripMenuItem_Click(object sender, EventArgs e)
-		{
-			FrmCurriculum appCurr = new FrmCurriculum();
-			appCurr.ShowDialog();
-		}
 
 		private void crearUsuarioToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			FrmActionUser appUser = new FrmActionUser(Mode.Create);
 			appUser.ShowDialog();
 		}
-
-		private void crearUsuarioToolStripMenuItem_Click(object sender, EventArgs e)
-		{
-			frmCrearUsuario appUser = new frmCrearUsuario();
-			appUser.ShowDialog();
-
-		}
-
-
 
 		private void materiasToolStripMenuItem_Click(object sender, EventArgs e)
 		{
