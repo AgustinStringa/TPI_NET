@@ -10,7 +10,7 @@ using System.Windows.Forms;
 using UI.Desktop.Curriculum;
 using UI.Desktop.Area;
 using UI.Desktop.Commission;
-using Domain.Model;
+using ApplicationCore.Model;
 using UI.Desktop.Subject;
 using UI.Desktop.Course;
 using UI.Desktop.User;
@@ -25,9 +25,9 @@ namespace UI.Desktop
 	{
 		private bool administrative = false;
 		private bool student = false;
-		private Domain.Model.User user;
+		private ApplicationCore.Model.User user;
 		private ServiceProvider serviceProvider;
-		public FrmMain(Domain.Model.User user)
+		public FrmMain(ApplicationCore.Model.User user)
 		{
 			this.user = user;
 			administrative = (user.UserType == 1);

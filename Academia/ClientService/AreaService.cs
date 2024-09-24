@@ -1,4 +1,4 @@
-﻿using Domain.Model;
+﻿using ApplicationCore.Model;
 using Newtonsoft.Json;
 using System.Text;
 using Microsoft.Extensions.Configuration;

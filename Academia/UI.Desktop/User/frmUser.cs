@@ -1,4 +1,4 @@
-﻿using Domain.Services;
+﻿using ApplicationCore.Services;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -14,7 +14,7 @@ namespace UI.Desktop.User
 
     public partial class frmUser : Form
     {
-        private IEnumerable<Domain.Model.User> users;
+        private IEnumerable<ApplicationCore.Model.User> users;
         public frmUser()
         {
             InitializeComponent();
@@ -28,9 +28,9 @@ namespace UI.Desktop.User
             AdaptUsersToListView(this.users);
         }
 
-        private void AdaptUsersToListView(IEnumerable<Domain.Model.User> users)
+        private void AdaptUsersToListView(IEnumerable<ApplicationCore.Model.User> users)
         {
-            foreach (Domain.Model.User user in users)
+            foreach (ApplicationCore.Model.User user in users)
             {
                 ListViewItem item = new ListViewItem(user.Name);
                 item.Tag = user;

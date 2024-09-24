@@ -1,4 +1,4 @@
-﻿using Domain.Model;
+﻿using ApplicationCore.Model;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -13,7 +13,7 @@ namespace UI.Desktop.Course
 {
     public partial class frmCourse : Form
     {
-        private IEnumerable<Domain.Model.Course> courses;
+        private IEnumerable<ApplicationCore.Model.Course> courses;
         public frmCourse()
         {
             InitializeComponent();
@@ -22,15 +22,15 @@ namespace UI.Desktop.Course
 
         private async void LoadCourses()
         {
-            var service = new Domain.Services.CourseService();
+            var service = new ApplicationCore.Services.CourseService();
             this.courses = await service.GetAll();
             AdaptCoursesToListView(this.courses);
         }
 
-        private void AdaptCoursesToListView(IEnumerable<Domain.Model.Course> coursesList)
+        private void AdaptCoursesToListView(IEnumerable<ApplicationCore.Model.Course> coursesList)
         {
             lstvCourses.Items.Clear();
-            foreach (Domain.Model.Course item in coursesList)
+            foreach (ApplicationCore.Model.Course item in coursesList)
             {
                 ListViewItem nuevoItem = new ListViewItem(item.Id.ToString());
                 nuevoItem.Tag = item;
@@ -45,7 +45,7 @@ namespace UI.Desktop.Course
         {
             var orderFilter = lstvCourses.Columns[e.Column].Tag.ToString();
 
-            IEnumerable<Domain.Model.Course> orderedCourses = new List<Domain.Model.Course>();
+            IEnumerable<ApplicationCore.Model.Course> orderedCourses = new List<ApplicationCore.Model.Course>();
             if (orderFilter == "Subject.Description")
             {
                 orderedCourses = this.courses.ToList().OrderBy(c => c.Subject.Description);

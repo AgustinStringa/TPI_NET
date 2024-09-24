@@ -1,5 +1,5 @@
-﻿using Domain.Model;
-using Domain.Services;
+﻿using ApplicationCore.Model;
+using ApplicationCore.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;

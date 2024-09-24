@@ -7,10 +7,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using Entities;
-using Domain;
-using Domain.Model;
-using Domain.Services;
+using ApplicationCore;
+using ApplicationCore.Model;
+using ApplicationCore.Services;
 
 namespace UI.Desktop
 {
@@ -31,7 +30,7 @@ namespace UI.Desktop
                 int usertype = 0;
                 string studentId = null;
                 string cuit = null;
-                Domain.Model.Curriculum curriculum = null;
+                ApplicationCore.Model.Curriculum curriculum = null;
                 if (!rbtnUserAdministrative.Checked
                     && !rbtnUserStudent.Checked
                     && !rbtnUserTeacher.Checked)
@@ -63,7 +62,7 @@ namespace UI.Desktop
 
                 //USERNAME
                 string username = txtUsername.Text.Trim();
-                bool validUsername = Business.Validations.IsValidUsername(username);
+                bool validUsername = Validations.IsValidUsername(username);
                 if (!validUsername)
                 {
                     txtUsername.ForeColor = System.Drawing.Color.FromArgb(1, 220, 38, 38);
@@ -78,7 +77,7 @@ namespace UI.Desktop
 
                 //NAME
                 string name = txtNombre.Text.Trim();
-                bool validName = Business.Validations.IsValidName(name);
+                bool validName = Validations.IsValidName(name);
                 if (!validName)
                 {
                     txtNombre.ForeColor = System.Drawing.Color.FromArgb(1, 220, 38, 38);
@@ -92,7 +91,7 @@ namespace UI.Desktop
 
                 //LASTANAME
                 string lastname = txtApellido.Text.Trim();
-                bool validLastname = Business.Validations.IsValidLastname(lastname);
+                bool validLastname = Validations.IsValidLastname(lastname);
                 if (!validLastname)
                 {
                     txtApellido.ForeColor = System.Drawing.Color.FromArgb(1, 220, 38, 38);
@@ -106,7 +105,7 @@ namespace UI.Desktop
 
                 //PASSWORD
                 string password = mtbClave.Text.Trim();
-                bool validPassword = Business.Validations.IsValidPassword(password);
+                bool validPassword = Validations.IsValidPassword(password);
                 if (!validPassword)
                 {
                     mtbClave.ForeColor = System.Drawing.Color.FromArgb(1, 220, 38, 38);
@@ -122,7 +121,7 @@ namespace UI.Desktop
                 //EMAIL
 
                 string email = txtEmail.Text.Trim();
-                bool validEmail = Business.Validations.IsValidEmail(email);
+                bool validEmail = Validations.IsValidEmail(email);
                 if (!validEmail)
                 {
                     txtEmail.ForeColor = System.Drawing.Color.FromArgb(1, 220, 38, 38);
@@ -137,7 +136,7 @@ namespace UI.Desktop
                 //ADDRESS
 
                 string address = txtAddress.Text.Trim();
-                bool validAddress = Business.Validations.IsValidAddress(address);
+                bool validAddress = Validations.IsValidAddress(address);
                 if (!validAddress)
                 {
                     txtAddress.ForeColor = System.Drawing.Color.FromArgb(1, 220, 38, 38);
@@ -152,7 +151,7 @@ namespace UI.Desktop
                 //PHONE NUMBER
 
                 string phoneNumber = txtPhoneNumber.Text.Trim();
-                bool validPhoneNumber = Business.Validations.IsValidPhoneNumber(phoneNumber);
+                bool validPhoneNumber = Validations.IsValidPhoneNumber(phoneNumber);
                 if (!validPhoneNumber)
                 {
                     txtPhoneNumber.ForeColor = System.Drawing.Color.FromArgb(1, 220, 38, 38);
@@ -167,7 +166,7 @@ namespace UI.Desktop
                 //DATEBIRTH
 
                 DateTime birthDate = dtpBirthDate.Value;
-                bool validBirthDate = Business.Validations.IsValidBirthDate(birthDate);
+                bool validBirthDate = Validations.IsValidBirthDate(birthDate);
                 if (!validBirthDate)
                 {
                     dtpBirthDate.ForeColor = System.Drawing.Color.FromArgb(1, 220, 38, 38);
@@ -195,7 +194,7 @@ namespace UI.Desktop
                 //        client.Authenticate("stringaagustin1@gmail.com", "svwh duri ritq riiz");
 
                 //        var valid = client.Verify(email);
-                //        lblOutput.Text = valid.Domain;
+                //        lblOutput.Text = valid.ApplicationCore;
                 //        lblOutput.Text = "asdasdasdas";
                 //        client.Disconnect(true);
 
@@ -268,7 +267,7 @@ namespace UI.Desktop
                     //CUIT
 
                     cuit = txtCuit.Text.Trim();
-                    bool validCuit = Business.Validations.IsValidCuit(cuit);
+                    bool validCuit = Validations.IsValidCuit(cuit);
                     if (!validCuit)
                     {
                         txtCuit.ForeColor = System.Drawing.Color.FromArgb(1, 220, 38, 38);
@@ -293,7 +292,7 @@ namespace UI.Desktop
                     //LEGAJO
                     studentId = txtLegajo.Text.Trim();
                     studentId = studentId.Replace(".", "");
-                    bool validStudentId = Business.Validations.IsValidStudentId(studentId);
+                    bool validStudentId = Validations.IsValidStudentId(studentId);
 
                     if (!validStudentId)
                     {
@@ -308,7 +307,7 @@ namespace UI.Desktop
 
                     bool validCurriculum = false;
 
-                    curriculum = (Domain.Model.Curriculum)cbCurriculums.SelectedItem;
+                    curriculum = (ApplicationCore.Model.Curriculum)cbCurriculums.SelectedItem;
                     if (curriculum == null)
                     {
                         return;
@@ -329,12 +328,12 @@ namespace UI.Desktop
 
                 if (correctForm)
                 {
-                    IUserService service = new Domain.Services.UserService();
+                    IUserService service = new ApplicationCore.Services.UserService();
 
-                    var newUser = new Domain.Model.User
+                    var newUser = new ApplicationCore.Model.User
                     {
                         Username = username,
-                        Password = Data.Util.EncodePassword(password),
+                        Password = Utilities.EncodePassword(password),
                         Email = email,
                         Name = name,
                         Lastname = lastname,
@@ -406,7 +405,7 @@ namespace UI.Desktop
         {
             cbCurriculums.Enabled = true;
             cbCurriculums.ResetText();
-            cbCurriculums.DataSource = ((Domain.Model.Area)cbAreas.SelectedItem).Curriculums;
+            cbCurriculums.DataSource = ((ApplicationCore.Model.Area)cbAreas.SelectedItem).Curriculums;
             cbCurriculums.ValueMember = "Id";
             cbCurriculums.DisplayMember = "Description";
 

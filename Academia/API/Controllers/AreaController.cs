@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Domain.Model;
+using ApplicationCore.Model;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Data.SqlClient;
 namespace API.Controllers

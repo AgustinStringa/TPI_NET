@@ -1,5 +1,5 @@
-﻿using Domain.Model;
-using Domain;
+﻿using ApplicationCore.Model;
+using ApplicationCore;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Text;

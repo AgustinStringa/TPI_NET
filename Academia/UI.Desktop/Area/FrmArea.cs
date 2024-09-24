@@ -21,7 +21,7 @@ namespace UI.Desktop.Area
     public partial class FrmArea : Form
     {
         #region Fields
-        private IEnumerable<Domain.Model.Area> areasList;
+        private IEnumerable<ApplicationCore.Model.Area> areasList;
         private IServiceProvider serviceProvider;
         private IAreaService _areaService;
         #endregion
@@ -66,7 +66,7 @@ namespace UI.Desktop.Area
 
             if (lstvAreas.SelectedItems.Count > 0)
             {
-                Domain.Model.Area selectedArea = (Domain.Model.Area)lstvAreas.SelectedItems[0].Tag;
+                ApplicationCore.Model.Area selectedArea = (ApplicationCore.Model.Area)lstvAreas.SelectedItems[0].Tag;
                 FrmActionArea frm = new FrmActionArea(Mode.Edit, selectedArea, _areaService);
                 frm.ShowDialog();
                 lstvAreas.Items.Clear();
@@ -86,7 +86,7 @@ namespace UI.Desktop.Area
             {
                 try
                 {
-                    Domain.Model.Area selectedArea = (Domain.Model.Area)lstvAreas.SelectedItems[0].Tag;
+                    ApplicationCore.Model.Area selectedArea = (ApplicationCore.Model.Area)lstvAreas.SelectedItems[0].Tag;
                     await _areaService.DeleteAsync(selectedArea.Id);
                     lstvAreas.Items.Clear();
                     this.areasList = await _areaService.GetAllAsync();
@@ -109,9 +109,9 @@ namespace UI.Desktop.Area
                 MessageBox.Show("Seleccione una especialidad antes de eliminar", "Eliminar Especialidad", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
-        private void AdaptAreasToListView(IEnumerable<Domain.Model.Area> areas)
+        private void AdaptAreasToListView(IEnumerable<ApplicationCore.Model.Area> areas)
         {
-            foreach (Domain.Model.Area item in areas)
+            foreach (ApplicationCore.Model.Area item in areas)
             {
                 ListViewItem nuevoItem = new ListViewItem(item.Id.ToString());
                 nuevoItem.Tag = item;

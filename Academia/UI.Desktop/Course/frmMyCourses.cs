@@ -12,14 +12,14 @@ namespace UI.Desktop.Course
 {
     public partial class frmMyCourses : Form
     {
-        private IEnumerable<Domain.Model.UserCourse> MyCourses;
-        public frmMyCourses(Domain.Model.User user)
+        private IEnumerable<ApplicationCore.Model.UserCourse> MyCourses;
+        public frmMyCourses(ApplicationCore.Model.User user)
         {
             InitializeComponent();
             MyCourses = user.UserCourses.Where(c => c.Status == "inscripto");
             AdaptCoursesToListView(MyCourses);
         }
-        private void AdaptCoursesToListView(IEnumerable<Domain.Model.UserCourse> courses)
+        private void AdaptCoursesToListView(IEnumerable<ApplicationCore.Model.UserCourse> courses)
         {
             foreach (var item in MyCourses)
             {

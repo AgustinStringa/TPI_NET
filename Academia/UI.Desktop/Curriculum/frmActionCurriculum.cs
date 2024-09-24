@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using Domain.Model;
+using ApplicationCore.Model;
 using Org.BouncyCastle.Asn1.Ocsp;
 using UI.Desktop.Area;
 
@@ -16,7 +16,7 @@ namespace UI.Desktop.Curriculum
     public partial class FrmActionCurriculum : Form
     {
 
-        private Domain.Model.Curriculum curriculum;
+        private ApplicationCore.Model.Curriculum curriculum;
         private Mode mode;
 
         public FrmActionCurriculum(Mode mode)
@@ -35,7 +35,7 @@ namespace UI.Desktop.Curriculum
             }
         }
 
-        public FrmActionCurriculum(Mode mode, Domain.Model.Curriculum curr)
+        public FrmActionCurriculum(Mode mode, ApplicationCore.Model.Curriculum curr)
         {
             this.curriculum = curr;
             InitializeComponent();
@@ -59,7 +59,7 @@ namespace UI.Desktop.Curriculum
         {
             try
             {
-                var service = new Domain.Services.AreaService();
+                var service = new ApplicationCore.Services.AreaService();
                 cbAreas.DataSource = service.GetAll();
                 cbAreas.ValueMember = "Id";
                 cbAreas.DisplayMember = "Description";
@@ -109,7 +109,7 @@ namespace UI.Desktop.Curriculum
 
                 if (mode == Mode.Create)
                 {
-                    Domain.Model.Curriculum newCurr = new Domain.Model.Curriculum
+                    ApplicationCore.Model.Curriculum newCurr = new ApplicationCore.Model.Curriculum
                     {
                         Description = description,
                         AreaId = idArea,
@@ -117,7 +117,7 @@ namespace UI.Desktop.Curriculum
                         Resolution = resolution
                     };
 
-                    var service = new Domain.Services.CurriculumService();
+                    var service = new ApplicationCore.Services.CurriculumService();
                     try
                     {
                         await service.Create(newCurr);
@@ -132,8 +132,8 @@ namespace UI.Desktop.Curriculum
                 }
                 else if (mode == Mode.Edit)
                 {
-                    var area = cbAreas.SelectedItem as Domain.Model.Area;
-                    var service = new Domain.Services.CurriculumService();
+                    var area = cbAreas.SelectedItem as ApplicationCore.Model.Area;
+                    var service = new ApplicationCore.Services.CurriculumService();
                     this.curriculum.Description = description;
                     this.curriculum.Year = year;
                     this.curriculum.Resolution = resolution;

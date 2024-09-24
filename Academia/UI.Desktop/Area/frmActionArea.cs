@@ -7,8 +7,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using Entities;
-using Domain.Model;
+
+using ApplicationCore.Model;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using ClientService;
 
@@ -17,7 +17,7 @@ namespace UI.Desktop.Area
     public partial class FrmActionArea : Form
     {
         private Mode mode;
-        private Domain.Model.Area area;
+        private ApplicationCore.Model.Area area;
         private IAreaService _areaService;
         public FrmActionArea(Mode mode, IAreaService service)
         {
@@ -33,7 +33,7 @@ namespace UI.Desktop.Area
                     break;
             }
         }
-        public FrmActionArea(Mode mode, Domain.Model.Area area, IAreaService service)
+        public FrmActionArea(Mode mode, ApplicationCore.Model.Area area, IAreaService service)
         {
             this.mode = mode;
             this.area = area;
@@ -52,7 +52,7 @@ namespace UI.Desktop.Area
             }
         }
 
-        private async void CreateArea(Domain.Model.Area newArea)
+        private async void CreateArea(ApplicationCore.Model.Area newArea)
         {
             try
             {
@@ -103,7 +103,7 @@ namespace UI.Desktop.Area
             {
                 if (mode == Mode.Create)
                 {
-                    CreateArea(new Domain.Model.Area { Description = areaDescription });
+                    CreateArea(new ApplicationCore.Model.Area { Description = areaDescription });
                 }
                 else if (mode == Mode.Edit)
                 {

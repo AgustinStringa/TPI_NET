@@ -1,4 +1,4 @@
-﻿using Domain.Services;
+﻿using ApplicationCore.Services;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -8,15 +8,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using Domain.Model;
+using ApplicationCore.Model;
 namespace UI.Desktop
 {
     public partial class frmInscripcionCursado : Form
     {
-        private Domain.Model.User user;
-        private IEnumerable<Domain.Model.Course> courses;
-        private List<Domain.Model.Subject> subjects = new List<Domain.Model.Subject>();
-        public frmInscripcionCursado(Domain.Model.User user)
+        private ApplicationCore.Model.User user;
+        private IEnumerable<ApplicationCore.Model.Course> courses;
+        private List<ApplicationCore.Model.Subject> subjects = new List<ApplicationCore.Model.Subject>();
+        public frmInscripcionCursado(ApplicationCore.Model.User user)
         {
             this.user = user;
             InitializeComponent();
@@ -59,7 +59,7 @@ namespace UI.Desktop
             {
                 return;
             }
-            int subjectId = ((Domain.Model.Subject)(cmbSubject.SelectedItem)).Id;
+            int subjectId = ((ApplicationCore.Model.Subject)(cmbSubject.SelectedItem)).Id;
             var filteredCourses = this.courses.Where(c => c.Subject.Id == subjectId);
             cmbCourse.DataSource = filteredCourses.ToList();
             cmbCourse.ValueMember = "Id";
@@ -76,14 +76,14 @@ namespace UI.Desktop
                     return;
                 }
 
-                var userCourse = new Domain.Model.UserCourse()
+                var userCourse = new ApplicationCore.Model.UserCourse()
                 {
                     UserId = this.user.Id,
-                    CourseId = ((Domain.Model.Course)cmbCourse.SelectedItem).Id,
+                    CourseId = ((ApplicationCore.Model.Course)cmbCourse.SelectedItem).Id,
                     Status = "inscripto"
                 };
 
-                var userCourseService = new Domain.Services.UserCourseService();
+                var userCourseService = new ApplicationCore.Services.UserCourseService();
                 await userCourseService.Add(userCourse);
 
                 MessageBox.Show("Inscripción realizada con éxito", "Inscripción", MessageBoxButtons.OK, MessageBoxIcon.Information);
