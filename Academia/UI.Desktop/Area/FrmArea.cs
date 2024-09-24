@@ -12,6 +12,7 @@ using System.Windows.Forms;
 using UI.Desktop;
 using UI.Desktop.Area;
 using ClientService;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace UI.Desktop.Area
 {
@@ -21,11 +22,13 @@ namespace UI.Desktop.Area
     {
         #region Fields
         private IEnumerable<Domain.Model.Area> areasList;
+        private IServiceProvider serviceProvider;
         private IAreaService _areaService;
         #endregion
-        public FrmArea(IAreaService service)
+        public FrmArea(IServiceProvider serviceProvider)
         {
-            this._areaService = service;
+            this.serviceProvider = serviceProvider;
+            this._areaService = serviceProvider.GetRequiredService<IAreaService>();
             InitializeComponent();
             LoadAreas();
             StartLayoutPanel();
