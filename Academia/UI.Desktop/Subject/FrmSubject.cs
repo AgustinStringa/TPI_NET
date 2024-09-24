@@ -8,16 +8,16 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using UI.Desktop;
-using Domain.Model;
-using Domain.Services;
+using ApplicationCore.Model;
+using ApplicationCore.Services;
 using System.Linq.Expressions;
 
 namespace UI.Desktop.Subject
 {
     public partial class FrmSubject : Form
     {
-        private IEnumerable<Domain.Model.Subject> subjects;
-        private List<Domain.Model.Curriculum> curriculums = new List<Domain.Model.Curriculum>();
+        private IEnumerable<ApplicationCore.Model.Subject> subjects;
+        private List<ApplicationCore.Model.Curriculum> curriculums = new List<ApplicationCore.Model.Curriculum>();
         private string textSearch = "";
 
         public FrmSubject()
@@ -36,7 +36,7 @@ namespace UI.Desktop.Subject
         {
             if (listView1.SelectedItems.Count > 0)
             {
-                Domain.Model.Subject selectedSubject = (Domain.Model.Subject)listView1.SelectedItems[0].Tag;
+                ApplicationCore.Model.Subject selectedSubject = (ApplicationCore.Model.Subject)listView1.SelectedItems[0].Tag;
                 FrmActionSubject frm = new FrmActionSubject(Mode.Edit, selectedSubject);
                 frm.ShowDialog();
                 LoadSubjects();
@@ -51,41 +51,42 @@ namespace UI.Desktop.Subject
         {
             //encontrar elemento seleccionado
 
-           
-                if (listView1.SelectedItems.Count > 0)
+
+            if (listView1.SelectedItems.Count > 0)
+            {
+                try
                 {
-                    try {
-                        Domain.Model.Subject selectedSubject = (Domain.Model.Subject)listView1.SelectedItems[0].Tag;
-                        if (MessageBox.Show("¿Desea Eliminar la asignatura ' " + selectedSubject.Description + " '  ?", "Eliminar asignatura", MessageBoxButtons.OKCancel, MessageBoxIcon.Information) == DialogResult.OK)
-                        {
-                            var service = new SubjectService();
-                            await service.Delete(selectedSubject.Id);
-                            LoadSubjects();
-                        }
-                        else
-                        {
-                            MessageBox.Show("Asginatura NO eliminada");
-                        }
-                        }
-                    catch (Exception ex)
+                    ApplicationCore.Model.Subject selectedSubject = (ApplicationCore.Model.Subject)listView1.SelectedItems[0].Tag;
+                    if (MessageBox.Show("¿Desea Eliminar la asignatura ' " + selectedSubject.Description + " '  ?", "Eliminar asignatura", MessageBoxButtons.OKCancel, MessageBoxIcon.Information) == DialogResult.OK)
                     {
-                        var inner = ex.InnerException as Microsoft.Data.SqlClient.SqlException;
-                            if (inner.ErrorCode == -2146232060)
-                            {
-                                MessageBox.Show("No puedes eliminar una especialidad con Datos asociados. \nElimina todos los planes de estudios que referencien a esta especialidad antes de eliminar.", "No se ha podido eliminar", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                            }
+                        var service = new SubjectService();
+                        await service.Delete(selectedSubject.Id);
+                        LoadSubjects();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Asginatura NO eliminada");
                     }
                 }
-
-                else
+                catch (Exception ex)
                 {
-
-                    MessageBox.Show("Seleccione una asignatura antes de eliminar", "Eliminar asignatura", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    var inner = ex.InnerException as Microsoft.Data.SqlClient.SqlException;
+                    if (inner.ErrorCode == -2146232060)
+                    {
+                        MessageBox.Show("No puedes eliminar una especialidad con Datos asociados. \nElimina todos los planes de estudios que referencien a esta especialidad antes de eliminar.", "No se ha podido eliminar", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
                 }
+            }
+
+            else
+            {
+
+                MessageBox.Show("Seleccione una asignatura antes de eliminar", "Eliminar asignatura", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
 
         }
-           
-        
+
+
         private void txtSearchSubject_TextChanged(object sender, EventArgs e)
         {
             ApplyFilters();
@@ -114,7 +115,7 @@ namespace UI.Desktop.Subject
         private void LoadCurriculumFilter()
         {
             this.curriculums.Clear();
-            this.curriculums.Add(new Domain.Model.Curriculum { Description = "Todos los planes" });
+            this.curriculums.Add(new ApplicationCore.Model.Curriculum { Description = "Todos los planes" });
             this.curriculums.AddRange(this.subjects.Select(s => s.Curriculum).Distinct().ToList());
             cbCurriculum.DataSource = null;
             cbCurriculum.DataSource = curriculums;
@@ -122,10 +123,10 @@ namespace UI.Desktop.Subject
             cbCurriculum.ValueMember = "Id";
             cbCurriculum.DisplayMember = "Description";
         }
-        private void AdaptSubjectsToListView(IEnumerable<Domain.Model.Subject> subjectList)
+        private void AdaptSubjectsToListView(IEnumerable<ApplicationCore.Model.Subject> subjectList)
         {
             listView1.Items.Clear();
-            foreach (Domain.Model.Subject item in subjectList)
+            foreach (ApplicationCore.Model.Subject item in subjectList)
             {
                 ListViewItem nuevoItem = new ListViewItem(item.Description);
                 nuevoItem.Tag = item;
@@ -144,10 +145,10 @@ namespace UI.Desktop.Subject
             }
             var filteredSubjects = this.subjects;
             this.textSearch = txtSearchSubject.Text;
-            filteredSubjects = filteredSubjects.Where(s => Data.Util.DeleteDiacritic(s.Description.ToLower()).Contains(Data.Util.DeleteDiacritic(this.textSearch.ToLower())));
+            filteredSubjects = filteredSubjects.Where(s => Utilities.DeleteDiacritic(s.Description.ToLower()).Contains(Utilities.DeleteDiacritic(this.textSearch.ToLower())));
             if (cbCurriculum.SelectedItem != null && cbCurriculum.SelectedIndex != 0)
             {
-                filteredSubjects = filteredSubjects.Where(s => s.IdCurriculum == ((Domain.Model.Curriculum)cbCurriculum.SelectedItem).Id);
+                filteredSubjects = filteredSubjects.Where(s => s.IdCurriculum == ((ApplicationCore.Model.Curriculum)cbCurriculum.SelectedItem).Id);
             }
             listView1.Items.Clear();
             AdaptSubjectsToListView(filteredSubjects);

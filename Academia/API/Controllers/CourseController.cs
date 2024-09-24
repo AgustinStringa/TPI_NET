@@ -1,4 +1,4 @@
-﻿using Domain.Model;
+﻿using ApplicationCore.Model;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;

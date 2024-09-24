@@ -2,7 +2,7 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using Domain.Model;
+using ApplicationCore.Model;
 using Microsoft.Extensions.Configuration;
 
 namespace API.Helpers

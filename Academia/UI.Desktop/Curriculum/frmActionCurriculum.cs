@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using Domain.Model;
+using ApplicationCore.Model;
 using UI.Desktop.Area;
 
 namespace UI.Desktop.Curriculum
@@ -15,8 +15,8 @@ namespace UI.Desktop.Curriculum
     public partial class FrmActionCurriculum : Form
     {
 
-        private Domain.Model.Curriculum? curriculum;
-        private readonly Mode mode;
+        private ApplicationCore.Model.Curriculum curriculum;
+        private Mode mode;
 
         public FrmActionCurriculum(Mode mode)
         {
@@ -38,7 +38,7 @@ namespace UI.Desktop.Curriculum
             }
         }
 
-        public FrmActionCurriculum(Mode mode, Domain.Model.Curriculum curriculum)
+        public FrmActionCurriculum(Mode mode, ApplicationCore.Model.Curriculum curr)
         {
             switch (mode)
             {
@@ -71,6 +71,23 @@ namespace UI.Desktop.Curriculum
                     this.Dispose();
                     break;
             }
+        }
+
+        private async void LoadAreas()
+        {
+            try
+            {
+                var service = new ApplicationCore.Services.AreaService();
+                cbAreas.DataSource = service.GetAll();
+                cbAreas.ValueMember = "Id";
+                cbAreas.DisplayMember = "Description";
+                cbAreas.SelectedIndex = 0;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+
         }
 
         #region Events
@@ -111,7 +128,7 @@ namespace UI.Desktop.Curriculum
                 int idArea = (int)cbAreas.SelectedValue;
                 if (mode == Mode.Create)
                 {
-                    Domain.Model.Curriculum newCurriculum = new Domain.Model.Curriculum
+                    ApplicationCore.Model.Curriculum newCurriculum = new ApplicationCore.Model.Curriculum
                     {
                         Description = description,
                         AreaId = idArea,
@@ -119,7 +136,7 @@ namespace UI.Desktop.Curriculum
                         Resolution = resolution
                     };
 
-                    var service = new Domain.Services.CurriculumService();
+                    var service = new ApplicationCore.Services.CurriculumService();
                     try
                     {
                         await service.Create(newCurriculum);
@@ -141,29 +158,17 @@ namespace UI.Desktop.Curriculum
                 }
                 else if (mode == Mode.Edit)
                 {
-                    try
-                    {
-                        var area = cbAreas.SelectedItem as Domain.Model.Area;
-                        var service = new Domain.Services.CurriculumService();
-                        this.curriculum.Description = description;
-                        this.curriculum.Year = year;
-                        this.curriculum.Resolution = resolution;
-                        this.curriculum.AreaId = idArea;
-                        this.curriculum.Area = area;
-                        await service.Update(this.curriculum);
-                        this.Dispose();
-                    }
-                    catch (Exception ex)
-                    {
-                        if (ex.HResult == -2146233088)
-                        {
-                            MessageBox.Show("Plan de Estudios existente.", "No se ha podido guardar", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        }
-                        else
-                        {
-                            MessageBox.Show(ex.Message);
-                        }
-                    }
+                    var area = cbAreas.SelectedItem as ApplicationCore.Model.Area;
+                    var service = new ApplicationCore.Services.CurriculumService();
+                    this.curriculum.Description = description;
+                    this.curriculum.Year = year;
+                    this.curriculum.Resolution = resolution;
+                    this.curriculum.AreaId = idArea;
+                    this.curriculum.Area = area;
+                    await service.Update(this.curriculum);
+                    MessageBox.Show("Actualizado correctamente");
+                    this.Dispose();
+
                 }
             }
         }

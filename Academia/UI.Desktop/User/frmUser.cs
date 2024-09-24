@@ -1,4 +1,4 @@
-﻿using Domain.Services;
+﻿using ApplicationCore.Services;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -14,8 +14,8 @@ namespace UI.Desktop.User
 
     public partial class FrmUser : Form
     {
-        private IEnumerable<Domain.Model.User> users = [];
-        private IEnumerable<Domain.Model.User> filteredUsers = [];
+        private IEnumerable<ApplicationCore.Model.User> users = [];
+        private IEnumerable<ApplicationCore.Model.User> filteredUsers = [];
         private string textSearch = "";
         private List<UserType> userTypeFilters = [UserType.Student, UserType.Teacher, UserType.Administrative];
         public FrmUser()
@@ -35,10 +35,10 @@ namespace UI.Desktop.User
             AdaptUsersToListView(this.filteredUsers);
         }
 
-        private void AdaptUsersToListView(IEnumerable<Domain.Model.User> users)
+        private void AdaptUsersToListView(IEnumerable<ApplicationCore.Model.User> users)
         {
             lstUsers.Items.Clear();
-            foreach (Domain.Model.User user in users)
+            foreach (ApplicationCore.Model.User user in users)
             {
                 ListViewItem item = new ListViewItem(user.Name);
                 item.Tag = user;
@@ -50,10 +50,10 @@ namespace UI.Desktop.User
             }
             lstUsers.Refresh();
         }
-        
+
         private void txtSearchUsers_TextChanged(object sender, EventArgs e)
         {
-            var search = Data.Util.DeleteDiacritic(((System.Windows.Forms.TextBox)sender).Text.ToLower());
+            var search = Utilities.DeleteDiacritic(((System.Windows.Forms.TextBox)sender).Text.ToLower());
             if (search != this.textSearch)
             {
                 this.textSearch = search;
@@ -83,14 +83,14 @@ namespace UI.Desktop.User
                 }
             }
         }
-        
+
         private void ApplyFilters()
         {
             this.filteredUsers = this.users.Where(
-                u => Data.Util.DeleteDiacritic(u.Name.ToLower()).Contains(this.textSearch)
-                  || Data.Util.DeleteDiacritic(u.Lastname.ToLower()).Contains(this.textSearch)
-                   || ((u.StudentId != null) && Data.Util.DeleteDiacritic(u.StudentId.ToLower()).Contains(this.textSearch))
-                 || ((u.Cuit != null) && Data.Util.DeleteDiacritic(u.Cuit.ToLower()).Contains(this.textSearch))
+                u => Utilities.DeleteDiacritic(u.Name.ToLower()).Contains(this.textSearch)
+                  || Utilities.DeleteDiacritic(u.Lastname.ToLower()).Contains(this.textSearch)
+                   || ((u.StudentId != null) && Utilities.DeleteDiacritic(u.StudentId.ToLower()).Contains(this.textSearch))
+                 || ((u.Cuit != null) && Utilities.DeleteDiacritic(u.Cuit.ToLower()).Contains(this.textSearch))
                    );
             lstUsers.Items.Clear();
             this.filteredUsers = this.filteredUsers.Where(u => this.userTypeFilters.Contains(GetUserType(u.UserType)));
@@ -101,7 +101,7 @@ namespace UI.Desktop.User
         private void tsbtnDeleteUser_Click(object sender, EventArgs e)
         {
 
-            var selectedUser = (lstUsers.SelectedItems[0].Tag as Domain.Model.User);
+            var selectedUser = (lstUsers.SelectedItems[0].Tag as ApplicationCore.Model.User);
             if (selectedUser != null)
             {
                 // verificar que haya seleccionado un item
@@ -137,7 +137,7 @@ namespace UI.Desktop.User
         {
             try
             {
-                var selectedUser = (lstUsers.SelectedItems[0].Tag as Domain.Model.User);
+                var selectedUser = (lstUsers.SelectedItems[0].Tag as ApplicationCore.Model.User);
                 if (selectedUser != null)
                 {
                     FrmActionUser App = new FrmActionUser(Mode.Edit, selectedUser);
