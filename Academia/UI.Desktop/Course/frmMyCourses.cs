@@ -10,10 +10,10 @@ using System.Windows.Forms;
 
 namespace UI.Desktop.Course
 {
-    public partial class frmMyCourses : Form
+    public partial class FrmMyCourses : Form
     {
         private IEnumerable<ApplicationCore.Model.UserCourse> MyCourses;
-        public frmMyCourses(ApplicationCore.Model.User user)
+        public FrmMyCourses(ApplicationCore.Model.User user)
         {
             InitializeComponent();
             MyCourses = user.UserCourses.Where(c => c.Status == "inscripto");

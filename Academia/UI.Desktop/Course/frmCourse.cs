@@ -11,10 +11,10 @@ using System.Windows.Forms;
 
 namespace UI.Desktop.Course
 {
-    public partial class frmCourse : Form
+    public partial class FrmCourse : Form
     {
         private IEnumerable<ApplicationCore.Model.Course> courses;
-        public frmCourse()
+        public FrmCourse()
         {
             InitializeComponent();
             LoadCourses();

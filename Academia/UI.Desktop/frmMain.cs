@@ -99,13 +99,13 @@ namespace UI.Desktop
 
 		private void administrarCursadosToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			frmCourse frm = new frmCourse();
+			FrmCourse frm = new FrmCourse();
 			frm.ShowDialog();
 		}
 
 		private void cursadosActivosToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			frmMyCourses frm = new frmMyCourses(user);
+			FrmMyCourses frm = new FrmMyCourses(user);
 			frm.ShowDialog();
 		}
 
