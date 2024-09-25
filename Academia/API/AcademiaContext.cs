@@ -11,12 +11,12 @@ namespace API
         public DbSet<Course> Courses { get; set; } = null!;
         public DbSet<Curriculum> Curriculums { get; set; } = null!;
         public DbSet<User> Users { get; set; } = null!;
+        public DbSet<Commission> Commissions { get; set; } = null!;
         public DbSet<UserCourse> UserCourses { get; set; } = null!;
 
         private string _connectionString = "";
         public AcademiaContext()
         {
-
             var configuration = new ConfigurationBuilder()
           .SetBasePath(Directory.GetCurrentDirectory())
           .AddJsonFile("appsettings.json")
