@@ -29,26 +29,26 @@
 		private void InitializeComponent()
 		{
 			label1 = new Label();
-			label2 = new Label();
+			lblSubject = new Label();
 			cmbSubjects = new ComboBox();
 			panel1 = new Panel();
+			btnDeleteTeacher = new Button();
+			btnAddTeacher = new Button();
+			lstTeachers = new ListBox();
 			btnActionCourse = new Button();
 			txtCalendarYear = new TextBox();
 			txtCapacity = new TextBox();
-			label5 = new Label();
-			label3 = new Label();
-			label4 = new Label();
+			lblTeachers = new Label();
+			lblCalendarYear = new Label();
+			lblCommission = new Label();
+			lblCapacity = new Label();
 			lblCalendarYearError = new Label();
 			lblCapacityError = new Label();
-			label6 = new Label();
-			label7 = new Label();
+			lblArea = new Label();
+			lblCurriculum = new Label();
 			cmbComissions = new ComboBox();
 			cmbCurriculums = new ComboBox();
 			cmbAreas = new ComboBox();
-			label8 = new Label();
-			listBox1 = new ListBox();
-			button1 = new Button();
-			button2 = new Button();
 			panel1.SuspendLayout();
 			SuspendLayout();
 			// 
@@ -62,15 +62,15 @@
 			label1.TabIndex = 9;
 			label1.Text = "Editar Cursado";
 			// 
-			// label2
+			// lblSubject
 			// 
-			label2.AutoSize = true;
-			label2.Font = new Font("Segoe UI", 12F);
-			label2.Location = new Point(36, 189);
-			label2.Name = "label2";
-			label2.Size = new Size(66, 21);
-			label2.TabIndex = 9;
-			label2.Text = "Materia:";
+			lblSubject.AutoSize = true;
+			lblSubject.Font = new Font("Segoe UI", 12F);
+			lblSubject.Location = new Point(36, 189);
+			lblSubject.Name = "lblSubject";
+			lblSubject.Size = new Size(66, 21);
+			lblSubject.TabIndex = 9;
+			lblSubject.Text = "Materia:";
 			// 
 			// cmbSubjects
 			// 
@@ -82,35 +82,62 @@
 			// 
 			// panel1
 			// 
-			panel1.Controls.Add(button2);
-			panel1.Controls.Add(button1);
-			panel1.Controls.Add(listBox1);
+			panel1.Controls.Add(btnDeleteTeacher);
+			panel1.Controls.Add(btnAddTeacher);
+			panel1.Controls.Add(lstTeachers);
 			panel1.Controls.Add(btnActionCourse);
 			panel1.Controls.Add(txtCalendarYear);
 			panel1.Controls.Add(txtCapacity);
-			panel1.Controls.Add(label8);
-			panel1.Controls.Add(label5);
-			panel1.Controls.Add(label3);
-			panel1.Controls.Add(label4);
+			panel1.Controls.Add(lblTeachers);
+			panel1.Controls.Add(lblCalendarYear);
+			panel1.Controls.Add(lblCommission);
+			panel1.Controls.Add(lblCapacity);
 			panel1.Controls.Add(lblCalendarYearError);
 			panel1.Controls.Add(lblCapacityError);
-			panel1.Controls.Add(label6);
-			panel1.Controls.Add(label7);
-			panel1.Controls.Add(label2);
+			panel1.Controls.Add(lblArea);
+			panel1.Controls.Add(lblCurriculum);
+			panel1.Controls.Add(lblSubject);
 			panel1.Controls.Add(cmbComissions);
 			panel1.Controls.Add(cmbCurriculums);
 			panel1.Controls.Add(cmbAreas);
 			panel1.Controls.Add(cmbSubjects);
 			panel1.Location = new Point(30, 87);
 			panel1.Name = "panel1";
-			panel1.Size = new Size(832, 441);
+			panel1.Size = new Size(1085, 441);
 			panel1.TabIndex = 11;
+			// 
+			// btnDeleteTeacher
+			// 
+			btnDeleteTeacher.Image = Properties.Resources.Delete;
+			btnDeleteTeacher.Location = new Point(725, 118);
+			btnDeleteTeacher.Name = "btnDeleteTeacher";
+			btnDeleteTeacher.Size = new Size(75, 43);
+			btnDeleteTeacher.TabIndex = 14;
+			btnDeleteTeacher.UseVisualStyleBackColor = true;
+			// 
+			// btnAddTeacher
+			// 
+			btnAddTeacher.Image = Properties.Resources.Add;
+			btnAddTeacher.Location = new Point(725, 57);
+			btnAddTeacher.Name = "btnAddTeacher";
+			btnAddTeacher.Size = new Size(75, 43);
+			btnAddTeacher.TabIndex = 14;
+			btnAddTeacher.UseVisualStyleBackColor = true;
+			// 
+			// lstTeachers
+			// 
+			lstTeachers.FormattingEnabled = true;
+			lstTeachers.ItemHeight = 15;
+			lstTeachers.Location = new Point(806, 44);
+			lstTeachers.Name = "lstTeachers";
+			lstTeachers.Size = new Size(249, 154);
+			lstTeachers.TabIndex = 13;
 			// 
 			// btnActionCourse
 			// 
 			btnActionCourse.BackColor = SystemColors.ActiveCaption;
 			btnActionCourse.Font = new Font("Segoe UI", 12F);
-			btnActionCourse.Location = new Point(590, 361);
+			btnActionCourse.Location = new Point(908, 365);
 			btnActionCourse.Name = "btnActionCourse";
 			btnActionCourse.Size = new Size(147, 60);
 			btnActionCourse.TabIndex = 12;
@@ -132,35 +159,45 @@
 			txtCapacity.Size = new Size(197, 23);
 			txtCapacity.TabIndex = 11;
 			// 
-			// label5
+			// lblTeachers
 			// 
-			label5.AutoSize = true;
-			label5.Font = new Font("Segoe UI", 12F);
-			label5.Location = new Point(387, 105);
-			label5.Name = "label5";
-			label5.Size = new Size(120, 21);
-			label5.TabIndex = 9;
-			label5.Text = "Año Calendario:";
+			lblTeachers.AutoSize = true;
+			lblTeachers.Font = new Font("Segoe UI", 12F);
+			lblTeachers.Location = new Point(725, 16);
+			lblTeachers.Name = "lblTeachers";
+			lblTeachers.Size = new Size(77, 21);
+			lblTeachers.TabIndex = 9;
+			lblTeachers.Text = "Docentes:";
 			// 
-			// label3
+			// lblCalendarYear
 			// 
-			label3.AutoSize = true;
-			label3.Font = new Font("Segoe UI", 12F);
-			label3.Location = new Point(36, 272);
-			label3.Name = "label3";
-			label3.Size = new Size(79, 21);
-			label3.TabIndex = 9;
-			label3.Text = "Comision:";
+			lblCalendarYear.AutoSize = true;
+			lblCalendarYear.Font = new Font("Segoe UI", 12F);
+			lblCalendarYear.Location = new Point(387, 105);
+			lblCalendarYear.Name = "lblCalendarYear";
+			lblCalendarYear.Size = new Size(120, 21);
+			lblCalendarYear.TabIndex = 9;
+			lblCalendarYear.Text = "Año Calendario:";
 			// 
-			// label4
+			// lblCommission
 			// 
-			label4.AutoSize = true;
-			label4.Font = new Font("Segoe UI", 12F);
-			label4.Location = new Point(387, 16);
-			label4.Name = "label4";
-			label4.Size = new Size(50, 21);
-			label4.TabIndex = 9;
-			label4.Text = "Cupo:";
+			lblCommission.AutoSize = true;
+			lblCommission.Font = new Font("Segoe UI", 12F);
+			lblCommission.Location = new Point(36, 272);
+			lblCommission.Name = "lblCommission";
+			lblCommission.Size = new Size(79, 21);
+			lblCommission.TabIndex = 9;
+			lblCommission.Text = "Comision:";
+			// 
+			// lblCapacity
+			// 
+			lblCapacity.AutoSize = true;
+			lblCapacity.Font = new Font("Segoe UI", 12F);
+			lblCapacity.Location = new Point(387, 16);
+			lblCapacity.Name = "lblCapacity";
+			lblCapacity.Size = new Size(50, 21);
+			lblCapacity.TabIndex = 9;
+			lblCapacity.Text = "Cupo:";
 			// 
 			// lblCalendarYearError
 			// 
@@ -182,25 +219,25 @@
 			lblCapacityError.TabIndex = 9;
 			lblCapacityError.Text = "Ingresa un cupo válido";
 			// 
-			// label6
+			// lblArea
 			// 
-			label6.AutoSize = true;
-			label6.Font = new Font("Segoe UI", 12F);
-			label6.Location = new Point(36, 16);
-			label6.Name = "label6";
-			label6.Size = new Size(98, 21);
-			label6.TabIndex = 9;
-			label6.Text = "Especialidad:";
+			lblArea.AutoSize = true;
+			lblArea.Font = new Font("Segoe UI", 12F);
+			lblArea.Location = new Point(36, 16);
+			lblArea.Name = "lblArea";
+			lblArea.Size = new Size(98, 21);
+			lblArea.TabIndex = 9;
+			lblArea.Text = "Especialidad:";
 			// 
-			// label7
+			// lblCurriculum
 			// 
-			label7.AutoSize = true;
-			label7.Font = new Font("Segoe UI", 12F);
-			label7.Location = new Point(36, 105);
-			label7.Name = "label7";
-			label7.Size = new Size(128, 21);
-			label7.TabIndex = 9;
-			label7.Text = "Plan De Estudios:";
+			lblCurriculum.AutoSize = true;
+			lblCurriculum.Font = new Font("Segoe UI", 12F);
+			lblCurriculum.Location = new Point(36, 105);
+			lblCurriculum.Name = "lblCurriculum";
+			lblCurriculum.Size = new Size(128, 21);
+			lblCurriculum.TabIndex = 9;
+			lblCurriculum.Text = "Plan De Estudios:";
 			// 
 			// cmbComissions
 			// 
@@ -226,48 +263,11 @@
 			cmbAreas.Size = new Size(212, 23);
 			cmbAreas.TabIndex = 10;
 			// 
-			// label8
-			// 
-			label8.AutoSize = true;
-			label8.Font = new Font("Segoe UI", 12F);
-			label8.Location = new Point(387, 198);
-			label8.Name = "label8";
-			label8.Size = new Size(77, 21);
-			label8.TabIndex = 9;
-			label8.Text = "Docentes:";
-			// 
-			// listBox1
-			// 
-			listBox1.FormattingEnabled = true;
-			listBox1.ItemHeight = 15;
-			listBox1.Location = new Point(488, 222);
-			listBox1.Name = "listBox1";
-			listBox1.Size = new Size(249, 109);
-			listBox1.TabIndex = 13;
-			// 
-			// button1
-			// 
-			button1.Image = Properties.Resources.Add;
-			button1.Location = new Point(389, 222);
-			button1.Name = "button1";
-			button1.Size = new Size(75, 43);
-			button1.TabIndex = 14;
-			button1.UseVisualStyleBackColor = true;
-			// 
-			// button2
-			// 
-			button2.Image = Properties.Resources.Delete;
-			button2.Location = new Point(389, 285);
-			button2.Name = "button2";
-			button2.Size = new Size(75, 43);
-			button2.TabIndex = 14;
-			button2.UseVisualStyleBackColor = true;
-			// 
 			// frmActionCourse
 			// 
 			AutoScaleDimensions = new SizeF(7F, 15F);
 			AutoScaleMode = AutoScaleMode.Font;
-			ClientSize = new Size(932, 540);
+			ClientSize = new Size(1153, 540);
 			Controls.Add(panel1);
 			Controls.Add(label1);
 			Name = "frmActionCourse";
@@ -281,25 +281,25 @@
 		#endregion
 
 		private Label label1;
-        private Label label2;
+        private Label lblSubject;
         private ComboBox cmbSubjects;
         private Panel panel1;
         private TextBox txtCapacity;
-        private Label label3;
+        private Label lblCommission;
         private ComboBox cmbComissions;
         private TextBox txtCalendarYear;
-        private Label label5;
-        private Label label4;
+        private Label lblCalendarYear;
+        private Label lblCapacity;
         private Button btnActionCourse;
-        private Label label6;
+        private Label lblArea;
         private ComboBox cmbAreas;
         private Label lblCalendarYearError;
         private Label lblCapacityError;
-        private Label label7;
+        private Label lblCurriculum;
         private ComboBox cmbCurriculums;
-		private ListBox listBox1;
-		private Label label8;
-		private Button button2;
-		private Button button1;
+		private ListBox lstTeachers;
+		private Label lblTeachers;
+		private Button btnDeleteTeacher;
+		private Button btnAddTeacher;
 	}
 }

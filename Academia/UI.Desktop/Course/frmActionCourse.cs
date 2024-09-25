@@ -18,6 +18,8 @@ namespace UI.Desktop.Course
 
 		public frmActionCourse()
 		{
+			//implementar inyeccion de servicio.
+			//// inyectar provider y de ahi sacar los necesarios
 			InitializeComponent();
 		}
 
