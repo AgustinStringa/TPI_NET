@@ -1,4 +1,4 @@
-﻿using Domain.Model;
+﻿using ApplicationCore.Model;
 using Microsoft.EntityFrameworkCore;
 using System.Configuration;
 using Microsoft.Extensions.Configuration;
@@ -27,7 +27,11 @@ namespace API
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(_connectionString);
+			optionsBuilder
+	            .LogTo(Console.WriteLine, LogLevel.Debug)
+	            .EnableDetailedErrors()
+	            .EnableSensitiveDataLogging();
+			optionsBuilder.UseSqlServer(_connectionString);
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
