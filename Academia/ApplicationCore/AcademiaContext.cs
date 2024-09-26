@@ -85,6 +85,19 @@ namespace ApplicationCore
 				.WithOne(c => c.Commission)
 				.HasForeignKey(c => c.IdCommission);
 
+
+
+			modelBuilder.Entity<User>()
+				.HasMany(u => u.TeacherCourses)
+				.WithMany(c => c.Teachers)
+				.UsingEntity<Dictionary<string, object>>(
+					"docentes_cursos",
+					j => j.HasOne<Course>().WithMany().HasForeignKey("id_curso"),
+					j => j.HasOne<User>().WithMany().HasForeignKey("id_docente")
+				);
+
+
+
 			//modelBuilder.Entity<Commission>()
 			//    .HasOne(c => c.Curriculum)
 			//    .WithMany(a => a.Commissions)

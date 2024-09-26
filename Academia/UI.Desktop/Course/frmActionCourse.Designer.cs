@@ -1,6 +1,6 @@
 ﻿namespace UI.Desktop.Course
 {
-    partial class frmActionCourse
+    partial class FrmActionCourse
     {
         /// <summary>
         /// Required designer variable.
@@ -32,9 +32,10 @@
 			lblSubject = new Label();
 			cmbSubjects = new ComboBox();
 			panel1 = new Panel();
+			lstSelectedTeachers = new ListView();
+			columnHeader1 = new ColumnHeader();
 			btnDeleteTeacher = new Button();
 			btnAddTeacher = new Button();
-			lstTeachers = new ListBox();
 			btnActionCourse = new Button();
 			txtCalendarYear = new TextBox();
 			txtCapacity = new TextBox();
@@ -74,17 +75,19 @@
 			// 
 			// cmbSubjects
 			// 
+			cmbSubjects.DropDownStyle = ComboBoxStyle.DropDownList;
 			cmbSubjects.FormattingEnabled = true;
 			cmbSubjects.Location = new Point(36, 213);
 			cmbSubjects.Name = "cmbSubjects";
 			cmbSubjects.Size = new Size(212, 23);
 			cmbSubjects.TabIndex = 10;
+			cmbSubjects.SelectedIndexChanged += cmbSubjects_SelectedIndexChanged;
 			// 
 			// panel1
 			// 
+			panel1.Controls.Add(lstSelectedTeachers);
 			panel1.Controls.Add(btnDeleteTeacher);
 			panel1.Controls.Add(btnAddTeacher);
-			panel1.Controls.Add(lstTeachers);
 			panel1.Controls.Add(btnActionCourse);
 			panel1.Controls.Add(txtCalendarYear);
 			panel1.Controls.Add(txtCapacity);
@@ -106,6 +109,21 @@
 			panel1.Size = new Size(1085, 441);
 			panel1.TabIndex = 11;
 			// 
+			// lstSelectedTeachers
+			// 
+			lstSelectedTeachers.Columns.AddRange(new ColumnHeader[] { columnHeader1 });
+			lstSelectedTeachers.Location = new Point(820, 57);
+			lstSelectedTeachers.Name = "lstSelectedTeachers";
+			lstSelectedTeachers.Size = new Size(235, 153);
+			lstSelectedTeachers.TabIndex = 15;
+			lstSelectedTeachers.UseCompatibleStateImageBehavior = false;
+			lstSelectedTeachers.View = View.Details;
+			// 
+			// columnHeader1
+			// 
+			columnHeader1.Text = "Docente";
+			columnHeader1.Width = 200;
+			// 
 			// btnDeleteTeacher
 			// 
 			btnDeleteTeacher.Image = Properties.Resources.Delete;
@@ -114,6 +132,7 @@
 			btnDeleteTeacher.Size = new Size(75, 43);
 			btnDeleteTeacher.TabIndex = 14;
 			btnDeleteTeacher.UseVisualStyleBackColor = true;
+			btnDeleteTeacher.Click += btnDeleteTeacher_Click;
 			// 
 			// btnAddTeacher
 			// 
@@ -123,15 +142,7 @@
 			btnAddTeacher.Size = new Size(75, 43);
 			btnAddTeacher.TabIndex = 14;
 			btnAddTeacher.UseVisualStyleBackColor = true;
-			// 
-			// lstTeachers
-			// 
-			lstTeachers.FormattingEnabled = true;
-			lstTeachers.ItemHeight = 15;
-			lstTeachers.Location = new Point(806, 44);
-			lstTeachers.Name = "lstTeachers";
-			lstTeachers.Size = new Size(249, 154);
-			lstTeachers.TabIndex = 13;
+			btnAddTeacher.Click += btnAddTeacher_Click;
 			// 
 			// btnActionCourse
 			// 
@@ -158,6 +169,7 @@
 			txtCapacity.Name = "txtCapacity";
 			txtCapacity.Size = new Size(197, 23);
 			txtCapacity.TabIndex = 11;
+			txtCapacity.Text = "0";
 			// 
 			// lblTeachers
 			// 
@@ -165,9 +177,9 @@
 			lblTeachers.Font = new Font("Segoe UI", 12F);
 			lblTeachers.Location = new Point(725, 16);
 			lblTeachers.Name = "lblTeachers";
-			lblTeachers.Size = new Size(77, 21);
+			lblTeachers.Size = new Size(153, 21);
 			lblTeachers.TabIndex = 9;
-			lblTeachers.Text = "Docentes:";
+			lblTeachers.Text = "Docentes Asginados:";
 			// 
 			// lblCalendarYear
 			// 
@@ -205,9 +217,10 @@
 			lblCalendarYearError.Font = new Font("Segoe UI", 12F);
 			lblCalendarYearError.Location = new Point(387, 155);
 			lblCalendarYearError.Name = "lblCalendarYearError";
-			lblCalendarYearError.Size = new Size(151, 21);
+			lblCalendarYearError.Size = new Size(172, 21);
 			lblCalendarYearError.TabIndex = 9;
-			lblCalendarYearError.Text = "error año calendario";
+			lblCalendarYearError.Text = "error en año calendario";
+			lblCalendarYearError.Visible = false;
 			// 
 			// lblCapacityError
 			// 
@@ -218,6 +231,7 @@
 			lblCapacityError.Size = new Size(167, 21);
 			lblCapacityError.TabIndex = 9;
 			lblCapacityError.Text = "Ingresa un cupo válido";
+			lblCapacityError.Visible = false;
 			// 
 			// lblArea
 			// 
@@ -241,6 +255,7 @@
 			// 
 			// cmbComissions
 			// 
+			cmbComissions.DropDownStyle = ComboBoxStyle.DropDownList;
 			cmbComissions.FormattingEnabled = true;
 			cmbComissions.Location = new Point(36, 296);
 			cmbComissions.Name = "cmbComissions";
@@ -249,28 +264,32 @@
 			// 
 			// cmbCurriculums
 			// 
+			cmbCurriculums.DropDownStyle = ComboBoxStyle.DropDownList;
 			cmbCurriculums.FormattingEnabled = true;
 			cmbCurriculums.Location = new Point(36, 129);
 			cmbCurriculums.Name = "cmbCurriculums";
 			cmbCurriculums.Size = new Size(212, 23);
 			cmbCurriculums.TabIndex = 10;
+			cmbCurriculums.SelectedIndexChanged += cmbCurriculums_SelectedIndexChanged;
 			// 
 			// cmbAreas
 			// 
+			cmbAreas.DropDownStyle = ComboBoxStyle.DropDownList;
 			cmbAreas.FormattingEnabled = true;
 			cmbAreas.Location = new Point(36, 40);
 			cmbAreas.Name = "cmbAreas";
 			cmbAreas.Size = new Size(212, 23);
 			cmbAreas.TabIndex = 10;
+			cmbAreas.SelectedIndexChanged += cmbAreas_SelectedIndexChanged;
 			// 
-			// frmActionCourse
+			// FrmActionCourse
 			// 
 			AutoScaleDimensions = new SizeF(7F, 15F);
 			AutoScaleMode = AutoScaleMode.Font;
 			ClientSize = new Size(1153, 540);
 			Controls.Add(panel1);
 			Controls.Add(label1);
-			Name = "frmActionCourse";
+			Name = "FrmActionCourse";
 			Text = "frmActionCourse";
 			panel1.ResumeLayout(false);
 			panel1.PerformLayout();
@@ -297,9 +316,10 @@
         private Label lblCapacityError;
         private Label lblCurriculum;
         private ComboBox cmbCurriculums;
-		private ListBox lstTeachers;
 		private Label lblTeachers;
 		private Button btnDeleteTeacher;
 		private Button btnAddTeacher;
+		private ListView lstSelectedTeachers;
+		private ColumnHeader columnHeader1;
 	}
 }

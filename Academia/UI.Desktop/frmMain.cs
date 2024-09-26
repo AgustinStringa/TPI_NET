@@ -58,10 +58,10 @@ namespace UI.Desktop
 			cursadosActivosToolStripMenuItem.Visible = student;
 			materiasToolStripMenuItem.Visible = administrative;
 			comisionesToolStripMenuItem.Visible = administrative;
-			crearCursadoToolStripMenuItem.Visible = administrative;
 			inscripcionACursadoToolStripMenuItem.Visible = student;
 			cursadosActivosToolStripMenuItem.Visible = student;
 			administrarCursadosToolStripMenuItem.Visible = administrative;
+			calificarCursadosToolStripMenuItem.Visible = administrative;
 		}
 		private void especialidadesToolStripMenuItem_Click(object sender, EventArgs e)
 		{
@@ -117,7 +117,7 @@ namespace UI.Desktop
 
 		private void comisionesToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			frmCommissions appCom = new frmCommissions();
+			FrmCommissions appCom = new FrmCommissions();
 			appCom.ShowDialog();
 
 		}

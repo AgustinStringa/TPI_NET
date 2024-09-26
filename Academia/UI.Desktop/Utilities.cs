@@ -31,7 +31,7 @@ namespace UI.Desktop
 			}
 		}
 
-		public static async void LoadAreas(IEnumerable<ApplicationCore.Model.Area> areasList, ComboBox cb)
+		public static async void LoadAreas(IEnumerable<ApplicationCore.Model.Area> areasList, ComboBox cb, int id)
 		{
 			try
 			{
@@ -42,7 +42,7 @@ namespace UI.Desktop
 					cb.DataSource = areasList;
 					cb.ValueMember = "Id";
 					cb.DisplayMember = "Description";
-					cb.SelectedIndex = 0;
+					cb.SelectedValue = id;
 				}
 			}
 			catch (Exception)

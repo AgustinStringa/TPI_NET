@@ -35,7 +35,7 @@ namespace ApplicationCore.Model
         }
         public virtual ICollection<UserCourse> UserCourses { get; set; } = new List<UserCourse>();
 
-        //public virtual ICollection<User> Teachers { get; set; } = new List<User>();
+        public virtual ICollection<User> Teachers { get; set; } = new List<User>();
 
         //public virtual ICollection<User> Students { get; set; } = new List<User>();
 

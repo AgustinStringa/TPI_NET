@@ -77,5 +77,21 @@ namespace ApplicationCore.Services
                 throw;
             }
         }
-    }
+
+		public async Task<IEnumerable<Curriculum>> GetByAreaId(int id)
+		{
+			try
+			{
+				var context = new AcademiaContext();
+				return await context.Curriculums.Where(c => c.AreaId == id).ToListAsync();
+			}
+			catch (Exception e)
+			{
+				throw e;
+				return null;
+			}
+		}
+
+
+	}
 }

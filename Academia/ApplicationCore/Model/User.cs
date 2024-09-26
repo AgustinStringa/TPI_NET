@@ -63,6 +63,7 @@ namespace ApplicationCore.Model
 		public virtual Curriculum? Curriculum { get; set; }
 
 		public virtual ICollection<UserCourse> UserCourses { get; set; } = new List<UserCourse>();
+		public virtual ICollection<Course> TeacherCourses { get; set; } = new List<Course>();
 		#endregion
 	}
 }
