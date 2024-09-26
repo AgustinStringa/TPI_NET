@@ -8,117 +8,82 @@ using System.Globalization;
 
 namespace UI.Desktop
 {
-    public class Utilities
-    {
-        public static async void LoadAreas(ComboBox cb)
-        {
-            try
-            {
-                var service = new ApplicationCore.Services.AreaService();
-                var areas = await service.GetAll();
-                if (areas.Count() > 0)
-                {
-                    cb.DataSource = areas;
-                    cb.ValueMember = "Id";
-                    cb.DisplayMember = "Description";
-                    cb.SelectedIndex = 0;
+	public class Utilities
+	{
+		public static async void LoadAreas(ComboBox cb)
+		{
+			try
+			{
+				var service = new ApplicationCore.Services.AreaService();
+				var areas = await service.GetAll();
+				if (areas.Count() > 0)
+				{
+					cb.DataSource = areas;
+					cb.ValueMember = "Id";
+					cb.DisplayMember = "Description";
+					cb.SelectedIndex = 0;
 
-                }
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-        }
+				}
+			}
+			catch (Exception)
+			{
+				throw;
+			}
+		}
 
-        public static async void LoadAreas(IEnumerable<ApplicationCore.Model.Area> areasList, ComboBox cb)
-        {
-            try
-            {
-                var service = new ApplicationCore.Services.AreaService();
-                areasList = await service.GetAll();
-                if (areasList.Count() > 0)
-                {
-                    cb.DataSource = areasList;
-                    cb.ValueMember = "Id";
-                    cb.DisplayMember = "Description";
-                    cb.SelectedIndex = 0;
-                }
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-        }
+		public static async void LoadAreas(IEnumerable<ApplicationCore.Model.Area> areasList, ComboBox cb)
+		{
+			try
+			{
+				var service = new ApplicationCore.Services.AreaService();
+				areasList = await service.GetAll();
+				if (areasList.Count() > 0)
+				{
+					cb.DataSource = areasList;
+					cb.ValueMember = "Id";
+					cb.DisplayMember = "Description";
+					cb.SelectedIndex = 0;
+				}
+			}
+			catch (Exception)
+			{
+				throw;
+			}
+		}
 
-        public static async void LoadCurriculums(IEnumerable<ApplicationCore.Model.Curriculum> curriculums, ComboBox cb, int val)
-        {
-            try
-            {
-                var service = new ApplicationCore.Services.CurriculumService();
-                curriculums = await service.GetAll();
-                cb.DataSource = curriculums;
-                cb.ValueMember = "Id";
-                cb.DisplayMember = "Description";
-                cb.SelectedValue = val;
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-        }
+		public static async void LoadCurriculums(IEnumerable<ApplicationCore.Model.Curriculum> curriculums, ComboBox cb, int val)
+		{
+			try
+			{
+				var service = new ApplicationCore.Services.CurriculumService();
+				curriculums = await service.GetAll();
+				cb.DataSource = curriculums;
+				cb.ValueMember = "Id";
+				cb.DisplayMember = "Description";
+				cb.SelectedValue = val;
+			}
+			catch (Exception)
+			{
+				throw;
+			}
+		}
 
-        public static async void LoadCurriculums(IEnumerable<ApplicationCore.Model.Curriculum> curriculums, ComboBox cb)
-        {
-            try
-            {
-                var service = new ApplicationCore.Services.CurriculumService();
-                curriculums = await service.GetAll();
-                cb.DataSource = curriculums;
-                cb.ValueMember = "Id";
-                cb.DisplayMember = "Description";
-                cb.SelectedIndex = 0;
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-        }
-
-
-        public static async void LoadCurriculums(ComboBox cb)
-        {
-            try
-            {
-                var service = new ApplicationCore.Services.CurriculumService();
-                var curriculums = await service.GetAll();
-                cb.DataSource = curriculums;
-                cb.ValueMember = "Id";
-                cb.DisplayMember = "Description";
-                cb.SelectedIndex = 0;
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-        }
-
-        public static async void LoadCurriculums(ComboBox cb, ApplicationCore.Model.Curriculum curr)
-        {
-            try
-            {
-                var service = new ApplicationCore.Services.CurriculumService();
-                var curriculums = await service.GetAll();
-                cb.DataSource = curriculums;
-                cb.ValueMember = "Id";
-                cb.DisplayMember = "Description";
-                cb.SelectedValue = curr.Id;
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-        }
+		public static async void LoadCurriculums(IEnumerable<ApplicationCore.Model.Curriculum> curriculums, ComboBox cb)
+		{
+			try
+			{
+				var service = new ApplicationCore.Services.CurriculumService();
+				curriculums = await service.GetAll();
+				cb.DataSource = curriculums;
+				cb.ValueMember = "Id";
+				cb.DisplayMember = "Description";
+				cb.SelectedIndex = 0;
+			}
+			catch (Exception)
+			{
+				throw;
+			}
+		}
 
 		public static string EncodePassword(string password)
 		{

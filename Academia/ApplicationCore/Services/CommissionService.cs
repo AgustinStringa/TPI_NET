@@ -15,7 +15,7 @@ namespace ApplicationCore.Services
             try
             {
                 var context = new AcademiaContext();
-                return await context.Commissions.Include(c => c.Curriculum).ToListAsync();
+                return await context.Commissions.Include(c => c.Curriculum).OrderBy(c => c.IdCurriculum).ThenBy(c => c.Level).ThenBy(c => c.Description).ToListAsync();
             }
             catch (Exception e) 
             {
@@ -84,5 +84,19 @@ namespace ApplicationCore.Services
                 throw e;
             }
         }
-    }
+
+		public async Task<IEnumerable<Commission>> GetByCurriculumIdAndLevel(int id, int level)
+		{
+			try
+			{
+				var context = new AcademiaContext();
+				return await context.Commissions.Where(c => c.IdCurriculum == id && c.Level == level).ToListAsync();
+			}
+			catch (Exception e)
+			{
+				throw e;
+				return null;
+			}
+		}
+	}
 }

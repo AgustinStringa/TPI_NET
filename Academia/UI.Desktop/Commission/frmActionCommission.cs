@@ -11,137 +11,151 @@ using System.Windows.Forms;
 
 namespace UI.Desktop.Commission
 {
-    public partial class frmActionCommission : Form
-    {
-        private Mode mode;
-        public ApplicationCore.Model.Commission commission;
-        public frmActionCommission(Mode mode)
-        {
-            this.mode = mode;
-            InitializeComponent();
-            switch (mode)
-            {
-                case Mode.Create:
-                    btnActionCommission.Text = "Crear comisión";
-                    lblId.Visible = false;
-                    txtId.Visible = false;
-                    lblDescriptionError.Visible = false;
-                    lblIdCurriculumError.Visible = false;
-                    lblIdError.Visible = false;
-                    Utilities.LoadCurriculums(cbCurriculum);
-                    break;
-            }
-        }
-        public frmActionCommission(Mode mode, ApplicationCore.Model.Commission comm)
-        {
-            this.commission = comm;
-            InitializeComponent();
-            Utilities.LoadCurriculums(cbCurriculum, comm.Curriculum);
-            this.mode = mode;
-            switch (mode)
-            {
-                case Mode.Edit:
-                    btnActionCommission.Text = "Guardar comisión";
-                    lblId.Visible = false;
-                    lblDescriptionError.Visible = false;
-                    lblIdCurriculumError.Visible = false;
-                    lblIdError.Visible = false;
-                    txtId.Visible = false;
-                    //txtId.Text = commission.Id.ToString();
-                    txtCommissionDescription.Text = commission.Description.ToString();
-                    cbCurriculum.SelectedValue = commission.Curriculum.Id;
-                    break;
-            }
+	public partial class FrmActionCommission : Form
+	{
+		private Mode mode;
+		public ApplicationCore.Model.Commission commission;
+		public IEnumerable<ApplicationCore.Model.Curriculum> curriculums = new List<ApplicationCore.Model.Curriculum>();
+			
+		public FrmActionCommission(Mode mode)
+		{
+			this.mode = mode;
+			InitializeComponent();
+			switch (mode)
+			{
+				case Mode.Create:
+					this.Text = "Crear Comisión";
+					btnActionCommission.Text = "Crear Comisión";
+					Utilities.LoadCurriculums(curriculums, cbCurriculum);
+					break;
+			}
+		}
+		public FrmActionCommission(Mode mode, ApplicationCore.Model.Commission comm)
+		{
+			this.commission = comm;
+			InitializeComponent();
+			Utilities.LoadCurriculums(curriculums, cbCurriculum, comm.Curriculum.Id);
+			this.mode = mode;
+			switch (mode)
+			{
+				case Mode.Edit:
+					this.Text = "Editar Comisión";
+					btnActionCommission.Text = "Guardar comisión";
+					txtCommissionDescription.Text = commission.Description.ToString();
+					cbCurriculum.SelectedValue = commission.Curriculum.Id;
+					numLevel.Value = commission.Level;
+					break;
+			}
 
-        }
+		}
 
-        private async void LoadCurriculum()
-        {
-            try
-            {
-                var service = new ApplicationCore.Services.AreaService();
-                cbCurriculum.DataSource = service.GetAll();
-                cbCurriculum.ValueMember = "Id";
-                cbCurriculum.DisplayMember = "Description";
-                cbCurriculum.SelectedIndex = 0;
-            }
-            catch (Exception)
-            {
-                throw;
-            }
 
-        }
+		private async void btnActionCommission_Click(object sender, EventArgs e)
+		{
+			var level = (int)numLevel.Value;
+			string description = txtCommissionDescription.Text.Trim();
+			ApplicationCore.Model.Curriculum selectedCurriculum = (ApplicationCore.Model.Curriculum)cbCurriculum.SelectedItem;
 
-        private async void btnActionCommission_Click(object sender, EventArgs e)
-        {
-            string commissionDescription = txtCommissionDescription.Text;
+			bool validCurriculum = validateCurriculum(selectedCurriculum);
+			bool validDescription = validateDescription(description);
+			bool validLevel = validateLevel(level);
+			if (validLevel && validCurriculum && validCurriculum)
+			{
+				int idCurriculum = (int)cbCurriculum.SelectedValue;
+				var service = new ApplicationCore.Services.CommissionService();
+				if (mode == Mode.Create)
+				{
+					ApplicationCore.Model.Commission newCommission = new ApplicationCore.Model.Commission
+					{
+						Description = description,
+						Level = level,
+						IdCurriculum = idCurriculum
+					};
+					try
+					{
+						CreateCommission(newCommission, service);
+					}
+					catch (Exception ex)
+					{
+						MessageBox.Show(ex.Message);
+						throw ex;
+					}
+				}
+				else if (mode == Mode.Edit)
+				{
+					EditCommission(description, selectedCurriculum, level, service);
+				}
+			}
+		}
 
-            bool validDescription = !String.IsNullOrEmpty(commissionDescription);
-            if (!validDescription)
-            {
-                lblDescriptionError.Visible = true;
-            }
-            else
-            {
-                validDescription = true;
-                lblDescriptionError.Visible = false;
-            }
+		private async void CreateCommission(ApplicationCore.Model.Commission newCommission, ApplicationCore.Services.CommissionService service)
+		{
+			await service.Create(newCommission);
+			MessageBox.Show("Comisión " + newCommission.Description + " creada correctamente", "Crear Comisióin", MessageBoxButtons.OK, MessageBoxIcon.Information);
+			this.Dispose();
+		}
 
-            bool validCurriculum = cbCurriculum.SelectedValue != null;
+		private async void EditCommission(string description, ApplicationCore.Model.Curriculum selectedCurriculum, int level, ApplicationCore.Services.CommissionService service)
+		{
+			try
+			{
+				this.commission.Description = description;
+				this.commission.IdCurriculum = selectedCurriculum.Id;
+				this.commission.Curriculum = selectedCurriculum;
+				this.commission.Level = level;
+				await service.Update(this.commission);
+				MessageBox.Show("Comisión " + this.commission.Description + " actualizada correctamente", "Editar Comisión", MessageBoxButtons.OK, MessageBoxIcon.Information);
+				this.Dispose();
+			}
+			catch (Exception)
+			{
+				throw;
+			}
+		}
 
-            if (validDescription && validCurriculum)
-            {
-                int idCurriculum = (int)cbCurriculum.SelectedValue;
-                if (mode == Mode.Create)
-                {
-                    ApplicationCore.Model.Commission newComm = new ApplicationCore.Model.Commission
-                    {
-                        Description = commissionDescription,
-                        IdCurriculum = idCurriculum
+		private void txtCommissionDescription_KeyDown(object sender, KeyEventArgs e)
+		{
+			if (e.KeyCode == Keys.Enter)
+			{
+				btnActionCommission.PerformClick();
+			}
+		}
 
-                    };
-                    var service = new ApplicationCore.Services.CommissionService();
-                    try
-                    {
-                        CreateCommission(newComm, service);
-                    }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show(ex.Message);
-                        throw ex;
-                    }
-                }
-                else if (mode == Mode.Edit)
-                {
-                    var service = new ApplicationCore.Services.CommissionService();
-                    EditCommission(commissionDescription, idCurriculum, service);
-                }
-            }
-        }
+		private bool validateLevel(int level)
+		{
+			if (level >= 1)
+			{
+				lblLevelError.Visible = false;
+				return true;
+			}
+			lblLevelError.Visible = true;
+			return false;
+		}
 
-        private async void CreateCommission(ApplicationCore.Model.Commission newCommission, ApplicationCore.Services.CommissionService service)
-        {
+		private bool validateDescription(string description)
+		{
+			if (String.IsNullOrEmpty(description))
+			{
+				lblDescriptionError.Visible = true;
+				return false;
+			}
+			else
+			{
+				lblDescriptionError.Visible = false;
+				return true;
+			}
+		}
 
-            service.Create(newCommission);
-            MessageBox.Show(newCommission.Description + " creada correctamente");
-            this.Dispose();
-        }
+		private bool validateCurriculum(ApplicationCore.Model.Curriculum selectedCurriculum)
+		{
+			if (selectedCurriculum != null)
+			{
+				lblIdCurriculumError.Visible = false;
+				return true;
 
-        private async void EditCommission(string description, int idCurriculum, ApplicationCore.Services.CommissionService service)
-        {
-            this.commission.Description = description;
-            this.commission.IdCurriculum = idCurriculum;
-            service.Update(this.commission);
-            MessageBox.Show(this.commission.Description + " actualizada correctamente");
-            this.Dispose();
-        }
-
-        private void txtCommissionDescription_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.KeyCode == Keys.Enter)
-            {
-                btnActionCommission.PerformClick();
-            }
-        }
-    }
+			}
+			lblIdCurriculumError.Visible = true;
+			return false;
+		}
+	}
 }

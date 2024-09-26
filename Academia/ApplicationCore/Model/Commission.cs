@@ -21,7 +21,10 @@ namespace ApplicationCore.Model
         [Column("desc_comision")]
         public string Description { get; set; }
 
-        [Column("id_plan")]
+		[Column("nivel")]
+		public int Level { get; set; }
+
+		[Column("id_plan")]
         [ForeignKey("Curriculum")]
         public int IdCurriculum { get; set; }
 
