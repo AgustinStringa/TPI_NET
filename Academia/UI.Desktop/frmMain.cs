@@ -62,10 +62,10 @@ namespace UI.Desktop
 			cursadosActivosToolStripMenuItem.Visible = student;
 			administrarCursadosToolStripMenuItem.Visible = administrative;
 			cargarNotasToolStripMenuItem.Visible = administrative;
+			estadoAcademicoToolStripMenuItem.Visible = student;
 		}
 		private void especialidadesToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-
 			FrmArea appLogin = new FrmArea(this.serviceProvider);
 			appLogin.ShowDialog();
 		}
@@ -92,7 +92,7 @@ namespace UI.Desktop
 		}
 		private void inscripcionACursadoToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			frmInscripcionCursado appInscripcionCursado = new frmInscripcionCursado(this.user);
+			FrmUserCourseInscription appInscripcionCursado = new FrmUserCourseInscription(this.user);
 			appInscripcionCursado.ShowDialog();
 		}
 
@@ -119,14 +119,18 @@ namespace UI.Desktop
 		{
 			FrmCommissions appCom = new FrmCommissions();
 			appCom.ShowDialog();
-
 		}
 
 		private void cargarNotasToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			//abrir form
 			QualifyCourses appQualifyCourses = new QualifyCourses();
 			appQualifyCourses.ShowDialog();
+		}
+
+		private void estadoAcademicoToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			FrmAcademicStatus frmAcademicStatus = new FrmAcademicStatus(user);
+			frmAcademicStatus.ShowDialog();
 		}
 	}
 }

@@ -67,7 +67,7 @@
 			Controls.Add(listView1);
 			Controls.Add(btnAddTeacher);
 			Name = "FrmTeachersList";
-			Text = "TeachersList";
+			Text = "Agregar Docente";
 			ResumeLayout(false);
 		}
 

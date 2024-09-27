@@ -43,13 +43,14 @@
 			cursadosActivosToolStripMenuItem = new ToolStripMenuItem();
 			administrarCursadosToolStripMenuItem = new ToolStripMenuItem();
 			cargarNotasToolStripMenuItem = new ToolStripMenuItem();
+			estadoAcademicoToolStripMenuItem = new ToolStripMenuItem();
 			mnsPrincipal.SuspendLayout();
 			SuspendLayout();
 			// 
 			// mnsPrincipal
 			// 
 			mnsPrincipal.ImageScalingSize = new Size(20, 20);
-			mnsPrincipal.Items.AddRange(new ToolStripItem[] { mnuArchivo, usuariosToolStripMenuItem, especialidadesToolStripMenuItem, planesDeEstudioToolStripMenuItem, materiasToolStripMenuItem, comisionesToolStripMenuItem, cursadoToolStripMenuItem, cargarNotasToolStripMenuItem });
+			mnsPrincipal.Items.AddRange(new ToolStripItem[] { mnuArchivo, usuariosToolStripMenuItem, especialidadesToolStripMenuItem, planesDeEstudioToolStripMenuItem, materiasToolStripMenuItem, comisionesToolStripMenuItem, cursadoToolStripMenuItem, cargarNotasToolStripMenuItem, estadoAcademicoToolStripMenuItem });
 			mnsPrincipal.Location = new Point(0, 0);
 			mnsPrincipal.Name = "mnsPrincipal";
 			mnsPrincipal.Size = new Size(800, 24);
@@ -154,6 +155,13 @@
 			cargarNotasToolStripMenuItem.Text = "Cargar Notas";
 			cargarNotasToolStripMenuItem.Click += cargarNotasToolStripMenuItem_Click;
 			// 
+			// estadoAcademicoToolStripMenuItem
+			// 
+			estadoAcademicoToolStripMenuItem.Name = "estadoAcademicoToolStripMenuItem";
+			estadoAcademicoToolStripMenuItem.Size = new Size(117, 20);
+			estadoAcademicoToolStripMenuItem.Text = "Estado Académico";
+			estadoAcademicoToolStripMenuItem.Click += estadoAcademicoToolStripMenuItem_Click;
+			// 
 			// FrmMain
 			// 
 			AutoScaleDimensions = new SizeF(7F, 15F);
@@ -193,5 +201,6 @@
         private ToolStripMenuItem administrarCursadosToolStripMenuItem;
         private ToolStripMenuItem usuariosToolStripMenuItem1;
 		private ToolStripMenuItem cargarNotasToolStripMenuItem;
+		private ToolStripMenuItem estadoAcademicoToolStripMenuItem;
 	}
 }

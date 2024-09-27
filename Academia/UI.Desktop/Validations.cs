@@ -48,24 +48,6 @@ namespace UI.Desktop
 			}
 			if (cuit.Length != 11) return false;
 			return true;
-			//int[] weights = { 5, 4, 3, 2, 7, 6, 5, 4, 3, 2 };
-
-			//// Convertir cada caracter del CUIT en un número y calcular el dígito verificador esperado
-			//int sum = 0;
-			//for (int i = 0; i < 10; i++)
-			//{
-			//    sum += (cuit[i] - '0') * weights[i];
-			//}
-
-			//int expectedCheckDigit = 11 - (sum % 11);
-
-			//// Ajustes específicos según las reglas del CUIT
-			//if (expectedCheckDigit == 11) expectedCheckDigit = 0;
-			//else if (expectedCheckDigit == 10) expectedCheckDigit = 9;
-
-			//// Compara el dígito verificador esperado con el real
-			//int actualCheckDigit = cuit[10] - '0';
-			//return expectedCheckDigit == actualCheckDigit;
 		}
 
 
@@ -73,7 +55,6 @@ namespace UI.Desktop
 		{
 			name = name.Trim();
 			name = name.Replace(".", "");
-
 
 			string pattern = @"^[a-zA-ZáéíóúÁÉÍÓÚ]+(?:\s[a-zA-ZáéíóúÁÉÍÓÚ]+)*$";
 
@@ -98,8 +79,6 @@ namespace UI.Desktop
 		{
 			string value = password.Trim();
 			string pattern = @"^[a-zA-Z0-9áéíóúÁÉÍÓÚ]+(?: [a-zA-Z0-9áéíóúÁÉÍÓÚ]+)*$";
-
-
 
 			Regex regex = new Regex(pattern);
 
@@ -137,7 +116,6 @@ namespace UI.Desktop
 				}
 			}
 
-
 			return age >= 18;
 		}
 
@@ -145,8 +123,6 @@ namespace UI.Desktop
 		{
 			var today = DateTime.Now;
 			var age = today.Year - birthDate.Year;
-
-
 
 			if (age == 18)
 			{
@@ -157,9 +133,7 @@ namespace UI.Desktop
 				}
 			}
 
-
 			return age;
-
 		}
 
 
@@ -184,7 +158,6 @@ namespace UI.Desktop
 			Regex regex = new Regex(pattern);
 
 			return regex.IsMatch(studentid);
-
 		}
 	}
 }

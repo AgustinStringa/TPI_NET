@@ -21,7 +21,7 @@ namespace UI.Desktop.Area
     public partial class FrmArea : Form
     {
         #region Fields
-        private IEnumerable<ApplicationCore.Model.Area> areasList;
+        private IEnumerable<ApplicationCore.Model.Area> areas;
         private IServiceProvider serviceProvider;
         private IAreaService _areaService;
         #endregion
@@ -39,8 +39,8 @@ namespace UI.Desktop.Area
         {
             try
             {
-                this.areasList = await _areaService.GetAllAsync();
-                AdaptAreasToListView(areasList);
+                this.areas = await _areaService.GetAllAsync();
+                AdaptAreasToListView(areas);
             }
             catch (Exception e)
             {
@@ -52,27 +52,26 @@ namespace UI.Desktop.Area
 
 
         #region Events 
-        private async void tsbtnAdd_Click(object sender, EventArgs e)
+        private void tsbtnAdd_Click(object sender, EventArgs e)
         {
             FrmActionArea frm = new FrmActionArea(Mode.Create, _areaService);
-            frm.ShowDialog();
-            lstvAreas.Items.Clear();
-            this.areasList = await _areaService.GetAllAsync();
-            AdaptAreasToListView(this.areasList);
-            lstvAreas.Refresh();
+            var result = frm.ShowDialog();
+            if (result == DialogResult.OK) {
+                LoadAreas();
+            }
         }
-        private async void tsbtnEdit_Click(object sender, EventArgs e)
+        private void tsbtnEdit_Click(object sender, EventArgs e)
         {
 
             if (lstvAreas.SelectedItems.Count > 0)
             {
                 ApplicationCore.Model.Area selectedArea = (ApplicationCore.Model.Area)lstvAreas.SelectedItems[0].Tag;
                 FrmActionArea frm = new FrmActionArea(Mode.Edit, selectedArea, _areaService);
-                frm.ShowDialog();
-                lstvAreas.Items.Clear();
-                this.areasList = await _areaService.GetAllAsync();
-                AdaptAreasToListView(areasList);
-                lstvAreas.Refresh();
+                var result = frm.ShowDialog();
+                if (result == DialogResult.OK) {
+                    LoadAreas();
+                }
+    
             }
             else
             {
@@ -88,10 +87,7 @@ namespace UI.Desktop.Area
                 {
                     ApplicationCore.Model.Area selectedArea = (ApplicationCore.Model.Area)lstvAreas.SelectedItems[0].Tag;
                     await _areaService.DeleteAsync(selectedArea.Id);
-                    lstvAreas.Items.Clear();
-                    this.areasList = await _areaService.GetAllAsync();
-                    AdaptAreasToListView(areasList);
-                    lstvAreas.Refresh();
+                    LoadAreas();
                     MessageBox.Show("Especialidad " + selectedArea.Description + " eliminada correctamente.", "Eliminar especialidad", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
                 catch (Exception ex)
@@ -111,6 +107,7 @@ namespace UI.Desktop.Area
         }
         private void AdaptAreasToListView(IEnumerable<ApplicationCore.Model.Area> areas)
         {
+            lstvAreas.Items.Clear();
             foreach (ApplicationCore.Model.Area item in areas)
             {
                 ListViewItem nuevoItem = new ListViewItem(item.Id.ToString());
@@ -118,13 +115,12 @@ namespace UI.Desktop.Area
                 nuevoItem.SubItems.Add(item.Description);
                 lstvAreas.Items.Add(nuevoItem);
             }
+            lstvAreas.Refresh();
         }
         private void txtSearchArea_TextChanged(object sender, EventArgs e)
         {
-            var areasFiltradas = this.areasList.Where(a => a.Description.ToLower().Contains(((System.Windows.Forms.TextBox)sender).Text.ToLower()));
-            lstvAreas.Items.Clear();
+            var areasFiltradas = this.areas.Where(a => a.Description.ToLower().Contains(((System.Windows.Forms.TextBox)sender).Text.ToLower()));
             AdaptAreasToListView(areasFiltradas);
-            lstvAreas.Refresh();
         }
 
         #endregion

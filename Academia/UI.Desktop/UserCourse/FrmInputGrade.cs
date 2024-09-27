@@ -33,8 +33,8 @@ namespace UI.Desktop
 				else
 				{
 					lblGradeError.Visible = false;
-					this.Close();
 					DialogResult = DialogResult.OK;
+					this.Close();
 				}
 			}
 			catch (Exception)

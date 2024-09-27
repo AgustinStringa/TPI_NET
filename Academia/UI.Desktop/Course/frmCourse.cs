@@ -14,13 +14,17 @@ namespace UI.Desktop.Course
 {
 	public partial class FrmCourse : Form
 	{
-		private IEnumerable<ApplicationCore.Model.Course> courses;
+		private IEnumerable<ApplicationCore.Model.Course> courses = [];
 		public FrmCourse()
 		{
 			InitializeComponent();
+			StylizeList();
 			LoadCourses();
 		}
 
+		private void StylizeList() {
+			Utilities.StyleListViewHeader(lstvCourses, Color.FromArgb(184, 218, 255));
+		}
 		private async void LoadCourses()
 		{
 			var service = new ApplicationCore.Services.CourseService();
@@ -41,6 +45,7 @@ namespace UI.Desktop.Course
 				nuevoItem.SubItems.Add(item.Capacity.ToString());
 				lstvCourses.Items.Add(nuevoItem);
 			}
+			lstvCourses.Refresh();
 		}
 
 		private void lstvAreas_ColumnClick(object sender, ColumnClickEventArgs e)
@@ -69,7 +74,7 @@ namespace UI.Desktop.Course
 			var result = frm.ShowDialog();
 			if (result == DialogResult.OK)
 			{
-				this.LoadCourses();
+				LoadCourses();
 			}
 		}
 
@@ -82,7 +87,7 @@ namespace UI.Desktop.Course
 				var result = frm.ShowDialog();
 				if (result == DialogResult.OK)
 				{
-					this.LoadCourses();
+					LoadCourses();
 				}
 			}
 		}

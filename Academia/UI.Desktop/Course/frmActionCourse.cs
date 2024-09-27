@@ -27,18 +27,28 @@ namespace UI.Desktop.Course
 
 		public FrmActionCourse(Mode mode)
 		{
-			InitializeComponent();
-			this.mode = mode;
-			Utilities.LoadAreas(cmbAreas);
+			if (mode == Mode.Create)
+			{
+				InitializeComponent();
+				this.mode = mode;
+				this.Text = "Crear Curso";
+				btnActionCourse.Text = "Crear Curso";
+				Utilities.LoadAreas(cmbAreas);
+			}
+			else
+			{
+				this.Dispose();
+			}
 		}
 
 		public FrmActionCourse(Mode mode, ApplicationCore.Model.Course course)
 		{
-			InitializeComponent();
-			this.mode = mode;
-			this.course = course;
 			if (this.mode == Mode.Edit)
 			{
+				InitializeComponent();
+				this.mode = mode;
+				this.course = course;
+				this.Text = "Editar Curso";
 				btnActionCourse.Text = "Guardar Curso";
 				Utilities.LoadAreas(new List<ApplicationCore.Model.Area>(), cmbAreas, course.Subject.Curriculum.AreaId);
 				txtCapacity.Text = course.Capacity.ToString();
@@ -94,7 +104,6 @@ namespace UI.Desktop.Course
 						{
 							newCourse.Teachers = this.selectedTeachers;
 						}
-						//ADD TEACHERS
 						await service.Add(newCourse);
 						MessageBox.Show("Cursado creado exitosamente", "Crear Cursado", MessageBoxButtons.OK, MessageBoxIcon.Information);
 						this.DialogResult = DialogResult.OK;
@@ -158,13 +167,11 @@ namespace UI.Desktop.Course
 				else
 				{
 					cmbCurriculums.DataSource = null;
-					//cmbCurriculums.SelectedIndex == -1
 				}
 			}
 			else
 			{
 				cmbCurriculums.DataSource = null;
-
 			}
 		}
 
@@ -175,7 +182,6 @@ namespace UI.Desktop.Course
 				ApplicationCore.Model.Curriculum selectedCurriculum = (ApplicationCore.Model.Curriculum)cmbCurriculums.SelectedItem;
 				var subjects = await (new ApplicationCore.Services.SubjectService()).GetByCurriculumId(selectedCurriculum.Id);
 
-
 				if (subjects.Count() > 0)
 				{
 					cmbSubjects.DataSource = subjects;
@@ -184,11 +190,9 @@ namespace UI.Desktop.Course
 					if (this.mode == Mode.Edit)
 					{
 						cmbSubjects.SelectedValue = course.IdSubject;
-
 					}
 					else
 					{
-
 						cmbSubjects.SelectedIndex = 0;
 					}
 				}
@@ -196,15 +200,12 @@ namespace UI.Desktop.Course
 				{
 					cmbSubjects.DataSource = null;
 				}
-
-
 			}
 			else
 			{
 				cmbSubjects.DataSource = null;
 				cmbComissions.DataSource = null;
 			}
-
 		}
 
 		private async void cmbSubjects_SelectedIndexChanged(object sender, EventArgs e)
@@ -223,12 +224,10 @@ namespace UI.Desktop.Course
 					if (this.mode == Mode.Edit)
 					{
 						cmbComissions.SelectedValue = course.IdCommission;
-
 					}
 					else
 					{
 						cmbComissions.SelectedIndex = 0;
-
 					}
 				}
 				else
@@ -240,7 +239,6 @@ namespace UI.Desktop.Course
 			{
 				cmbComissions.DataSource = null;
 			}
-
 		}
 
 		private bool validateCapacity(int capacity)
@@ -253,7 +251,6 @@ namespace UI.Desktop.Course
 			}
 			lblCapacityError.Visible = true;
 			return false;
-
 		}
 
 		private bool validateCalendarYear(string calendarYear)
@@ -290,13 +287,17 @@ namespace UI.Desktop.Course
 			var service = new UserService();
 			var teachers = await service.GetTeachers();
 			var teacherlist = new FrmTeachersList(teachers, this);
-			teacherlist.ShowDialog();
-			var exists = this.selectedTeachers.Any(t => t.Id == newTeacher.Id);
-			if (newTeacher != null && !exists)
+			var result = teacherlist.ShowDialog();
+			if (result == DialogResult.OK)
 			{
-				this.selectedTeachers.Add(newTeacher);
+				var exists = this.selectedTeachers.Any(t => t.Id == newTeacher.Id);
+				if (newTeacher != null && !exists)
+				{
+					this.selectedTeachers.Add(newTeacher);
+					FillSelectedTeachers();
+				}
+
 			}
-			FillSelectedTeachers();
 		}
 
 		private void FillSelectedTeachers()
@@ -308,6 +309,7 @@ namespace UI.Desktop.Course
 				newItem.Tag = item;
 				lstSelectedTeachers.Items.Add(newItem);
 			}
+			lstSelectedTeachers.Refresh();
 		}
 
 		private void btnDeleteTeacher_Click(object sender, EventArgs e)
@@ -316,8 +318,8 @@ namespace UI.Desktop.Course
 			{
 				ApplicationCore.Model.User teacherToDelete = (ApplicationCore.Model.User)lstSelectedTeachers.SelectedItems[0].Tag;
 				this.selectedTeachers = this.selectedTeachers.Where(t => t.Id != teacherToDelete.Id).ToList();
+				FillSelectedTeachers();
 			}
-			FillSelectedTeachers();
 		}
 	}
 }

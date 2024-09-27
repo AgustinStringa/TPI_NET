@@ -1,6 +1,6 @@
 ﻿namespace UI.Desktop
 {
-    partial class frmMisMaterias
+    partial class FrmAcademicStatus
     {
         /// <summary>
         /// Required designer variable.

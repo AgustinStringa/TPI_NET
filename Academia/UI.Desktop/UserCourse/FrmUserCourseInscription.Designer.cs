@@ -1,6 +1,6 @@
 ﻿namespace UI.Desktop
 {
-    partial class frmInscripcionCursado
+    partial class FrmUserCourseInscription
     {
         /// <summary>
         /// Required designer variable.

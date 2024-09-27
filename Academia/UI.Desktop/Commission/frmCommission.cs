@@ -17,7 +17,7 @@ namespace UI.Desktop.Commission
 {
 	public partial class FrmCommissions : Form
 	{
-		private IEnumerable<ApplicationCore.Model.Commission> commissionsList = [];
+		private IEnumerable<ApplicationCore.Model.Commission> commissions = [];
 		public FrmCommissions()
 		{
 			InitializeComponent();
@@ -26,6 +26,7 @@ namespace UI.Desktop.Commission
 
 		private void AdaptCommissionToListView(IEnumerable<ApplicationCore.Model.Commission> commissionList)
 		{
+			lstvCommission.Items.Clear();
 			foreach (ApplicationCore.Model.Commission item in commissionList)
 			{
 				ListViewItem nuevoItem = new ListViewItem(item.Curriculum.Description.ToString());
@@ -34,6 +35,7 @@ namespace UI.Desktop.Commission
 				nuevoItem.SubItems.Add(item.Description);
 				lstvCommission.Items.Add(nuevoItem);
 			}
+			lstvCommission.Refresh();
 		}
 
 		private async void LoadCommissions()
@@ -41,8 +43,8 @@ namespace UI.Desktop.Commission
 			try
 			{
 				var service = new ApplicationCore.Services.CommissionService();
-				this.commissionsList = await service.GetAll();
-				AdaptCommissionToListView(this.commissionsList);
+				this.commissions = await service.GetAll();
+				AdaptCommissionToListView(this.commissions);
 			}
 			catch (Exception e)
 			{
@@ -51,36 +53,33 @@ namespace UI.Desktop.Commission
 			}
 		}
 
-		private async void tsbtnAdd_Click(object sender, EventArgs e)
+		private void tsbtnAdd_Click(object sender, EventArgs e)
 		{
 			FrmActionCommission frm = new FrmActionCommission(Mode.Create);
-			frm.ShowDialog();
-			var service = new ApplicationCore.Services.CommissionService();
-			lstvCommission.Items.Clear();
-			AdaptCommissionToListView(await service.GetAll());
-			lstvCommission.Refresh();
-			lstvCommission.Items.Clear();
-			LoadCommissions();
+			var result = frm.ShowDialog();
+			if (result == DialogResult.OK)
+			{
+				LoadCommissions();
+			}
+
 		}
 
-		private async void tsbtnEdit_Click(object sender, EventArgs e)
+		private void tsbtnEdit_Click(object sender, EventArgs e)
 		{
 			if (lstvCommission.SelectedItems.Count > 0)
 			{
 				var selectedCommission = (ApplicationCore.Model.Commission)lstvCommission.SelectedItems[0].Tag;
 				var service = new ApplicationCore.Services.CommissionService();
 				FrmActionCommission frm = new FrmActionCommission(Mode.Edit, selectedCommission);
-				frm.ShowDialog();
-				lstvCommission.Items.Clear();
-				lstvCommission.Refresh();
-				AdaptCommissionToListView(await service.GetAll());
-				lstvCommission.Refresh();
-				lstvCommission.Items.Clear();
-				LoadCommissions();
+				var result = frm.ShowDialog();
+				if (result == DialogResult.OK)
+				{
+					LoadCommissions();
+				}
 			}
 			else
 			{
-				MessageBox.Show("Seleccione una comisión antes de editar","Editar Comisión", MessageBoxButtons.OK, MessageBoxIcon.Information);
+				MessageBox.Show("Seleccione una comisión antes de editar", "Editar Comisión", MessageBoxButtons.OK, MessageBoxIcon.Information);
 			}
 		}
 
@@ -88,12 +87,17 @@ namespace UI.Desktop.Commission
 		{
 			if (lstvCommission.SelectedItems.Count > 0)
 			{
-				ApplicationCore.Model.Commission selectedCommission = (ApplicationCore.Model.Commission)lstvCommission.SelectedItems[0].Tag;
-				ApplicationCore.Services.CommissionService service = new ApplicationCore.Services.CommissionService();
-				service.Delete(selectedCommission.Id);
-				lstvCommission.Items.Clear();
-				AdaptCommissionToListView(await service.GetAll());
-				lstvCommission.Refresh();
+				try
+				{
+					ApplicationCore.Model.Commission selectedCommission = (ApplicationCore.Model.Commission)lstvCommission.SelectedItems[0].Tag;
+					ApplicationCore.Services.CommissionService service = new ApplicationCore.Services.CommissionService();
+					await service.Delete(selectedCommission.Id);
+					LoadCommissions();
+				}
+				catch (Exception)
+				{
+					throw;
+				}
 			}
 			else
 			{
@@ -103,10 +107,8 @@ namespace UI.Desktop.Commission
 
 		private void txtSearch_TextChanged(object sender, EventArgs e)
 		{
-			var commissionsFiltered = this.commissionsList.Where(a => a.Description.ToLower().Contains(((System.Windows.Forms.TextBox)sender).Text.ToLower()));
-			lstvCommission.Items.Clear();
+			var commissionsFiltered = this.commissions.Where(a => a.Description.ToLower().Contains(((System.Windows.Forms.TextBox)sender).Text.ToLower()));
 			AdaptCommissionToListView(commissionsFiltered);
-			lstvCommission.Refresh();
 		}
 
 	}

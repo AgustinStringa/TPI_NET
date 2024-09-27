@@ -11,12 +11,12 @@ using System.Windows.Forms;
 using ApplicationCore.Model;
 namespace UI.Desktop
 {
-	public partial class frmInscripcionCursado : Form
+	public partial class FrmUserCourseInscription : Form
 	{
 		private ApplicationCore.Model.User user;
 		private IEnumerable<ApplicationCore.Model.Course> courses;
 		private List<ApplicationCore.Model.Subject> subjects = new List<ApplicationCore.Model.Subject>();
-		public frmInscripcionCursado(ApplicationCore.Model.User user)
+		public FrmUserCourseInscription(ApplicationCore.Model.User user)
 		{
 			this.user = user;
 			InitializeComponent();

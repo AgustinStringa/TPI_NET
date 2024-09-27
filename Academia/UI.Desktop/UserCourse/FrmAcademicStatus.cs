@@ -10,12 +10,14 @@ using System.Windows.Forms;
 
 namespace UI.Desktop
 {
-    public partial class frmMisMaterias : Form
+    public partial class FrmAcademicStatus : Form
     {
-        public frmMisMaterias()
+        public FrmAcademicStatus(ApplicationCore.Model.User user)
         {
             InitializeComponent();
-            lblName.Text = "Nombre Alumno a las " + DateTime.Now.ToString();
+            lblName.Text = $"{user.Name} {user.Lastname} ({user.StudentId}) a las  {DateTime.Now.ToString()}";
+            //traer todos los userCourse
+            //mostrar en la grilla ¿Solo lectura?
             var nuevo = new ListViewItem("Administración de Sistemas de Información (Integradora)");
             nuevo.SubItems.Add("Aprobada");
             nuevo.SubItems.Add("7");

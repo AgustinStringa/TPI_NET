@@ -18,7 +18,6 @@ namespace UI.Desktop
 		{
 			InitializeComponent();
 			LoadUsers();
-			//Cargar alumnos con su plan de estudio y su especialidad
 		}
 
 		private void AdaptUsersToListView(IEnumerable<ApplicationCore.Model.User> users)
@@ -28,7 +27,7 @@ namespace UI.Desktop
 			{
 				ListViewItem item = new ListViewItem(user.Curriculum.Area.Description);
 				item.Tag = user;
-				item.SubItems.Add(user.Name + " " + user.Name);
+				item.SubItems.Add(user.Name + " " + user.Lastname);
 				lstUsers.Items.Add(item);
 			}
 			lstUsers.Refresh();
@@ -50,7 +49,6 @@ namespace UI.Desktop
 
 		private async void lstUsers_SelectedIndexChanged(object sender, EventArgs e)
 		{
-			//get selected users
 			if (lstUsers.SelectedItems.Count == 1)
 			{
 				var selectedUser = lstUsers.SelectedItems[0].Tag as ApplicationCore.Model.User;

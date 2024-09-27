@@ -98,15 +98,17 @@ namespace ApplicationCore.Services
 				var existingCourse = await context.Courses.Include(c => c.Teachers).FirstOrDefaultAsync(c => c.Id == course.Id);
 				if (existingCourse != null)
 				{
-					await context.Database.ExecuteSqlRawAsync(
-			"DELETE FROM docentes_cursos WHERE id_curso = {0}", course.Id);
-					existingCourse.Teachers.Clear();
+			//		await context.Database.ExecuteSqlRawAsync(
+			//"DELETE FROM docentes_cursos WHERE id_curso = {0}", course.Id);
+					//existingCourse.Teachers.Clear();
 					context.Courses.Remove(existingCourse);
+					//Validate REFERENCE FK
 					await context.SaveChangesAsync();
 				}
 			}
 			catch (Exception e)
 			{
+				//manejar eliminacion de cursado con inscripciones
 				throw;
 			}
 		}

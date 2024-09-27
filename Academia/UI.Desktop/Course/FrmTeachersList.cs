@@ -20,6 +20,7 @@ namespace UI.Desktop.Course
 			InitializeComponent();
 			this.teacherList = teacherList;
 			this.Parent = parent;
+			Utilities.StyleListViewHeader(listView1, Color.FromArgb(184, 218, 255));
 			FillTeachers();
 		}
 
@@ -43,7 +44,8 @@ namespace UI.Desktop.Course
 				if (selectedTeacher != null)
 				{
 					this.Parent.newTeacher = selectedTeacher;
-					this.Dispose();
+					DialogResult = DialogResult.OK;
+					this.Close();
 				}
 			}
 
