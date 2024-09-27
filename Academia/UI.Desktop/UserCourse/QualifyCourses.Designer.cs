@@ -72,6 +72,7 @@
 			lstUserCourses.TabIndex = 1;
 			lstUserCourses.UseCompatibleStateImageBehavior = false;
 			lstUserCourses.View = View.Details;
+			lstUserCourses.SelectedIndexChanged += lstUserCourses_SelectedIndexChanged_1;
 			// 
 			// columnHeader3
 			// 
@@ -128,7 +129,7 @@
 			Controls.Add(lstUserCourses);
 			Controls.Add(lstUsers);
 			Name = "QualifyCourses";
-			Text = "QualifyCourses";
+			Text = "Cargar Notas";
 			ResumeLayout(false);
 			PerformLayout();
 		}

@@ -40,7 +40,7 @@ namespace UI.Desktop
 				ListViewItem item = new ListViewItem(userCourse.Course.Subject.Description);
 				item.Tag = userCourse;
 				item.SubItems.Add(userCourse.Course.Commission.Description);
-				var grade = userCourse.Grade.ToString() != null ? userCourse.Grade.ToString() : "-";
+				var grade = userCourse.Grade.ToString() != "" ? userCourse.Grade.ToString() : "-";
 				item.SubItems.Add(grade);
 				lstUserCourses.Items.Add(item);
 			}
@@ -58,17 +58,6 @@ namespace UI.Desktop
 			}
 		}
 
-		private void lstUserCourses_SelectedIndexChanged(object sender, EventArgs e)
-		{
-			if (lstUserCourses.SelectedItems.Count == 1)
-			{
-				btnLoadGrade.Enabled = true;
-			}
-			else
-			{
-				btnLoadGrade.Enabled = false;
-			}
-		}
 
 		private async void LoadUsers()
 		{
@@ -101,5 +90,16 @@ namespace UI.Desktop
 			}
 		}
 
+		private void lstUserCourses_SelectedIndexChanged_1(object sender, EventArgs e)
+		{
+			if (lstUserCourses.SelectedItems.Count == 1)
+			{
+				btnLoadGrade.Enabled = true;
+			}
+			else
+			{
+				btnLoadGrade.Enabled = false;
+			}
+		}
 	}
 }

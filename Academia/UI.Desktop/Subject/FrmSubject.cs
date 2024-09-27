@@ -22,6 +22,7 @@ namespace UI.Desktop.Subject
 		public FrmSubject()
 		{
 			InitializeComponent();
+			Utilities.StyleListViewHeader(lstSubjects, Color.FromArgb(184, 218, 255));
 			LoadSubjects();
 		}
 		#region events

@@ -15,11 +15,10 @@ namespace ApplicationCore.Services
             try
             {
                 var context = new AcademiaContext();
-                return context.Areas.Include(a => a.Curriculums).ToList();
+                return await context.Areas.Include(a => a.Curriculums).ToListAsync();
             }
             catch (Exception e)
             {
-                return null;
                 throw e;
             }
         }
@@ -79,7 +78,6 @@ namespace ApplicationCore.Services
             }
             catch (Exception e)
             {
-                return null;
                 throw e;
             }
 

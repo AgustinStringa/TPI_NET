@@ -21,6 +21,7 @@ namespace UI.Desktop.Commission
 		public FrmCommissions()
 		{
 			InitializeComponent();
+			Utilities.StyleListViewHeader(lstvCommission, Color.FromArgb(184, 218, 255));
 			LoadCommissions();
 		}
 

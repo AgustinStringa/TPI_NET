@@ -19,6 +19,7 @@ namespace UI.Desktop.Curriculum
 		public FrmCurriculum()
 		{
 			InitializeComponent();
+			Utilities.StyleListViewHeader(lstvCurriculum, Color.FromArgb(184, 218, 255));
 			LoadCurriculums();
 		}
 		#region Methods

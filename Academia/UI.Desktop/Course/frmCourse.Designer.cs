@@ -146,7 +146,7 @@
 			Controls.Add(lstvCourses);
 			Controls.Add(toolStrip1);
 			Name = "FrmCourse";
-			Text = "frmCourse";
+			Text = "Cursados";
 			toolStrip1.ResumeLayout(false);
 			toolStrip1.PerformLayout();
 			ResumeLayout(false);
