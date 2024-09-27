@@ -42,14 +42,14 @@
 			inscripcionACursadoToolStripMenuItem = new ToolStripMenuItem();
 			cursadosActivosToolStripMenuItem = new ToolStripMenuItem();
 			administrarCursadosToolStripMenuItem = new ToolStripMenuItem();
-			calificarCursadosToolStripMenuItem = new ToolStripMenuItem();
+			cargarNotasToolStripMenuItem = new ToolStripMenuItem();
 			mnsPrincipal.SuspendLayout();
 			SuspendLayout();
 			// 
 			// mnsPrincipal
 			// 
 			mnsPrincipal.ImageScalingSize = new Size(20, 20);
-			mnsPrincipal.Items.AddRange(new ToolStripItem[] { mnuArchivo, usuariosToolStripMenuItem, especialidadesToolStripMenuItem, planesDeEstudioToolStripMenuItem, materiasToolStripMenuItem, comisionesToolStripMenuItem, cursadoToolStripMenuItem });
+			mnsPrincipal.Items.AddRange(new ToolStripItem[] { mnuArchivo, usuariosToolStripMenuItem, especialidadesToolStripMenuItem, planesDeEstudioToolStripMenuItem, materiasToolStripMenuItem, comisionesToolStripMenuItem, cursadoToolStripMenuItem, cargarNotasToolStripMenuItem });
 			mnsPrincipal.Location = new Point(0, 0);
 			mnsPrincipal.Name = "mnsPrincipal";
 			mnsPrincipal.Size = new Size(800, 24);
@@ -121,7 +121,7 @@
 			// 
 			// cursadoToolStripMenuItem
 			// 
-			cursadoToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { inscripcionACursadoToolStripMenuItem, cursadosActivosToolStripMenuItem, administrarCursadosToolStripMenuItem, calificarCursadosToolStripMenuItem });
+			cursadoToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { inscripcionACursadoToolStripMenuItem, cursadosActivosToolStripMenuItem, administrarCursadosToolStripMenuItem });
 			cursadoToolStripMenuItem.Name = "cursadoToolStripMenuItem";
 			cursadoToolStripMenuItem.Size = new Size(68, 20);
 			cursadoToolStripMenuItem.Text = "Cursados";
@@ -147,11 +147,12 @@
 			administrarCursadosToolStripMenuItem.Text = "Administrar Cursados";
 			administrarCursadosToolStripMenuItem.Click += administrarCursadosToolStripMenuItem_Click;
 			// 
-			// calificarCursadosToolStripMenuItem
+			// cargarNotasToolStripMenuItem
 			// 
-			calificarCursadosToolStripMenuItem.Name = "calificarCursadosToolStripMenuItem";
-			calificarCursadosToolStripMenuItem.Size = new Size(188, 22);
-			calificarCursadosToolStripMenuItem.Text = "Calificar Cursados";
+			cargarNotasToolStripMenuItem.Name = "cargarNotasToolStripMenuItem";
+			cargarNotasToolStripMenuItem.Size = new Size(88, 20);
+			cargarNotasToolStripMenuItem.Text = "Cargar Notas";
+			cargarNotasToolStripMenuItem.Click += cargarNotasToolStripMenuItem_Click;
 			// 
 			// FrmMain
 			// 
@@ -191,6 +192,6 @@
         private ToolStripMenuItem cursadosActivosToolStripMenuItem;
         private ToolStripMenuItem administrarCursadosToolStripMenuItem;
         private ToolStripMenuItem usuariosToolStripMenuItem1;
-		private ToolStripMenuItem calificarCursadosToolStripMenuItem;
+		private ToolStripMenuItem cargarNotasToolStripMenuItem;
 	}
 }

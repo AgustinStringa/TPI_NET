@@ -61,7 +61,7 @@ namespace UI.Desktop
 			inscripcionACursadoToolStripMenuItem.Visible = student;
 			cursadosActivosToolStripMenuItem.Visible = student;
 			administrarCursadosToolStripMenuItem.Visible = administrative;
-			calificarCursadosToolStripMenuItem.Visible = administrative;
+			cargarNotasToolStripMenuItem.Visible = administrative;
 		}
 		private void especialidadesToolStripMenuItem_Click(object sender, EventArgs e)
 		{
@@ -120,6 +120,13 @@ namespace UI.Desktop
 			FrmCommissions appCom = new FrmCommissions();
 			appCom.ShowDialog();
 
+		}
+
+		private void cargarNotasToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			//abrir form
+			QualifyCourses appQualifyCourses = new QualifyCourses();
+			appQualifyCourses.ShowDialog();
 		}
 	}
 }
