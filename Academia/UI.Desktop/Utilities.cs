@@ -110,5 +110,42 @@ namespace UI.Desktop
 
 			return stringBuilder.ToString().Normalize(NormalizationForm.FormC);
 		}
+
+		public static void StyleListViewHeader(ListView list, Color color)
+		{
+
+
+			void listView1_DrawColumnHeader(object sender, DrawListViewColumnHeaderEventArgs e)
+			{
+				using (Brush headerBrush = new SolidBrush(color))
+				{
+					e.Graphics.FillRectangle(headerBrush, e.Bounds); 
+				}
+				TextRenderer.DrawText(e.Graphics, e.Header.Text, e.Font, e.Bounds, Color.Black, TextFormatFlags.HorizontalCenter | TextFormatFlags.VerticalCenter);
+
+				using (Pen dividerPen = new Pen(Color.Gray, 1)) 
+				{
+					e.Graphics.DrawLine(dividerPen, e.Bounds.Right - 1, e.Bounds.Top, e.Bounds.Right - 1, e.Bounds.Bottom);
+				}
+				e.DrawDefault = false;
+			}
+
+			void listView1_DrawItem(object sender, DrawListViewItemEventArgs e)
+			{
+				e.DrawDefault = true;
+			}
+
+			void listView1_DrawSubItem(object sender, DrawListViewSubItemEventArgs e)
+			{
+				e.DrawDefault = true;
+			}
+
+			list.OwnerDraw = true;
+			list.DrawColumnHeader += listView1_DrawColumnHeader;
+			list.View = View.Details;
+			list.FullRowSelect = true;
+			list.DrawItem += listView1_DrawItem;
+			list.DrawSubItem += listView1_DrawSubItem;
+		}
 	}
 }
