@@ -31,6 +31,10 @@ namespace ApplicationCore.Services
 			try
 			{
 				var context = new AcademiaContext();
+				if (curriculum.Area == null)
+				{
+					curriculum.Area = await context.Areas.FindAsync(curriculum.AreaId);
+				}
 				await context.Curriculums.AddAsync(curriculum);
 				await context.SaveChangesAsync();
 			}
@@ -49,6 +53,16 @@ namespace ApplicationCore.Services
 				var existingCurriculum = await context.Curriculums.FindAsync(curriculum.Id);
 				if (existingCurriculum != null)
 				{
+					await context.Entry(existingCurriculum).Collection(c => c.Subjects).LoadAsync();
+					if (existingCurriculum.Subjects.Count > 0)
+					{
+						//no se puede modificar la especialidad de un plan con materias asociadas
+						throw new Exception();
+					}
+					if (curriculum.Area == null)
+					{
+						curriculum.Area = await context.Areas.FindAsync(curriculum.AreaId);
+					}
 					context.Entry(existingCurriculum).CurrentValues.SetValues(curriculum);
 					await context.SaveChangesAsync();
 				}

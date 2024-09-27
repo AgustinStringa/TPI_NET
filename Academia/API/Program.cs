@@ -45,6 +45,7 @@ namespace API
             builder.Services.AddAuthorizationBuilder();
 			builder.Services.AddScoped<AreaService>();
 			builder.Services.AddScoped<CurriculumService>();
+			builder.Services.AddScoped<SubjectService>();
 			var app = builder.Build();
     app.UseAuthentication();
             app.UseAuthorization();

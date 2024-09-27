@@ -31,7 +31,7 @@ namespace ApplicationCore.Model
         [ForeignKey("Curriculum")]
         public int IdCurriculum { get; set; }
 
-        public virtual Curriculum Curriculum { get; set; }
+        public virtual Curriculum? Curriculum { get; set; }
 
         public virtual ICollection<Course> Courses { get; set; } = new List<Course>();
         public ICollection<Correlative> CorrelativesParents { get; set; } = new List<Correlative>();

@@ -30,6 +30,9 @@ namespace ApplicationCore.Services
 			try
 			{
 				var context = new AcademiaContext();
+				if (subject.Curriculum == null) {
+					subject.Curriculum = await context.Curriculums.FindAsync(subject.IdCurriculum);
+				}
 				await context.Subjects.AddAsync(subject);
 				await context.SaveChangesAsync();
 			}
@@ -47,6 +50,16 @@ namespace ApplicationCore.Services
 				var existingSubject = await context.Subjects.FindAsync(subject.Id);
 				if (existingSubject != null)
 				{
+					await context.Entry(existingSubject).Collection(c => c.Courses).LoadAsync();
+
+					if (existingSubject.Courses.Count > 0) {
+						//no se puede modificar el plan de estudios de una materia con cursos
+						throw new Exception();
+					}
+					if (existingSubject.Curriculum == null)
+					{
+						existingSubject.Curriculum = await context.Curriculums.FindAsync(subject.IdCurriculum);
+					}
 					context.Entry(existingSubject).CurrentValues.SetValues(subject);
 					await context.SaveChangesAsync();
 				}
@@ -113,6 +126,21 @@ namespace ApplicationCore.Services
 				var context = new AcademiaContext();
 				var subjects = await context.Subjects.Where(s => s.IdCurriculum == id).ToListAsync();
 				return subjects;
+			}
+			catch (Exception)
+			{
+				throw;
+			}
+
+		}
+
+		public async Task<Subject> GetById(int id)
+		{
+			try
+			{
+				var context = new AcademiaContext();
+				var subject = await context.Subjects.FindAsync(id);
+				return subject;
 			}
 			catch (Exception)
 			{
