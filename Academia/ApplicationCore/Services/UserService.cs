@@ -128,5 +128,17 @@ namespace ApplicationCore.Services
 			return await context.Users.Where(u => u.UserType == 2).ToListAsync();
 		}
 
+		public async Task<IEnumerable<ApplicationCore.Model.User>> GetStudents()
+		{
+			var context = new AcademiaContext();
+			var students = await context.Users.Where(u => u.UserType == 3).Include(u => u.Curriculum).ToListAsync();
+			foreach (var student in students)
+			{
+				var curriculum = student.Curriculum;
+				await context.Entry(curriculum).Reference(c => c.Area).LoadAsync();
+			}
+			return students;
+		}
+
 	}
 }

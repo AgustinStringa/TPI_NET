@@ -31,7 +31,7 @@ namespace ApplicationCore.Model
         public string ToStringProperty {  get => this.ToString(); }
         public override string ToString()
         {
-            return $"Cursado {Id} idComision {CalendarYear} ";
+            return $"{Commission.Description} {CalendarYear} ";
         }
         public virtual ICollection<UserCourse> UserCourses { get; set; } = new List<UserCourse>();
 

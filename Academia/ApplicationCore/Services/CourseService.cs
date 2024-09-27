@@ -19,6 +19,7 @@ namespace ApplicationCore.Services
 			foreach (var course in courses)
 			{
 				await context.Entry(course).Reference(c => c.Subject).LoadAsync();
+				await context.Entry(course).Reference(c => c.Commission).LoadAsync();
 			}
 			return courses;
 		}
