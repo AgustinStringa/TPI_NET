@@ -1,4 +1,5 @@
 using API.Helpers;
+using ApplicationCore.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
@@ -42,7 +43,9 @@ namespace API
         };
     });
             builder.Services.AddAuthorizationBuilder();
-            var app = builder.Build();
+			builder.Services.AddScoped<AreaService>();
+			builder.Services.AddScoped<CurriculumService>();
+			var app = builder.Build();
     app.UseAuthentication();
             app.UseAuthorization();
             app.UseSwagger();
