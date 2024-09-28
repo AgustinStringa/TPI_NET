@@ -16,7 +16,6 @@ namespace API.Controllers
 			this.subjectService = subjectService;
 		}
 
-
 		[HttpGet]
 		public async Task<ActionResult<IEnumerable<Subject>>> GetAll()
 		{
@@ -124,5 +123,26 @@ namespace API.Controllers
 			}
 		}
 
+		[HttpGet("curriculum-id/{id}")]
+		public async Task<ActionResult<IEnumerable<Subject>>> GetByCurriculumId(int id)
+		{
+			try
+			{
+				var subjects = await subjectService.GetByCurriculumId(id);
+				if (subjects == null)
+				{
+					return NotFound();
+				}
+				else
+				{
+					return Ok(subjects);
+				}
+			}
+			catch (Exception e)
+			{
+				return StatusCode(500, new { message = e.Message });
+				throw e;
+			}
+		}
 	}
 }

@@ -40,7 +40,7 @@ namespace API.Controllers
 				}
 				else
 				{
-					return curriculum;
+					return Ok(curriculum);
 				}
 			}
 			catch (Exception e)
@@ -121,5 +121,28 @@ namespace API.Controllers
 				throw e;
 			}
 		}
+
+		[HttpGet("area-id/{id}")]
+		public async Task<ActionResult<IEnumerable<Curriculum>>> GetByAreaId(int id)
+		{
+			try
+			{
+				var curriculums = await curriculumService.GetByAreaId(id);
+				if (curriculums == null)
+				{
+					return NotFound();
+				}
+				else
+				{
+					return Ok(curriculums);
+				}
+			}
+			catch (Exception e)
+			{
+				return StatusCode(500, new { message = e.Message });
+				throw e;
+			}
+		}
+
 	}
 }

@@ -17,11 +17,19 @@ namespace ApplicationCore.Services
 		{
 			var context = new AcademiaContext();
 			var subjects = await context.Subjects.Include(s => s.Curriculum).OrderBy(s => s.IdCurriculum).ThenBy(c => c.Level).ToListAsync();
-			foreach (var subject in subjects)
-			{
-				await context.Entry(subject).Collection(c => c.CorrelativesParents).LoadAsync();
-				await context.Entry(subject).Collection(c => c.CorrelativesChildren).LoadAsync();
-			}
+			subjects = subjects.Select(
+				s =>
+				new Subject
+				{
+					Id = s.Id,
+					Description = s.Description,
+					WeeklyHours = s.WeeklyHours,
+					TotalHours = s.TotalHours,
+					Level = s.Level,
+					IdCurriculum = s.IdCurriculum,
+					Curriculum = new Curriculum { Id = s.Curriculum.Id, Description = s.Curriculum.Description },
+				}
+				).ToList();
 			return subjects;
 		}
 
@@ -30,7 +38,8 @@ namespace ApplicationCore.Services
 			try
 			{
 				var context = new AcademiaContext();
-				if (subject.Curriculum == null) {
+				if (subject.Curriculum == null)
+				{
 					subject.Curriculum = await context.Curriculums.FindAsync(subject.IdCurriculum);
 				}
 				await context.Subjects.AddAsync(subject);
@@ -52,7 +61,8 @@ namespace ApplicationCore.Services
 				{
 					await context.Entry(existingSubject).Collection(c => c.Courses).LoadAsync();
 
-					if (subject.IdCurriculum != existingSubject.IdCurriculum &&  existingSubject.Courses.Count > 0) {
+					if (subject.IdCurriculum != existingSubject.IdCurriculum && existingSubject.Courses.Count > 0)
+					{
 						//no se puede modificar el plan de estudios de una materia con cursos
 						throw new Exception();
 					}
