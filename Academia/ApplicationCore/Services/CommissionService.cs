@@ -8,82 +8,113 @@ using ApplicationCore.Model;
 
 namespace ApplicationCore.Services
 {
-    public class CommissionService
-    {
-        public async Task<IEnumerable<Commission>> GetAll()
-        {
-            try
-            {
-                var context = new AcademiaContext();
-                return await context.Commissions.Include(c => c.Curriculum).OrderBy(c => c.IdCurriculum).ThenBy(c => c.Level).ThenBy(c => c.Description).ToListAsync();
-            }
-            catch (Exception e) 
-            {
-                return null;
-                throw e;
-            }
-        }
+	public class CommissionService
+	{
+		public async Task<IEnumerable<Commission>> GetAll()
+		{
+			try
+			{
+				var context = new AcademiaContext();
+				return await context.Commissions.Include(c => c.Curriculum)
+					.Select(c => new Commission
+					{
+						Id = c.Id,
+						Description = c.Description,
+						Level = c.Level,
+						IdCurriculum = c.IdCurriculum,
+						Curriculum = new Curriculum
+						{
+							Id = c.Curriculum.Id,
+							Description = c.Curriculum.Description,
+							Year = c.Curriculum.Year,
+							Resolution = c.Curriculum.Resolution,
+							AreaId = c.Curriculum.AreaId
+						}
+					})
+					.OrderBy(c => c.IdCurriculum).ThenBy(c => c.Level).ThenBy(c => c.Description).ToListAsync();
+			}
+			catch (Exception e)
+			{
+				throw e;
+			}
+		}
 
-        public async Task Create(Commission commission)
-        {
-            try
-            {
-                var context = new AcademiaContext();
-                await context.Commissions.AddAsync(commission);
-                await context.SaveChangesAsync();
-            }
-            catch (Exception e)
-            {
-                throw e;
-            }
-        }
+		public async Task Create(Commission commission)
+		{
+			try
+			{
+				var context = new AcademiaContext();
+				var curriculum = await context.Curriculums.FindAsync(commission.IdCurriculum);
+				commission.Curriculum = curriculum;
+				await context.Commissions.AddAsync(commission);
+				await context.SaveChangesAsync();
+			}
+			catch (Exception e)
+			{
+				throw e;
+			}
+		}
 
-        public async Task Update(Commission commission)
-        {
-            var context = new AcademiaContext();
-            try
-            {
-                context.Commissions.Update(commission);
-                await context.SaveChangesAsync();
-            }
-            catch (Exception e)
-            {
-                throw e;
-            }
-        }
+		public async Task Update(Commission commission)
+		{
+			try
+			{
+				var context = new AcademiaContext();
+				var existingCommission = await context.Commissions.FindAsync(commission.Id);
+				if (existingCommission != null)
+				{
+					await context.Entry(existingCommission).Collection(c => c.Courses).LoadAsync();
+					if (commission.IdCurriculum != existingCommission.IdCurriculum && existingCommission.Courses.Count > 0)
+					{
+						//no se puede modificar el plan de estudios de una materia con cursos asociados
+						throw new Exception();
+					}
+					if (commission.Curriculum == null)
+					{
+						commission.Curriculum = await context.Curriculums.FindAsync(commission.IdCurriculum);
+					}
+					context.Entry(existingCommission).CurrentValues.SetValues(commission);
+					context.Commissions.Update(existingCommission);
+					await context.SaveChangesAsync();
+				}
+			}
+			catch (Exception e)
+			{
+				throw e;
+			}
+		}
 
-        public async Task Delete(int id)
-        {
-            try
-            {
-                var context = new AcademiaContext();
-                var commission = await context.Commissions.FindAsync(id);
-                if (commission != null)
-                {
-                    context.Commissions.Remove(commission);
-                    await context.SaveChangesAsync();
-                }
-            }
-            catch (Exception e)
-            {
-                throw e;
-            }
-        }
+		public async Task Delete(int id)
+		{
+			try
+			{
+				var context = new AcademiaContext();
+				var commission = await context.Commissions.FindAsync(id);
+				if (commission != null)
+				{
+					context.Commissions.Remove(commission);
+					await context.SaveChangesAsync();
+				}
+			}
+			catch (Exception e)
+			{
+				throw e;
+			}
+		}
 
-        public async Task<Commission> GetById(int id)
-        {
-            try
-            {
-                var context = new AcademiaContext();
-                var commission = await context.Commissions.FindAsync(id);
-                return commission;
-            }
-            catch (Exception e)
-            {
-                return null;
-                throw e;
-            }
-        }
+		public async Task<Commission> GetById(int id)
+		{
+			try
+			{
+				var context = new AcademiaContext();
+				var commission = await context.Commissions.FindAsync(id);
+				return commission;
+			}
+			catch (Exception e)
+			{
+				throw e;
+			}
+		}
 
 		public async Task<IEnumerable<Commission>> GetByCurriculumIdAndLevel(int id, int level)
 		{
@@ -95,7 +126,6 @@ namespace ApplicationCore.Services
 			catch (Exception e)
 			{
 				throw e;
-				return null;
 			}
 		}
 	}

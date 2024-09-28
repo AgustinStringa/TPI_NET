@@ -52,7 +52,7 @@ namespace ApplicationCore.Services
 				{
 					await context.Entry(existingSubject).Collection(c => c.Courses).LoadAsync();
 
-					if (existingSubject.Courses.Count > 0) {
+					if (subject.IdCurriculum != existingSubject.IdCurriculum &&  existingSubject.Courses.Count > 0) {
 						//no se puede modificar el plan de estudios de una materia con cursos
 						throw new Exception();
 					}
@@ -76,11 +76,11 @@ namespace ApplicationCore.Services
 			try
 			{
 				var context = new AcademiaContext();
-				var subject = context.Subjects.Find(Id);
+				var subject = await context.Subjects.FindAsync(Id);
 				if (subject != null)
 				{
 					context.Subjects.Remove(subject);
-					context.SaveChanges();
+					await context.SaveChangesAsync();
 				}
 			}
 			catch (Exception e)

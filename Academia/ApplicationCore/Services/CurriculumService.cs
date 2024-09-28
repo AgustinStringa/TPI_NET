@@ -54,7 +54,7 @@ namespace ApplicationCore.Services
 				if (existingCurriculum != null)
 				{
 					await context.Entry(existingCurriculum).Collection(c => c.Subjects).LoadAsync();
-					if (existingCurriculum.Subjects.Count > 0)
+					if (curriculum.AreaId != existingCurriculum.AreaId && existingCurriculum.Subjects.Count > 0)
 					{
 						//no se puede modificar la especialidad de un plan con materias asociadas
 						throw new Exception();
