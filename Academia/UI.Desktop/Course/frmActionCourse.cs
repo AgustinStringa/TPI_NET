@@ -104,7 +104,7 @@ namespace UI.Desktop.Course
 						{
 							newCourse.Teachers = this.selectedTeachers;
 						}
-						await service.Add(newCourse);
+						await service.Create(newCourse);
 						MessageBox.Show("Cursado creado exitosamente", "Crear Cursado", MessageBoxButtons.OK, MessageBoxIcon.Information);
 						this.DialogResult = DialogResult.OK;
 						this.Close();

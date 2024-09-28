@@ -98,7 +98,7 @@ namespace UI.Desktop.Course
 			{
 				ApplicationCore.Model.Course selectedCourse = (ApplicationCore.Model.Course)lstvCourses.SelectedItems[0].Tag;
 				var service = new CourseService();
-				await service.Delete(selectedCourse);
+				await service.Delete(selectedCourse.Id);
 				this.LoadCourses();
 			}
 		}

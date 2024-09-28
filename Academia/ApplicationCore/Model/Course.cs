@@ -25,14 +25,20 @@ namespace ApplicationCore.Model
         [ForeignKey("Subject")]
         public int IdSubject { get; set; }
 
-        public virtual Subject Subject { get; set; }
+        public virtual Subject? Subject { get; set; }
 
         [NotMapped]
         public string ToStringProperty {  get => this.ToString(); }
         public override string ToString()
         {
+            if (Commission != null) { 
             return $"{Commission.Description} {CalendarYear} ";
-        }
+            
+            }
+            return $" {CalendarYear} ";
+
+
+		}
         public virtual ICollection<UserCourse> UserCourses { get; set; } = new List<UserCourse>();
 
         public virtual ICollection<User> Teachers { get; set; } = new List<User>();
@@ -44,6 +50,6 @@ namespace ApplicationCore.Model
         [ForeignKey("Commission")]
         public int IdCommission { get; set; }
 
-        public virtual Commission Commission { get; set; }
+        public virtual Commission? Commission { get; set; }
     }
 }
