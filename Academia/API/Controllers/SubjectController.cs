@@ -21,7 +21,12 @@ namespace API.Controllers
 		{
 			try
 			{
-				var subjects = await subjectService.GetAll();
+				var subjects = await subjectService.GetAll(new SubjectRequestParams
+				{ 
+				coursesCount = false,
+				curriculum	= false
+				}
+					);
 				if (subjects == null) return NotFound();
 
 				return Ok(subjects);

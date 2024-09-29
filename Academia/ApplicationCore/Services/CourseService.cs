@@ -9,6 +9,13 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Migrations.Operations;
 namespace ApplicationCore.Services
 {
+	public class CourseRequestParams
+	{
+		public bool commission { get; set; }
+		public bool subject { get; set; }
+		public bool teachers { get; set; }
+		public bool inscriptions { get; set; }
+	}
 	public class CourseService
 	{
 		public async Task<IEnumerable<Course>> GetAvailableCourses(User user)
@@ -24,7 +31,7 @@ namespace ApplicationCore.Services
 			return courses;
 		}
 
-		public async Task<IEnumerable<Course>> GetAll()
+		public async Task<IEnumerable<Course>> GetAll(CourseRequestParams parameters)
 		{
 			var context = new AcademiaContext();
 			var courses = await context.Courses.Include(c => c.Subject).Include(c => c.Commission).Include(c => c.Teachers)
@@ -41,17 +48,17 @@ namespace ApplicationCore.Services
 				CalendarYear = c.CalendarYear,
 				Capacity = c.Capacity,
 				IdSubject = c.IdSubject,
-				Subject = new Subject
+				Subject = parameters.subject ? new Subject
 				{
 					Id = c.Subject.Id,
 					Description = c.Subject.Description,
 					IdCurriculum = c.Subject.IdCurriculum,
-					Curriculum = null,
+					Curriculum = new Curriculum { Description = c.Subject.Curriculum.Description, AreaId = c.Subject.Curriculum.AreaId},
 					Courses = new List<Course>()
 
-				},
+				} : null,
 				IdCommission = c.IdCommission,
-				Commission = new Commission
+				Commission = parameters.commission ? new Commission
 				{
 					Id = c.Commission.Id,
 					Description = c.Commission.Description,
@@ -59,7 +66,8 @@ namespace ApplicationCore.Services
 					IdCurriculum = c.Commission.IdCurriculum,
 					Curriculum = null,
 					Courses = new List<Course>(),
-				},
+				} : null,
+				Teachers = parameters.teachers ? c.Teachers : null
 			}
 			).ToList();
 			return courses;

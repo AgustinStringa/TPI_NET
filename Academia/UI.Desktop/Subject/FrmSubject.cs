@@ -85,7 +85,10 @@ namespace UI.Desktop.Subject
 		private async void LoadSubjects()
 		{
 			var service = new SubjectService();
-			subjects = await service.GetAll();
+			subjects = await service.GetAll(new SubjectRequestParams { 
+			coursesCount = false,
+			curriculum = true
+			});
 			AdaptSubjectsToListView(subjects);
 			LoadCurriculumFilter();
 		}

@@ -8,30 +8,37 @@ using ApplicationCore.Model;
 
 namespace ApplicationCore.Services
 {
+	public class CommissionRequestParams
+	{
+		public bool curriculum { get; set; }
+		public bool coursesCount { get; set; }
+	}
 	public class CommissionService
 	{
-		public async Task<IEnumerable<Commission>> GetAll()
+		public async Task<IEnumerable<Commission>> GetAll(CommissionRequestParams parameters)
 		{
 			try
 			{
 				var context = new AcademiaContext();
-				return await context.Commissions.Include(c => c.Curriculum)
-					.Select(c => new Commission
+				var commissions = await context.Commissions.Include(c => c.Courses).Include(c => c.Curriculum).OrderBy(c => c.IdCurriculum).ThenBy(c => c.Level).ThenBy(c => c.Description).ToListAsync();
+				commissions = commissions.Select(c => new Commission
 					{
 						Id = c.Id,
 						Description = c.Description,
 						Level = c.Level,
 						IdCurriculum = c.IdCurriculum,
-						Curriculum = new Curriculum
+						Curriculum = (parameters.curriculum ? new Curriculum
 						{
 							Id = c.Curriculum.Id,
 							Description = c.Curriculum.Description,
 							Year = c.Curriculum.Year,
 							Resolution = c.Curriculum.Resolution,
 							AreaId = c.Curriculum.AreaId
-						}
-					})
-					.OrderBy(c => c.IdCurriculum).ThenBy(c => c.Level).ThenBy(c => c.Description).ToListAsync();
+						} : null),
+						CoursesCount = parameters.coursesCount ? c.Courses.Count : null
+					}).ToList()
+					;
+				return commissions;
 			}
 			catch (Exception e)
 			{

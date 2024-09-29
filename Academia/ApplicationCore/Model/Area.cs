@@ -18,6 +18,6 @@ namespace ApplicationCore.Model
         [Column("desc_especialidad")]
         public string Description { get; set; }
 
-        public virtual ICollection<Curriculum> Curriculums { get; set; } = new List<Curriculum>();
+        public ICollection<Curriculum> Curriculums { get; set; } = new List<Curriculum>();
     }
 }

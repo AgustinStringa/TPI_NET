@@ -30,5 +30,7 @@ namespace ApplicationCore.Model
 
         public virtual Curriculum? Curriculum { get; set; }
         public virtual ICollection<Course> Courses { get; set; } = new List<Course>();
+        [NotMapped]
+        public int? CoursesCount { get; set; }
     }
 }

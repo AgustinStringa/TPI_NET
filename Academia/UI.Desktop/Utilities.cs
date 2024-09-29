@@ -56,7 +56,14 @@ namespace UI.Desktop
 			try
 			{
 				var service = new ApplicationCore.Services.CurriculumService();
-				curriculums = await service.GetAll();
+				curriculums = await service.GetAll(
+					new ApplicationCore.Services.CurriculumRequestParams { 
+					area = false,
+					commissionsCount = false,
+					subjectsCount = false,
+					students = false
+					}
+					);
 				cb.DataSource = curriculums;
 				cb.ValueMember = "Id";
 				cb.DisplayMember = "Description";
@@ -73,7 +80,13 @@ namespace UI.Desktop
 			try
 			{
 				var service = new ApplicationCore.Services.CurriculumService();
-				curriculums = await service.GetAll();
+				curriculums = await service.GetAll(new ApplicationCore.Services.CurriculumRequestParams
+				{
+					area = false,
+					students = false,
+					subjectsCount = false,
+					commissionsCount = false,
+				});
 				cb.DataSource = curriculums;
 				cb.ValueMember = "Id";
 				cb.DisplayMember = "Description";
@@ -119,11 +132,11 @@ namespace UI.Desktop
 			{
 				using (Brush headerBrush = new SolidBrush(color))
 				{
-					e.Graphics.FillRectangle(headerBrush, e.Bounds); 
+					e.Graphics.FillRectangle(headerBrush, e.Bounds);
 				}
 				TextRenderer.DrawText(e.Graphics, e.Header.Text, e.Font, e.Bounds, Color.Black, TextFormatFlags.HorizontalCenter | TextFormatFlags.VerticalCenter);
 
-				using (Pen dividerPen = new Pen(Color.Gray, 1)) 
+				using (Pen dividerPen = new Pen(Color.Gray, 1))
 				{
 					e.Graphics.DrawLine(dividerPen, e.Bounds.Right - 1, e.Bounds.Top, e.Bounds.Right - 1, e.Bounds.Bottom);
 				}

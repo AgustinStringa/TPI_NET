@@ -22,7 +22,12 @@ namespace API.Controllers
 		{
 			try
 			{
-				var commissions = await commissionService.GetAll();
+				var commissions = await commissionService.GetAll(
+					new CommissionRequestParams { 
+					curriculum = false,
+					coursesCount = false
+					}
+					);
 				return Ok(commissions);
 			}
 			catch (Exception e)

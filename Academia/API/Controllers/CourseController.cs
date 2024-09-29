@@ -21,7 +21,14 @@ namespace API.Controllers
 		{
 			try
 			{
-				var courses = await courseService.GetAll();
+				var courses = await courseService.GetAll(
+					new CourseRequestParams { 
+					commission = false,
+					inscriptions = false,
+					teachers = false,
+					subject = false
+					}
+					);
 				return Ok(courses);
 			}
 			catch (Exception e)

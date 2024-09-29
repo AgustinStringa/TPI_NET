@@ -34,6 +34,10 @@ namespace ApplicationCore.Model
         public virtual Curriculum? Curriculum { get; set; }
 
         public virtual ICollection<Course> Courses { get; set; } = new List<Course>();
+        
+        [NotMapped]
+        public int? CoursesCount {  get; set; }
+        
         public ICollection<Correlative> CorrelativesParents { get; set; } = new List<Correlative>();
         public ICollection<Correlative> CorrelativesChildren { get; set; } = new List<Correlative>();
 

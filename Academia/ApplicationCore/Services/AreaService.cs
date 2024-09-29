@@ -15,7 +15,7 @@ namespace ApplicationCore.Services
             try
             {
                 var context = new AcademiaContext();
-                return await context.Areas.Include(a => a.Curriculums).ToListAsync();
+                return await context.Areas.ToListAsync();
             }
             catch (Exception e)
             {

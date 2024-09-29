@@ -180,7 +180,7 @@
 			Controls.Add(toolStrip1);
 			Margin = new Padding(3, 2, 3, 2);
 			Name = "FrmSubject";
-			Text = "frmMateria";
+			Text = "Materias";
 			toolStrip1.ResumeLayout(false);
 			toolStrip1.PerformLayout();
 			ResumeLayout(false);

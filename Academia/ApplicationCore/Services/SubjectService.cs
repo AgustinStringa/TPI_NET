@@ -9,11 +9,16 @@ using Microsoft.Data.SqlClient;
 
 namespace ApplicationCore.Services
 {
+	public class SubjectRequestParams
+	{
+		public bool curriculum { get; set; }
+		public bool coursesCount { get; set; }
+	}
 	public class SubjectService
 	{
 		public SubjectService() { }
 
-		public async Task<IEnumerable<Subject>> GetAll()
+		public async Task<IEnumerable<Subject>> GetAll(SubjectRequestParams parameters)
 		{
 			var context = new AcademiaContext();
 			var subjects = await context.Subjects.Include(s => s.Curriculum).OrderBy(s => s.IdCurriculum).ThenBy(c => c.Level).ToListAsync();
@@ -27,7 +32,8 @@ namespace ApplicationCore.Services
 					TotalHours = s.TotalHours,
 					Level = s.Level,
 					IdCurriculum = s.IdCurriculum,
-					Curriculum = new Curriculum { Id = s.Curriculum.Id, Description = s.Curriculum.Description },
+					Curriculum = parameters.curriculum ? new Curriculum { Id = s.Curriculum.Id, Description = s.Curriculum.Description } : null,
+					CoursesCount = parameters.coursesCount ? s.Courses.Count : null,
 				}
 				).ToList();
 			return subjects;

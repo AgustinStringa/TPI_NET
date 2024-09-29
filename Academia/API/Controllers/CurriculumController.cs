@@ -18,7 +18,7 @@ namespace API.Controllers
 		{
 			try
 			{
-				var curriculums = await curriculumService.GetAll();
+				var curriculums = await curriculumService.GetAll(new CurriculumRequestParams{  area = false, students = false, subjectsCount = false, commissionsCount = false});
 				return Ok(curriculums);
 			}
 			catch (Exception e)

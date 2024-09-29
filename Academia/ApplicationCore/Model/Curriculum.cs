@@ -31,10 +31,15 @@ namespace ApplicationCore.Model
         [Column("id_especialidad")]
         public int AreaId { get; set; }
 
-        public virtual Area? Area { get; set; }
+        public Area? Area { get; set; }
 
 
         public virtual ICollection<Subject> Subjects { get; set; } = new List<Subject>();
+
+        [NotMapped]
+        public int? SubjectsCount { get; set; }
         public virtual ICollection<Commission> Commissions { get; set; } = new List<Commission>();
-    }
+		[NotMapped]
+		public int? CommissionsCount { get; set; }
+	}
 }

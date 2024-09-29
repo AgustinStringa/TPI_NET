@@ -9,19 +9,35 @@ using System.Xml.Linq;
 
 namespace ApplicationCore.Services
 {
+	public class CurriculumRequestParams
+	{
+		public bool area { get; set; }
+		public bool students { get; set; }
+		public bool subjectsCount { get; set; }
+		public bool commissionsCount { get; set; }
+	}
 	public class CurriculumService
 	{
-		public async Task<IEnumerable<Curriculum>> GetAll()
+		public async Task<IEnumerable<Curriculum>> GetAll(CurriculumRequestParams parameters)
 		{
 			try
 			{
 				var context = new AcademiaContext();
-				await context.Curriculums.Include(c => c.Area).ToListAsync();
-				return await context.Curriculums.Include(c => c.Subjects).ToListAsync();
+				var curriculums = await context.Curriculums.Include(c => c.Area).Include(c => c.Subjects).ToListAsync();
+				var filteredCurriculums = await context.Curriculums.Select(c => new Curriculum{
+					Id = c.Id,
+					Description = c.Description,
+					Resolution = c.Resolution,
+					Year = c.Year,
+					Area = parameters.area ? new Area { Id = c.Area.Id, Description = c.Area.Description } : null,
+					SubjectsCount = (parameters.subjectsCount ? c.Subjects.Count : null),
+					CommissionsCount = (parameters.commissionsCount ? c.Commissions.Count : null)
+				}).ToListAsync();
+
+				return filteredCurriculums;
 			}
 			catch (Exception e)
 			{
-				return null;
 				throw e;
 			}
 		}

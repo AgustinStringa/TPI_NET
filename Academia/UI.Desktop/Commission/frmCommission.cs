@@ -44,7 +44,9 @@ namespace UI.Desktop.Commission
 			try
 			{
 				var service = new ApplicationCore.Services.CommissionService();
-				this.commissions = await service.GetAll();
+				this.commissions = await service.GetAll(
+					new CommissionRequestParams { coursesCount = false, curriculum = true}
+					);
 				AdaptCommissionToListView(this.commissions);
 			}
 			catch (Exception e)

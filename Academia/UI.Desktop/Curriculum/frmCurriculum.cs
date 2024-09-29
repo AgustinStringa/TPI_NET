@@ -44,7 +44,13 @@ namespace UI.Desktop.Curriculum
 			try
 			{
 				var service = new ApplicationCore.Services.CurriculumService();
-				this.curriculums = await service.GetAll();
+				this.curriculums = await service.GetAll(new ApplicationCore.Services.CurriculumRequestParams
+				{
+					area = true,
+					subjectsCount = false,
+					commissionsCount = false,
+					students = false
+				});
 				AdaptCurriculumsToListView(curriculums);
 			}
 			catch (Exception e)

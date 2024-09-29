@@ -28,7 +28,14 @@ namespace UI.Desktop.Course
 		private async void LoadCourses()
 		{
 			var service = new ApplicationCore.Services.CourseService();
-			this.courses = await service.GetAll();
+			this.courses = await service.GetAll(
+				new CourseRequestParams { 
+				commission = true,
+				subject = true,
+				teachers = true,
+				inscriptions = false
+				}
+				);
 			AdaptCoursesToListView(this.courses);
 		}
 
