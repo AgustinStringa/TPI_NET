@@ -25,10 +25,11 @@ namespace ApplicationCore.Model
 
         [Column("id_alumno")]
         public int UserId { get; set; }
-        public User? User { get; set; }
+        public Student Student { get; set; }
+
 
         [Column("id_curso")]
         public int CourseId { get; set; }
-        public Course? Course { get; set; }
+        public Course Course { get; set; }
     }
 }

@@ -44,7 +44,7 @@ namespace ApplicationCore.Services
 		public async Task<IEnumerable<ApplicationCore.Model.User>> GetAll()
 		{
 			var context = new AcademiaContext();
-			return await context.Users.Include(u => u.Curriculum).ToListAsync();
+			return await context.Users.ToListAsync();
 		}
 
 		public async Task<ApplicationCore.Model.User> GetById(int id)
@@ -104,13 +104,13 @@ namespace ApplicationCore.Services
 					byte[] compareHashValue = SHA256.HashData(messageBytes1);
 					if (sentHashValue.SequenceEqual(compareHashValue))
 					{
-						await context.Entry(user).Reference(c => c.Curriculum).LoadAsync();
-						await context.Entry(user).Collection(c => c.UserCourses).LoadAsync();
-						foreach (var uc in user.UserCourses)
-						{
-							await context.Entry(uc).Reference(c => c.Course).LoadAsync();
-							await context.Entry(uc.Course).Reference(c => c.Subject).LoadAsync();
-						}
+						//await context.Entry(user).Reference(c => c.Curriculum).LoadAsync();
+						//await context.Entry(user).Collection(c => c.UserCourses).LoadAsync();
+						//foreach (var uc in user.UserCourses)
+						//{
+						//	await context.Entry(uc).Reference(c => c.Course).LoadAsync();
+						//	await context.Entry(uc.Course).Reference(c => c.Subject).LoadAsync();
+						//}
 						return user;
 					}
 					else
@@ -138,13 +138,13 @@ namespace ApplicationCore.Services
 		public async Task<IEnumerable<ApplicationCore.Model.User>> GetTeachers()
 		{
 			var context = new AcademiaContext();
-			return await context.Users.Where(u => u.UserType == 2).ToListAsync();
+			return await context.Teachers.ToListAsync();
 		}
 
 		public async Task<IEnumerable<ApplicationCore.Model.User>> GetStudents()
 		{
 			var context = new AcademiaContext();
-			var students = await context.Users.Where(u => u.UserType == 3).Include(u => u.Curriculum).ToListAsync();
+			var students = await context.Students.Include(u => u.Curriculum).ToListAsync();
 			foreach (var student in students)
 			{
 				var curriculum = student.Curriculum;

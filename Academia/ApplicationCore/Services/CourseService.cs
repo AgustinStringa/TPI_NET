@@ -119,7 +119,7 @@ namespace ApplicationCore.Services
 						existingCourse.Teachers.Clear();
 
 						var selectedTeacherIds = course.Teachers.Select(t => t.Id).ToList();
-						var newTeachers = await context.Users
+						var newTeachers = await context.Teachers
 										  .Where(u => selectedTeacherIds.Contains(u.Id))
 										  .ToListAsync();
 
@@ -185,7 +185,7 @@ namespace ApplicationCore.Services
 				if (course.Teachers.Count > 0)
 				{
 					var selectedTeacherIds = course.Teachers.Select(t => t.Id).ToList();
-					var existingTeachers = await context.Users
+					var existingTeachers = await context.Teachers
 										  .Where(u => selectedTeacherIds.Contains(u.Id))
 										  .ToListAsync();
 					course.Teachers = existingTeachers;

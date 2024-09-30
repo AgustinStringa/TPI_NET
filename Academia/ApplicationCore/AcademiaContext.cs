@@ -17,6 +17,9 @@ namespace ApplicationCore
 		internal DbSet<Subject> Subjects { get; set; }
 		internal DbSet<Correlative> Correlatives { get; set; }
 		internal DbSet<User> Users { get; set; }
+		internal DbSet<Student> Students { get; set; }
+		internal DbSet<Teacher> Teachers { get; set; }
+		internal DbSet<Administrative> Administratives { get; set; }
 		internal DbSet<Area> Areas { get; set; }
 		internal DbSet<Curriculum> Curriculums { get; set; }
 		internal DbSet<UserCourse> UserCourses { get; set; }
@@ -45,6 +48,10 @@ namespace ApplicationCore
 
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
+			modelBuilder.Entity<Student>().ToTable("estudiantes");
+			modelBuilder.Entity<Teacher>().ToTable("docentes");
+			modelBuilder.Entity<Administrative>().ToTable("administrativos");
+
 			modelBuilder.Entity<Curriculum>()
 				.HasOne(c => c.Area)
 				.WithMany(a => a.Curriculums)
@@ -60,9 +67,9 @@ namespace ApplicationCore
 				.WithMany(s => s.Courses)
 				.HasForeignKey(c => c.IdSubject);
 
-			modelBuilder.Entity<User>()
-				.HasMany(u => u.UserCourses)
-				.WithOne(uc => uc.User)
+			modelBuilder.Entity<Student>()
+				.HasMany(u => u.StudentCourses)
+				.WithOne(uc => uc.Student)
 				.HasForeignKey(uc => uc.UserId);
 
 			modelBuilder.Entity<Course>()
@@ -87,15 +94,19 @@ namespace ApplicationCore
 
 
 
-			modelBuilder.Entity<User>()
+			modelBuilder.Entity<Teacher>()
 				.HasMany(u => u.TeacherCourses)
 				.WithMany(c => c.Teachers)
 				.UsingEntity<Dictionary<string, object>>(
 					"docentes_cursos",
 					j => j.HasOne<Course>().WithMany().HasForeignKey("id_curso"),
-					j => j.HasOne<User>().WithMany().HasForeignKey("id_docente")
+					j => j.HasOne<Teacher>().WithMany().HasForeignKey("id_docente")
 				);
 
+			//modelBuilder.Entity<Student>()
+			//	.HasOne(u => u.)
+			//	.WithMany(a => a.Curriculums)
+			//	.HasForeignKey(c => c.AreaId);
 
 
 			//modelBuilder.Entity<Commission>()

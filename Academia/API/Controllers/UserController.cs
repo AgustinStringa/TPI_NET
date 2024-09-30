@@ -17,6 +17,7 @@ namespace API.Controllers
 		public LoginDto() { }
 	}
 
+
 	[Route("api/users")]
 	[ApiController]
 	public class UserController : Controller

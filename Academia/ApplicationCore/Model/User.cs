@@ -36,10 +36,6 @@ namespace ApplicationCore.Model
 		[Column("telefono")]
 		public string PhoneNumber { get; set; }
 
-		[Column("legajo")]
-		[AllowNull]
-		public string? StudentId { get; set; }
-
 
 		[Column("direccion")]
 		public string Address { get; set; }
@@ -49,21 +45,8 @@ namespace ApplicationCore.Model
 		public DateTime BirthDate { get; set; }
 
 
-		[Column("cuit")]
-		public string? Cuit { get; set; }
-
 		[Column("tipo_usuario")]
 		public int UserType { get; set; }
 
-		#region navigation properties
-
-		[Column("id_plan")]
-		[AllowNull]
-		public int? CurriculumId { get; set; }
-		public virtual Curriculum? Curriculum { get; set; }
-
-		public virtual ICollection<UserCourse> UserCourses { get; set; } = new List<UserCourse>();
-		public virtual ICollection<Course> TeacherCourses { get; set; } = new List<Course>();
-		#endregion
 	}
 }
