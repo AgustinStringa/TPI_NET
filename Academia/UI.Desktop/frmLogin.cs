@@ -28,6 +28,7 @@ namespace UI.Desktop
                 MessageBox.Show("Completa todos los campos");
                 return;
             }
+            //llamar a HttpClient. Extraer el user de la rta, que contiene user y jwt
             var user = await service.ValidateCredentials(username, password);
             if (user != null)
             {

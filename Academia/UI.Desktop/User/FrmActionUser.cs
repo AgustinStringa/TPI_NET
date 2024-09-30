@@ -300,7 +300,7 @@ namespace UI.Desktop
                         {
                             newUser.CurriculumId = curriculum.Id;
                         }
-                        service.Add(newUser);
+                        service.Create(newUser);
                         MessageBox.Show("Usuario creado exitosamente", "Crear Usuario", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         this.Dispose();
                     }

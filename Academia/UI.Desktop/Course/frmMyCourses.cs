@@ -27,7 +27,7 @@ namespace UI.Desktop.Course
 
 		private async void LoadCourses()
 		{
-			MyCourses = await _userCourseService.GetUserCoursesByUserId(this.user.Id);
+			MyCourses = await _userCourseService.GetByUserId(this.user.Id);
 			AdaptCoursesToListView(MyCourses);
 		}
 		private async void AdaptCoursesToListView(IEnumerable<ApplicationCore.Model.UserCourse> courses)

@@ -53,7 +53,7 @@ namespace UI.Desktop
 			{
 				var selectedUser = lstUsers.SelectedItems[0].Tag as ApplicationCore.Model.User;
 				UserCourseService service = new UserCourseService();
-				var usersCourses = await service.GetUserCoursesByUserId(selectedUser.Id);
+				var usersCourses = await service.GetByUserId(selectedUser.Id);
 				AdaptUserCoursesToListView(usersCourses);
 			}
 		}
@@ -80,10 +80,15 @@ namespace UI.Desktop
 					if (currentGrade != frmInputGrade._currentGrade)
 					{
 						var userCourseService = new UserCourseService();
-						selectedUserCourse.Grade = frmInputGrade._currentGrade;
-						await userCourseService.Update(selectedUserCourse);
+						
+						CalificationCourse newCalification = new CalificationCourse
+						{ 
+						Grade = frmInputGrade._currentGrade,
+						Status = frmInputGrade._currentGrade >= 6 ? "aprobado" : "reprobado"
+						};
+						await userCourseService.QualifyCourse(selectedUserCourse.Id, newCalification);
 						var selectedUser = lstUsers.SelectedItems[0].Tag as ApplicationCore.Model.User;
-						AdaptUserCoursesToListView(await new UserCourseService().GetUserCoursesByUserId(selectedUser.Id));
+						AdaptUserCoursesToListView(await new UserCourseService().GetByUserId(selectedUser.Id));
 					}
 
 				}

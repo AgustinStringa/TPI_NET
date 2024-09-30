@@ -25,11 +25,10 @@ namespace ApplicationCore.Model
 
         [Column("id_alumno")]
         public int UserId { get; set; }
-        public virtual User User { get; set; }
-
+        public User? User { get; set; }
 
         [Column("id_curso")]
         public int CourseId { get; set; }
-        public virtual Course Course { get; set; }
+        public Course? Course { get; set; }
     }
 }

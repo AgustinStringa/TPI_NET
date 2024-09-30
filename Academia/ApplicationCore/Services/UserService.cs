@@ -12,14 +12,13 @@ namespace ApplicationCore.Services
 	public class UserService
 	{
 
-		public void Add(User user)
+		public async Task Create(User user)
 		{
 			try
 			{
 				var context = new AcademiaContext();
-				context.Users.Add(user);
+				await context.Users.AddAsync(user);
 				context.SaveChanges();
-
 			}
 			catch (Exception)
 			{
@@ -54,6 +53,21 @@ namespace ApplicationCore.Services
 			{
 				var context = new AcademiaContext();
 				var user = await context.Users.FindAsync(id);
+				context.Attach(user);
+				return user;
+			}
+			catch (Exception)
+			{
+				throw;
+			}
+		}
+
+		public async Task<ApplicationCore.Model.User> GetByUsername(string username)
+		{
+			try
+			{
+				var context = new AcademiaContext();
+				var user = await context.Users.FirstAsync(u => u.Username == username);
 				context.Attach(user);
 				return user;
 			}
@@ -121,7 +135,6 @@ namespace ApplicationCore.Services
 
 		}
 
-
 		public async Task<IEnumerable<ApplicationCore.Model.User>> GetTeachers()
 		{
 			var context = new AcademiaContext();
@@ -137,6 +150,7 @@ namespace ApplicationCore.Services
 				var curriculum = student.Curriculum;
 				await context.Entry(curriculum).Reference(c => c.Area).LoadAsync();
 			}
+			//utilizar select para remover datos innecesarios
 			return students;
 		}
 

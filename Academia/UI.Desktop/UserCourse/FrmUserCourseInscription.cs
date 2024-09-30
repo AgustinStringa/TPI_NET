@@ -88,7 +88,7 @@ namespace UI.Desktop
 				};
 
 				var userCourseService = new ApplicationCore.Services.UserCourseService();
-				await userCourseService.Add(userCourse);
+				await userCourseService.Create(userCourse);
 
 				MessageBox.Show("Inscripción realizada con éxito", "Inscripción", MessageBoxButtons.OK, MessageBoxIcon.Information);
 				this.Dispose();

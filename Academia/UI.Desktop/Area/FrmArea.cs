@@ -44,8 +44,8 @@ namespace UI.Desktop.Area
             }
             catch (Exception e)
             {
-                MessageBox.Show(e.Message);
-                throw;
+                MessageBox.Show(e.Message, "Erorr de conexion", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                //throw;
             }
         }
         #endregion

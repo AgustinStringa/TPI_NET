@@ -1,6 +1,7 @@
 using API.Helpers;
 using ApplicationCore.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using System.Text.Json.Serialization;
@@ -12,7 +13,7 @@ namespace API
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
-            builder.Services.AddControllers().AddJsonOptions(
+			builder.Services.AddControllers().AddJsonOptions(
                 x =>
                 {
                     x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
@@ -48,6 +49,8 @@ namespace API
 			builder.Services.AddScoped<SubjectService>();
 			builder.Services.AddScoped<CommissionService>();
 			builder.Services.AddScoped<CourseService>();
+			builder.Services.AddScoped<UserCourseService>();
+			builder.Services.AddScoped<UserService>();
 			var app = builder.Build();
     app.UseAuthentication();
             app.UseAuthorization();
