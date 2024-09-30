@@ -40,7 +40,7 @@ namespace UI.Desktop.Course
 			if (listView1.SelectedItems.Count > 0)
 			{
 
-				ApplicationCore.Model.User selectedTeacher = (ApplicationCore.Model.User)listView1.SelectedItems[0].Tag;
+				ApplicationCore.Model.Teacher selectedTeacher = (ApplicationCore.Model.Teacher)listView1.SelectedItems[0].Tag;
 				if (selectedTeacher != null)
 				{
 					this.Parent.newTeacher = selectedTeacher;

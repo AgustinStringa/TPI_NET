@@ -13,21 +13,21 @@ namespace UI.Desktop
 {
 	public partial class QualifyCourses : Form
 	{
-		private IEnumerable<ApplicationCore.Model.User> students;
+		private IEnumerable<ApplicationCore.Model.Student> students;
 		public QualifyCourses()
 		{
 			InitializeComponent();
 			LoadUsers();
 		}
 
-		private void AdaptUsersToListView(IEnumerable<ApplicationCore.Model.User> users)
+		private void AdaptUsersToListView(IEnumerable<ApplicationCore.Model.Student> students)
 		{
 			lstUsers.Items.Clear();
-			foreach (ApplicationCore.Model.User user in users)
+			foreach (ApplicationCore.Model.Student student in students)
 			{
-				ListViewItem item = new ListViewItem(user.Curriculum.Area.Description);
-				item.Tag = user;
-				item.SubItems.Add(user.Name + " " + user.Lastname);
+				ListViewItem item = new ListViewItem(student.Curriculum.Area.Description);
+				item.Tag = student;
+				item.SubItems.Add(student.Name + " " + student.Lastname);
 				lstUsers.Items.Add(item);
 			}
 			lstUsers.Refresh();
@@ -61,8 +61,8 @@ namespace UI.Desktop
 
 		private async void LoadUsers()
 		{
-			var service = new UserService();
-			this.students = await service.GetStudents();
+			var service = new StudentService();
+			this.students = await service.GetAll();
 			AdaptUsersToListView(this.students);
 		}
 

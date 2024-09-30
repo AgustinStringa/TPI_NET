@@ -17,10 +17,10 @@ namespace UI.Desktop.Course
 	public partial class FrmActionCourse : Form
 	{
 
-		private List<ApplicationCore.Model.User> selectedTeachers = new List<ApplicationCore.Model.User>();
+		private List<ApplicationCore.Model.Teacher> selectedTeachers = new List<ApplicationCore.Model.Teacher>();
 		private Mode mode;
 		private ApplicationCore.Model.Course course;
-		public ApplicationCore.Model.User newTeacher;
+		public ApplicationCore.Model.Teacher newTeacher;
 
 		//	//implementar inyeccion de servicio.
 		//	//// inyectar provider y de ahi sacar los necesarios
@@ -284,8 +284,8 @@ namespace UI.Desktop.Course
 
 		private async void btnAddTeacher_Click(object sender, EventArgs e)
 		{
-			var service = new UserService();
-			var teachers = await service.GetTeachers();
+			var service = new TeacherService();
+			var teachers = await service.GetAll();
 			var teacherlist = new FrmTeachersList(teachers, this);
 			var result = teacherlist.ShowDialog();
 			if (result == DialogResult.OK)

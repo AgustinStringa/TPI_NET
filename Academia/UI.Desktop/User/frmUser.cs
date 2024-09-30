@@ -1,4 +1,5 @@
-﻿using ApplicationCore.Services;
+﻿using ApplicationCore.Model;
+using ApplicationCore.Services;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -45,8 +46,18 @@ namespace UI.Desktop.User
 				item.Tag = user;
 				item.SubItems.Add(user.Lastname);
 				item.SubItems.Add(user.Username);
-				item.SubItems.Add(user.StudentId != null ? user.StudentId : "-");
-				item.SubItems.Add(user.Cuit != null ? user.Cuit : "-");
+				var userType = user.GetType();
+				if (userType == (new Student()).GetType()) {
+					item.SubItems.Add(((Student)user).StudentId);
+					item.SubItems.Add("-");
+				} else if (userType == (new Teacher()).GetType()) {
+					item.SubItems.Add(((Teacher)user).TeacherId);
+					item.SubItems.Add(((Teacher)user).Cuit);
+
+				} else if(userType == (new Administrative()).GetType()) {
+					item.SubItems.Add("-");
+					item.SubItems.Add(((Administrative)user).Cuit);
+				}
 				lstUsers.Items.Add(item);
 			}
 			lstUsers.Refresh();
@@ -87,12 +98,16 @@ namespace UI.Desktop.User
 
 		private void ApplyFilters()
 		{
+			//this.filteredUsers = this.users.Where(
+			//	u => Utilities.DeleteDiacritic(u.Name.ToLower()).Contains(this.textSearch)
+			//	  || Utilities.DeleteDiacritic(u.Lastname.ToLower()).Contains(this.textSearch)
+			//	   || ((u.StudentId != null) && Utilities.DeleteDiacritic(u.StudentId.ToLower()).Contains(this.textSearch))
+			//	 || ((u.Cuit != null) && Utilities.DeleteDiacritic(u.Cuit.ToLower()).Contains(this.textSearch))
+			//	   );
 			this.filteredUsers = this.users.Where(
-				u => Utilities.DeleteDiacritic(u.Name.ToLower()).Contains(this.textSearch)
-				  || Utilities.DeleteDiacritic(u.Lastname.ToLower()).Contains(this.textSearch)
-				   || ((u.StudentId != null) && Utilities.DeleteDiacritic(u.StudentId.ToLower()).Contains(this.textSearch))
-				 || ((u.Cuit != null) && Utilities.DeleteDiacritic(u.Cuit.ToLower()).Contains(this.textSearch))
-				   );
+	u => Utilities.DeleteDiacritic(u.Name.ToLower()).Contains(this.textSearch)
+	  || Utilities.DeleteDiacritic(u.Lastname.ToLower()).Contains(this.textSearch)
+	   );
 			lstUsers.Items.Clear();
 			this.filteredUsers = this.filteredUsers.Where(u => this.userTypeFilters.Contains(GetUserType(u.UserType)));
 			AdaptUsersToListView(this.filteredUsers);

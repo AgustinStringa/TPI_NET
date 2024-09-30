@@ -51,6 +51,8 @@ namespace API
 			builder.Services.AddScoped<CourseService>();
 			builder.Services.AddScoped<UserCourseService>();
 			builder.Services.AddScoped<UserService>();
+			builder.Services.AddScoped<StudentService>();
+			builder.Services.AddScoped<TeacherService>();
 			var app = builder.Build();
     app.UseAuthentication();
             app.UseAuthorization();

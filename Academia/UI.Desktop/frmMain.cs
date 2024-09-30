@@ -129,8 +129,11 @@ namespace UI.Desktop
 
 		private void estadoAcademicoToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			FrmAcademicStatus frmAcademicStatus = new FrmAcademicStatus(user);
-			frmAcademicStatus.ShowDialog();
+			if (user.GetType() == (new Student()).GetType())
+			{
+				FrmAcademicStatus frmAcademicStatus = new FrmAcademicStatus((Student)user);
+				frmAcademicStatus.ShowDialog();
+			}
 		}
 	}
 }

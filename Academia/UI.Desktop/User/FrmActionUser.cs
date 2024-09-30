@@ -292,15 +292,16 @@ namespace UI.Desktop
                             Address = address,
                             PhoneNumber = phoneNumber,
                             BirthDate = birthDate,
-                            Cuit = cuit,
-                            UserType = usertype,
-                            StudentId = studentId,
+                            //Cuit = cuit,
+                            //UserType = usertype,
+                            //StudentId = studentId,
                         };
-                        if (curriculum != null)
-                        {
-                            newUser.CurriculumId = curriculum.Id;
-                        }
-                        service.Create(newUser);
+                        await service.Create(newUser);
+                        //recuperar usuario creado e insertarlo en la dbset correspondiente
+                        //if (curriculum != null)
+                        //{
+                        //    newUser.CurriculumId = curriculum.Id;
+                        //}
                         MessageBox.Show("Usuario creado exitosamente", "Crear Usuario", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         this.Dispose();
                     }
@@ -326,12 +327,12 @@ namespace UI.Desktop
                     if (usertype == 1 || usertype == 2)
                     {
                         correctForm = correctForm && validCuit;
-                        User.Cuit = cuit;
+                        //User.Cuit = cuit;
                     }
                     else if (usertype == 3)
                     {
                         correctForm = correctForm && validStudentId;
-                        User.StudentId = studentId;
+                        //User.StudentId = studentId;
                     }
 
                     if (correctForm)
@@ -531,7 +532,7 @@ namespace UI.Desktop
                 txtCuit.Visible = false;
                 lblCuit.Visible = false;
 
-                txtStudentId.Text = User.StudentId;
+                //txtStudentId.Text = User.StudentId;
             }
             else if (User.UserType == 1 || User.UserType == 2)
             {
@@ -539,7 +540,7 @@ namespace UI.Desktop
                 lblStudentId.Visible = false;
                 txtCuit.Visible = true;
                 lblCuit.Visible = true;
-                txtCuit.Text = User.Cuit;
+                //txtCuit.Text = User.Cuit;
             }
 
         }

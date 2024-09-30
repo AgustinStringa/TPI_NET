@@ -23,9 +23,14 @@ namespace API.Controllers
 	public class UserController : Controller
 	{
 		private UserService userService;
-		public UserController(UserService userService)
+		private StudentService studentService;
+		private TeacherService teacherService;
+		public UserController(UserService userService, StudentService studentService,
+			TeacherService teacherService)
 		{
 			this.userService = userService;
+			this.studentService = studentService;
+			this.teacherService = teacherService;
 		}
 
 		[HttpGet]
@@ -43,6 +48,39 @@ namespace API.Controllers
 				throw e;
 			}
 		}
+
+		[HttpGet("students")]
+		[Authorize]
+		public async Task<ActionResult<IEnumerable<Student>>> GetStudents()
+		{
+			try
+			{
+				var students = await studentService.GetAll();
+				return Ok(students);
+			}
+			catch (Exception e)
+			{
+				return StatusCode(500, new { message = e.Message });
+				throw e;
+			}
+		}
+
+		[HttpGet("teachers")]
+		[Authorize]
+		public async Task<ActionResult<IEnumerable<Teacher>>> GetTeachers()
+		{
+			try
+			{
+				var teachers = await teacherService.GetAll();
+				return Ok(teachers);
+			}
+			catch (Exception e)
+			{
+				return StatusCode(500, new { message = e.Message });
+				throw e;
+			}
+		}
+
 
 		[HttpGet("{id}")]
 		public async Task<ActionResult<User>> GetById(int id)

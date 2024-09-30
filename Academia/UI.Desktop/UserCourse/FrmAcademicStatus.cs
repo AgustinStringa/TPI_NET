@@ -12,10 +12,10 @@ namespace UI.Desktop
 {
     public partial class FrmAcademicStatus : Form
     {
-        public FrmAcademicStatus(ApplicationCore.Model.User user)
+        public FrmAcademicStatus(ApplicationCore.Model.Student student)
         {
             InitializeComponent();
-            lblName.Text = $"{user.Name} {user.Lastname} ({user.StudentId}) a las  {DateTime.Now.ToString()}";
+            lblName.Text = $"{student.Name} {student.Lastname} ({student.StudentId}) a las  {DateTime.Now.ToString()}";
             //traer todos los userCourse
             //mostrar en la grilla ¿Solo lectura?
             var nuevo = new ListViewItem("Administración de Sistemas de Información (Integradora)");

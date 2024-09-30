@@ -135,24 +135,5 @@ namespace ApplicationCore.Services
 
 		}
 
-		public async Task<IEnumerable<ApplicationCore.Model.User>> GetTeachers()
-		{
-			var context = new AcademiaContext();
-			return await context.Teachers.ToListAsync();
-		}
-
-		public async Task<IEnumerable<ApplicationCore.Model.User>> GetStudents()
-		{
-			var context = new AcademiaContext();
-			var students = await context.Students.Include(u => u.Curriculum).ToListAsync();
-			foreach (var student in students)
-			{
-				var curriculum = student.Curriculum;
-				await context.Entry(curriculum).Reference(c => c.Area).LoadAsync();
-			}
-			//utilizar select para remover datos innecesarios
-			return students;
-		}
-
 	}
 }
