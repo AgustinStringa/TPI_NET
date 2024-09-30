@@ -10,15 +10,21 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using UI.Desktop.Area;
 using UI.Desktop;
+using ClientService.Curriculum;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace UI.Desktop.Curriculum
 {
 	public partial class FrmCurriculum : Form
 	{
 		private IEnumerable<ApplicationCore.Model.Curriculum> curriculums;
-		public FrmCurriculum()
+		private ICurriculumService curriculumService;
+		private IServiceProvider serviceProvider;
+		public FrmCurriculum(IServiceProvider serviceProvider)
 		{
 			InitializeComponent();
+			this.serviceProvider = serviceProvider;
+			this.curriculumService = serviceProvider.GetRequiredService<ICurriculumService>();
 			Utilities.StyleListViewHeader(lstvCurriculum, Color.FromArgb(184, 218, 255));
 			LoadCurriculums();
 		}
@@ -43,19 +49,12 @@ namespace UI.Desktop.Curriculum
 		{
 			try
 			{
-				var service = new ApplicationCore.Services.CurriculumService();
-				this.curriculums = await service.GetAll(new ApplicationCore.Services.CurriculumRequestParams
-				{
-					area = true,
-					subjectsCount = false,
-					commissionsCount = false,
-					students = false
-				});
+				this.curriculums = await curriculumService.GetAllWithAreaAsync();
 				AdaptCurriculumsToListView(curriculums);
 			}
 			catch (Exception e)
 			{
-				MessageBox.Show(e.Message);
+				MessageBox.Show(e.Message, "Error de conexión", MessageBoxButtons.OK, MessageBoxIcon.Error);
 			}
 		}
 		#endregion
@@ -63,7 +62,7 @@ namespace UI.Desktop.Curriculum
 		#region Events
 		private void tsbtnAdd_Click(object sender, EventArgs e)
 		{
-			FrmActionCurriculum frm = new FrmActionCurriculum(Mode.Create);
+			FrmActionCurriculum frm = new FrmActionCurriculum(Mode.Create, serviceProvider);
 			var result = frm.ShowDialog();
 			if (result == DialogResult.OK)
 			{
@@ -76,8 +75,7 @@ namespace UI.Desktop.Curriculum
 			if (lstvCurriculum.SelectedItems.Count > 0)
 			{
 				var selectedCurriculum = (ApplicationCore.Model.Curriculum)lstvCurriculum.SelectedItems[0].Tag;
-				var service = new ApplicationCore.Services.CurriculumService();
-				FrmActionCurriculum frm = new FrmActionCurriculum(Mode.Edit, selectedCurriculum);
+				FrmActionCurriculum frm = new FrmActionCurriculum(Mode.Edit, selectedCurriculum, serviceProvider);
 				var result = frm.ShowDialog();
 				if (result == DialogResult.OK)
 				{
@@ -97,8 +95,7 @@ namespace UI.Desktop.Curriculum
 				try
 				{
 					ApplicationCore.Model.Curriculum selectedCurriulum = (ApplicationCore.Model.Curriculum)lstvCurriculum.SelectedItems[0].Tag;
-					ApplicationCore.Services.CurriculumService service = new ApplicationCore.Services.CurriculumService();
-					await service.Delete(selectedCurriulum.Id);
+					await curriculumService.DeleteAsync(selectedCurriulum.Id);
 					LoadCurriculums();
 					MessageBox.Show("Plan de estudios " + selectedCurriulum.Description + "eliminada correctamente.", "Eliminar plan de estudios", MessageBoxButtons.OK, MessageBoxIcon.Information);
 				}
@@ -118,8 +115,11 @@ namespace UI.Desktop.Curriculum
 
 		private void txtSearchCurriculum_TextChanged(object sender, EventArgs e)
 		{
-			var filteredCurriculums = this.curriculums.Where(a => Utilities.DeleteDiacritic(a.Description.ToLower()).Contains(Utilities.DeleteDiacritic(((System.Windows.Forms.TextBox)sender).Text.ToLower())));
-			AdaptCurriculumsToListView(filteredCurriculums);
+			if (this.curriculums != null && this.curriculums.Count() > 0)
+			{
+				var filteredCurriculums = this.curriculums.Where(a => Utilities.DeleteDiacritic(a.Description.ToLower()).Contains(Utilities.DeleteDiacritic(((System.Windows.Forms.TextBox)sender).Text.ToLower())));
+				AdaptCurriculumsToListView(filteredCurriculums);
+			}
 		}
 		#endregion
 	}

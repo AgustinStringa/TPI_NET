@@ -17,11 +17,16 @@ using UI.Desktop.User;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Http;
 using ClientService;
+using ClientService.Student;
+using ClientService.Area;
+using ClientService.Administrative;
+using ClientService.Teacher;
+using ClientService.Curriculum;
 
 
 namespace UI.Desktop
 {
-	public partial class FrmMain : Form
+    public partial class FrmMain : Form
 	{
 		private bool administrative = false;
 		private bool student = false;
@@ -30,11 +35,17 @@ namespace UI.Desktop
 		public FrmMain(ApplicationCore.Model.User user)
 		{
 			this.user = user;
-			administrative = (user.UserType == 1);
-			student = (user.UserType == 3);
+			
+			administrative = user as Administrative != null;
+			student = user as Student != null;
 			InitializeComponent();
 			var services = new ServiceCollection();
 			services.AddHttpClient<IAreaService, AreaService>();
+			services.AddHttpClient<ICurriculumService, CurriculumService>();
+			services.AddHttpClient<IUserService, UserService>();
+			services.AddHttpClient<IStudentService, StudentService>();
+			services.AddHttpClient<IAdministrativeService, AdministrativeService>();
+			services.AddHttpClient<ITeacherService, TeacherService>();
 			this.serviceProvider = services.BuildServiceProvider();
 		}
 
@@ -73,14 +84,14 @@ namespace UI.Desktop
 
 		private void planesDeEstudioToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			FrmCurriculum appCurr = new FrmCurriculum();
+			FrmCurriculum appCurr = new FrmCurriculum(this.serviceProvider);
 			appCurr.ShowDialog();
 		}
 
 
 		private void crearUsuarioToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			FrmActionUser appUser = new FrmActionUser(Mode.Create);
+			FrmActionUser appUser = new FrmActionUser(Mode.Create, this.serviceProvider);
 			appUser.ShowDialog();
 		}
 
@@ -111,7 +122,7 @@ namespace UI.Desktop
 
 		private void usuariosToolStripMenuItem1_Click(object sender, EventArgs e)
 		{
-			FrmUser frm = new FrmUser();
+			FrmUser frm = new FrmUser(this.serviceProvider);
 			frm.ShowDialog();
 		}
 

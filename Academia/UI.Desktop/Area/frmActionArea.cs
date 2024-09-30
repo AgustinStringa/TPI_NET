@@ -10,11 +10,11 @@ using System.Windows.Forms;
 
 using ApplicationCore.Model;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using ClientService;
+using ClientService.Area;
 
 namespace UI.Desktop.Area
 {
-	public partial class FrmActionArea : Form
+    public partial class FrmActionArea : Form
 	{
 		private Mode mode;
 		private ApplicationCore.Model.Area area;

@@ -1,5 +1,6 @@
 ﻿using ApplicationCore.Model;
 using ApplicationCore.Services;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -9,54 +10,77 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using ClientService;
 
 namespace UI.Desktop.User
 {
 
 	public partial class FrmUser : Form
 	{
-		private IEnumerable<ApplicationCore.Model.User> users = [];
-		private IEnumerable<ApplicationCore.Model.User> filteredUsers = [];
+		private IEnumerable<UserDTO> users = [];
+		private IEnumerable<UserDTO> filteredUsers = [];
 		private string textSearch = "";
 		private List<UserType> userTypeFilters = [UserType.Student, UserType.Teacher, UserType.Administrative];
-		public FrmUser()
+		private ClientService.IUserService userService;
+		private IServiceProvider serviceProvider;
+		public FrmUser(IServiceProvider serviceProvider)
 		{
 			InitializeComponent();
 			chbAdministrative.Tag = UserType.Administrative;
 			chbStudent.Tag = UserType.Student;
 			chbTeacher.Tag = UserType.Teacher;
+			this.serviceProvider = serviceProvider;
+			this.userService = serviceProvider.GetRequiredService<ClientService.IUserService>();
 			Utilities.StyleListViewHeader(lstUsers, Color.FromArgb(184, 218, 255));
 			LoadUsers();
 		}
 
 		private async void LoadUsers()
 		{
-			var service = new UserService();
-			this.users = await service.GetAll();
-			this.filteredUsers = this.users;
-			AdaptUsersToListView(this.filteredUsers);
+			try
+			{
+				this.users = await this.userService.GetAllAsync();
+				this.filteredUsers = this.users;
+				AdaptUsersToListView(this.filteredUsers);
+			}
+			catch (Exception)
+			{
+				MessageBox.Show("Error al obtener los usuarios", "Error de conexion", MessageBoxButtons.OK, MessageBoxIcon.Error);
+			}
+
 		}
 
-		private void AdaptUsersToListView(IEnumerable<ApplicationCore.Model.User> users)
+		private void AdaptUsersToListView(IEnumerable<UserDTO> users)
 		{
 			lstUsers.Items.Clear();
-			foreach (ApplicationCore.Model.User user in users)
+			foreach (var user in users)
 			{
 				ListViewItem item = new ListViewItem(user.Name);
 				item.Tag = user;
 				item.SubItems.Add(user.Lastname);
 				item.SubItems.Add(user.Username);
-				var userType = user.GetType();
-				if (userType == (new Student()).GetType()) {
-					item.SubItems.Add(((Student)user).StudentId);
-					item.SubItems.Add("-");
-				} else if (userType == (new Teacher()).GetType()) {
-					item.SubItems.Add(((Teacher)user).TeacherId);
-					item.SubItems.Add(((Teacher)user).Cuit);
 
-				} else if(userType == (new Administrative()).GetType()) {
+				if (user.Role == "Student")
+				{
+					item.SubItems.Add(user.StudentId);
 					item.SubItems.Add("-");
-					item.SubItems.Add(((Administrative)user).Cuit);
+				}
+				else if (user.Role == "Teacher")
+				{
+
+					item.SubItems.Add(user.TeacherId);
+					item.SubItems.Add(user.Cuit);
+				}
+				else if (user.Role == "Administrative")
+				{
+
+					item.SubItems.Add("-");
+					item.SubItems.Add(user.Cuit);
+				}
+				else
+				{
+					item.SubItems.Add("Unknown");
+					item.SubItems.Add("-");
 				}
 				lstUsers.Items.Add(item);
 			}
@@ -105,19 +129,19 @@ namespace UI.Desktop.User
 			//	 || ((u.Cuit != null) && Utilities.DeleteDiacritic(u.Cuit.ToLower()).Contains(this.textSearch))
 			//	   );
 			this.filteredUsers = this.users.Where(
-	u => Utilities.DeleteDiacritic(u.Name.ToLower()).Contains(this.textSearch)
-	  || Utilities.DeleteDiacritic(u.Lastname.ToLower()).Contains(this.textSearch)
-	   );
+		u => Utilities.DeleteDiacritic(u.Name.ToLower()).Contains(this.textSearch)
+		|| Utilities.DeleteDiacritic(u.Lastname.ToLower()).Contains(this.textSearch)
+		);
 			lstUsers.Items.Clear();
-			this.filteredUsers = this.filteredUsers.Where(u => this.userTypeFilters.Contains(GetUserType(u.UserType)));
+			//this.filteredUsers = this.filteredUsers.Where(u => this.userTypeFilters.Contains(GetUserType(u.UserType)));
 			AdaptUsersToListView(this.filteredUsers);
 			lstUsers.Refresh();
 		}
 
-		private void tsbtnDeleteUser_Click(object sender, EventArgs e)
+		private async void tsbtnDeleteUser_Click(object sender, EventArgs e)
 		{
 
-			var selectedUser = (lstUsers.SelectedItems[0].Tag as ApplicationCore.Model.User);
+			var selectedUser = (lstUsers.SelectedItems[0].Tag as UserDTO);
 			if (selectedUser != null)
 			{
 				// verificar que haya seleccionado un item
@@ -127,8 +151,8 @@ namespace UI.Desktop.User
 				{
 					try
 					{
-						var userService = new UserService();
-						userService.Delete(selectedUser);
+						//var userService = new ApplicationCore.Services.UserService();
+						await userService.DeleteAsync(selectedUser.Id);
 						//ver como proceder con error en eliminacion
 						MessageBox.Show("Usuario eliminado exitosamente", "Eliminar Usuario", MessageBoxButtons.OK, MessageBoxIcon.Information);
 					}
@@ -149,16 +173,20 @@ namespace UI.Desktop.User
 
 		}
 
-		private void tsbtnEditUser_Click(object sender, EventArgs e)
+		private async void tsbtnEditUser_Click(object sender, EventArgs e)
 		{
 			try
 			{
-				var selectedUser = (lstUsers.SelectedItems[0].Tag as ApplicationCore.Model.User);
-				if (selectedUser != null)
+				var selectedUserDTO = (lstUsers.SelectedItems[0].Tag as UserDTO);
+				if (selectedUserDTO != null)
 				{
-					FrmActionUser App = new FrmActionUser(Mode.Edit, selectedUser);
+
+
+					FrmActionUser App = new FrmActionUser(Mode.Edit, selectedUserDTO, this.serviceProvider);
 					App.ShowDialog();
+					//si se editó, DialogResult == OK -> LOADUSERS
 					LoadUsers();
+
 				}
 				else
 				{
@@ -204,7 +232,7 @@ namespace UI.Desktop.User
 
 		private void tsbtnAddUser_Click(object sender, EventArgs e)
 		{
-			FrmActionUser AppCreateUser = new FrmActionUser(Mode.Create);
+			FrmActionUser AppCreateUser = new FrmActionUser(Mode.Create, this.serviceProvider);
 			AppCreateUser.ShowDialog();
 			LoadUsers();
 		}

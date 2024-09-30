@@ -5,13 +5,13 @@ using System.Text;
 using System.Threading.Tasks;
 using ApplicationCore.Model;
 
-namespace ClientService
+namespace ClientService.Area
 {
     public interface IAreaService
     {
-        Task CreateAsync(Area area);
-        Task<IEnumerable<Area>> GetAllAsync();
-        Task UpdateAsync(Area area);
+        Task CreateAsync(ApplicationCore.Model.Area area);
+        Task<IEnumerable<ApplicationCore.Model.Area>> GetAllAsync();
+        Task UpdateAsync(ApplicationCore.Model.Area area);
         Task DeleteAsync(int id);
     }
 }

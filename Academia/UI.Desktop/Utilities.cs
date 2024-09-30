@@ -10,6 +10,25 @@ namespace UI.Desktop
 {
 	public class Utilities
 	{
+		public static void AdaptAreasToCb(ComboBox cb, IEnumerable<ApplicationCore.Model.Area> areas) {
+			if (areas.Count() > 0)
+			{
+				cb.DataSource = areas;
+				cb.ValueMember = "Id";
+				cb.DisplayMember = "Description";
+				cb.SelectedIndex = 0;
+			}
+		}
+
+		public static void AdaptAreasToCb(ComboBox cb, IEnumerable<ApplicationCore.Model.Area> areas, int selectedValue) {
+			if (areas.Count() > 0)
+			{
+				cb.DataSource = areas;
+				cb.ValueMember = "Id";
+				cb.DisplayMember = "Description";
+				cb.SelectedValue = selectedValue;
+			}
+		}
 		public static async void LoadAreas(ComboBox cb)
 		{
 			try

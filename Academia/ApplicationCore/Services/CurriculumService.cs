@@ -29,6 +29,7 @@ namespace ApplicationCore.Services
 					Description = c.Description,
 					Resolution = c.Resolution,
 					Year = c.Year,
+					AreaId = c.AreaId,
 					Area = parameters.area ? new Area { Id = c.Area.Id, Description = c.Area.Description } : null,
 					SubjectsCount = (parameters.subjectsCount ? c.Subjects.Count : null),
 					CommissionsCount = (parameters.commissionsCount ? c.Commissions.Count : null)

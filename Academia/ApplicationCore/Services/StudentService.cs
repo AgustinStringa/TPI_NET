@@ -21,5 +21,11 @@ namespace ApplicationCore.Services
 			//utilizar select para remover datos innecesarios
 			return students;
 		}
+
+		public async Task<ApplicationCore.Model.Student> GetById(int id)
+		{
+			var context = new AcademiaContext();
+			return await context.Students.FindAsync(id);
+		}
 	}
 }

@@ -15,5 +15,10 @@ namespace ApplicationCore.Services
 			return await context.Teachers.ToListAsync();
 		}
 
+		public async Task<ApplicationCore.Model.Teacher> GetById(int id)
+		{
+			var context = new AcademiaContext();
+			return await context.Teachers.FindAsync(id);
+		}
 	}
 }

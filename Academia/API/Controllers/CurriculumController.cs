@@ -14,11 +14,18 @@ namespace API.Controllers
 		private readonly CurriculumService curriculumService = curriculumService;
 
 		[HttpGet]
-		public async Task<ActionResult<IEnumerable<Curriculum>>> GetAll()
+		public async Task<ActionResult<IEnumerable<Curriculum>>> GetAll([FromQuery] string populate = "")
 		{
 			try
 			{
-				var curriculums = await curriculumService.GetAll(new CurriculumRequestParams{  area = false, students = false, subjectsCount = false, commissionsCount = false});
+				var populateEntities = populate?.Split(',') ?? new string[0];
+				var curriculums = await curriculumService.GetAll(
+					new CurriculumRequestParams{  
+						area = populateEntities.Contains("area"), 
+						students = populateEntities.Contains("students"), 
+						subjectsCount = populateEntities.Contains("subjects-count"), 
+						commissionsCount = populateEntities.Contains("commissionsCount")
+					});
 				return Ok(curriculums);
 			}
 			catch (Exception e)

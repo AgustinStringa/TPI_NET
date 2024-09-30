@@ -12,13 +12,28 @@ namespace ApplicationCore.Services
 	public class UserService
 	{
 
-		public async Task Create(User user)
+		public async Task CreateStudent(Student student)
 		{
 			try
 			{
 				var context = new AcademiaContext();
-				await context.Users.AddAsync(user);
-				context.SaveChanges();
+				await context.Students.AddAsync(student);
+				await context.SaveChangesAsync();
+			}
+			catch (Exception)
+			{
+
+				throw;
+			}
+		}
+		
+		public async Task CreateTeacher(Teacher teacher)
+		{
+			try
+			{
+				var context = new AcademiaContext();
+				await context.Teachers.AddAsync(teacher);
+				await context.SaveChangesAsync();
 			}
 			catch (Exception)
 			{
@@ -27,13 +42,32 @@ namespace ApplicationCore.Services
 			}
 		}
 
-		public async void Delete(User user)
+		public async Task CreateAdministrative(Administrative administrative)
 		{
 			try
 			{
 				var context = new AcademiaContext();
-				context.Users.Remove(user);
+				await context.Administratives.AddAsync(administrative);
 				await context.SaveChangesAsync();
+			}
+			catch (Exception)
+			{
+
+				throw;
+			}
+		}
+
+		public async Task Delete(int id)
+		{
+			try
+			{
+				var context = new AcademiaContext();
+				var user = await context.Users.FindAsync(id);
+				if (user != null)
+				{
+					context.Users.Remove(user);
+					await context.SaveChangesAsync();
+				}
 			}
 			catch (Exception ex)
 			{
@@ -44,7 +78,10 @@ namespace ApplicationCore.Services
 		public async Task<IEnumerable<ApplicationCore.Model.User>> GetAll()
 		{
 			var context = new AcademiaContext();
-			return await context.Users.ToListAsync();
+			var users = await context.Users
+			.Include(u => (u as Student).Curriculum)
+			.ToListAsync();
+			return users;
 		}
 
 		public async Task<ApplicationCore.Model.User> GetById(int id)
@@ -52,7 +89,7 @@ namespace ApplicationCore.Services
 			try
 			{
 				var context = new AcademiaContext();
-				var user = await context.Users.FindAsync(id);
+				var user = await context.Users.FirstOrDefaultAsync(u => u.Id ==  id);
 				context.Attach(user);
 				return user;
 			}

@@ -7,7 +7,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using ApplicationCore.Model;
+using ClientService.Area;
+using ClientService.Curriculum;
+using Microsoft.Extensions.DependencyInjection;
 using UI.Desktop.Area;
 
 namespace UI.Desktop.Curriculum
@@ -17,20 +19,23 @@ namespace UI.Desktop.Curriculum
 
 		private ApplicationCore.Model.Curriculum curriculum;
 		private Mode mode;
+		private IAreaService areaService;
+		private ICurriculumService curriculumService;
 
-		public FrmActionCurriculum(Mode mode)
+		public FrmActionCurriculum(Mode mode, IServiceProvider serviceProvider)
 		{
 			if (mode == Mode.Create)
 			{
 				InitializeComponent();
 				this.mode = mode;
+				this.areaService = serviceProvider.GetRequiredService<IAreaService>();
+				this.curriculumService = serviceProvider.GetRequiredService<ICurriculumService>();
 				lblTitleFrmActionCurriculum.Text = "Crear Plan de Estudios";
 				btnActionCurriculum.Text = "Crear Plan de Estudios";
 				lblCurriculumId.Visible = false;
 				lblCurriculumIdValue.Visible = false;
 				lblTitleFrmActionCurriculum.Text = "Crear Plan de Estudios";
-				Utilities.LoadAreas(cbAreas);
-
+				LoadAreas();
 			}
 			else
 			{
@@ -39,16 +44,19 @@ namespace UI.Desktop.Curriculum
 
 		}
 
-		public FrmActionCurriculum(Mode mode, ApplicationCore.Model.Curriculum curriculum)
+		public FrmActionCurriculum(Mode mode, ApplicationCore.Model.Curriculum curriculum, IServiceProvider serviceProvider)
 		{
 			if (mode == Mode.Edit)
 			{
 
 				InitializeComponent();
+
 				this.curriculum = curriculum;
 				this.mode = mode;
-				Utilities.LoadAreas(cbAreas);
-				if (this.curriculum.Subjects.Count > 0)
+				this.areaService = serviceProvider.GetRequiredService<IAreaService>();
+				this.curriculumService = serviceProvider.GetRequiredService<ICurriculumService>();
+				LoadAreas();
+				if (this.curriculum.SubjectsCount > 0)
 				{
 					cbAreas.Enabled = false;
 					lblAreaError.Visible = true;
@@ -79,17 +87,21 @@ namespace UI.Desktop.Curriculum
 		{
 			try
 			{
-				var service = new ApplicationCore.Services.AreaService();
-				cbAreas.DataSource = service.GetAll();
-				cbAreas.ValueMember = "Id";
-				cbAreas.DisplayMember = "Description";
-				cbAreas.SelectedIndex = 0;
+				if (this.mode == Mode.Edit)
+				{
+					Utilities.AdaptAreasToCb(cbAreas, await areaService.GetAllAsync(), this.curriculum.AreaId);
+				}
+				else if (this.mode == Mode.Create)
+				{
+					Utilities.AdaptAreasToCb(cbAreas, await areaService.GetAllAsync());
+
+				}
 			}
 			catch (Exception)
 			{
-				throw;
+				MessageBox.Show("Error al cargar las especialidades",
+					"Error de conexion", MessageBoxButtons.OK, MessageBoxIcon.Error);
 			}
-
 		}
 
 		#region Events
@@ -138,10 +150,9 @@ namespace UI.Desktop.Curriculum
 						Resolution = resolution
 					};
 
-					var service = new ApplicationCore.Services.CurriculumService();
 					try
 					{
-						await service.Create(newCurriculum);
+						await curriculumService.CreateAsync(newCurriculum);
 						MessageBox.Show("Plan de Estudios " + newCurriculum.Description + " creado correctamente.", "Crear Plan de Estudios", MessageBoxButtons.OK, MessageBoxIcon.Information);
 						DialogResult = DialogResult.OK;
 						this.Close();
@@ -162,13 +173,11 @@ namespace UI.Desktop.Curriculum
 				else if (mode == Mode.Edit)
 				{
 					var area = cbAreas.SelectedItem as ApplicationCore.Model.Area;
-					var service = new ApplicationCore.Services.CurriculumService();
 					this.curriculum.Description = description;
 					this.curriculum.Year = year;
 					this.curriculum.Resolution = resolution;
 					this.curriculum.AreaId = idArea;
-					this.curriculum.Area = area;
-					await service.Update(this.curriculum);
+					await curriculumService.UpdateAsync(this.curriculum);
 					MessageBox.Show("Plan de Estudios actualizado correctamente", "Editar Plan de Estudios", MessageBoxButtons.OK, MessageBoxIcon.Information);
 					DialogResult = DialogResult.OK;
 					this.Close();

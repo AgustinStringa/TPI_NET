@@ -68,7 +68,6 @@
 			dtpBirthDate = new DateTimePicker();
 			txtCuit = new TextBox();
 			lblCuit = new Label();
-			lblOutput = new Label();
 			btnActionUser = new Button();
 			panel1.SuspendLayout();
 			panel2.SuspendLayout();
@@ -107,7 +106,6 @@
 			panel1.Controls.Add(dtpBirthDate);
 			panel1.Controls.Add(txtCuit);
 			panel1.Controls.Add(lblCuit);
-			panel1.Controls.Add(lblOutput);
 			panel1.Controls.Add(btnActionUser);
 			panel1.Location = new Point(103, 34);
 			panel1.Name = "panel1";
@@ -221,7 +219,7 @@
 			lblLegajoError.AutoSize = true;
 			lblLegajoError.Font = new Font("Segoe UI", 12F);
 			lblLegajoError.ForeColor = Color.FromArgb(220, 38, 38);
-			lblLegajoError.Location = new Point(330, 623);
+			lblLegajoError.Location = new Point(324, 627);
 			lblLegajoError.Name = "lblLegajoError";
 			lblLegajoError.Size = new Size(159, 21);
 			lblLegajoError.TabIndex = 29;
@@ -231,7 +229,7 @@
 			// txtStudentId
 			// 
 			txtStudentId.Font = new Font("Segoe UI", 12F);
-			txtStudentId.Location = new Point(330, 591);
+			txtStudentId.Location = new Point(324, 591);
 			txtStudentId.Name = "txtStudentId";
 			txtStudentId.Size = new Size(285, 29);
 			txtStudentId.TabIndex = 9;
@@ -241,7 +239,7 @@
 			// 
 			lblStudentId.AutoSize = true;
 			lblStudentId.Font = new Font("Segoe UI", 12F);
-			lblStudentId.Location = new Point(330, 567);
+			lblStudentId.Location = new Point(324, 559);
 			lblStudentId.Name = "lblStudentId";
 			lblStudentId.Size = new Size(74, 21);
 			lblStudentId.TabIndex = 28;
@@ -458,7 +456,7 @@
 			lblCuitError.AutoSize = true;
 			lblCuitError.Font = new Font("Segoe UI", 12F);
 			lblCuitError.ForeColor = Color.FromArgb(220, 38, 38);
-			lblCuitError.Location = new Point(330, 623);
+			lblCuitError.Location = new Point(665, 491);
 			lblCuitError.Name = "lblCuitError";
 			lblCuitError.Size = new Size(188, 21);
 			lblCuitError.TabIndex = 18;
@@ -504,7 +502,7 @@
 			// txtCuit
 			// 
 			txtCuit.Font = new Font("Segoe UI", 12F);
-			txtCuit.Location = new Point(330, 591);
+			txtCuit.Location = new Point(665, 459);
 			txtCuit.Name = "txtCuit";
 			txtCuit.PlaceholderText = "(11 digitos) ej : 2453678763";
 			txtCuit.Size = new Size(285, 29);
@@ -515,21 +513,12 @@
 			// 
 			lblCuit.AutoSize = true;
 			lblCuit.Font = new Font("Segoe UI", 12F);
-			lblCuit.Location = new Point(330, 567);
+			lblCuit.Location = new Point(665, 435);
 			lblCuit.Name = "lblCuit";
 			lblCuit.Size = new Size(56, 21);
 			lblCuit.TabIndex = 13;
 			lblCuit.Text = "Cuit : *";
 			lblCuit.Visible = false;
-			// 
-			// lblOutput
-			// 
-			lblOutput.AutoSize = true;
-			lblOutput.Location = new Point(330, 646);
-			lblOutput.Name = "lblOutput";
-			lblOutput.Size = new Size(69, 15);
-			lblOutput.TabIndex = 5;
-			lblOutput.Text = "output here";
 			// 
 			// btnActionUser
 			// 
@@ -549,7 +538,7 @@
 			AutoScaleMode = AutoScaleMode.Font;
 			AutoSize = true;
 			BackColor = Color.White;
-			ClientSize = new Size(1072, 732);
+			ClientSize = new Size(1096, 732);
 			Controls.Add(panel1);
 			Name = "FrmActionUser";
 			Text = "Crear Usuario";
@@ -569,7 +558,6 @@
         private TextBox txtEmail;
         private Label lblEmail;
         private Button btnActionUser;
-        private Label lblOutput;
         private RadioButton rbtnUserAdministrative;
         private RadioButton rbtnUserStudent;
         private RadioButton rbtnUserTeacher;

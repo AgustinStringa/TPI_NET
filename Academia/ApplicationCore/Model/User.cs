@@ -45,8 +45,5 @@ namespace ApplicationCore.Model
 		public DateTime BirthDate { get; set; }
 
 
-		[Column("tipo_usuario")]
-		public int UserType { get; set; }
-
 	}
 }
