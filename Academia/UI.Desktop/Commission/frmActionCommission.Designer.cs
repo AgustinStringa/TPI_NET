@@ -156,7 +156,7 @@
             ClientSize = new Size(512, 332);
             Controls.Add(panel1);
             Name = "frmActionCommission";
-            Text = "Crear Comisión";
+            Text = "Editar comisión";
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
             ResumeLayout(false);

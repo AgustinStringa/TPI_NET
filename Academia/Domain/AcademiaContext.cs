@@ -33,7 +33,7 @@ namespace Domain
             //builder.IntegratedSecurity = true;
             //builder.InitialCatalog = "net-tpi";
             //_connectionString = builder.ConnectionString;
-            _connectionString = @"Data Source=ELISITO\SQLEXPRESS;Initial Catalog=academia;Integrated Security=True;TrustServerCertificate=True;";
+            _connectionString = @"Data Source=DESKTOP-L1E8H85\SQLEXPRESS;Initial Catalog=academia;Integrated Security=True;TrustServerCertificate=True";
 
             this.Database.EnsureCreated();
         }

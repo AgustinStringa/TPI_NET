@@ -22,6 +22,7 @@ namespace UI.Desktop.Commission
             switch (mode)
             {
                 case Mode.Create:
+                    this.Text = "Crear comisión";
                     btnActionCommission.Text = "Crear comisión";
                     lblId.Visible = false;
                     txtId.Visible = false;

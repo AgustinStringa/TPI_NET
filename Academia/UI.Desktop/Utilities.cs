@@ -118,5 +118,22 @@ namespace UI.Desktop
             }
         }
 
+        public static async void LoadCommissions(ComboBox cb)
+        {
+            try
+            {
+                var service = new Domain.Services.CommissionService();
+                var commissions = await service.GetAll();
+                cb.DataSource = commissions;
+                cb.ValueMember = "Id";
+                cb.DisplayMember = "Description";
+                cb.SelectedIndex = 0;
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
     }
 }

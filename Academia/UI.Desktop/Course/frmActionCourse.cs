@@ -22,6 +22,8 @@ namespace UI.Desktop.Course
         {
             InitializeComponent();
             Utilities.LoadAreas(cmbAreas);
+            Utilities.LoadCurriculums(cmbCurriculums);
+            Utilities.LoadCommissions(cmbComissions);
         }
         private void btnActionCourse_Click(object sender, EventArgs e)
         {
