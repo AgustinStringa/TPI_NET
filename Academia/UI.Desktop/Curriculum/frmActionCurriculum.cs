@@ -7,51 +7,69 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using Domain.Model;
-using Org.BouncyCastle.Asn1.Ocsp;
+using ApplicationCore.Model;
 using UI.Desktop.Area;
 
 namespace UI.Desktop.Curriculum
 {
-    public partial class frmActionCurriculum : Form
+    public partial class FrmActionCurriculum : Form
     {
 
-        private Domain.Model.Curriculum curriculum;
+        private ApplicationCore.Model.Curriculum curriculum;
         private Mode mode;
 
-        public frmActionCurriculum(Mode mode)
+        public FrmActionCurriculum(Mode mode)
         {
-            this.mode = mode;
-            InitializeComponent();
             switch (mode)
             {
                 case Mode.Create:
+                    InitializeComponent();
+                    this.mode = mode;
+                    lblTitleFrmActionCurriculum.Text = "Crear Plan de Estudios";
                     btnActionCurriculum.Text = "Crear Plan de Estudios";
                     lblCurriculumId.Visible = false;
-                    txtCurriculumId.Visible = false;
-                    lblTitle.Text = "Crear Plan de Estudios";
+                    lblCurriculumIdValue.Visible = false;
+                    lblTitleFrmActionCurriculum.Text = "Crear Plan de Estudios";
                     Utilities.LoadAreas(cbAreas);
+                    break;
+                default:
+                    this.Dispose();
                     break;
             }
         }
 
-        public frmActionCurriculum(Mode mode, Domain.Model.Curriculum curr)
+        public FrmActionCurriculum(Mode mode, ApplicationCore.Model.Curriculum curr)
         {
-            this.curriculum = curr;
-            InitializeComponent();
-            Utilities.LoadAreas(cbAreas);
-            this.mode = mode;
-            if (mode == Mode.Edit)
+            switch (mode)
             {
-                btnActionCurriculum.Text = "Guardar Plan de Estudios";
-                lblTitle.Text = "Editar Plan de Estudios";
-                txtCurriculumId.Visible = true;
-                txtCurriculumId.Text = curriculum.Id.ToString();
-                lblCurriculumId.Visible = true;
-                txtCurriculumDescription.Text = curriculum.Description;
-                txtCurriculumYear.Text = curriculum.Year.ToString();
-                txtCurriculumResolution.Text = curriculum.Resolution?.ToString().Trim();
-                cbAreas.SelectedValue = curriculum.Area.Id;
+                case Mode.Edit:
+                    this.curriculum = curriculum;
+                    this.mode = mode;
+                    InitializeComponent();
+                    Utilities.LoadAreas(cbAreas);
+                    if (curriculum.Subjects.Count > 0)
+                    {
+                        cbAreas.Enabled = false;
+                        lblAreaError.Visible = true;
+                    }
+                    else
+                    {
+                        lblAreaError.Visible = false;
+                        cbAreas.Enabled = true;
+                    }
+                    btnActionCurriculum.Text = "Guardar Plan de Estudios";
+                    lblTitleFrmActionCurriculum.Text = "Editar Plan de Estudios";
+                    lblCurriculumIdValue.Visible = true;
+                    lblCurriculumIdValue.Text = this.curriculum.Id.ToString();
+                    lblCurriculumId.Visible = true;
+                    txtCurriculumDescription.Text = this.curriculum.Description;
+                    txtCurriculumYear.Text = this.curriculum.Year.ToString();
+                    txtCurriculumResolution.Text = this.curriculum.Resolution?.ToString().Trim();
+                    cbAreas.SelectedValue = this.curriculum.Area.Id;
+                    break;
+                default:
+                    this.Dispose();
+                    break;
             }
         }
 
@@ -59,7 +77,7 @@ namespace UI.Desktop.Curriculum
         {
             try
             {
-                var service = new Domain.Services.AreaService();
+                var service = new ApplicationCore.Services.AreaService();
                 cbAreas.DataSource = service.GetAll();
                 cbAreas.ValueMember = "Id";
                 cbAreas.DisplayMember = "Description";
@@ -72,11 +90,12 @@ namespace UI.Desktop.Curriculum
 
         }
 
+        #region Events
         private async void btnActionCurriculum_Click(object sender, EventArgs e)
         {
-            string description = txtCurriculumDescription.Text;
+            string description = txtCurriculumDescription.Text.Trim();
             int year = 0;
-            string resolution = txtCurriculumResolution.Text;
+            string resolution = txtCurriculumResolution.Text.Trim();
 
             bool validYear = false;
             try
@@ -101,15 +120,15 @@ namespace UI.Desktop.Curriculum
                 validDescription = true;
                 lblCurriculumDescriptionError.Visible = false;
             }
+
             bool validArea = cbAreas.SelectedValue != null;
 
             if (validArea && validDescription && validYear)
             {
                 int idArea = (int)cbAreas.SelectedValue;
-
                 if (mode == Mode.Create)
                 {
-                    Domain.Model.Curriculum newCurr = new Domain.Model.Curriculum
+                    ApplicationCore.Model.Curriculum newCurriculum = new ApplicationCore.Model.Curriculum
                     {
                         Description = description,
                         AreaId = idArea,
@@ -117,23 +136,30 @@ namespace UI.Desktop.Curriculum
                         Resolution = resolution
                     };
 
-                    var service = new Domain.Services.CurriculumService();
+                    var service = new ApplicationCore.Services.CurriculumService();
                     try
                     {
-                        await service.Create(newCurr);
-                        MessageBox.Show(newCurr.Description + " creado correctamente");
+                        await service.Create(newCurriculum);
+                        MessageBox.Show("Plan de Estudios " + newCurriculum.Description + " creado correctamente.", "Crear Plan de Estudios", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         this.Dispose();
                     }
                     catch (Exception ex)
                     {
-                        MessageBox.Show(ex.Message);
-                        throw ex;
+                        //TO DO: que errores puede haber aqui?
+                        if (ex.HResult == -2146233088)
+                        {
+                            MessageBox.Show("Plan de Estudios existente.", "No se ha podido crear", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
+                        else
+                        {
+                            MessageBox.Show(ex.Message);
+                        }
                     }
                 }
                 else if (mode == Mode.Edit)
                 {
-                    var area = cbAreas.SelectedItem as Domain.Model.Area;
-                    var service = new Domain.Services.CurriculumService();
+                    var area = cbAreas.SelectedItem as ApplicationCore.Model.Area;
+                    var service = new ApplicationCore.Services.CurriculumService();
                     this.curriculum.Description = description;
                     this.curriculum.Year = year;
                     this.curriculum.Resolution = resolution;
@@ -144,10 +170,17 @@ namespace UI.Desktop.Curriculum
                     this.Dispose();
 
                 }
-
-                
-
             }
         }
+
+        private void FrmActionCurriculum_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                btnActionCurriculum.PerformClick();
+            }
+        }
+
+        #endregion
     }
 }

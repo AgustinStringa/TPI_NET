@@ -7,14 +7,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using Entities;
+
 
 namespace UI.Desktop.Commission
 {
     public partial class frmActionCommission : Form
     {
         private Mode mode;
-        public Domain.Model.Commission commission;
+        public ApplicationCore.Model.Commission commission;
         public frmActionCommission(Mode mode)
         {
             this.mode = mode;
@@ -33,7 +33,7 @@ namespace UI.Desktop.Commission
                     break;
             }
         }
-        public frmActionCommission(Mode mode, Domain.Model.Commission comm)
+        public frmActionCommission(Mode mode, ApplicationCore.Model.Commission comm)
         {
             this.commission = comm;
             InitializeComponent();
@@ -60,7 +60,7 @@ namespace UI.Desktop.Commission
         {
             try
             {
-                var service = new Domain.Services.AreaService();
+                var service = new ApplicationCore.Services.AreaService();
                 cbCurriculum.DataSource = service.GetAll();
                 cbCurriculum.ValueMember = "Id";
                 cbCurriculum.DisplayMember = "Description";
@@ -95,13 +95,13 @@ namespace UI.Desktop.Commission
                 int idCurriculum = (int)cbCurriculum.SelectedValue;
                 if (mode == Mode.Create)
                 {
-                    Domain.Model.Commission newComm = new Domain.Model.Commission
+                    ApplicationCore.Model.Commission newComm = new ApplicationCore.Model.Commission
                     {
                         Description = commissionDescription,
                         IdCurriculum = idCurriculum
 
                     };
-                    var service = new Domain.Services.CommissionService();
+                    var service = new ApplicationCore.Services.CommissionService();
                     try
                     {
                         CreateCommission(newComm, service);
@@ -114,13 +114,13 @@ namespace UI.Desktop.Commission
                 }
                 else if (mode == Mode.Edit)
                 {
-                    var service = new Domain.Services.CommissionService();
+                    var service = new ApplicationCore.Services.CommissionService();
                     EditCommission(commissionDescription, idCurriculum, service);
                 }
             }
         }
 
-        private async void CreateCommission(Domain.Model.Commission newCommission, Domain.Services.CommissionService service)
+        private async void CreateCommission(ApplicationCore.Model.Commission newCommission, ApplicationCore.Services.CommissionService service)
         {
 
             service.Create(newCommission);
@@ -128,7 +128,7 @@ namespace UI.Desktop.Commission
             this.Dispose();
         }
 
-        private async void EditCommission(string description, int idCurriculum, Domain.Services.CommissionService service)
+        private async void EditCommission(string description, int idCurriculum, ApplicationCore.Services.CommissionService service)
         {
             this.commission.Description = description;
             this.commission.IdCurriculum = idCurriculum;

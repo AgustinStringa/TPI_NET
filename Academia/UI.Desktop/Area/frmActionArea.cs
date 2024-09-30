@@ -7,19 +7,22 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using Entities;
-using Domain.Model;
+
+using ApplicationCore.Model;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using ClientService;
 
 namespace UI.Desktop.Area
 {
     public partial class FrmActionArea : Form
     {
         private Mode mode;
-        private Domain.Model.Area area;
-        public FrmActionArea(Mode mode)
+        private ApplicationCore.Model.Area area;
+        private IAreaService _areaService;
+        public FrmActionArea(Mode mode, IAreaService service)
         {
             this.mode = mode;
+            this._areaService = service;
             InitializeComponent();
             switch (mode)
             {
@@ -30,10 +33,11 @@ namespace UI.Desktop.Area
                     break;
             }
         }
-        public FrmActionArea(Mode mode, Domain.Model.Area area)
+        public FrmActionArea(Mode mode, ApplicationCore.Model.Area area, IAreaService service)
         {
             this.mode = mode;
             this.area = area;
+            this._areaService = service;
             InitializeComponent();
             switch (mode)
             {
@@ -48,12 +52,11 @@ namespace UI.Desktop.Area
             }
         }
 
-        private async void CreateArea(Domain.Model.Area newArea)
+        private async void CreateArea(ApplicationCore.Model.Area newArea)
         {
             try
             {
-                var service = new Domain.Services.AreaService();
-                await service.Create(newArea);
+                await _areaService.CreateAsync(newArea);
                 MessageBox.Show("Especialidad " + newArea.Description + " creada correctamente.", "Crear especialidad", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 this.Dispose();
             }
@@ -61,7 +64,7 @@ namespace UI.Desktop.Area
             {
                 if (e.HResult == -2146233088)
                 {
-                    MessageBox.Show("Nombre de especialidad existente.", "No se ha podido eliminar", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Nombre de especialidad existente.", "No se ha podido crear", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
         }
@@ -71,8 +74,7 @@ namespace UI.Desktop.Area
             try
             {
                 this.area.Description = areaDescription;
-                var service = new Domain.Services.AreaService();
-                await service.Update(this.area);
+                await _areaService.UpdateAsync(area);
                 this.Dispose();
             }
             catch (Exception e)
@@ -101,7 +103,7 @@ namespace UI.Desktop.Area
             {
                 if (mode == Mode.Create)
                 {
-                    CreateArea(new Domain.Model.Area { Description = areaDescription });
+                    CreateArea(new ApplicationCore.Model.Area { Description = areaDescription });
                 }
                 else if (mode == Mode.Edit)
                 {

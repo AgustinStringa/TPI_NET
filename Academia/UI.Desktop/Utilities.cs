@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Security.Cryptography;
+using System.Globalization;
 
 namespace UI.Desktop
 {
@@ -12,7 +14,7 @@ namespace UI.Desktop
         {
             try
             {
-                var service = new Domain.Services.AreaService();
+                var service = new ApplicationCore.Services.AreaService();
                 var areas = await service.GetAll();
                 if (areas.Count() > 0)
                 {
@@ -29,11 +31,11 @@ namespace UI.Desktop
             }
         }
 
-        public static async void LoadAreas(IEnumerable<Domain.Model.Area> areasList, ComboBox cb)
+        public static async void LoadAreas(IEnumerable<ApplicationCore.Model.Area> areasList, ComboBox cb)
         {
             try
             {
-                var service = new Domain.Services.AreaService();
+                var service = new ApplicationCore.Services.AreaService();
                 areasList = await service.GetAll();
                 if (areasList.Count() > 0)
                 {
@@ -49,11 +51,11 @@ namespace UI.Desktop
             }
         }
 
-        public static async void LoadCurriculums(IEnumerable<Domain.Model.Curriculum> curriculums, ComboBox cb, int val)
+        public static async void LoadCurriculums(IEnumerable<ApplicationCore.Model.Curriculum> curriculums, ComboBox cb, int val)
         {
             try
             {
-                var service = new Domain.Services.CurriculumService();
+                var service = new ApplicationCore.Services.CurriculumService();
                 curriculums = await service.GetAll();
                 cb.DataSource = curriculums;
                 cb.ValueMember = "Id";
@@ -66,11 +68,11 @@ namespace UI.Desktop
             }
         }
 
-        public static async void LoadCurriculums(IEnumerable<Domain.Model.Curriculum> curriculums, ComboBox cb)
+        public static async void LoadCurriculums(IEnumerable<ApplicationCore.Model.Curriculum> curriculums, ComboBox cb)
         {
             try
             {
-                var service = new Domain.Services.CurriculumService();
+                var service = new ApplicationCore.Services.CurriculumService();
                 curriculums = await service.GetAll();
                 cb.DataSource = curriculums;
                 cb.ValueMember = "Id";
@@ -88,7 +90,7 @@ namespace UI.Desktop
         {
             try
             {
-                var service = new Domain.Services.CurriculumService();
+                var service = new ApplicationCore.Services.CurriculumService();
                 var curriculums = await service.GetAll();
                 cb.DataSource = curriculums;
                 cb.ValueMember = "Id";
@@ -101,11 +103,11 @@ namespace UI.Desktop
             }
         }
 
-        public static async void LoadCurriculums(ComboBox cb, Domain.Model.Curriculum curr)
+        public static async void LoadCurriculums(ComboBox cb, ApplicationCore.Model.Curriculum curr)
         {
             try
             {
-                var service = new Domain.Services.CurriculumService();
+                var service = new ApplicationCore.Services.CurriculumService();
                 var curriculums = await service.GetAll();
                 cb.DataSource = curriculums;
                 cb.ValueMember = "Id";
@@ -122,7 +124,7 @@ namespace UI.Desktop
         {
             try
             {
-                var service = new Domain.Services.CommissionService();
+                var service = new ApplicationCore.Services.CommissionService();
                 var commissions = await service.GetAll();
                 cb.DataSource = commissions;
                 cb.ValueMember = "Id";
@@ -135,5 +137,31 @@ namespace UI.Desktop
             }
         }
 
-    }
+    
+		public static string EncodePassword(string password)
+		{
+
+			byte[] messageBytes = Encoding.UTF8.GetBytes(password);
+			byte[] hashValue = SHA256.HashData(messageBytes);
+			return Convert.ToHexString(hashValue);
+		}
+
+		public static string DeleteDiacritic(string text)
+		{
+
+			var normalizedString = text.Normalize(NormalizationForm.FormD);
+			var stringBuilder = new StringBuilder();
+
+			foreach (var c in normalizedString)
+			{
+				var unicodeCategory = CharUnicodeInfo.GetUnicodeCategory(c);
+				if (unicodeCategory != System.Globalization.UnicodeCategory.NonSpacingMark)
+				{
+					stringBuilder.Append(c);
+				}
+			}
+
+			return stringBuilder.ToString().Normalize(NormalizationForm.FormC);
+		}
+	}
 }

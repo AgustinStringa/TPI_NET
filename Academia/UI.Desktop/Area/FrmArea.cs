@@ -11,6 +11,8 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using UI.Desktop;
 using UI.Desktop.Area;
+using ClientService;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace UI.Desktop.Area
 {
@@ -19,10 +21,14 @@ namespace UI.Desktop.Area
     public partial class FrmArea : Form
     {
         #region Fields
-        private IEnumerable<Domain.Model.Area> areasList;
+        private IEnumerable<ApplicationCore.Model.Area> areasList;
+        private IServiceProvider serviceProvider;
+        private IAreaService _areaService;
         #endregion
-        public FrmArea()
+        public FrmArea(IServiceProvider serviceProvider)
         {
+            this.serviceProvider = serviceProvider;
+            this._areaService = serviceProvider.GetRequiredService<IAreaService>();
             InitializeComponent();
             LoadAreas();
             StartLayoutPanel();
@@ -33,8 +39,7 @@ namespace UI.Desktop.Area
         {
             try
             {
-                var service = new Domain.Services.AreaService();
-                this.areasList = await service.GetAll();
+                this.areasList = await _areaService.GetAllAsync();
                 AdaptAreasToListView(areasList);
             }
             catch (Exception e)
@@ -49,12 +54,11 @@ namespace UI.Desktop.Area
         #region Events 
         private async void tsbtnAdd_Click(object sender, EventArgs e)
         {
-            FrmActionArea frm = new FrmActionArea(Mode.Create);
+            FrmActionArea frm = new FrmActionArea(Mode.Create, _areaService);
             frm.ShowDialog();
-            var service = new Domain.Services.AreaService();
             lstvAreas.Items.Clear();
-            var areas = await service.GetAll();
-            AdaptAreasToListView(areas);
+            this.areasList = await _areaService.GetAllAsync();
+            AdaptAreasToListView(this.areasList);
             lstvAreas.Refresh();
         }
         private async void tsbtnEdit_Click(object sender, EventArgs e)
@@ -62,18 +66,18 @@ namespace UI.Desktop.Area
 
             if (lstvAreas.SelectedItems.Count > 0)
             {
-                Domain.Model.Area selectedArea = (Domain.Model.Area)lstvAreas.SelectedItems[0].Tag;
-                var service = new Domain.Services.AreaService();
-                FrmActionArea frm = new FrmActionArea(Mode.Edit, selectedArea);
+                ApplicationCore.Model.Area selectedArea = (ApplicationCore.Model.Area)lstvAreas.SelectedItems[0].Tag;
+                FrmActionArea frm = new FrmActionArea(Mode.Edit, selectedArea, _areaService);
                 frm.ShowDialog();
                 lstvAreas.Items.Clear();
-                AdaptAreasToListView(await service.GetAll());
+                this.areasList = await _areaService.GetAllAsync();
+                AdaptAreasToListView(areasList);
                 lstvAreas.Refresh();
             }
             else
             {
                 MessageBox.Show("Seleccione una especialidad antes de editar", "Editar Especialidad", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                            }
+            }
         }
         private async void tsbtnRemove_Click(object sender, EventArgs e)
         {
@@ -82,21 +86,20 @@ namespace UI.Desktop.Area
             {
                 try
                 {
-                    Domain.Model.Area selectedArea = (Domain.Model.Area)lstvAreas.SelectedItems[0].Tag;
-                    var service = new Domain.Services.AreaService();
-                    await service.Delete(selectedArea.Id);
+                    ApplicationCore.Model.Area selectedArea = (ApplicationCore.Model.Area)lstvAreas.SelectedItems[0].Tag;
+                    await _areaService.DeleteAsync(selectedArea.Id);
                     lstvAreas.Items.Clear();
-                    AdaptAreasToListView(await service.GetAll());
+                    this.areasList = await _areaService.GetAllAsync();
+                    AdaptAreasToListView(areasList);
                     lstvAreas.Refresh();
-                    MessageBox.Show("Especialidad " + selectedArea.Description + "eliminada correctamente.", "Eliminar especialidad", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
+                    MessageBox.Show("Especialidad " + selectedArea.Description + " eliminada correctamente.", "Eliminar especialidad", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
                 catch (Exception ex)
                 {
-                    var inner = ex.InnerException as Microsoft.Data.SqlClient.SqlException;
-                    if (inner.ErrorCode == -2146232060)
+                    
+                    if (ex.HResult == -2146233088)
                     {
-                        MessageBox.Show("No puedes eliminar una especialidad con Datos asociados. \n Elimina todos los planes de estudios que referencien a esta especialidad antes de eliminar.", "No se ha podido eliminar", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        MessageBox.Show("No puedes eliminar una especialidad con Datos asociados.\n Elimina todos los planes de estudios que referencien a esta especialidad antes de eliminar.", "No se ha podido eliminar", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                 }
 
@@ -106,9 +109,9 @@ namespace UI.Desktop.Area
                 MessageBox.Show("Seleccione una especialidad antes de eliminar", "Eliminar Especialidad", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
-        private void AdaptAreasToListView(IEnumerable<Domain.Model.Area> areas)
+        private void AdaptAreasToListView(IEnumerable<ApplicationCore.Model.Area> areas)
         {
-            foreach (Domain.Model.Area item in areas)
+            foreach (ApplicationCore.Model.Area item in areas)
             {
                 ListViewItem nuevoItem = new ListViewItem(item.Id.ToString());
                 nuevoItem.Tag = item;
@@ -126,7 +129,8 @@ namespace UI.Desktop.Area
 
         #endregion
 
-        private void StartLayoutPanel() {
+        private void StartLayoutPanel()
+        {
             TableLayoutPanel tableLayoutPanel = new TableLayoutPanel();
             tableLayoutPanel.ColumnCount = 1;
             tableLayoutPanel.RowCount = 3;

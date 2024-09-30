@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using Domain;
+using ApplicationCore;
 
 namespace UI.Desktop
 {
@@ -20,7 +20,7 @@ namespace UI.Desktop
 
         private async void btnIngresar_Click(object sender, EventArgs e)
         {
-            var service = new Domain.Services.UserService() ;
+            var service = new ApplicationCore.Services.UserService() ;
             string username, password;
             username = txtUsuario.Text.Trim();
             password = txtContra.Text.Trim();
@@ -33,7 +33,7 @@ namespace UI.Desktop
             {
                 this.DialogResult = DialogResult.OK;
                 MessageBox.Show("Autenticado correctamente","Autenticado", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                frmMain form = new frmMain(user);
+                FrmMain form = new FrmMain(user);
                 this.Visible = false;
                 form.ShowDialog();
                 this.Visible = true;

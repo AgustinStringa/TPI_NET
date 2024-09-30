@@ -1,5 +1,5 @@
-﻿using Domain.Model;
-using Domain.Services;
+﻿using ApplicationCore.Model;
+using ApplicationCore.Services;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -18,13 +18,13 @@ namespace UI.Desktop.Subject
     {
 
         #region Fields
-        private Domain.Model.Subject subject;
-        private IEnumerable<Domain.Model.Curriculum> curriculums;
+        private ApplicationCore.Model.Subject subject;
+        private IEnumerable<ApplicationCore.Model.Curriculum> curriculums;
         private Mode Mode;
         #endregion
 
         #region Constructors
-        public FrmActionSubject(Mode mode, Domain.Model.Subject subj)
+        public FrmActionSubject(Mode mode, ApplicationCore.Model.Subject subj)
         {
             InitializeComponent();
             if (mode == Mode.Edit)
@@ -56,11 +56,11 @@ namespace UI.Desktop.Subject
         {
             lstCorrelativesChildren.Items.Clear();
             lstCorrelativesParent.Items.Clear();
-            foreach (Domain.Model.Correlative item in subject.CorrelativesChildren)
+            foreach (ApplicationCore.Model.Correlative item in subject.CorrelativesChildren)
             {
                 lstCorrelativesChildren.Items.Add(new ListBoxItem { DisplayText = item.CorrelativeSubject.Description, Tag = item });
             }
-            foreach (Domain.Model.Correlative item in subject.CorrelativesParents)
+            foreach (ApplicationCore.Model.Correlative item in subject.CorrelativesParents)
             {
                 lstCorrelativesParent.Items.Add(new ListBoxItem { DisplayText = item.Subject.Description, Tag = item });
             }
@@ -76,7 +76,7 @@ namespace UI.Desktop.Subject
                 int totalHours = int.Parse(txtTotalHours.Text.Trim());
                 int weeklyHours = int.Parse(txtWeeklyHours.Text.Trim());
                 int level = (int)numLevel.Value;
-                Domain.Model.Curriculum curriculum = (Domain.Model.Curriculum)cbCurriculums.SelectedItem;
+                ApplicationCore.Model.Curriculum curriculum = (ApplicationCore.Model.Curriculum)cbCurriculums.SelectedItem;
                 var service = new SubjectService();
                 switch (Mode)
                 {
@@ -91,7 +91,7 @@ namespace UI.Desktop.Subject
                         this.Dispose();
                         break;
                     case Mode.Create:
-                        var newSubject = new Domain.Model.Subject
+                        var newSubject = new ApplicationCore.Model.Subject
                         {
                             Description = description,
                             TotalHours = totalHours,
@@ -142,7 +142,7 @@ namespace UI.Desktop.Subject
         {
             if (lstCorrelativesParent.SelectedItems.Count > 0)
             {
-                Domain.Model.Correlative correlativeToDelete = ((ListBoxItem)lstCorrelativesParent.SelectedItems[0]).Tag;
+                ApplicationCore.Model.Correlative correlativeToDelete = ((ListBoxItem)lstCorrelativesParent.SelectedItems[0]).Tag;
                 var service = new CorrelativeService();
                 service.Delete(correlativeToDelete);
                 subject.CorrelativesParents.Remove(correlativeToDelete);
@@ -155,7 +155,7 @@ namespace UI.Desktop.Subject
         {
             if (lstCorrelativesChildren.SelectedItems.Count > 0)
             {
-                Domain.Model.Correlative correlativeToDelete = ((ListBoxItem)lstCorrelativesChildren.SelectedItems[0]).Tag;
+                ApplicationCore.Model.Correlative correlativeToDelete = ((ListBoxItem)lstCorrelativesChildren.SelectedItems[0]).Tag;
                 var service = new CorrelativeService();
                 service.Delete(correlativeToDelete);
                 subject.CorrelativesChildren.Remove(correlativeToDelete);

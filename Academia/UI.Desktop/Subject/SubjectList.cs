@@ -1,4 +1,4 @@
-﻿using Domain.Services;
+﻿using ApplicationCore.Services;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -14,9 +14,9 @@ namespace UI.Desktop.Subject
 {
     public partial class SubjectList : Form
     {
-        private Domain.Model.Subject subject;
+        private ApplicationCore.Model.Subject subject;
         UI.Desktop.CorrelativeType type;
-        public SubjectList(Domain.Model.Subject subject, UI.Desktop.CorrelativeType type)
+        public SubjectList(ApplicationCore.Model.Subject subject, UI.Desktop.CorrelativeType type)
         {
             InitializeComponent();
             this.subject = subject;
@@ -30,7 +30,7 @@ namespace UI.Desktop.Subject
         {
             var service = new SubjectService();
             lstCorrelativeSubjects.Items.Clear();
-            IEnumerable<Domain.Model.Subject> subjectList = new List<Domain.Model.Subject>();
+            IEnumerable<ApplicationCore.Model.Subject> subjectList = new List<ApplicationCore.Model.Subject>();
             if (type == CorrelativeType.Children)
             {
                 subjectList = await service.GetPossibleChildrenCorrelatives(subject);
@@ -41,7 +41,7 @@ namespace UI.Desktop.Subject
 
             }
 
-            foreach (Domain.Model.Subject item in subjectList)
+            foreach (ApplicationCore.Model.Subject item in subjectList)
             {
                 ListViewItem nuevoItem = new ListViewItem(item.Description);
                 nuevoItem.Tag = item;
@@ -61,11 +61,11 @@ namespace UI.Desktop.Subject
                 if (lstCorrelativeSubjects.SelectedItems.Count > 0)
                 {
 
-                    Domain.Model.Subject selectedSubject = (Domain.Model.Subject)lstCorrelativeSubjects.SelectedItems[0].Tag;
+                    ApplicationCore.Model.Subject selectedSubject = (ApplicationCore.Model.Subject)lstCorrelativeSubjects.SelectedItems[0].Tag;
 
                     if (this.type == CorrelativeType.Parent)
                     {
-                        var newCorrelative = new Domain.Model.Correlative
+                        var newCorrelative = new ApplicationCore.Model.Correlative
                         {
                             CorrelativeId = subject.Id,
                             SubjectId = selectedSubject.Id,
@@ -81,7 +81,7 @@ namespace UI.Desktop.Subject
                     }
                     else if (this.type == CorrelativeType.Children)
                     {
-                        var newCorrelative = new Domain.Model.Correlative
+                        var newCorrelative = new ApplicationCore.Model.Correlative
                         {
                             CorrelativeId = selectedSubject.Id,
                             SubjectId = subject.Id,
