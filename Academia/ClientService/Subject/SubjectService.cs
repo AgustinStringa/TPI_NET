@@ -112,5 +112,23 @@ namespace ClientService.Subject
 				throw;
 			}
 		}
+
+		public async Task<IEnumerable<ApplicationCore.Model.Subject>> GetAllByCurriculumId(int curriculumId)
+		{
+			try
+			{
+				_httpClient.DefaultRequestHeaders.Accept.Clear();
+				_httpClient.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+
+				var response = await _httpClient.GetStringAsync(_apiUrl + $"?curriculumId={curriculumId}");
+				var subjects = JsonConvert.DeserializeObject<List<ApplicationCore.Model.Subject>>(response);
+				return subjects;
+			}
+			catch (Exception)
+			{
+
+				throw;
+			}
+		}
 	}
 }

@@ -28,7 +28,7 @@ namespace ApplicationCore.Model
         public virtual Subject? Subject { get; set; }
 
         [NotMapped]
-        public string ToStringProperty {  get => this.ToString(); }
+        public string? ToStringProperty {  get => this.ToString(); }
         public override string ToString()
         {
             if (Commission != null) { 
@@ -39,7 +39,7 @@ namespace ApplicationCore.Model
 
 
 		}
-        public virtual ICollection<UserCourse> UserCourses { get; set; } = new List<UserCourse>();
+        public virtual ICollection<StudentCourse> StudentCourses { get; set; } = new List<StudentCourse>();
 
         public virtual ICollection<Teacher> Teachers { get; set; } = new List<Teacher>();
 

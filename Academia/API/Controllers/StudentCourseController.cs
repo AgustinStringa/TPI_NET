@@ -10,16 +10,16 @@ using System.Threading.Tasks;
 
 namespace API.Controllers
 {
-    [Route("api/usercourses")]
-    [ApiController]
-    public class UserCourseController : Controller
-    {
-        private readonly UserCourseService userCourseService;
+	[Route("api/student-courses")]
+	[ApiController]
+	public class StudentCourseController : Controller
+	{
+		private readonly StudentCourseService userCourseService;
 
-        public UserCourseController(UserCourseService userCourseService)
-        {
-            this.userCourseService = userCourseService;
-        }
+		public StudentCourseController(StudentCourseService userCourseService)
+		{
+			this.userCourseService = userCourseService;
+		}
 
 		//[HttpPost("enroll")]
 		//public async Task<ActionResult> Enroll([FromBody] UserCourseDto userCourseDto)
@@ -94,7 +94,7 @@ namespace API.Controllers
 		//    }
 		//}
 
-		public async Task<ActionResult<UserCourse>> GetById(int id)
+		public async Task<ActionResult<StudentCourse>> GetById(int id)
 		{
 			try
 			{
@@ -108,7 +108,7 @@ namespace API.Controllers
 		}
 
 		[HttpPost]
-		public async Task<ActionResult<UserCourse>> Create(UserCourse newUserCourse)
+		public async Task<ActionResult<StudentCourse>> Create(StudentCourse newUserCourse)
 		{
 			try
 			{
@@ -153,19 +153,25 @@ namespace API.Controllers
 		}
 
 
-		[HttpGet("user-id/{userId}")]
-		public async Task<ActionResult<IEnumerable<UserCourse>>> GetByUserId(int userId)
+		[HttpGet("")]
+		public async Task<ActionResult<IEnumerable<StudentCourse>>> GetByUserId([FromQuery] int? userId = null)
 		{
 			try
 			{
-				var userCourses = await userCourseService.GetByUserId(userId);
-
-				if (userCourses == null)
+				if (userId != null)
 				{
-					return NotFound(new { message = "there is no inscriptions for this student" });
-				}
+					var userCourses = await userCourseService.GetByUserId((int)userId);
 
-				return Ok(userCourses);
+					if (userCourses == null)
+					{
+						return NotFound(new { message = "there is no inscriptions for this student" });
+					}
+					return Ok(userCourses);
+				}
+				else
+				{
+					return NotFound();
+				}
 			}
 			catch (Exception e)
 			{
@@ -174,11 +180,11 @@ namespace API.Controllers
 		}
 
 		[HttpPatch("{userCourseId}")]
-		public async Task<ActionResult<UserCourse>> QualifyCourse(int userCourseId, CalificationCourse calification)
+		public async Task<ActionResult<StudentCourse>> QualifyCourse(int userCourseId, CalificationCourse calification)
 		{
 			try
 			{
-                var userCourse = await userCourseService.GetById(userCourseId);
+				var userCourse = await userCourseService.GetById(userCourseId);
 
 				if (userCourse == null)
 				{
@@ -198,8 +204,8 @@ namespace API.Controllers
 	}
 
 	public class UserCourseDto
-    {
-        public int UserId { get; set; }
-        public int CourseId { get; set; }
-    }
+	{
+		public int UserId { get; set; }
+		public int CourseId { get; set; }
+	}
 }

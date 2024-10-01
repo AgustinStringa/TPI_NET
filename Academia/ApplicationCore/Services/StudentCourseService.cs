@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace ApplicationCore.Services
 {
-	public class UserCourseService
+	public class StudentCourseService
 	{
 
 		
@@ -35,7 +35,7 @@ namespace ApplicationCore.Services
 			}
 		}
 
-		public async Task Create(UserCourse userCourse)
+		public async Task Create(StudentCourse userCourse)
 		{
 			try
 			{
@@ -80,7 +80,7 @@ namespace ApplicationCore.Services
 			}
 		}
 
-		public async Task<IEnumerable<UserCourse>> GetByUserId(int id)
+		public async Task<IEnumerable<StudentCourse>> GetByUserId(int id)
 		{
 
 			try
@@ -102,7 +102,7 @@ namespace ApplicationCore.Services
 			}
 		}
 
-		public async Task<UserCourse> GetById(int id)
+		public async Task<StudentCourse> GetById(int id)
 		{
 
 			try
@@ -117,7 +117,7 @@ namespace ApplicationCore.Services
 			}
 		}
 
-		public async Task<UserCourse> QualifyCourse(int id, CalificationCourse calification)
+		public async Task<StudentCourse> QualifyCourse(int id, CalificationCourse calification)
 		{
 
 			try

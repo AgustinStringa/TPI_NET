@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace ApplicationCore.Model
 {
     [Table("alumnos_inscripciones")]
-    public class UserCourse
+    public class StudentCourse
     {
         [Key]
         [Column("id_inscripcion")]

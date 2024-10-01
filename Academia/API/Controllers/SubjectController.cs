@@ -17,19 +17,24 @@ namespace API.Controllers
 		}
 
 		[HttpGet]
-		public async Task<ActionResult<IEnumerable<Subject>>> GetAll([FromQuery] string populate = "")
+		public async Task<ActionResult<IEnumerable<Subject>>> GetAll([FromQuery] string? populate = "", [FromQuery] int? curriculumId = null)
 		{
 			try
 			{
 				var populateEntities = populate?.Split(',') ?? new string[0];
 
 				var subjects = await subjectService.GetAll(new SubjectRequestParams
-				{ 
-				coursesCount = populateEntities.Contains("courses-count"),
-				curriculum	= populateEntities.Contains("curriculum")
+				{
+					Populate = new SubjectRequestParamsPopulate
+					{
+						coursesCount = populateEntities.Contains("courses-count"),
+						curriculum = populateEntities.Contains("curriculum")
+
+					},
+					CurriculumId = curriculumId != null ? curriculumId : null
 				}
-					);
-				if (subjects == null) return NotFound();
+				);
+				//if (subjects == null) return NotFound();
 
 				return Ok(subjects);
 			}

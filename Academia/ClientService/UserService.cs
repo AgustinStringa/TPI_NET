@@ -10,21 +10,6 @@ using System.Threading.Tasks;
 
 namespace ClientService
 {
-	public class UserDTO
-	{
-		public int Id{ get; set; }
-		public string Name { get; set; }
-		public string Lastname { get; set; }
-		public string Role { get; set; }
-		public string Username { get; set; }
-		public string Email { get; set; }
-		public string PhoneNumber { get; set; }
-		public string Address { get; set; }
-		public DateTime BirthDate { get; set; }
-		public string? StudentId { get; set; }
-		public string? TeacherId { get; set; }
-		public string? Cuit { get; set; }
-	}
 	public class UserService : IUserService
     {
 		private readonly HttpClient _httpClient;
@@ -40,7 +25,7 @@ namespace ClientService
 			_apiUrl += "/users/";
 		}
 
-		public async Task<IEnumerable<UserDTO>> GetAllAsync()
+		public async Task<IEnumerable<ApplicationCore.Services.UserDTO>> GetAllAsync()
 		{
 			try
 			{
@@ -48,7 +33,7 @@ namespace ClientService
 				_httpClient.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
 
 				var response = await _httpClient.GetStringAsync(_apiUrl);
-				var users = JsonConvert.DeserializeObject<List<UserDTO>>(response);
+				var users = JsonConvert.DeserializeObject<List<ApplicationCore.Services.UserDTO>>(response);
 				return users;
 			}
 			catch (Exception e)
@@ -90,7 +75,7 @@ namespace ClientService
 				Console.WriteLine($"Error al eliminar el recurso: {e.Message}");
 				throw;  // Puedes volver a lanzar la excepción si quieres manejarla en capas superiores
 			}
-			catch (Exception e)
+			catch (Exception)
 			{
 				throw;
 			}

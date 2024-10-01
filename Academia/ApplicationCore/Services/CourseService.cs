@@ -18,10 +18,10 @@ namespace ApplicationCore.Services
 	}
 	public class CourseService
 	{
-		public async Task<IEnumerable<Course>> GetAvailableCourses(User user)
+		public async Task<IEnumerable<Course>> GetAvailableCourses(int student_id)
 		{
 			var context = new AcademiaContext();
-			var studentIdParameter = new SqlParameter("@id_alumno", user.Id);
+			var studentIdParameter = new SqlParameter("@id_alumno", student_id);
 			var courses = await context.Courses.FromSqlRaw<Course>("GetAvailableCourses @id_alumno", studentIdParameter).ToListAsync();
 			foreach (var course in courses)
 			{
@@ -67,7 +67,19 @@ namespace ApplicationCore.Services
 					Curriculum = null,
 					Courses = new List<Course>(),
 				} : null,
-				Teachers = parameters.teachers ? c.Teachers : null
+				Teachers = (ICollection<Teacher>)(parameters.teachers ? c.Teachers.Select(
+					t => new Teacher {
+					Address = t.Address,
+					BirthDate = t.BirthDate,
+					Cuit =t.Cuit,
+					Email =t.Email,
+					Id = t.Id,
+					Lastname = t.Lastname,
+					Name = t.Name,
+					PhoneNumber = t.PhoneNumber,
+					Username = t.Username
+					}
+					).ToList() : null)
 			}
 			).ToList();
 			return courses;
@@ -93,7 +105,7 @@ namespace ApplicationCore.Services
 				var existingCourse = await context.Courses
 				.Include(c => c.Teachers)
 				.Include(c => c.Commission)
-				.Include(c => c.UserCourses)
+				.Include(c => c.StudentCourses)
 				.FirstOrDefaultAsync(c => c.Id == course.Id);
 
 				if (existingCourse != null)
@@ -106,9 +118,9 @@ namespace ApplicationCore.Services
 					var updateSubject = (course.IdSubject != existingCourse.IdSubject);
 					var updateCommission = (course.IdCommission != existingCourse.IdCommission);
 					if (
-						(existingCourse.UserCourses.Count > 0 && updateCommission)
+						(existingCourse.StudentCourses.Count > 0 && updateCommission)
 						||
-						(existingCourse.UserCourses.Count > 0 && updateSubject)
+						(existingCourse.StudentCourses.Count > 0 && updateSubject)
 						)
 					{
 						throw new Exception();

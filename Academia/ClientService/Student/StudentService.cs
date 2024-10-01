@@ -42,6 +42,23 @@ namespace ClientService.Student
             }
         }
 
+		public async Task<IEnumerable<ApplicationCore.Model.Student>> GetAllAsync()
+		{
+            try
+            {
+				_httpClient.DefaultRequestHeaders.Accept.Clear();
+				_httpClient.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+
+				var response = await _httpClient.GetStringAsync(_apiUrl);
+				var students = JsonConvert.DeserializeObject<List<ApplicationCore.Model.Student>>(response);
+				return students;
+			}
+            catch (Exception)
+            {
+                throw;
+            }
+		}
+
 		public async Task<ApplicationCore.Model.Student> GetById(int id)
 		{
 			try

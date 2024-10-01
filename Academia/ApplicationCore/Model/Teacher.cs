@@ -16,6 +16,6 @@ namespace ApplicationCore.Model
 		[Column("legajo")]
 		public string? TeacherId { get; set; }
 
-		public ICollection<Course> TeacherCourses { get; set; } = new List<Course>();
+		public virtual ICollection<Course> TeacherCourses { get; set; } = new List<Course>();
 	}
 }

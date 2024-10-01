@@ -11,12 +11,12 @@ using System.Windows.Forms;
 using ApplicationCore.Model;
 namespace UI.Desktop
 {
-	public partial class FrmUserCourseInscription : Form
+	public partial class FrmStudentCourseInscription : Form
 	{
 		private ApplicationCore.Model.User user;
 		private IEnumerable<ApplicationCore.Model.Course> courses;
 		private List<ApplicationCore.Model.Subject> subjects = new List<ApplicationCore.Model.Subject>();
-		public FrmUserCourseInscription(ApplicationCore.Model.User user)
+		public FrmStudentCourseInscription(ApplicationCore.Model.User user)
 		{
 			this.user = user;
 			InitializeComponent();
@@ -25,7 +25,7 @@ namespace UI.Desktop
 		private async void LoadCourses()
 		{
 			var courseService = new CourseService();
-			this.courses = await courseService.GetAvailableCourses(user);
+			this.courses = await courseService.GetAvailableCourses(user.Id);
 
 			foreach (var course in this.courses)
 			{
@@ -80,14 +80,14 @@ namespace UI.Desktop
 					return;
 				}
 
-				var userCourse = new ApplicationCore.Model.UserCourse()
+				var userCourse = new ApplicationCore.Model.StudentCourse()
 				{
 					UserId = this.user.Id,
 					CourseId = ((ApplicationCore.Model.Course)cmbCourse.SelectedItem).Id,
 					Status = "inscripto"
 				};
 
-				var userCourseService = new ApplicationCore.Services.UserCourseService();
+				var userCourseService = new ApplicationCore.Services.StudentCourseService();
 				await userCourseService.Create(userCourse);
 
 				MessageBox.Show("Inscripción realizada con éxito", "Inscripción", MessageBoxButtons.OK, MessageBoxIcon.Information);

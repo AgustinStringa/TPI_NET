@@ -25,7 +25,7 @@ namespace ApplicationCore.Services
 		public async Task<ApplicationCore.Model.Student> GetById(int id)
 		{
 			var context = new AcademiaContext();
-			return await context.Students.FindAsync(id);
+			return await context.Students.Include(u => u.Curriculum).FirstOrDefaultAsync(u => u.Id == id);
 		}
 	}
 }

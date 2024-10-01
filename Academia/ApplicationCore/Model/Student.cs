@@ -19,6 +19,6 @@ namespace ApplicationCore.Model
 		public int? CurriculumId { get; set; }
 		public Curriculum? Curriculum { get; set; }
 
-		public ICollection<UserCourse> StudentCourses { get; set; } = new List<UserCourse>();
+		public ICollection<StudentCourse> StudentCourses { get; set; } = new List<StudentCourse>();
 	}
 }

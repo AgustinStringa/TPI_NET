@@ -18,18 +18,26 @@ namespace API.Controllers
 
 
 		[HttpGet]
-		public async Task<ActionResult<IEnumerable<Commission>>> GetAll([FromQuery] string populate = "")
+		public async Task<ActionResult<IEnumerable<Commission>>> GetAll([FromQuery] string? populate = "", [FromQuery] int? curriculumId = null, [FromQuery] int? level = null)
 		{
 			try
 			{
 				var populateEntities = populate?.Split(',') ?? new string[0];
 
 				var commissions = await commissionService.GetAll(
-					new CommissionRequestParams { 
-					curriculum = populateEntities.Contains("curriculum"),
-					coursesCount = populateEntities.Contains("courses-count")
+					new CommissionRequestParams
+					{
+						Populate = new CommissionRequestParamsPopulate
+						{
+							curriculum = populateEntities.Contains("curriculum"),
+
+						},
+						coursesCount = populateEntities.Contains("courses-count"),
+						curriculumId = curriculumId,
+						level = level
 					}
 					);
+					
 				return Ok(commissions);
 			}
 			catch (Exception e)

@@ -22,7 +22,7 @@ namespace ApplicationCore
 		internal DbSet<Administrative> Administratives { get; set; }
 		internal DbSet<Area> Areas { get; set; }
 		internal DbSet<Curriculum> Curriculums { get; set; }
-		internal DbSet<UserCourse> UserCourses { get; set; }
+		internal DbSet<StudentCourse> UserCourses { get; set; }
 		internal DbSet<Commission> Commissions { get; set; }
 
 
@@ -73,7 +73,7 @@ namespace ApplicationCore
 				.HasForeignKey(uc => uc.UserId);
 
 			modelBuilder.Entity<Course>()
-				.HasMany(c => c.UserCourses)
+				.HasMany(c => c.StudentCourses)
 				.WithOne(uc => uc.Course)
 				.HasForeignKey(uc => uc.CourseId);
 

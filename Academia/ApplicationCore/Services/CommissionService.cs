@@ -8,10 +8,17 @@ using ApplicationCore.Model;
 
 namespace ApplicationCore.Services
 {
-	public class CommissionRequestParams
+	public class CommissionRequestParamsPopulate
 	{
 		public bool curriculum { get; set; }
+
+	}
+	public class CommissionRequestParams
+	{
+		public CommissionRequestParamsPopulate Populate { get; set; }
 		public bool coursesCount { get; set; }
+		public int? curriculumId { get; set; }
+		public int? level { get; set; }
 	}
 	public class CommissionService
 	{
@@ -22,22 +29,30 @@ namespace ApplicationCore.Services
 				var context = new AcademiaContext();
 				var commissions = await context.Commissions.Include(c => c.Courses).Include(c => c.Curriculum).OrderBy(c => c.IdCurriculum).ThenBy(c => c.Level).ThenBy(c => c.Description).ToListAsync();
 				commissions = commissions.Select(c => new Commission
+				{
+					Id = c.Id,
+					Description = c.Description,
+					Level = c.Level,
+					IdCurriculum = c.IdCurriculum,
+					Curriculum = (parameters.Populate.curriculum ? new Curriculum
 					{
-						Id = c.Id,
-						Description = c.Description,
-						Level = c.Level,
-						IdCurriculum = c.IdCurriculum,
-						Curriculum = (parameters.curriculum ? new Curriculum
-						{
-							Id = c.Curriculum.Id,
-							Description = c.Curriculum.Description,
-							Year = c.Curriculum.Year,
-							Resolution = c.Curriculum.Resolution,
-							AreaId = c.Curriculum.AreaId
-						} : null),
-						CoursesCount = parameters.coursesCount ? c.Courses.Count : null
-					}).ToList()
-					;
+						Id = c.Curriculum.Id,
+						Description = c.Curriculum.Description,
+						Year = c.Curriculum.Year,
+						Resolution = c.Curriculum.Resolution,
+						AreaId = c.Curriculum.AreaId
+					} : null),
+					CoursesCount = parameters.coursesCount ? c.Courses.Count : null
+				}).ToList();
+					
+				if (parameters.curriculumId != null)
+				{
+					commissions = commissions.Where(c => c.IdCurriculum == parameters.curriculumId).ToList();
+				}
+				if (parameters.level != null)
+				{
+					commissions = commissions.Where(c => c.Level == parameters.level).ToList();
+				}
 				return commissions;
 			}
 			catch (Exception e)
@@ -105,12 +120,14 @@ namespace ApplicationCore.Services
 			}
 			catch (Exception e)
 			{
-				if (e.InnerException as Microsoft.Data.SqlClient.SqlException != null) {
-					
-					if ( ((Microsoft.Data.SqlClient.SqlException)e.InnerException).ErrorCode == -2146232060) {
+				if (e.InnerException as Microsoft.Data.SqlClient.SqlException != null)
+				{
+
+					if (((Microsoft.Data.SqlClient.SqlException)e.InnerException).ErrorCode == -2146232060)
+					{
 
 						throw new Exception("Can't delete a commission with courses related");
-					}; 
+					};
 				}
 			}
 		}

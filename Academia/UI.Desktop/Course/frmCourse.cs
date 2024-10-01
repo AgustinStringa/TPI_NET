@@ -1,5 +1,7 @@
 ﻿using ApplicationCore.Model;
 using ApplicationCore.Services;
+using ClientService.Course;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -15,27 +17,25 @@ namespace UI.Desktop.Course
 	public partial class FrmCourse : Form
 	{
 		private IEnumerable<ApplicationCore.Model.Course> courses = [];
-		public FrmCourse()
+		private IServiceProvider serviceProvider;
+		private ICourseService courseService;
+		public FrmCourse(IServiceProvider serviceProvider)
 		{
 			InitializeComponent();
 			StylizeList();
+			this.serviceProvider = serviceProvider;
+			this.courseService = serviceProvider.GetRequiredService<ICourseService>();
 			LoadCourses();
 		}
 
-		private void StylizeList() {
+		private void StylizeList()
+		{
 			Utilities.StyleListViewHeader(lstvCourses, Color.FromArgb(184, 218, 255));
 		}
+
 		private async void LoadCourses()
 		{
-			var service = new ApplicationCore.Services.CourseService();
-			this.courses = await service.GetAll(
-				new CourseRequestParams { 
-				commission = true,
-				subject = true,
-				teachers = true,
-				inscriptions = false
-				}
-				);
+			this.courses = await courseService.GetAllAsync();
 			AdaptCoursesToListView(this.courses);
 		}
 
@@ -46,8 +46,8 @@ namespace UI.Desktop.Course
 			{
 				ListViewItem nuevoItem = new ListViewItem(item.Subject.Curriculum.Description);
 				nuevoItem.Tag = item;
-				nuevoItem.SubItems.Add(item.Commission.Description);
 				nuevoItem.SubItems.Add(item.Subject.Description);
+				nuevoItem.SubItems.Add(item.Commission.Description);
 				nuevoItem.SubItems.Add(item.CalendarYear);
 				nuevoItem.SubItems.Add(item.Capacity.ToString());
 				lstvCourses.Items.Add(nuevoItem);
@@ -77,7 +77,7 @@ namespace UI.Desktop.Course
 
 		private void tsbtnAddCourse_Click(object sender, EventArgs e)
 		{
-			FrmActionCourse frm = new FrmActionCourse(Mode.Create);
+			FrmActionCourse frm = new FrmActionCourse(Mode.Create, this.serviceProvider);
 			var result = frm.ShowDialog();
 			if (result == DialogResult.OK)
 			{
@@ -89,13 +89,22 @@ namespace UI.Desktop.Course
 		{
 			if (lstvCourses.SelectedItems.Count > 0)
 			{
-				ApplicationCore.Model.Course selectedCourse = (ApplicationCore.Model.Course)lstvCourses.SelectedItems[0].Tag;
-				FrmActionCourse frm = new FrmActionCourse(Mode.Edit, selectedCourse);
-				var result = frm.ShowDialog();
-				if (result == DialogResult.OK)
+				try
 				{
-					LoadCourses();
+					ApplicationCore.Model.Course selectedCourse = (ApplicationCore.Model.Course)lstvCourses.SelectedItems[0].Tag;
+					FrmActionCourse frm = new FrmActionCourse(Mode.Edit, selectedCourse, this.serviceProvider);
+					var result = frm.ShowDialog();
+					if (result == DialogResult.OK)
+					{
+						LoadCourses();
+					}
 				}
+				catch (Exception)
+				{
+
+					throw;
+				}
+
 			}
 		}
 
@@ -103,10 +112,17 @@ namespace UI.Desktop.Course
 		{
 			if (lstvCourses.SelectedItems.Count > 0)
 			{
-				ApplicationCore.Model.Course selectedCourse = (ApplicationCore.Model.Course)lstvCourses.SelectedItems[0].Tag;
-				var service = new CourseService();
-				await service.Delete(selectedCourse.Id);
-				this.LoadCourses();
+				try
+				{
+					ApplicationCore.Model.Course selectedCourse = (ApplicationCore.Model.Course)lstvCourses.SelectedItems[0].Tag;
+					await courseService.DeleteAsync(selectedCourse.Id);
+					this.LoadCourses();
+				}
+				catch (Exception)
+				{
+					throw;
+				}
+
 			}
 		}
 	}

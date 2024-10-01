@@ -24,6 +24,8 @@ using ClientService.Teacher;
 using ClientService.Curriculum;
 using ClientService.Subject;
 using ClientService.Commission;
+using ClientService.Course;
+using ClientService.StudentCourse;
 
 
 namespace UI.Desktop
@@ -37,9 +39,9 @@ namespace UI.Desktop
 		public FrmMain(ApplicationCore.Model.User user)
 		{
 			this.user = user;
-			
-			administrative = user as Administrative != null;
-			student = user as Student != null;
+
+			administrative = (user as Administrative) != null;
+			student = (user as Student) != null;
 			InitializeComponent();
 			var services = new ServiceCollection();
 			services.AddHttpClient<IAreaService, AreaService>();
@@ -50,6 +52,8 @@ namespace UI.Desktop
 			services.AddHttpClient<IAdministrativeService, AdministrativeService>();
 			services.AddHttpClient<ITeacherService, TeacherService>();
 			services.AddHttpClient<ICommissionService, CommissionService>();
+			services.AddHttpClient<ICourseService, CourseService>();
+			services.AddHttpClient<IStudentCourseService, StudentCourseService>();
 			this.serviceProvider = services.BuildServiceProvider();
 		}
 
@@ -107,14 +111,14 @@ namespace UI.Desktop
 		}
 		private void inscripcionACursadoToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			FrmUserCourseInscription appInscripcionCursado = new FrmUserCourseInscription(this.user);
+			FrmStudentCourseInscription appInscripcionCursado = new FrmStudentCourseInscription(this.user);
 			appInscripcionCursado.ShowDialog();
 		}
 
 
 		private void administrarCursadosToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			FrmCourse frm = new FrmCourse();
+			FrmCourse frm = new FrmCourse(this.serviceProvider);
 			frm.ShowDialog();
 		}
 
@@ -138,7 +142,7 @@ namespace UI.Desktop
 
 		private void cargarNotasToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			QualifyCourses appQualifyCourses = new QualifyCourses();
+			QualifyCourses appQualifyCourses = new QualifyCourses(serviceProvider);
 			appQualifyCourses.ShowDialog();
 		}
 

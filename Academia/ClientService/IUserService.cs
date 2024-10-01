@@ -10,7 +10,7 @@ namespace ClientService
 	public interface IUserService
 	{
 		Task CreateAsync(User user);
-		Task<IEnumerable<UserDTO>> GetAllAsync();
+		Task<IEnumerable<ApplicationCore.Services.UserDTO>> GetAllAsync();
 		Task DeleteAsync(int id);
 		Task<User> GetById(int id);
 	}

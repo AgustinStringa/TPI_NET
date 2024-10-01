@@ -93,52 +93,6 @@ namespace UI.Desktop
 			}
 		}
 
-		public static async void LoadCurriculums(IEnumerable<ApplicationCore.Model.Curriculum> curriculums, ComboBox cb, int val)
-		{
-			try
-			{
-				var service = new ApplicationCore.Services.CurriculumService();
-				curriculums = await service.GetAll(
-					new ApplicationCore.Services.CurriculumRequestParams { 
-					area = false,
-					commissionsCount = false,
-					subjectsCount = false,
-					students = false
-					}
-					);
-				cb.DataSource = curriculums;
-				cb.ValueMember = "Id";
-				cb.DisplayMember = "Description";
-				cb.SelectedValue = val;
-			}
-			catch (Exception)
-			{
-				throw;
-			}
-		}
-
-		public static async void LoadCurriculums(IEnumerable<ApplicationCore.Model.Curriculum> curriculums, ComboBox cb)
-		{
-			try
-			{
-				var service = new ApplicationCore.Services.CurriculumService();
-				curriculums = await service.GetAll(new ApplicationCore.Services.CurriculumRequestParams
-				{
-					area = false,
-					students = false,
-					subjectsCount = false,
-					commissionsCount = false,
-				});
-				cb.DataSource = curriculums;
-				cb.ValueMember = "Id";
-				cb.DisplayMember = "Description";
-				cb.SelectedIndex = 0;
-			}
-			catch (Exception)
-			{
-				throw;
-			}
-		}
 
 		public static string EncodePassword(string password)
 		{

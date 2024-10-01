@@ -1,6 +1,4 @@
-﻿using ApplicationCore.Model;
-using ApplicationCore.Services;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -17,8 +15,8 @@ namespace UI.Desktop.User
 
 	public partial class FrmUser : Form
 	{
-		private IEnumerable<UserDTO> users = [];
-		private IEnumerable<UserDTO> filteredUsers = [];
+		private IEnumerable<ApplicationCore.Services.UserDTO> users = [];
+		private IEnumerable<ApplicationCore.Services.UserDTO> filteredUsers = [];
 		private string textSearch = "";
 		private List<UserType> userTypeFilters = [UserType.Student, UserType.Teacher, UserType.Administrative];
 		private ClientService.IUserService userService;
@@ -50,7 +48,7 @@ namespace UI.Desktop.User
 
 		}
 
-		private void AdaptUsersToListView(IEnumerable<UserDTO> users)
+		private void AdaptUsersToListView(IEnumerable<ApplicationCore.Services.UserDTO> users)
 		{
 			lstUsers.Items.Clear();
 			foreach (var user in users)
@@ -141,7 +139,7 @@ namespace UI.Desktop.User
 		private async void tsbtnDeleteUser_Click(object sender, EventArgs e)
 		{
 
-			var selectedUser = (lstUsers.SelectedItems[0].Tag as UserDTO);
+			var selectedUser = (lstUsers.SelectedItems[0].Tag as ApplicationCore.Services.UserDTO);
 			if (selectedUser != null)
 			{
 				// verificar que haya seleccionado un item
@@ -177,16 +175,15 @@ namespace UI.Desktop.User
 		{
 			try
 			{
-				var selectedUserDTO = (lstUsers.SelectedItems[0].Tag as UserDTO);
+				var selectedUserDTO = (lstUsers.SelectedItems[0].Tag as ApplicationCore.Services.UserDTO);
 				if (selectedUserDTO != null)
 				{
-
-
 					FrmActionUser App = new FrmActionUser(Mode.Edit, selectedUserDTO, this.serviceProvider);
 					App.ShowDialog();
-					//si se editó, DialogResult == OK -> LOADUSERS
-					LoadUsers();
-
+					if (App.DialogResult == DialogResult.OK)
+					{
+						LoadUsers();
+					}
 				}
 				else
 				{
@@ -234,7 +231,10 @@ namespace UI.Desktop.User
 		{
 			FrmActionUser AppCreateUser = new FrmActionUser(Mode.Create, this.serviceProvider);
 			AppCreateUser.ShowDialog();
-			LoadUsers();
+			if (AppCreateUser.DialogResult == DialogResult.OK)
+			{
+				LoadUsers();
+			}
 		}
 	}
 }

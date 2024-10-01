@@ -49,7 +49,7 @@ namespace API
 			builder.Services.AddScoped<SubjectService>();
 			builder.Services.AddScoped<CommissionService>();
 			builder.Services.AddScoped<CourseService>();
-			builder.Services.AddScoped<UserCourseService>();
+			builder.Services.AddScoped<StudentCourseService>();
 			builder.Services.AddScoped<UserService>();
 			builder.Services.AddScoped<StudentService>();
 			builder.Services.AddScoped<TeacherService>();

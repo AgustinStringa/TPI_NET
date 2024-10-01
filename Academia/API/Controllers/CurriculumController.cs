@@ -14,17 +14,22 @@ namespace API.Controllers
 		private readonly CurriculumService curriculumService = curriculumService;
 
 		[HttpGet]
-		public async Task<ActionResult<IEnumerable<Curriculum>>> GetAll([FromQuery] string populate = "")
+		public async Task<ActionResult<IEnumerable<Curriculum>>> GetAll([FromQuery] string? populate = "", [FromQuery] int? areaId = null)
 		{
 			try
 			{
 				var populateEntities = populate?.Split(',') ?? new string[0];
 				var curriculums = await curriculumService.GetAll(
-					new CurriculumRequestParams{  
-						area = populateEntities.Contains("area"), 
-						students = populateEntities.Contains("students"), 
-						subjectsCount = populateEntities.Contains("subjects-count"), 
-						commissionsCount = populateEntities.Contains("commissionsCount")
+					new CurriculumRequestParams
+					{
+						Populate = new CurriculumRequestParamsPopulate
+						{
+							area = populateEntities.Contains("area"),
+							students = populateEntities.Contains("students"),
+							subjectsCount = populateEntities.Contains("subjects-count"),
+							commissionsCount = populateEntities.Contains("commissionsCount"),
+						},
+						AreaId = areaId != null ? areaId : null,
 					});
 				return Ok(curriculums);
 			}
@@ -88,7 +93,8 @@ namespace API.Controllers
 				}
 				foreach (var prop in updatedCurriculum.GetType().GetProperties())
 				{
-					if (prop.Name == "UserCourses") {
+					if (prop.Name == "UserCourses")
+					{
 						throw new Exception();
 					}
 					if (prop.Name != "Id" && prop.Name != "Subjects" && prop.Name != "Commissions")

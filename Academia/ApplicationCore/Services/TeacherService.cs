@@ -9,7 +9,7 @@ namespace ApplicationCore.Services
 {
 	public  class TeacherService
 	{
-		public async Task<IEnumerable<ApplicationCore.Model.User>> GetAll()
+		public async Task<IEnumerable<ApplicationCore.Model.Teacher>> GetAll()
 		{
 			var context = new AcademiaContext();
 			return await context.Teachers.ToListAsync();

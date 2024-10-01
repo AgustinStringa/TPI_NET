@@ -9,12 +9,18 @@ using System.Xml.Linq;
 
 namespace ApplicationCore.Services
 {
-	public class CurriculumRequestParams
-	{
+	public class CurriculumRequestParamsPopulate {
 		public bool area { get; set; }
 		public bool students { get; set; }
 		public bool subjectsCount { get; set; }
 		public bool commissionsCount { get; set; }
+	}
+	
+	public class CurriculumRequestParams
+	{
+		public CurriculumRequestParamsPopulate Populate { get; set; }
+
+		public int? AreaId { get; set; }
 	}
 	public class CurriculumService
 	{
@@ -24,18 +30,23 @@ namespace ApplicationCore.Services
 			{
 				var context = new AcademiaContext();
 				var curriculums = await context.Curriculums.Include(c => c.Area).Include(c => c.Subjects).ToListAsync();
-				var filteredCurriculums = await context.Curriculums.Select(c => new Curriculum{
+				var filteredCurriculums = await context.Curriculums.Select(c => new Curriculum
+				{
 					Id = c.Id,
 					Description = c.Description,
 					Resolution = c.Resolution,
 					Year = c.Year,
 					AreaId = c.AreaId,
-					Area = parameters.area ? new Area { Id = c.Area.Id, Description = c.Area.Description } : null,
-					SubjectsCount = (parameters.subjectsCount ? c.Subjects.Count : null),
-					CommissionsCount = (parameters.commissionsCount ? c.Commissions.Count : null)
+					Area = parameters.Populate.area ? new Area { Id = c.Area.Id, Description = c.Area.Description } : null,
+					SubjectsCount = (parameters.Populate.subjectsCount ? c.Subjects.Count : null),
+					CommissionsCount = (parameters.Populate.commissionsCount ? c.Commissions.Count : null)
 				}).ToListAsync();
 
+				if (parameters.AreaId != null) {
+					filteredCurriculums = filteredCurriculums.Where(c => c.AreaId == parameters.AreaId).ToList();
+				}
 				return filteredCurriculums;
+
 			}
 			catch (Exception e)
 			{

@@ -1,5 +1,11 @@
 ﻿using ApplicationCore.Model;
 using ApplicationCore.Services;
+using ClientService.Area;
+using ClientService.Commission;
+using ClientService.Course;
+using ClientService.Curriculum;
+using ClientService.Subject;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -21,41 +27,58 @@ namespace UI.Desktop.Course
 		private Mode mode;
 		private ApplicationCore.Model.Course course;
 		public ApplicationCore.Model.Teacher newTeacher;
+		private IServiceProvider serviceProvider;
+		private IAreaService areaService;
+		private ICurriculumService curriculumService;
+		private ISubjectService subjectService;
+		private ICommissionService commissionService;
+		private ICourseService courseService;
 
-		//	//implementar inyeccion de servicio.
-		//	//// inyectar provider y de ahi sacar los necesarios
-
-		public FrmActionCourse(Mode mode)
+		public FrmActionCourse(Mode mode, IServiceProvider serviceProvider)
 		{
 			if (mode == Mode.Create)
 			{
 				InitializeComponent();
 				this.mode = mode;
+				this.serviceProvider = serviceProvider;
+				GetServices(this.serviceProvider);
 				this.Text = "Crear Curso";
 				btnActionCourse.Text = "Crear Curso";
-				Utilities.LoadAreas(cmbAreas);
+				LoadAreas();
 			}
 			else
 			{
 				this.Dispose();
 			}
+
 		}
 
-		public FrmActionCourse(Mode mode, ApplicationCore.Model.Course course)
+		public FrmActionCourse(Mode mode, ApplicationCore.Model.Course course, IServiceProvider serviceProvider)
 		{
 			if (this.mode == Mode.Edit)
 			{
 				InitializeComponent();
 				this.mode = mode;
+				this.serviceProvider = serviceProvider;
+				GetServices(this.serviceProvider);
 				this.course = course;
 				this.Text = "Editar Curso";
 				btnActionCourse.Text = "Guardar Curso";
-				Utilities.LoadAreas(new List<ApplicationCore.Model.Area>(), cmbAreas, course.Subject.Curriculum.AreaId);
 				txtCapacity.Text = course.Capacity.ToString();
 				txtCalendarYear.Text = course.CalendarYear.ToString();
 				this.selectedTeachers = course.Teachers.ToList();
+				LoadAreas();
 				this.FillSelectedTeachers();
 			}
+		}
+
+		private void GetServices(IServiceProvider serviceProvider)
+		{
+			this.areaService = serviceProvider.GetRequiredService<IAreaService>();
+			this.curriculumService = serviceProvider.GetRequiredService<ICurriculumService>();
+			this.subjectService = serviceProvider.GetRequiredService<ISubjectService>();
+			this.commissionService = serviceProvider.GetRequiredService<ICommissionService>();
+			this.courseService = serviceProvider.GetRequiredService<ICourseService>();
 		}
 
 		private async void btnActionCourse_Click(object sender, EventArgs e)
@@ -88,7 +111,7 @@ namespace UI.Desktop.Course
 			if (validCapacity && validCalendarYear && validCommission && validSubject)
 			{
 
-				var service = new CourseService();
+
 				if (this.mode == Mode.Create)
 				{
 					try
@@ -104,7 +127,7 @@ namespace UI.Desktop.Course
 						{
 							newCourse.Teachers = this.selectedTeachers;
 						}
-						await service.Create(newCourse);
+						await courseService.CreateAsync(newCourse);
 						MessageBox.Show("Cursado creado exitosamente", "Crear Cursado", MessageBoxButtons.OK, MessageBoxIcon.Information);
 						this.DialogResult = DialogResult.OK;
 						this.Close();
@@ -121,18 +144,29 @@ namespace UI.Desktop.Course
 
 					try
 					{
-						this.course.Capacity = capacity;
-						this.course.CalendarYear = calendarYear;
-						this.course.IdCommission = selectedCommission.Id;
-						this.course.IdSubject = selectedSubejct.Id;
-						this.course.Teachers = this.selectedTeachers;
-						await service.Update(this.course);
+						/*probando con un objeto nuevo por las colecciones populadas*/
+						var courseToUpdate = new ApplicationCore.Model.Course
+						{
+							Id = this.course.Id,
+							CalendarYear = calendarYear,
+							Capacity=capacity,
+							IdCommission = selectedCommission.Id,
+							IdSubject = selectedSubejct.Id,
+							Teachers = this.selectedTeachers,
+						};
+
+						//this.course.Capacity = capacity;
+						//this.course.CalendarYear = calendarYear;
+						//this.course.IdCommission = selectedCommission.Id;
+						//this.course.IdSubject = selectedSubejct.Id;
+						//this.course.Teachers = this.selectedTeachers;
+						await courseService.UpdateAsync(courseToUpdate);
 						this.DialogResult = DialogResult.OK;
 						this.Close();
 					}
 					catch (Exception)
 					{
-						MessageBox.Show("Error al crear cursado", "Crear Cursado", MessageBoxButtons.OK, MessageBoxIcon.Error);
+						MessageBox.Show("Error al actualizar cursado", "Crear Cursado", MessageBoxButtons.OK, MessageBoxIcon.Error);
 						throw;
 					}
 
@@ -146,7 +180,7 @@ namespace UI.Desktop.Course
 			if (cmbAreas.SelectedIndex != -1)
 			{
 				ApplicationCore.Model.Area selectedArea = (ApplicationCore.Model.Area)cmbAreas.SelectedItem;
-				var curriculums = await (new ApplicationCore.Services.CurriculumService()).GetByAreaId(selectedArea.Id);
+				var curriculums = await curriculumService.GetAllByAreaId(selectedArea.Id);
 
 				if (curriculums.Count() > 0)
 				{
@@ -160,9 +194,7 @@ namespace UI.Desktop.Course
 					else
 					{
 						cmbCurriculums.SelectedIndex = 0;
-
 					}
-
 				}
 				else
 				{
@@ -180,7 +212,7 @@ namespace UI.Desktop.Course
 			if (cmbCurriculums.SelectedIndex != -1)
 			{
 				ApplicationCore.Model.Curriculum selectedCurriculum = (ApplicationCore.Model.Curriculum)cmbCurriculums.SelectedItem;
-				var subjects = await (new ApplicationCore.Services.SubjectService()).GetByCurriculumId(selectedCurriculum.Id);
+				var subjects = await subjectService.GetAllByCurriculumId(selectedCurriculum.Id);
 
 				if (subjects.Count() > 0)
 				{
@@ -211,11 +243,11 @@ namespace UI.Desktop.Course
 		private async void cmbSubjects_SelectedIndexChanged(object sender, EventArgs e)
 		{
 
-			if (cmbSubjects.SelectedIndex != -1)
+			if (cmbSubjects.SelectedIndex != -1 && cmbCurriculums.SelectedIndex != -1)
 			{
 				ApplicationCore.Model.Curriculum selectedCurriculum = (ApplicationCore.Model.Curriculum)cmbCurriculums.SelectedItem;
 				ApplicationCore.Model.Subject selectedSubject = (ApplicationCore.Model.Subject)cmbSubjects.SelectedItem;
-				var commissions = await (new ApplicationCore.Services.CommissionService()).GetByCurriculumIdAndLevel(selectedCurriculum.Id, selectedSubject.Level);
+				var commissions = await commissionService.GetAllByCurriculumIdAndLevel(selectedCurriculum.Id, selectedSubject.Level);
 				if (commissions.Count() > 0)
 				{
 					cmbComissions.DataSource = commissions;
@@ -316,9 +348,21 @@ namespace UI.Desktop.Course
 		{
 			if (lstSelectedTeachers.SelectedItems.Count > 0)
 			{
-				ApplicationCore.Model.User teacherToDelete = (ApplicationCore.Model.User)lstSelectedTeachers.SelectedItems[0].Tag;
+				ApplicationCore.Model.Student teacherToDelete = (ApplicationCore.Model.Student)lstSelectedTeachers.SelectedItems[0].Tag;
 				this.selectedTeachers = this.selectedTeachers.Where(t => t.Id != teacherToDelete.Id).ToList();
 				FillSelectedTeachers();
+			}
+		}
+
+		private async void LoadAreas()
+		{
+			if (this.mode == Mode.Create)
+			{
+				Utilities.AdaptAreasToCb(cmbAreas, await areaService.GetAllAsync());
+			}
+			else if (this.mode == Mode.Edit)
+			{
+				Utilities.AdaptAreasToCb(cmbAreas, await areaService.GetAllAsync(), course.Subject.Curriculum.AreaId);
 			}
 		}
 	}

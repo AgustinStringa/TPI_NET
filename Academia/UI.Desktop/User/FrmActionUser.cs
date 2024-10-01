@@ -12,6 +12,7 @@ using ApplicationCore.Model;
 using ApplicationCore.Services;
 using ClientService;
 using ClientService.Administrative;
+using ClientService.Area;
 using ClientService.Student;
 using ClientService.Teacher;
 using Microsoft.Extensions.DependencyInjection;
@@ -21,11 +22,13 @@ namespace UI.Desktop
 	public partial class FrmActionUser : Form
 	{
 		private Mode Mode;
-		private ApplicationCore.Model.User User;
+		private ApplicationCore.Model.Student User;
 		private ClientService.IUserService userService;
 		private IStudentService studentService;
+		private IAreaService areaService;
 		private ITeacherService teacherService;
 		private IAdministrativeService administrativeService;
+		private UserDTO userDTO;
 
 		public FrmActionUser(Mode mode, IServiceProvider serviceProvider)
 		{
@@ -35,11 +38,12 @@ namespace UI.Desktop
 				this.userService = serviceProvider.GetRequiredService<ClientService.IUserService>();
 				this.studentService = serviceProvider.GetRequiredService<IStudentService>();
 				this.teacherService = serviceProvider.GetRequiredService<ITeacherService>();
+				this.areaService = serviceProvider.GetRequiredService<IAreaService>();
 				this.administrativeService = serviceProvider.GetRequiredService<IAdministrativeService>();
 				InitializeComponent();
 				btnActionUser.Text = "Crear Usuario";
-				Utilities.LoadAreas(cbAreas);
 				dtpBirthDate.Value = DateTime.Now;
+				LoadAreas();
 			}
 		}
 		public FrmActionUser(Mode mode, UserDTO userDTO, IServiceProvider serviceProvider)
@@ -48,15 +52,23 @@ namespace UI.Desktop
 			{
 				InitializeComponent();
 				this.Mode = mode;
+				this.userDTO = userDTO;
 				this.studentService = serviceProvider.GetRequiredService<IStudentService>();
 				this.teacherService = serviceProvider.GetRequiredService<ITeacherService>();
 				this.administrativeService = serviceProvider.GetRequiredService<IAdministrativeService>();
-
+				this.areaService = serviceProvider.GetRequiredService<IAreaService>();
 				btnActionUser.Text = "Guardar Usuario";
 				FillFields(userDTO);
 			}
 		}
 
+		private async void LoadAreas()
+		{
+			if (this.Mode == Mode.Create)
+			{
+				Utilities.AdaptAreasToCb(cbAreas, await areaService.GetAllAsync());
+			}
+		}
 		private async void btnActionUser_Click(object sender, EventArgs e)
 		{
 			try
@@ -393,7 +405,8 @@ namespace UI.Desktop
 							var userService = new ApplicationCore.Services.UserService();
 							userService.Update(User);
 							MessageBox.Show("Usuario actualizado exitosamente", "Editar Usuario", MessageBoxButtons.OK, MessageBoxIcon.Information);
-							this.Dispose();
+							DialogResult = DialogResult.OK;
+							this.Close();
 						}
 						catch (Exception)
 						{
@@ -603,6 +616,7 @@ namespace UI.Desktop
 					txtCuit.Visible = false;
 					lblCuit.Visible = false;
 					txtStudentId.Text = student.StudentId;
+					Utilities.AdaptAreasToCb(cbAreas, await areaService.GetAllAsync(), student.Curriculum.AreaId);
 					break;
 				default:
 					break;

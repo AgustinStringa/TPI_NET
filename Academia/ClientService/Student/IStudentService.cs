@@ -11,5 +11,7 @@ namespace ClientService.Student
 	{
 		public Task CreateAsync(ApplicationCore.Model.Student student);
 		public Task<ApplicationCore.Model.Student> GetById(int id);
+
+		public Task<IEnumerable<ApplicationCore.Model.Student>> GetAllAsync();
 	}
 }

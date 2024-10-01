@@ -1,4 +1,7 @@
 ﻿using ApplicationCore.Services;
+using ClientService.Student;
+using ClientService.StudentCourse;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -13,10 +16,15 @@ namespace UI.Desktop
 {
 	public partial class QualifyCourses : Form
 	{
+		private IServiceProvider serviceProvider;
+		private IStudentCourseService studentCourseService;
 		private IEnumerable<ApplicationCore.Model.Student> students;
-		public QualifyCourses()
+		private IStudentService studentService;
+		public QualifyCourses(IServiceProvider serviceProvider)
 		{
 			InitializeComponent();
+			this.studentService = serviceProvider.GetRequiredService<IStudentService>();	
+			this.studentCourseService = serviceProvider.GetRequiredService<IStudentCourseService>();
 			LoadUsers();
 		}
 
@@ -32,10 +40,10 @@ namespace UI.Desktop
 			}
 			lstUsers.Refresh();
 		}
-		private void AdaptUserCoursesToListView(IEnumerable<ApplicationCore.Model.UserCourse> usersCourses)
+		private void AdaptUserCoursesToListView(IEnumerable<ApplicationCore.Model.StudentCourse> usersCourses)
 		{
 			lstUserCourses.Items.Clear();
-			foreach (ApplicationCore.Model.UserCourse userCourse in usersCourses)
+			foreach (ApplicationCore.Model.StudentCourse userCourse in usersCourses)
 			{
 				ListViewItem item = new ListViewItem(userCourse.Course.Subject.Description);
 				item.Tag = userCourse;
@@ -51,9 +59,8 @@ namespace UI.Desktop
 		{
 			if (lstUsers.SelectedItems.Count == 1)
 			{
-				var selectedUser = lstUsers.SelectedItems[0].Tag as ApplicationCore.Model.User;
-				UserCourseService service = new UserCourseService();
-				var usersCourses = await service.GetByUserId(selectedUser.Id);
+				var selectedUser = lstUsers.SelectedItems[0].Tag as ApplicationCore.Model.Student;
+				var usersCourses = await studentCourseService.GetByUserId(selectedUser.Id);
 				AdaptUserCoursesToListView(usersCourses);
 			}
 		}
@@ -61,8 +68,7 @@ namespace UI.Desktop
 
 		private async void LoadUsers()
 		{
-			var service = new StudentService();
-			this.students = await service.GetAll();
+			this.students = await studentService.GetAllAsync();
 			AdaptUsersToListView(this.students);
 		}
 
@@ -70,7 +76,7 @@ namespace UI.Desktop
 		{
 			if (lstUserCourses.SelectedItems.Count == 1)
 			{
-				var selectedUserCourse = lstUserCourses.SelectedItems[0].Tag as ApplicationCore.Model.UserCourse;
+				var selectedUserCourse = lstUserCourses.SelectedItems[0].Tag as ApplicationCore.Model.StudentCourse;
 
 				int currentGrade = (int)(selectedUserCourse.Grade == null ? 0 : selectedUserCourse.Grade);
 				var frmInputGrade = new FrmInputGrade(currentGrade);
@@ -79,16 +85,15 @@ namespace UI.Desktop
 				{
 					if (currentGrade != frmInputGrade._currentGrade)
 					{
-						var userCourseService = new UserCourseService();
 						
 						CalificationCourse newCalification = new CalificationCourse
 						{ 
 						Grade = frmInputGrade._currentGrade,
 						Status = frmInputGrade._currentGrade >= 6 ? "aprobado" : "reprobado"
 						};
-						await userCourseService.QualifyCourse(selectedUserCourse.Id, newCalification);
-						var selectedUser = lstUsers.SelectedItems[0].Tag as ApplicationCore.Model.User;
-						AdaptUserCoursesToListView(await new UserCourseService().GetByUserId(selectedUser.Id));
+						await studentCourseService.QualifyCourse(selectedUserCourse.Id, newCalification);
+						var selectedUser = lstUsers.SelectedItems[0].Tag as ApplicationCore.Model.Student;
+						AdaptUserCoursesToListView(await studentCourseService.GetByUserId(selectedUser.Id));
 					}
 
 				}

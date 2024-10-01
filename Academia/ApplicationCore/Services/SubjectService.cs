@@ -9,10 +9,16 @@ using Microsoft.Data.SqlClient;
 
 namespace ApplicationCore.Services
 {
-	public class SubjectRequestParams
-	{
+	public class SubjectRequestParamsPopulate { 
 		public bool curriculum { get; set; }
 		public bool coursesCount { get; set; }
+	
+	}
+	public class SubjectRequestParams
+	{
+		public SubjectRequestParamsPopulate Populate { get; set; }
+
+		public int? CurriculumId { get; set; }
 	}
 	public class SubjectService
 	{
@@ -32,10 +38,13 @@ namespace ApplicationCore.Services
 					TotalHours = s.TotalHours,
 					Level = s.Level,
 					IdCurriculum = s.IdCurriculum,
-					Curriculum = parameters.curriculum ? new Curriculum { Id = s.Curriculum.Id, Description = s.Curriculum.Description, AreaId =s.Curriculum.AreaId } : null,
-					CoursesCount = parameters.coursesCount ? s.Courses.Count : null,
+					Curriculum = parameters.Populate.curriculum ? new Curriculum { Id = s.Curriculum.Id, Description = s.Curriculum.Description, AreaId =s.Curriculum.AreaId } : null,
+					CoursesCount = parameters.Populate.coursesCount ? s.Courses.Count : null,
 				}
-				).ToList();
+				).OrderBy(s => s.IdCurriculum).ToList();
+			if (parameters.CurriculumId != null) { 
+				subjects = subjects.Where(s => s.IdCurriculum ==  parameters.CurriculumId).ToList();
+			}
 			return subjects;
 		}
 

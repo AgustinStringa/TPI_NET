@@ -17,16 +17,19 @@ namespace API.Controllers
 		}
 
 		[HttpGet]
-		public async Task<ActionResult<IEnumerable<Course>>> GetAll()
+		public async Task<ActionResult<IEnumerable<Course>>> GetAll([FromQuery] string populate = "")
 		{
 			try
 			{
+				var populateEntities = populate?.Split(',') ?? new string[0];
+
 				var courses = await courseService.GetAll(
-					new CourseRequestParams { 
-					commission = false,
-					inscriptions = false,
-					teachers = false,
-					subject = false
+					new CourseRequestParams
+					{
+						commission = populateEntities.Contains("commission"),
+						inscriptions = populateEntities.Contains("inscriptions"),
+						teachers = populateEntities.Contains("teachers"),
+						subject = populateEntities.Contains("subject")
 					}
 					);
 				return Ok(courses);
@@ -110,7 +113,7 @@ namespace API.Controllers
 				}
 				foreach (var prop in updatedCourse.GetType().GetProperties())
 				{
-					if (prop.Name != "Id" && prop.Name != "Subjects" && prop.Name != "Commissions")
+					if (prop.Name != "Id" && prop.Name != "Subjects" && prop.Name != "Commissions" && prop.Name != "ToStringProperty")
 					{
 						prop.SetValue(existingCourse, prop.GetValue(updatedCourse));
 					}
@@ -127,18 +130,18 @@ namespace API.Controllers
 			}
 		}
 
-		[HttpPost("availablecourses")]
-		public async Task<IEnumerable<Course>> GetAvailableCourses(User user)
+		[HttpGet("availablecourses")]
+		public async Task<ActionResult<IEnumerable<Course>>> GetAvailableCourses([FromQuery] int student_id)
 		{
-			var context = new AcademiaContext();
-			var studentIdParameter = new SqlParameter("@id_alumno", user.Id);
-			var courses = await context.Courses.FromSqlRaw<Course>("GetAvailableCourses @id_alumno", studentIdParameter).ToListAsync();
-			foreach (var course in courses)
+			try
 			{
-				await context.Entry(course).Reference(c => c.Subject).LoadAsync();
+				var courses = await courseService.GetAvailableCourses(student_id);
+				return Ok(courses);
 			}
-			return courses;
+			catch (Exception)
+			{
+				throw;
+			}
 		}
-
 	}
 }

@@ -12,10 +12,10 @@ namespace UI.Desktop.Course
 {
 	public partial class FrmTeachersList : Form
 	{
-		private IEnumerable<ApplicationCore.Model.User> teacherList;
+		private IEnumerable<ApplicationCore.Model.Teacher> teacherList;
 		private FrmActionCourse Parent;
 
-		public FrmTeachersList(IEnumerable<ApplicationCore.Model.User> teacherList, FrmActionCourse parent)
+		public FrmTeachersList(IEnumerable<ApplicationCore.Model.Teacher> teacherList, FrmActionCourse parent)
 		{
 			InitializeComponent();
 			this.teacherList = teacherList;

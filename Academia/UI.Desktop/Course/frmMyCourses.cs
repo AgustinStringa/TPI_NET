@@ -14,14 +14,14 @@ namespace UI.Desktop.Course
 {
 	public partial class FrmMyCourses : Form
 	{
-		private UserCourseService _userCourseService;
+		private StudentCourseService _userCourseService;
 		private ApplicationCore.Model.User user;
-		private IEnumerable<ApplicationCore.Model.UserCourse> MyCourses;
+		private IEnumerable<ApplicationCore.Model.StudentCourse> MyCourses;
 		public FrmMyCourses(ApplicationCore.Model.User user)
 		{
 			InitializeComponent();
 			this.user = user;
-			this._userCourseService = new UserCourseService();
+			this._userCourseService = new StudentCourseService();
 			LoadCourses();
 		}
 
@@ -30,7 +30,7 @@ namespace UI.Desktop.Course
 			MyCourses = await _userCourseService.GetByUserId(this.user.Id);
 			AdaptCoursesToListView(MyCourses);
 		}
-		private async void AdaptCoursesToListView(IEnumerable<ApplicationCore.Model.UserCourse> courses)
+		private async void AdaptCoursesToListView(IEnumerable<ApplicationCore.Model.StudentCourse> courses)
 		{
 			var service = new CommissionService();
 			foreach (var item in MyCourses)

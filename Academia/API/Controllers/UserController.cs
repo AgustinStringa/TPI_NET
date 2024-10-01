@@ -17,23 +17,6 @@ namespace API.Controllers
 		public LoginDto() { }
 	}
 
-	public class UserDTO
-	{
-		public int Id { get; set; }	
-		public string Name { get; set; }
-		public string Role { get; set; }
-		public string Lastname { get; set; }
-		public string Username { get; set; }
-		public string Email { get; set; }
-		public string PhoneNumber { get; set; }
-		public string Address { get; set; }
-		public DateTime BirthDate { get; set; }
-		public string? StudentId { get; set; }
-		public string? TeacherId { get; set; }
-		public string? Cuit { get; set; }
-	}
-
-
 	[Route("api/users")]
 	[ApiController]
 	public class UserController : Controller
@@ -89,7 +72,7 @@ namespace API.Controllers
 		}
 
 		[HttpGet("{id}")]
-		public async Task<ActionResult<User>> GetById(int id)
+		public async Task<ActionResult<Student>> GetById(int id)
 		{
 			try
 			{
@@ -111,7 +94,7 @@ namespace API.Controllers
 		}
 
 		[HttpDelete("{id}")]
-		public async Task<ActionResult<User>> Delete(int id)
+		public async Task<ActionResult<Student>> Delete(int id)
 		{
 			try
 			{
@@ -148,7 +131,7 @@ namespace API.Controllers
 		}
 
 		[HttpGet("students/{id}")]
-		public async Task<ActionResult<User>> GetStudentById(int id)
+		public async Task<ActionResult<Student>> GetStudentById(int id)
 		{
 			try
 			{
@@ -186,7 +169,7 @@ namespace API.Controllers
 			}
 		}
 		[HttpGet("teachers/{id}")]
-		public async Task<ActionResult<User>> GetTeacherById(int id)
+		public async Task<ActionResult<Student>> GetTeacherById(int id)
 		{
 			try
 			{
@@ -285,7 +268,7 @@ namespace API.Controllers
 		}
 
 		[HttpPost("students")]
-		public async Task<ActionResult<User>> CreateStudent(Student student)
+		public async Task<ActionResult<Student>> CreateStudent(Student student)
 		{
 			try
 			{
@@ -303,7 +286,7 @@ namespace API.Controllers
 		}
 
 		[HttpPost("teachers")]
-		public async Task<ActionResult<User>> CreateTeacher(Teacher teacher)
+		public async Task<ActionResult<Student>> CreateTeacher(Teacher teacher)
 		{
 			try
 			{
@@ -321,7 +304,7 @@ namespace API.Controllers
 		}
 
 		[HttpPost("administratives")]
-		public async Task<ActionResult<User>> CreateAdmnistrative(Administrative administrative)
+		public async Task<ActionResult<Student>> CreateAdmnistrative(Administrative administrative)
 		{
 			try
 			{

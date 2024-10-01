@@ -98,6 +98,26 @@ namespace ClientService.Curriculum
 
 		}
 
+		public async Task<IEnumerable<ApplicationCore.Model.Curriculum>> GetAllByAreaId(int areaId)
+		{
+			try
+			{
+				_httpClient.DefaultRequestHeaders.Accept.Clear();
+				_httpClient.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+
+				var response = await _httpClient.GetStringAsync(_apiUrl + $"?areaId={areaId}");
+				var curriculums = JsonConvert.DeserializeObject<List<ApplicationCore.Model.Curriculum>>(response);
+
+				return curriculums;
+			}
+			catch (Exception)
+			{
+
+				throw;
+			}
+
+		}
+
 		public async Task UpdateAsync(ApplicationCore.Model.Curriculum curriculum)
 		{
 			try

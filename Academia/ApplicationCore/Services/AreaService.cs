@@ -17,9 +17,9 @@ namespace ApplicationCore.Services
                 var context = new AcademiaContext();
                 return await context.Areas.ToListAsync();
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                throw e;
+                throw;
             }
         }
         public async Task Create(Area area)

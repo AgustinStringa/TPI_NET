@@ -87,6 +87,25 @@ namespace ClientService.Commission
 			}
 		}
 
+		public async Task<IEnumerable<ApplicationCore.Model.Commission>> GetAllByCurriculumIdAndLevel(int curriculumId, int level)
+		{
+			try
+			{
+				_httpClient.DefaultRequestHeaders.Accept.Clear();
+				_httpClient.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+
+				var response = await _httpClient.GetStringAsync(_apiUrl + $"?curriculumId={curriculumId}&level={level}");
+				var commissions = JsonConvert.DeserializeObject<List<ApplicationCore.Model.Commission>>(response);
+
+				return commissions;
+			}
+			catch (Exception)
+			{
+
+				throw;
+			}
+		}
+
 		public async Task<IEnumerable<ApplicationCore.Model.Commission>> GetAllWithCurriculum()
 		{
 			_httpClient.DefaultRequestHeaders.Accept.Clear();

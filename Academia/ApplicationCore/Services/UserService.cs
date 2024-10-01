@@ -9,6 +9,21 @@ using System.Security.Cryptography;
 
 namespace ApplicationCore.Services
 {
+	public class UserDTO
+	{
+		public int Id { get; set; }
+		public string Name { get; set; }
+		public string Role { get; set; }
+		public string Lastname { get; set; }
+		public string Username { get; set; }
+		public string Email { get; set; }
+		public string PhoneNumber { get; set; }
+		public string Address { get; set; }
+		public DateTime BirthDate { get; set; }
+		public string? StudentId { get; set; }
+		public string? TeacherId { get; set; }
+		public string? Cuit { get; set; }
+	}
 	public class UserService
 	{
 
