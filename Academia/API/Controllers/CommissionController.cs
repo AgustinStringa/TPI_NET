@@ -18,14 +18,16 @@ namespace API.Controllers
 
 
 		[HttpGet]
-		public async Task<ActionResult<IEnumerable<Commission>>> GetAll()
+		public async Task<ActionResult<IEnumerable<Commission>>> GetAll([FromQuery] string populate = "")
 		{
 			try
 			{
+				var populateEntities = populate?.Split(',') ?? new string[0];
+
 				var commissions = await commissionService.GetAll(
 					new CommissionRequestParams { 
-					curriculum = false,
-					coursesCount = false
+					curriculum = populateEntities.Contains("curriculum"),
+					coursesCount = populateEntities.Contains("courses-count")
 					}
 					);
 				return Ok(commissions);
@@ -93,8 +95,8 @@ namespace API.Controllers
 			}
 			catch (Exception e)
 			{
+				//throw e;
 				return StatusCode(500, new { message = e.Message });
-				throw e;
 			}
 		}
 

@@ -105,7 +105,13 @@ namespace ApplicationCore.Services
 			}
 			catch (Exception e)
 			{
-				throw e;
+				if (e.InnerException as Microsoft.Data.SqlClient.SqlException != null) {
+					
+					if ( ((Microsoft.Data.SqlClient.SqlException)e.InnerException).ErrorCode == -2146232060) {
+
+						throw new Exception("Can't delete a commission with courses related");
+					}; 
+				}
 			}
 		}
 

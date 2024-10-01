@@ -1,4 +1,7 @@
-﻿using System;
+﻿using ClientService.Commission;
+using ClientService.Curriculum;
+using Microsoft.Extensions.DependencyInjection;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -16,8 +19,11 @@ namespace UI.Desktop.Commission
 		private Mode mode;
 		public ApplicationCore.Model.Commission commission;
 		public IEnumerable<ApplicationCore.Model.Curriculum> curriculums = new List<ApplicationCore.Model.Curriculum>();
+		private ICurriculumService curriculumService;
+		private ICommissionService commissionService;
 
-		public FrmActionCommission(Mode mode)
+
+		public FrmActionCommission(Mode mode, IServiceProvider serviceProvider)
 		{
 
 			if (mode == Mode.Create)
@@ -26,14 +32,16 @@ namespace UI.Desktop.Commission
 				this.mode = mode;
 				this.Text = "Crear Comisión";
 				btnActionCommission.Text = "Crear Comisión";
-				Utilities.LoadCurriculums(curriculums, cbCurriculum);
+				this.curriculumService = serviceProvider.GetRequiredService<ICurriculumService>();
+				this.commissionService = serviceProvider.GetRequiredService<ICommissionService>();
+				LoadCurriculums();
 			}
 			else
 			{
 				this.Dispose();
 			}
 		}
-		public FrmActionCommission(Mode mode, ApplicationCore.Model.Commission commission)
+		public FrmActionCommission(Mode mode, ApplicationCore.Model.Commission commission, IServiceProvider serviceProvider)
 		{
 
 			if (mode == Mode.Edit)
@@ -42,7 +50,9 @@ namespace UI.Desktop.Commission
 				this.mode = mode;
 				this.Text = "Editar Comisión";
 				this.commission = commission;
-				Utilities.LoadCurriculums(curriculums, cbCurriculum, commission.Curriculum.Id);
+				this.curriculumService = serviceProvider.GetRequiredService<ICurriculumService>();
+				this.commissionService = serviceProvider.GetRequiredService<ICommissionService>();
+				LoadCurriculums();
 				btnActionCommission.Text = "Guardar comisión";
 				txtCommissionDescription.Text = this.commission.Description.ToString();
 				cbCurriculum.SelectedValue = this.commission.Curriculum.Id;
@@ -55,6 +65,25 @@ namespace UI.Desktop.Commission
 
 		}
 
+		private async void LoadCurriculums()
+		{
+			try
+			{
+				if (this.mode == Mode.Edit)
+				{
+					Utilities.AdaptCurriculumsToCb(cbCurriculum, await curriculumService.GetAllAsync(), commission.IdCurriculum);
+				}
+				else if (this.mode == Mode.Create)
+				{
+					Utilities.AdaptCurriculumsToCb(cbCurriculum, await curriculumService.GetAllAsync());
+				}
+			}
+			catch (Exception)
+			{
+
+				throw;
+			}
+		}
 
 		private async void btnActionCommission_Click(object sender, EventArgs e)
 		{
@@ -68,7 +97,6 @@ namespace UI.Desktop.Commission
 			if (validLevel && validCurriculum && validCurriculum)
 			{
 				int idCurriculum = (int)cbCurriculum.SelectedValue;
-				var service = new ApplicationCore.Services.CommissionService();
 				if (mode == Mode.Create)
 				{
 					ApplicationCore.Model.Commission newCommission = new ApplicationCore.Model.Commission
@@ -79,7 +107,7 @@ namespace UI.Desktop.Commission
 					};
 					try
 					{
-						CreateCommission(newCommission, service);
+						CreateCommission(newCommission);
 					}
 					catch (Exception ex)
 					{
@@ -89,28 +117,27 @@ namespace UI.Desktop.Commission
 				}
 				else if (mode == Mode.Edit)
 				{
-					EditCommission(description, selectedCurriculum, level, service);
+					EditCommission(description, selectedCurriculum, level);
 				}
 			}
 		}
 
-		private async void CreateCommission(ApplicationCore.Model.Commission newCommission, ApplicationCore.Services.CommissionService service)
+		private async void CreateCommission(ApplicationCore.Model.Commission newCommission)
 		{
-			await service.Create(newCommission);
+			await commissionService.CreateAsync(newCommission);
 			MessageBox.Show("Comisión " + newCommission.Description + " creada correctamente", "Crear Comisióin", MessageBoxButtons.OK, MessageBoxIcon.Information);
 			DialogResult = DialogResult.OK;
 			this.Close();
 		}
 
-		private async void EditCommission(string description, ApplicationCore.Model.Curriculum selectedCurriculum, int level, ApplicationCore.Services.CommissionService service)
+		private async void EditCommission(string description, ApplicationCore.Model.Curriculum selectedCurriculum, int level)
 		{
 			try
 			{
 				this.commission.Description = description;
 				this.commission.IdCurriculum = selectedCurriculum.Id;
-				this.commission.Curriculum = selectedCurriculum;
 				this.commission.Level = level;
-				await service.Update(this.commission);
+				await commissionService.UpdateAsync(this.commission);
 				MessageBox.Show("Comisión " + this.commission.Description + " actualizada correctamente", "Editar Comisión", MessageBoxButtons.OK, MessageBoxIcon.Information);
 				DialogResult = DialogResult.OK;
 				this.Close();

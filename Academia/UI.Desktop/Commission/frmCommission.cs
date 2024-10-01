@@ -1,5 +1,4 @@
-﻿using ApplicationCore.Services;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -12,15 +11,21 @@ using System.Windows.Forms;
 using UI.Desktop.Commission;
 using UI.Desktop.Curriculum;
 using UI.Desktop;
+using ClientService.Commission;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace UI.Desktop.Commission
 {
 	public partial class FrmCommissions : Form
 	{
 		private IEnumerable<ApplicationCore.Model.Commission> commissions = [];
-		public FrmCommissions()
+		private IServiceProvider serviceProvider;
+		private ICommissionService commissionService;
+		public FrmCommissions(IServiceProvider serviceProvider)
 		{
 			InitializeComponent();
+			this.serviceProvider = serviceProvider;
+			this.commissionService = serviceProvider.GetRequiredService<ICommissionService>();
 			Utilities.StyleListViewHeader(lstvCommission, Color.FromArgb(184, 218, 255));
 			LoadCommissions();
 		}
@@ -43,10 +48,7 @@ namespace UI.Desktop.Commission
 		{
 			try
 			{
-				var service = new ApplicationCore.Services.CommissionService();
-				this.commissions = await service.GetAll(
-					new CommissionRequestParams { coursesCount = false, curriculum = true}
-					);
+				this.commissions = await commissionService.GetAllWithCurriculum();
 				AdaptCommissionToListView(this.commissions);
 			}
 			catch (Exception e)
@@ -58,7 +60,7 @@ namespace UI.Desktop.Commission
 
 		private void tsbtnAdd_Click(object sender, EventArgs e)
 		{
-			FrmActionCommission frm = new FrmActionCommission(Mode.Create);
+			FrmActionCommission frm = new FrmActionCommission(Mode.Create, this.serviceProvider);
 			var result = frm.ShowDialog();
 			if (result == DialogResult.OK)
 			{
@@ -72,8 +74,7 @@ namespace UI.Desktop.Commission
 			if (lstvCommission.SelectedItems.Count > 0)
 			{
 				var selectedCommission = (ApplicationCore.Model.Commission)lstvCommission.SelectedItems[0].Tag;
-				var service = new ApplicationCore.Services.CommissionService();
-				FrmActionCommission frm = new FrmActionCommission(Mode.Edit, selectedCommission);
+				FrmActionCommission frm = new FrmActionCommission(Mode.Edit, selectedCommission, this.serviceProvider);
 				var result = frm.ShowDialog();
 				if (result == DialogResult.OK)
 				{
@@ -93,13 +94,14 @@ namespace UI.Desktop.Commission
 				try
 				{
 					ApplicationCore.Model.Commission selectedCommission = (ApplicationCore.Model.Commission)lstvCommission.SelectedItems[0].Tag;
-					ApplicationCore.Services.CommissionService service = new ApplicationCore.Services.CommissionService();
-					await service.Delete(selectedCommission.Id);
+					await commissionService.DeleteAsync(selectedCommission.Id);
 					LoadCommissions();
 				}
-				catch (Exception)
+				catch (Exception ex)
 				{
-					throw;
+					MessageBox.Show(ex.Message, "Error al eliminar", 
+						MessageBoxButtons.OK, MessageBoxIcon.Error);
+
 				}
 			}
 			else
@@ -110,8 +112,11 @@ namespace UI.Desktop.Commission
 
 		private void txtSearch_TextChanged(object sender, EventArgs e)
 		{
-			var commissionsFiltered = this.commissions.Where(a => a.Description.ToLower().Contains(((System.Windows.Forms.TextBox)sender).Text.ToLower()));
-			AdaptCommissionToListView(commissionsFiltered);
+			if (this.commissions.Count() > 0)
+			{
+				var commissionsFiltered = this.commissions.Where(a => a.Description.ToLower().Contains(((System.Windows.Forms.TextBox)sender).Text.ToLower()));
+				AdaptCommissionToListView(commissionsFiltered);
+			}
 		}
 
 	}

@@ -23,6 +23,7 @@ using ClientService.Administrative;
 using ClientService.Teacher;
 using ClientService.Curriculum;
 using ClientService.Subject;
+using ClientService.Commission;
 
 
 namespace UI.Desktop
@@ -48,6 +49,7 @@ namespace UI.Desktop
 			services.AddHttpClient<IStudentService, StudentService>();
 			services.AddHttpClient<IAdministrativeService, AdministrativeService>();
 			services.AddHttpClient<ITeacherService, TeacherService>();
+			services.AddHttpClient<ICommissionService, CommissionService>();
 			this.serviceProvider = services.BuildServiceProvider();
 		}
 
@@ -130,7 +132,7 @@ namespace UI.Desktop
 
 		private void comisionesToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			FrmCommissions appCom = new FrmCommissions();
+			FrmCommissions appCom = new FrmCommissions(serviceProvider);
 			appCom.ShowDialog();
 		}
 
