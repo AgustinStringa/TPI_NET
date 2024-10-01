@@ -32,7 +32,7 @@ namespace ApplicationCore.Services
 					TotalHours = s.TotalHours,
 					Level = s.Level,
 					IdCurriculum = s.IdCurriculum,
-					Curriculum = parameters.curriculum ? new Curriculum { Id = s.Curriculum.Id, Description = s.Curriculum.Description } : null,
+					Curriculum = parameters.curriculum ? new Curriculum { Id = s.Curriculum.Id, Description = s.Curriculum.Description, AreaId =s.Curriculum.AreaId } : null,
 					CoursesCount = parameters.coursesCount ? s.Courses.Count : null,
 				}
 				).ToList();

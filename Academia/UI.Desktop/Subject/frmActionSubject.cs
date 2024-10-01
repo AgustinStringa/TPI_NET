@@ -1,5 +1,8 @@
 ﻿using ApplicationCore.Model;
 using ApplicationCore.Services;
+using ClientService.Curriculum;
+using ClientService.Subject;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -21,10 +24,13 @@ namespace UI.Desktop.Subject
 		private ApplicationCore.Model.Subject subject;
 		private IEnumerable<ApplicationCore.Model.Curriculum> curriculums;
 		private Mode Mode;
+		private ICurriculumService curriculumService;
+		private ISubjectService subjectService;
+		private IServiceProvider serviceProvider;
 		#endregion
 
 		#region Constructors
-		public FrmActionSubject(Mode mode, ApplicationCore.Model.Subject subj)
+		public FrmActionSubject(Mode mode, ApplicationCore.Model.Subject subj, IServiceProvider serviceProvider)
 		{
 			if (mode == Mode.Edit)
 			{
@@ -32,7 +38,12 @@ namespace UI.Desktop.Subject
 				subject = subj;
 				btnAccept.Text = "Guardar Materia";
 				this.Text = "Editar Materia";
-				Utilities.LoadCurriculums(curriculums, cbCurriculums, subject.IdCurriculum);
+				this.Mode = mode;
+				this.serviceProvider = serviceProvider;
+				this.subjectService = serviceProvider.GetRequiredService<ISubjectService>();
+				this.curriculumService = serviceProvider.GetRequiredService<ICurriculumService>();
+
+				LoadCurriculums();
 				txtDescription.Text = subject.Description;
 				txtTotalHours.Text = subject.TotalHours.ToString();
 				txtWeeklyHours.Text = subject.WeeklyHours.ToString();
@@ -44,24 +55,40 @@ namespace UI.Desktop.Subject
 				this.Dispose();
 			}
 		}
-		public FrmActionSubject(Mode mode)
+		public FrmActionSubject(Mode mode, IServiceProvider serviceProvider)
 		{
 			if (mode == Mode.Create)
 			{
 				InitializeComponent();
 				this.Mode = mode;
+				this.serviceProvider = serviceProvider;
+				this.subjectService = serviceProvider.GetRequiredService<ISubjectService>();
+				this.curriculumService = serviceProvider.GetRequiredService<ICurriculumService>();
 				btnAccept.Text = "Crear Materia";
 				this.Text = "Crear Materia";
-				Utilities.LoadCurriculums(curriculums, cbCurriculums);
+				LoadCurriculums();
 			}
 			else
 			{
 				this.Dispose();
 			}
+
+			this.serviceProvider = serviceProvider;
 		}
 		#endregion
 
 		#region Methods
+
+		private async void LoadCurriculums()
+		{
+			if (this.Mode == Mode.Create)
+			{
+				Utilities.AdaptCurriculumsToCb(cbCurriculums, await curriculumService.GetAllAsync());
+			}
+			else if (this.Mode == Mode.Edit) { 
+				Utilities.AdaptCurriculumsToCb(cbCurriculums, await curriculumService.GetAllAsync(), subject.IdCurriculum);
+			}
+		}
 		private void LoadCorrelatives()
 		{
 			lstCorrelativesChildren.Items.Clear();
@@ -87,7 +114,6 @@ namespace UI.Desktop.Subject
 				int weeklyHours = int.Parse(txtWeeklyHours.Text.Trim());
 				int level = (int)numLevel.Value;
 				ApplicationCore.Model.Curriculum curriculum = (ApplicationCore.Model.Curriculum)cbCurriculums.SelectedItem;
-				var service = new SubjectService();
 				switch (Mode)
 				{
 					case Mode.Edit:
@@ -96,7 +122,14 @@ namespace UI.Desktop.Subject
 						subject.WeeklyHours = weeklyHours;
 						subject.Level = level;
 						subject.IdCurriculum = curriculum.Id;
-						await service.Update(subject);
+						await subjectService.UpdateAsync(new ApplicationCore.Model.Subject {
+							Description = description,
+							TotalHours = totalHours,
+							WeeklyHours = weeklyHours,
+							Level = level,
+							IdCurriculum =curriculum.Id,
+							Id = subject.Id
+						});
 						MessageBox.Show("Materia actualizada correctamente", "Editar Materia", MessageBoxButtons.OK, MessageBoxIcon.Information);
 						DialogResult = DialogResult.OK;
 						this.Close();
@@ -110,7 +143,7 @@ namespace UI.Desktop.Subject
 							Level = level,
 							IdCurriculum = curriculum.Id,
 						};
-						await service.Create(newSubject);
+						await subjectService.CreateAsync(newSubject);
 						MessageBox.Show("Materia creada correctamente", "Crear Materia", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
 						DialogResult = DialogResult.OK;

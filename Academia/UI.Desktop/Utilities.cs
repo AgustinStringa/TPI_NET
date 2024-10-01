@@ -29,6 +29,29 @@ namespace UI.Desktop
 				cb.SelectedValue = selectedValue;
 			}
 		}
+
+		public static void AdaptCurriculumsToCb(ComboBox cb, IEnumerable<ApplicationCore.Model.Curriculum> curriculums)
+		{
+			if (curriculums.Count() > 0)
+			{
+				cb.DataSource = curriculums;
+				cb.ValueMember = "Id";
+				cb.DisplayMember = "Description";
+				cb.SelectedIndex = 0;
+			}
+		}
+
+		public static void AdaptCurriculumsToCb(ComboBox cb, IEnumerable<ApplicationCore.Model.Curriculum> curriculums, int selectedValue)
+		{
+			if (curriculums.Count() > 0)
+			{
+				cb.DataSource = curriculums;
+				cb.ValueMember = "Id";
+				cb.DisplayMember = "Description";
+				cb.SelectedValue = selectedValue;
+			}
+		}
+		
 		public static async void LoadAreas(ComboBox cb)
 		{
 			try

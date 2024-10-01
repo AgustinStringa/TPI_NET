@@ -22,6 +22,7 @@ using ClientService.Area;
 using ClientService.Administrative;
 using ClientService.Teacher;
 using ClientService.Curriculum;
+using ClientService.Subject;
 
 
 namespace UI.Desktop
@@ -42,6 +43,7 @@ namespace UI.Desktop
 			var services = new ServiceCollection();
 			services.AddHttpClient<IAreaService, AreaService>();
 			services.AddHttpClient<ICurriculumService, CurriculumService>();
+			services.AddHttpClient<ISubjectService, SubjectService>();
 			services.AddHttpClient<IUserService, UserService>();
 			services.AddHttpClient<IStudentService, StudentService>();
 			services.AddHttpClient<IAdministrativeService, AdministrativeService>();
@@ -97,7 +99,7 @@ namespace UI.Desktop
 
 		private void materiasToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			FrmSubject appCurr = new FrmSubject();
+			FrmSubject appCurr = new FrmSubject(this.serviceProvider);
 			appCurr.ShowDialog();
 
 		}

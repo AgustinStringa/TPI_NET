@@ -10,6 +10,8 @@ using System.Windows.Forms;
 using UI.Desktop;
 using ApplicationCore.Model;
 using ApplicationCore.Services;
+using Microsoft.Extensions.DependencyInjection;
+using ClientService.Subject;
 
 namespace UI.Desktop.Subject
 {
@@ -18,17 +20,21 @@ namespace UI.Desktop.Subject
 		private IEnumerable<ApplicationCore.Model.Subject> subjects;
 		private List<ApplicationCore.Model.Curriculum> curriculums = new List<ApplicationCore.Model.Curriculum>();
 		private string searchText = "";
+		private IServiceProvider serviceProvider;
+		private ISubjectService subjectService;
 
-		public FrmSubject()
+		public FrmSubject(IServiceProvider serviceProvider)
 		{
 			InitializeComponent();
+			this.serviceProvider = serviceProvider;
+			this.subjectService = serviceProvider.GetRequiredService<ISubjectService>();
 			Utilities.StyleListViewHeader(lstSubjects, Color.FromArgb(184, 218, 255));
 			LoadSubjects();
 		}
 		#region events
 		private void tsbtnAdd_Click(object sender, EventArgs e)
 		{
-			FrmActionSubject frm = new FrmActionSubject(Mode.Create);
+			FrmActionSubject frm = new FrmActionSubject(Mode.Create, this.serviceProvider);
 			var result = frm.ShowDialog();
 			if (result == DialogResult.OK)
 			{
@@ -40,7 +46,7 @@ namespace UI.Desktop.Subject
 			if (lstSubjects.SelectedItems.Count > 0)
 			{
 				ApplicationCore.Model.Subject selectedSubject = (ApplicationCore.Model.Subject)lstSubjects.SelectedItems[0].Tag;
-				FrmActionSubject frm = new FrmActionSubject(Mode.Edit, selectedSubject);
+				FrmActionSubject frm = new FrmActionSubject(Mode.Edit, selectedSubject, this.serviceProvider);
 				var result = frm.ShowDialog();
 				if (result == DialogResult.OK)
 				{
@@ -55,8 +61,7 @@ namespace UI.Desktop.Subject
 				ApplicationCore.Model.Subject selectedSubject = (ApplicationCore.Model.Subject)lstSubjects.SelectedItems[0].Tag;
 				if (MessageBox.Show("¿Desea Eliminar la asignatura ' " + selectedSubject.Description + " '  ?", "Eliminar asignatura", MessageBoxButtons.OKCancel, MessageBoxIcon.Information) == DialogResult.OK)
 				{
-					var service = new SubjectService();
-					await service.Delete(selectedSubject.Id);
+					await subjectService.DeleteAsync(selectedSubject.Id);
 					LoadSubjects();
 				}
 				else
@@ -84,11 +89,7 @@ namespace UI.Desktop.Subject
 		#region Methods
 		private async void LoadSubjects()
 		{
-			var service = new SubjectService();
-			subjects = await service.GetAll(new SubjectRequestParams { 
-			coursesCount = false,
-			curriculum = true
-			});
+			subjects = await subjectService.GetAllWithCurriculum();
 			AdaptSubjectsToListView(subjects);
 			LoadCurriculumFilter();
 		}
@@ -96,7 +97,7 @@ namespace UI.Desktop.Subject
 		{
 			this.curriculums.Clear();
 			this.curriculums.Add(new ApplicationCore.Model.Curriculum { Description = "Todos los planes" });
-			this.curriculums.AddRange(this.subjects.Select(s => s.Curriculum).Distinct().ToList());
+			this.curriculums.AddRange(subjects.Select(s => s.Curriculum).DistinctBy(c => c.Description).ToList());
 			cbCurriculum.DataSource = null;
 			cbCurriculum.DataSource = curriculums;
 			cbCurriculum.Refresh();
