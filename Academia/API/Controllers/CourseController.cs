@@ -102,7 +102,7 @@ namespace API.Controllers
 		}
 
 		[HttpPut("{id}")]
-		public async Task<ActionResult<Course>> Update(int id, Course updatedCourse)
+		public async Task<ActionResult<Course>> Update(int id, [FromBody] Course updatedCourse)
 		{
 			try
 			{

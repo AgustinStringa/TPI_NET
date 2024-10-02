@@ -150,23 +150,19 @@ namespace UI.Desktop.Course
 
 					try
 					{
-						/*probando con un objeto nuevo por las colecciones populadas*/
-						var courseToUpdate = new ApplicationCore.Model.Course
-						{
-							Id = this.course.Id,
-							CalendarYear = calendarYear,
-							Capacity = capacity,
-							IdCommission = selectedCommission.Id,
-							IdSubject = selectedSubejct.Id,
-							Teachers = this.selectedTeachers,
-						};
-
-						//this.course.Capacity = capacity;
-						//this.course.CalendarYear = calendarYear;
-						//this.course.IdCommission = selectedCommission.Id;
-						//this.course.IdSubject = selectedSubejct.Id;
-						//this.course.Teachers = this.selectedTeachers;
-						await courseService.UpdateAsync(courseToUpdate);
+						this.course.Capacity = capacity;
+						this.course.CalendarYear = calendarYear;
+						this.course.IdCommission = selectedCommission.Id;
+						this.course.IdSubject = selectedSubejct.Id;
+						this.course.Teachers.Clear();
+                        foreach (var item in this.selectedTeachers)
+                        {
+							var newTeacher = await teacherService.GetById(item.Id);
+							this.course.Teachers.Add(newTeacher);
+						}
+                        this.course.Commission = null;
+						this.course.Subject = null;
+						await courseService.UpdateAsync(this.course);
 						this.DialogResult = DialogResult.OK;
 						this.Close();
 					}
