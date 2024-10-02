@@ -47,7 +47,7 @@
 			lblCapacityError = new Label();
 			lblArea = new Label();
 			lblCurriculum = new Label();
-			cmbComissions = new ComboBox();
+			cmbCommissions = new ComboBox();
 			cmbCurriculums = new ComboBox();
 			cmbAreas = new ComboBox();
 			panel1.SuspendLayout();
@@ -100,7 +100,7 @@
 			panel1.Controls.Add(lblArea);
 			panel1.Controls.Add(lblCurriculum);
 			panel1.Controls.Add(lblSubject);
-			panel1.Controls.Add(cmbComissions);
+			panel1.Controls.Add(cmbCommissions);
 			panel1.Controls.Add(cmbCurriculums);
 			panel1.Controls.Add(cmbAreas);
 			panel1.Controls.Add(cmbSubjects);
@@ -253,14 +253,14 @@
 			lblCurriculum.TabIndex = 9;
 			lblCurriculum.Text = "Plan De Estudios:";
 			// 
-			// cmbComissions
+			// cmbCommissions
 			// 
-			cmbComissions.DropDownStyle = ComboBoxStyle.DropDownList;
-			cmbComissions.FormattingEnabled = true;
-			cmbComissions.Location = new Point(36, 296);
-			cmbComissions.Name = "cmbComissions";
-			cmbComissions.Size = new Size(212, 23);
-			cmbComissions.TabIndex = 10;
+			cmbCommissions.DropDownStyle = ComboBoxStyle.DropDownList;
+			cmbCommissions.FormattingEnabled = true;
+			cmbCommissions.Location = new Point(36, 296);
+			cmbCommissions.Name = "cmbCommissions";
+			cmbCommissions.Size = new Size(212, 23);
+			cmbCommissions.TabIndex = 10;
 			// 
 			// cmbCurriculums
 			// 
@@ -305,7 +305,7 @@
         private Panel panel1;
         private TextBox txtCapacity;
         private Label lblCommission;
-        private ComboBox cmbComissions;
+        private ComboBox cmbCommissions;
         private TextBox txtCalendarYear;
         private Label lblCalendarYear;
         private Label lblCapacity;

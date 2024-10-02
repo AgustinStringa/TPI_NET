@@ -1,5 +1,4 @@
-﻿using ApplicationCore.Services;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -9,23 +8,32 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using ApplicationCore.Model;
+using ClientService.Course;
+using ClientService.Subject;
+using ClientService.StudentCourse;
+using Microsoft.Extensions.DependencyInjection;
 namespace UI.Desktop
 {
 	public partial class FrmStudentCourseInscription : Form
 	{
-		private ApplicationCore.Model.User user;
+		private ApplicationCore.Model.Student student;
 		private IEnumerable<ApplicationCore.Model.Course> courses;
 		private List<ApplicationCore.Model.Subject> subjects = new List<ApplicationCore.Model.Subject>();
-		public FrmStudentCourseInscription(ApplicationCore.Model.User user)
+		private ICourseService courseService;
+		private ISubjectService subjectService;
+		private IStudentCourseService studentCourseService;
+		public FrmStudentCourseInscription(ApplicationCore.Model.Student student, IServiceProvider serviceProvider)
 		{
-			this.user = user;
+			this.student = student;
+			this.courseService = serviceProvider.GetRequiredService<ICourseService>();
+			this.subjectService = serviceProvider.GetRequiredService<ISubjectService>();
+			this.studentCourseService = serviceProvider.GetRequiredService<IStudentCourseService>();
 			InitializeComponent();
 			LoadCourses();
 		}
 		private async void LoadCourses()
 		{
-			var courseService = new CourseService();
-			this.courses = await courseService.GetAvailableCourses(user.Id);
+			this.courses = await courseService.GetAvailableCourses(student);
 
 			foreach (var course in this.courses)
 			{
@@ -47,7 +55,7 @@ namespace UI.Desktop
 			cmbSubject.ValueMember = "Id";
 			cmbSubject.DisplayMember = "Description";
 		}
-		private void button1_Click(object sender, EventArgs e)
+		private void btnShowDetails_Click(object sender, EventArgs e)
 		{
 			if (cmbSubject.SelectedIndex != -1)
 			{
@@ -64,7 +72,7 @@ namespace UI.Desktop
 				return;
 			}
 			int subjectId = ((ApplicationCore.Model.Subject)(cmbSubject.SelectedItem)).Id;
-			var filteredCourses = this.courses.Where(c => c.Subject.Id == subjectId);
+			var filteredCourses = this.courses.Where(c => c.IdSubject == subjectId);
 			cmbCourse.DataSource = filteredCourses.ToList();
 			cmbCourse.ValueMember = "Id";
 			cmbCourse.DisplayMember = "ToStringProperty";
@@ -76,19 +84,19 @@ namespace UI.Desktop
 			{
 				if (cmbCourse.SelectedItem == null || cmbSubject.SelectedItem == null)
 				{
-					MessageBox.Show("Debe seleccionar un curso", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+					MessageBox.Show("Debe seleccionar un curso", "Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 					return;
 				}
 
-				var userCourse = new ApplicationCore.Model.StudentCourse()
+				var studentCourse = new ApplicationCore.Model.StudentCourse()
 				{
-					UserId = this.user.Id,
+					UserId = this.student.Id,
 					CourseId = ((ApplicationCore.Model.Course)cmbCourse.SelectedItem).Id,
 					Status = "inscripto"
 				};
 
-				var userCourseService = new ApplicationCore.Services.StudentCourseService();
-				await userCourseService.Create(userCourse);
+
+				await studentCourseService.CreateAsync(studentCourse);
 
 				MessageBox.Show("Inscripción realizada con éxito", "Inscripción", MessageBoxButtons.OK, MessageBoxIcon.Information);
 				this.Dispose();
@@ -98,7 +106,6 @@ namespace UI.Desktop
 				MessageBox.Show($"Ocurrió un error: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 			}
 		}
-
 
 	}
 }

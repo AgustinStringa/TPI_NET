@@ -607,7 +607,7 @@ namespace UI.Desktop
 					txtCuit.Visible = true;
 					lblCuit.Visible = true;
 					txtCuit.Text = teacher.Cuit;
-					txtStudentId.Text = teacher.TeacherId;
+					txtStudentId.Text = teacher.TeacherId.ToString();
 					break;
 				case "Student":
 					var student = await studentService.GetById(userDTO.Id);

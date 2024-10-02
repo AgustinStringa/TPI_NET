@@ -30,7 +30,7 @@ using ClientService.StudentCourse;
 
 namespace UI.Desktop
 {
-    public partial class FrmMain : Form
+	public partial class FrmMain : Form
 	{
 		private bool administrative = false;
 		private bool student = false;
@@ -39,7 +39,6 @@ namespace UI.Desktop
 		public FrmMain(ApplicationCore.Model.User user)
 		{
 			this.user = user;
-
 			administrative = (user as Administrative) != null;
 			student = (user as Student) != null;
 			InitializeComponent();
@@ -55,8 +54,27 @@ namespace UI.Desktop
 			services.AddHttpClient<ICourseService, CourseService>();
 			services.AddHttpClient<IStudentCourseService, StudentCourseService>();
 			this.serviceProvider = services.BuildServiceProvider();
+			GetUser();
 		}
 
+		private async void GetUser()
+		{
+			ApplicationCore.Model.Student userIsStudent = null;
+			ApplicationCore.Model.Administrative userIsAdministrative = null;
+			ApplicationCore.Model.Teacher userIsTeacher = null;
+			userIsStudent = await (this.serviceProvider.GetRequiredService<IStudentService>()).GetById(user.Id);
+			if (userIsStudent == null)
+			{
+				userIsAdministrative = await ((this.serviceProvider.GetRequiredService<IAdministrativeService>()).GetById(user.Id));
+			}
+			else if (userIsAdministrative == null && userIsStudent == null)
+			{
+				userIsTeacher = await ((this.serviceProvider.GetRequiredService<ITeacherService>()).GetById(user.Id));
+			}
+			administrative = userIsAdministrative != null;
+			student = userIsStudent != null;
+			SetUpWindowToolStrips();
+		}
 		//TO DO: only for develop, remove in production
 		public FrmMain()
 		{
@@ -69,7 +87,7 @@ namespace UI.Desktop
 			this.Dispose();
 		}
 
-		private void frmMain_Shown(object sender, EventArgs e)
+		private void SetUpWindowToolStrips()
 		{
 			usuariosToolStripMenuItem.Visible = administrative;
 			especialidadesToolStripMenuItem.Visible = administrative;
@@ -82,6 +100,10 @@ namespace UI.Desktop
 			administrarCursadosToolStripMenuItem.Visible = administrative;
 			cargarNotasToolStripMenuItem.Visible = administrative;
 			estadoAcademicoToolStripMenuItem.Visible = student;
+		}
+		private void frmMain_Shown(object sender, EventArgs e)
+		{
+
 		}
 		private void especialidadesToolStripMenuItem_Click(object sender, EventArgs e)
 		{
@@ -109,10 +131,14 @@ namespace UI.Desktop
 			appCurr.ShowDialog();
 
 		}
-		private void inscripcionACursadoToolStripMenuItem_Click(object sender, EventArgs e)
+		private async void inscripcionACursadoToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			FrmStudentCourseInscription appInscripcionCursado = new FrmStudentCourseInscription(this.user);
-			appInscripcionCursado.ShowDialog();
+			if (student)
+			{
+				var userStudent = await (this.serviceProvider.GetRequiredService<IStudentService>()).GetById(user.Id);
+				FrmStudentCourseInscription appInscripcionCursado = new FrmStudentCourseInscription(userStudent, serviceProvider);
+				appInscripcionCursado.ShowDialog();
+			}
 		}
 
 
@@ -122,10 +148,15 @@ namespace UI.Desktop
 			frm.ShowDialog();
 		}
 
-		private void cursadosActivosToolStripMenuItem_Click(object sender, EventArgs e)
+		private async void cursadosActivosToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			FrmMyCourses frm = new FrmMyCourses(user);
-			frm.ShowDialog();
+			if (student)
+			{
+				var userStudent = await(this.serviceProvider.GetRequiredService<IStudentService>()).GetById(user.Id);
+				FrmMyCourses frm = new FrmMyCourses(userStudent, serviceProvider);
+				frm.ShowDialog();
+			}
+
 		}
 
 		private void usuariosToolStripMenuItem1_Click(object sender, EventArgs e)
@@ -146,11 +177,13 @@ namespace UI.Desktop
 			appQualifyCourses.ShowDialog();
 		}
 
-		private void estadoAcademicoToolStripMenuItem_Click(object sender, EventArgs e)
+		private async void estadoAcademicoToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			if (user.GetType() == (new Student()).GetType())
+			if (student)
 			{
-				FrmAcademicStatus frmAcademicStatus = new FrmAcademicStatus((Student)user);
+				var userStudent = await(this.serviceProvider.GetRequiredService<IStudentService>()).GetById(user.Id);
+
+				FrmAcademicStatus frmAcademicStatus = new FrmAcademicStatus(userStudent);
 				frmAcademicStatus.ShowDialog();
 			}
 		}

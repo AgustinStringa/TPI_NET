@@ -5,6 +5,7 @@ using ClientService.Commission;
 using ClientService.Course;
 using ClientService.Curriculum;
 using ClientService.Subject;
+using ClientService.Teacher;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
@@ -15,7 +16,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 
 namespace UI.Desktop.Course
@@ -33,6 +33,11 @@ namespace UI.Desktop.Course
 		private ISubjectService subjectService;
 		private ICommissionService commissionService;
 		private ICourseService courseService;
+		private ITeacherService teacherService;
+		private bool updatingCbAreas;
+		private bool updatingCbCurriculums;
+		private bool updatingCbSubjects;
+		private bool updatingCbCommissions;
 
 		public FrmActionCourse(Mode mode, IServiceProvider serviceProvider)
 		{
@@ -67,7 +72,7 @@ namespace UI.Desktop.Course
 				txtCapacity.Text = course.Capacity.ToString();
 				txtCalendarYear.Text = course.CalendarYear.ToString();
 				this.selectedTeachers = course.Teachers.ToList();
-				LoadAreas();
+				LoadComboboxes();
 				this.FillSelectedTeachers();
 			}
 		}
@@ -79,6 +84,7 @@ namespace UI.Desktop.Course
 			this.subjectService = serviceProvider.GetRequiredService<ISubjectService>();
 			this.commissionService = serviceProvider.GetRequiredService<ICommissionService>();
 			this.courseService = serviceProvider.GetRequiredService<ICourseService>();
+			this.teacherService = serviceProvider.GetRequiredService<ITeacherService>();
 		}
 
 		private async void btnActionCourse_Click(object sender, EventArgs e)
@@ -104,7 +110,7 @@ namespace UI.Desktop.Course
 			var validSubject = validateSubject(selectedSubejct);
 
 
-			var selectedCommission = (ApplicationCore.Model.Commission)cmbComissions.SelectedItem;
+			var selectedCommission = (ApplicationCore.Model.Commission)cmbCommissions.SelectedItem;
 			var validCommission = validateCommission(selectedCommission);
 
 
@@ -149,7 +155,7 @@ namespace UI.Desktop.Course
 						{
 							Id = this.course.Id,
 							CalendarYear = calendarYear,
-							Capacity=capacity,
+							Capacity = capacity,
 							IdCommission = selectedCommission.Id,
 							IdSubject = selectedSubejct.Id,
 							Teachers = this.selectedTeachers,
@@ -177,23 +183,33 @@ namespace UI.Desktop.Course
 
 		private async void cmbAreas_SelectedIndexChanged(object sender, EventArgs e)
 		{
-			if (cmbAreas.SelectedIndex != -1)
+			if (!updatingCbAreas)
 			{
-				ApplicationCore.Model.Area selectedArea = (ApplicationCore.Model.Area)cmbAreas.SelectedItem;
-				var curriculums = await curriculumService.GetAllByAreaId(selectedArea.Id);
 
-				if (curriculums.Count() > 0)
+				if (cmbAreas.SelectedIndex != -1)
 				{
-					cmbCurriculums.DataSource = curriculums;
-					cmbCurriculums.ValueMember = "Id";
-					cmbCurriculums.DisplayMember = "Description";
-					if (this.mode == Mode.Edit)
+					try
 					{
-						cmbCurriculums.SelectedValue = course.Subject.IdCurriculum;
+						updatingCbCurriculums = true;
+						var curriculums = await curriculumService.GetAllByAreaId(((ApplicationCore.Model.Area)(cmbAreas.SelectedItem)).Id);
+						cmbCurriculums.DataSource = curriculums;
+						cmbCurriculums.ValueMember = "Id";
+						cmbCurriculums.DisplayMember = "Description";
 					}
-					else
+					finally
 					{
-						cmbCurriculums.SelectedIndex = 0;
+						cmbCurriculums.SelectedIndex = -1;
+						updatingCbCurriculums = false;
+						if (cmbCurriculums.Items.Count > 0)
+						{
+							cmbCurriculums.SelectedIndex = 0;
+						}
+						else
+						{
+							cmbCurriculums.DataSource = null;
+							cmbSubjects.DataSource = null;
+							cmbCommissions.DataSource = null;
+						}
 					}
 				}
 				else
@@ -201,31 +217,36 @@ namespace UI.Desktop.Course
 					cmbCurriculums.DataSource = null;
 				}
 			}
-			else
-			{
-				cmbCurriculums.DataSource = null;
-			}
 		}
 
 		private async void cmbCurriculums_SelectedIndexChanged(object sender, EventArgs e)
 		{
-			if (cmbCurriculums.SelectedIndex != -1)
+			if (!updatingCbCurriculums)
 			{
-				ApplicationCore.Model.Curriculum selectedCurriculum = (ApplicationCore.Model.Curriculum)cmbCurriculums.SelectedItem;
-				var subjects = await subjectService.GetAllByCurriculumId(selectedCurriculum.Id);
-
-				if (subjects.Count() > 0)
+				if (cmbCurriculums.SelectedIndex != -1)
 				{
-					cmbSubjects.DataSource = subjects;
-					cmbSubjects.ValueMember = "Id";
-					cmbSubjects.DisplayMember = "Description";
-					if (this.mode == Mode.Edit)
+					try
 					{
-						cmbSubjects.SelectedValue = course.IdSubject;
+						updatingCbSubjects = true;
+						var subjects = await subjectService.GetAllByCurriculumId(((ApplicationCore.Model.Curriculum)(cmbCurriculums.SelectedItem)).Id);
+						cmbSubjects.DataSource = subjects;
+						cmbSubjects.ValueMember = "Id";
+						cmbSubjects.DisplayMember = "Description";
 					}
-					else
+					finally
 					{
-						cmbSubjects.SelectedIndex = 0;
+						cmbSubjects.SelectedIndex = -1;
+						updatingCbSubjects = false;
+
+						if (cmbSubjects.Items.Count > 0)
+						{
+							cmbSubjects.SelectedIndex = 0;
+						}
+						else
+						{
+							cmbSubjects.DataSource = null;
+							cmbCommissions.DataSource = null;
+						}
 					}
 				}
 				else
@@ -233,43 +254,39 @@ namespace UI.Desktop.Course
 					cmbSubjects.DataSource = null;
 				}
 			}
-			else
-			{
-				cmbSubjects.DataSource = null;
-				cmbComissions.DataSource = null;
-			}
 		}
 
 		private async void cmbSubjects_SelectedIndexChanged(object sender, EventArgs e)
 		{
-
-			if (cmbSubjects.SelectedIndex != -1 && cmbCurriculums.SelectedIndex != -1)
+			if (!updatingCbSubjects)
 			{
-				ApplicationCore.Model.Curriculum selectedCurriculum = (ApplicationCore.Model.Curriculum)cmbCurriculums.SelectedItem;
-				ApplicationCore.Model.Subject selectedSubject = (ApplicationCore.Model.Subject)cmbSubjects.SelectedItem;
-				var commissions = await commissionService.GetAllByCurriculumIdAndLevel(selectedCurriculum.Id, selectedSubject.Level);
-				if (commissions.Count() > 0)
+				if (cmbCurriculums.SelectedIndex != -1 && cmbSubjects.SelectedIndex != -1)
 				{
-					cmbComissions.DataSource = commissions;
-					cmbComissions.ValueMember = "Id";
-					cmbComissions.DisplayMember = "Description";
-					if (this.mode == Mode.Edit)
+					try
 					{
-						cmbComissions.SelectedValue = course.IdCommission;
+						var commissions = await commissionService.GetAllByCurriculumIdAndLevel(((ApplicationCore.Model.Curriculum)(cmbCurriculums.SelectedItem)).Id
+							, ((ApplicationCore.Model.Subject)(cmbSubjects.SelectedItem)).Level
+							);
+						cmbCommissions.DataSource = commissions;
+						cmbCommissions.ValueMember = "Id";
+						cmbCommissions.DisplayMember = "Description";
+						if (commissions.Count() > 0)
+						{
+							cmbCommissions.SelectedIndex = 0;
+						}
+						else
+						{
+							cmbCommissions.DataSource = null;
+						}
 					}
-					else
+					finally
 					{
-						cmbComissions.SelectedIndex = 0;
 					}
 				}
 				else
 				{
-					cmbComissions.DataSource = null;
+					cmbCommissions.DataSource = null;
 				}
-			}
-			else
-			{
-				cmbComissions.DataSource = null;
 			}
 		}
 
@@ -316,8 +333,7 @@ namespace UI.Desktop.Course
 
 		private async void btnAddTeacher_Click(object sender, EventArgs e)
 		{
-			var service = new TeacherService();
-			var teachers = await service.GetAll();
+			var teachers = await teacherService.GetAllAsync();
 			var teacherlist = new FrmTeachersList(teachers, this);
 			var result = teacherlist.ShowDialog();
 			if (result == DialogResult.OK)
@@ -356,13 +372,54 @@ namespace UI.Desktop.Course
 
 		private async void LoadAreas()
 		{
-			if (this.mode == Mode.Create)
+			Utilities.AdaptAreasToCb(cmbAreas, await areaService.GetAllAsync());
+		}
+
+		private async void LoadComboboxes()
+		{
+			IEnumerable<ApplicationCore.Model.Area> areas = [];
+			IEnumerable<ApplicationCore.Model.Curriculum> curriculums = [];
+			IEnumerable<ApplicationCore.Model.Subject> subjects = [];
+			IEnumerable<ApplicationCore.Model.Commission> commissions = [];
+
+			try
 			{
-				Utilities.AdaptAreasToCb(cmbAreas, await areaService.GetAllAsync());
+				updatingCbAreas = true;
+				updatingCbCurriculums = true;
+				updatingCbSubjects = true;
+				updatingCbCommissions = true;
+
+				areas = await areaService.GetAllAsync();
+				cmbAreas.DataSource = areas;
+				//al modificar prop DataSource -> se lanza evento selectedindexchange
+				cmbAreas.DisplayMember = "Description";
+				cmbAreas.ValueMember = "Id";
+				cmbAreas.SelectedValue = this.course.Subject.Curriculum.AreaId;
+
+				curriculums = await curriculumService.GetAllByAreaId(this.course.Subject.Curriculum.AreaId);
+				cmbCurriculums.DataSource = curriculums;
+				cmbCurriculums.DisplayMember = "Description";
+				cmbCurriculums.ValueMember = "Id";
+				cmbCurriculums.SelectedValue = this.course.Subject.IdCurriculum;
+
+				subjects = await subjectService.GetAllByCurriculumId(this.course.Subject.IdCurriculum);
+				cmbSubjects.DataSource = subjects;
+				cmbSubjects.DisplayMember = "Description";
+				cmbSubjects.ValueMember = "Id";
+				cmbSubjects.SelectedValue = this.course.IdSubject;
+
+				commissions = await commissionService.GetAllByCurriculumIdAndLevel(this.course.Subject.IdCurriculum, this.course.Commission.Level);
+				cmbCommissions.DataSource = commissions;
+				cmbCommissions.DisplayMember = "Description";
+				cmbCommissions.ValueMember = "Id";
+				cmbCommissions.SelectedValue = this.course.Commission.Id;
 			}
-			else if (this.mode == Mode.Edit)
+			finally
 			{
-				Utilities.AdaptAreasToCb(cmbAreas, await areaService.GetAllAsync(), course.Subject.Curriculum.AreaId);
+				updatingCbAreas = false;
+				updatingCbCurriculums = false;
+				updatingCbSubjects = false;
+				updatingCbCommissions = false;
 			}
 		}
 	}

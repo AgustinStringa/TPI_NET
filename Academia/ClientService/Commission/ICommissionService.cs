@@ -12,7 +12,7 @@ namespace ClientService.Commission
 
 		public Task<IEnumerable<ApplicationCore.Model.Commission>> GetAllByCurriculumIdAndLevel(int curriculumId, int level);
 		public Task<IEnumerable<ApplicationCore.Model.Commission>> GetAllWithCurriculum();
-
+		public Task<ApplicationCore.Model.Commission> GetById(int id);
 		public Task DeleteAsync(int id);
 
 		public Task UpdateAsync(ApplicationCore.Model.Commission commission);

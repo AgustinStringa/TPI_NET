@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using ApplicationCore.Model;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,6 +19,20 @@ namespace ApplicationCore.Services
 		{
 			var context = new AcademiaContext();
 			return await context.Administratives.FindAsync(id);
+		}
+
+		public async Task Create(Administrative administrative)
+		{
+			try
+			{
+				var context = new AcademiaContext();
+				await context.Administratives.AddAsync(administrative);
+				await context.SaveChangesAsync();
+			}
+			catch (Exception)
+			{
+				throw;
+			}
 		}
 	}
 }

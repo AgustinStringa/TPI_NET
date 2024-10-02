@@ -77,7 +77,8 @@ namespace ApplicationCore.Services
 					Lastname = t.Lastname,
 					Name = t.Name,
 					PhoneNumber = t.PhoneNumber,
-					Username = t.Username
+					Username = t.Username,
+					TeacherId = t.TeacherId
 					}
 					).ToList() : null)
 			}

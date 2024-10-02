@@ -5,6 +5,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -24,6 +25,23 @@ namespace ClientService.StudentCourse
 				.Build();
 			_apiUrl = configuration["ApiUrl:Base"];
 			_apiUrl += "/student-courses/";
+		}
+
+		public async Task CreateAsync(ApplicationCore.Model.StudentCourse studentCourse)
+		{
+			try
+			{
+				httpClient.DefaultRequestHeaders.Accept.Clear();
+				httpClient.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+
+				using StringContent jsonContent = new(System.Text.Json.JsonSerializer.Serialize(studentCourse), Encoding.UTF8, "application/json");
+				var response = await httpClient.PostAsync(_apiUrl, jsonContent);
+				response.EnsureSuccessStatusCode();
+			}
+			catch (Exception)
+			{
+				throw;
+			}
 		}
 
 		public async Task<IEnumerable<ApplicationCore.Model.StudentCourse>> GetByUserId(int userId)

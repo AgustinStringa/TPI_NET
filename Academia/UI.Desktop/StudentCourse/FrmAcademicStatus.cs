@@ -16,7 +16,7 @@ namespace UI.Desktop
         {
             InitializeComponent();
             lblName.Text = $"{student.Name} {student.Lastname} ({student.StudentId}) a las  {DateTime.Now.ToString()}";
-            //traer todos los userCourse
+            //traer todos los studentCourse
             //mostrar en la grilla ¿Solo lectura?
             var nuevo = new ListViewItem("Administración de Sistemas de Información (Integradora)");
             nuevo.SubItems.Add("Aprobada");

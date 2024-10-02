@@ -75,7 +75,7 @@
 			button2.TabIndex = 3;
 			button2.Text = "Ver detalles";
 			button2.UseVisualStyleBackColor = true;
-			button2.Click += button1_Click;
+			button2.Click += btnShowDetails_Click;
 			// 
 			// btnInscription
 			// 
@@ -115,7 +115,7 @@
 			panel1.Size = new Size(459, 141);
 			panel1.TabIndex = 7;
 			// 
-			// frmInscripcionCursado
+			// FrmStudentCourseInscription
 			// 
 			AutoScaleDimensions = new SizeF(7F, 15F);
 			AutoScaleMode = AutoScaleMode.Font;
@@ -128,7 +128,7 @@
 			Controls.Add(cmbSubject);
 			Controls.Add(label1);
 			Controls.Add(panel1);
-			Name = "frmInscripcionCursado";
+			Name = "FrmStudentCourseInscription";
 			Text = "frmInscripcionMateria";
 			ResumeLayout(false);
 			PerformLayout();

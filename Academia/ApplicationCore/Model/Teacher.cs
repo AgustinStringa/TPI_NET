@@ -14,7 +14,8 @@ namespace ApplicationCore.Model
 		public string? Cuit { get; set; }
 
 		[Column("legajo")]
-		public string? TeacherId { get; set; }
+		[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+		public int? TeacherId { get; set; }
 
 		public virtual ICollection<Course> TeacherCourses { get; set; } = new List<Course>();
 	}

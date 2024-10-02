@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using ApplicationCore.Model;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,6 +27,20 @@ namespace ApplicationCore.Services
 		{
 			var context = new AcademiaContext();
 			return await context.Students.Include(u => u.Curriculum).FirstOrDefaultAsync(u => u.Id == id);
+		}
+
+		public async Task Create(Student student)
+		{
+			try
+			{
+				var context = new AcademiaContext();
+				await context.Students.AddAsync(student);
+				await context.SaveChangesAsync();
+			}
+			catch (Exception)
+			{
+				throw;
+			}
 		}
 	}
 }

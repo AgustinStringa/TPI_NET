@@ -39,6 +39,24 @@ namespace ClientService.Teacher
 				throw;
 			}
 		}
+
+		public async Task<IEnumerable<ApplicationCore.Model.Teacher>> GetAllAsync()
+		{
+			try
+			{
+				_httpClient.DefaultRequestHeaders.Accept.Clear();
+				_httpClient.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+
+				var response = await _httpClient.GetStringAsync(_apiUrl);
+				var teachers = JsonConvert.DeserializeObject<List<ApplicationCore.Model.Teacher>>(response);
+				return teachers;
+			}
+			catch (Exception)
+			{
+				throw;
+			}
+		}
+
 		public async Task<ApplicationCore.Model.Teacher> GetById(int id)
 		{
 			try

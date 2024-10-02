@@ -123,7 +123,7 @@ namespace ClientService.Course
 				httpClient.DefaultRequestHeaders.Accept.Clear();
 				httpClient.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
 
-				var response = await httpClient.GetStringAsync(_apiUrl + $"?id_student={student.Id}");
+				var response = await httpClient.GetStringAsync(_apiUrl + $"availablecourses?studentId={student.Id}");
 				var courses = JsonConvert.DeserializeObject<List<ApplicationCore.Model.Course>>(response);
 				return courses;
 			}

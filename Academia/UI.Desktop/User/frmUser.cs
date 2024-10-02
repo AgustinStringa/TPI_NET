@@ -66,7 +66,7 @@ namespace UI.Desktop.User
 				else if (user.Role == "Teacher")
 				{
 
-					item.SubItems.Add(user.TeacherId);
+					item.SubItems.Add(user.TeacherId.ToString());
 					item.SubItems.Add(user.Cuit);
 				}
 				else if (user.Role == "Administrative")

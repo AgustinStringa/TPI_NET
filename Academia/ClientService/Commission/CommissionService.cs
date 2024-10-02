@@ -11,7 +11,8 @@ using Azure;
 
 namespace ClientService.Commission
 {
-	public class ErrorResponse { 
+	public class ErrorResponse
+	{
 		public string Message { get; set; }
 	}
 	public class CommissionService : ICommissionService
@@ -55,7 +56,8 @@ namespace ClientService.Commission
 				_httpClient.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
 
 				var response = await _httpClient.DeleteAsync(_apiUrl + id.ToString());
-				if (!response.IsSuccessStatusCode) {
+				if (!response.IsSuccessStatusCode)
+				{
 					var errorContent = await response.Content.ReadAsStringAsync();
 					var errorResponse = JsonConvert.DeserializeObject<ErrorResponse>(errorContent);
 					throw new Exception(errorResponse.Message);
@@ -108,13 +110,40 @@ namespace ClientService.Commission
 
 		public async Task<IEnumerable<ApplicationCore.Model.Commission>> GetAllWithCurriculum()
 		{
-			_httpClient.DefaultRequestHeaders.Accept.Clear();
-			_httpClient.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+			try
+			{
+				_httpClient.DefaultRequestHeaders.Accept.Clear();
+				_httpClient.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
 
-			var response = await _httpClient.GetStringAsync(_apiUrl + "?populate=curriculum");
-			var commissions = JsonConvert.DeserializeObject<List<ApplicationCore.Model.Commission>>(response);
+				var response = await _httpClient.GetStringAsync(_apiUrl + "?populate=curriculum");
+				var commissions = JsonConvert.DeserializeObject<List<ApplicationCore.Model.Commission>>(response);
 
-			return commissions;
+				return commissions;
+			}
+			catch (Exception)
+			{
+
+				throw;
+			}
+		}
+
+		public async Task<ApplicationCore.Model.Commission> GetById(int id)
+		{
+			try
+			{
+				_httpClient.DefaultRequestHeaders.Accept.Clear();
+				_httpClient.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+
+				var response = await _httpClient.GetStringAsync(_apiUrl + id.ToString());
+				var commission = JsonConvert.DeserializeObject<ApplicationCore.Model.Commission>(response);
+
+				return commission;
+			}
+			catch (Exception)
+			{
+
+				throw;
+			}
 		}
 
 		public async Task UpdateAsync(ApplicationCore.Model.Commission commission)

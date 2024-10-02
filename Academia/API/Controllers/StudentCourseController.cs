@@ -93,7 +93,7 @@ namespace API.Controllers
 		//        return StatusCode(500, new { message = e.Message });
 		//    }
 		//}
-
+		[HttpGet("${id}")]
 		public async Task<ActionResult<StudentCourse>> GetById(int id)
 		{
 			try
@@ -153,7 +153,7 @@ namespace API.Controllers
 		}
 
 
-		[HttpGet("")]
+		[HttpGet()]
 		public async Task<ActionResult<IEnumerable<StudentCourse>>> GetByUserId([FromQuery] int? userId = null)
 		{
 			try

@@ -1,4 +1,6 @@
-﻿using ApplicationCore.Services;
+﻿using ApplicationCore;
+using ApplicationCore.Model;
+using ApplicationCore.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
@@ -8,8 +10,61 @@ namespace API.Controllers
 	public class StudentController : Controller
 	{
 		private StudentService studentService;
-		public StudentController(StudentService studentService) { 
+		private UserService userService;
+		public StudentController(StudentService studentService, UserService userService)
+		{
 			this.studentService = studentService;
+			this.userService = userService;
 		}
-    }
+
+		[HttpGet("")]
+		//[Authorize]
+		public async Task<ActionResult<IEnumerable<Student>>> GetStudents()
+		{
+			try
+			{
+				var students = await studentService.GetAll();
+				return Ok(students);
+			}
+			catch (Exception e)
+			{
+				return StatusCode(500, new { message = e.Message });
+				throw e;
+			}
+		}
+
+		[HttpGet("{id}")]
+		public async Task<ActionResult<Student>> GetStudentById(int id)
+		{
+			try
+			{
+				var user = await studentService.GetById(id);
+				return Ok(user);
+
+			}
+			catch (Exception e)
+			{
+				return StatusCode(500, new { message = e.Message });
+				throw e;
+			}
+		}
+
+		[HttpPost()]
+		public async Task<ActionResult<Student>> CreateStudent(Student student)
+		{
+			try
+			{
+				student.Password = Util.EncodePassword(student.Password);
+				await studentService.Create(student);
+				return CreatedAtAction(
+				nameof(GetStudentById),
+				new { id = student.Id }, student);
+			}
+			catch (Exception e)
+			{
+				return StatusCode(500, new { message = e.InnerException.Message });
+				throw e;
+			}
+		}
+	}
 }

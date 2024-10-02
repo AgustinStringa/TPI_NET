@@ -131,11 +131,11 @@ namespace API.Controllers
 		}
 
 		[HttpGet("availablecourses")]
-		public async Task<ActionResult<IEnumerable<Course>>> GetAvailableCourses([FromQuery] int student_id)
+		public async Task<ActionResult<IEnumerable<Course>>> GetAvailableCourses([FromQuery] int studentId)
 		{
 			try
 			{
-				var courses = await courseService.GetAvailableCourses(student_id);
+				var courses = await courseService.GetAvailableCourses(studentId);
 				return Ok(courses);
 			}
 			catch (Exception)

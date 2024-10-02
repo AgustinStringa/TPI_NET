@@ -11,11 +11,18 @@ using System.Threading.Tasks;
 namespace ClientService
 {
 	public class UserService : IUserService
-    {
+	{
 		private readonly HttpClient _httpClient;
 		private string _apiUrl = "";
 
-		public UserService(HttpClient httpClient) {
+		public class UserLoggedDTO { 
+			public User User { get; set; }
+
+			public string jwt { get; set; }
+		}
+
+		public UserService(HttpClient httpClient)
+		{
 			_httpClient = httpClient;
 			var configuration = new ConfigurationBuilder()
 				.SetBasePath(Directory.GetCurrentDirectory())
@@ -81,7 +88,7 @@ namespace ClientService
 			}
 		}
 
-		public async Task<User> GetById(int id)
+		public async Task<ApplicationCore.Model.User> GetById(int id)
 		{
 			try
 			{
@@ -89,8 +96,39 @@ namespace ClientService
 				_httpClient.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
 
 				var response = await _httpClient.GetStringAsync(_apiUrl + id.ToString());
-				var user = JsonConvert.DeserializeObject<User>(response);
+				var user = JsonConvert.DeserializeObject<ApplicationCore.Model.User>(response);
 				return user;
+			}
+			catch (Exception)
+			{
+				throw;
+			}
+		}
+
+		public async Task<UserLoggedDTO> ValidateCredentials(string username, string password)
+		{
+			try
+			{
+				_httpClient.DefaultRequestHeaders.Accept.Clear();
+				_httpClient.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+
+				using StringContent jsonContent = new(System.Text.Json.JsonSerializer.Serialize(new ApplicationCore.Services.LoginDto
+				{
+					Password = password,
+					Username = username,
+				}), Encoding.UTF8, "application/json");
+
+				var response = await _httpClient.PostAsync(_apiUrl + "auth", jsonContent);
+				if (response.IsSuccessStatusCode)
+				{
+					var responseContent = await response.Content.ReadAsStringAsync();
+					var user = JsonConvert.DeserializeObject<UserLoggedDTO>(responseContent);
+					return user;
+				}
+				else
+				{
+					throw new Exception("Error en la solicitud: " + response.StatusCode);
+				}
 			}
 			catch (Exception)
 			{

@@ -21,56 +21,16 @@ namespace ApplicationCore.Services
 		public string Address { get; set; }
 		public DateTime BirthDate { get; set; }
 		public string? StudentId { get; set; }
-		public string? TeacherId { get; set; }
+		public int? TeacherId { get; set; }
 		public string? Cuit { get; set; }
+	}
+	public class LoginDto
+	{
+		public string Username { get; set; }
+		public string Password { get; set; }
 	}
 	public class UserService
 	{
-
-		public async Task CreateStudent(Student student)
-		{
-			try
-			{
-				var context = new AcademiaContext();
-				await context.Students.AddAsync(student);
-				await context.SaveChangesAsync();
-			}
-			catch (Exception)
-			{
-
-				throw;
-			}
-		}
-		
-		public async Task CreateTeacher(Teacher teacher)
-		{
-			try
-			{
-				var context = new AcademiaContext();
-				await context.Teachers.AddAsync(teacher);
-				await context.SaveChangesAsync();
-			}
-			catch (Exception)
-			{
-
-				throw;
-			}
-		}
-
-		public async Task CreateAdministrative(Administrative administrative)
-		{
-			try
-			{
-				var context = new AcademiaContext();
-				await context.Administratives.AddAsync(administrative);
-				await context.SaveChangesAsync();
-			}
-			catch (Exception)
-			{
-
-				throw;
-			}
-		}
 
 		public async Task Delete(int id)
 		{

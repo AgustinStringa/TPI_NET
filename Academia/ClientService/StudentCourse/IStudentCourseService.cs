@@ -11,5 +11,6 @@ namespace ClientService.StudentCourse
 	{
 		public Task<IEnumerable<ApplicationCore.Model.StudentCourse>> GetByUserId(int id);
 		public Task QualifyCourse(int studentCourseId, CalificationCourse calification);
+		public Task CreateAsync(ApplicationCore.Model.StudentCourse studentCourse);
 	}
 }

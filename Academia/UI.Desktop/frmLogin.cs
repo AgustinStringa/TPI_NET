@@ -13,14 +13,16 @@ namespace UI.Desktop
 {
     public partial class FrmLogin : Form
     {
-        public FrmLogin()
+        private ClientService.UserService userService;
+		public FrmLogin()
         {
+            this.userService = new ClientService.UserService(new HttpClient());
             InitializeComponent();
         }
 
         private async void btnIngresar_Click(object sender, EventArgs e)
         {
-            var service = new ApplicationCore.Services.UserService() ;
+            var service = new ApplicationCore.Services.UserService();
             string username, password;
             username = txtUsuario.Text.Trim();
             password = txtContra.Text.Trim();
@@ -29,12 +31,13 @@ namespace UI.Desktop
                 return;
             }
             //llamar a HttpClient. Extraer el user de la rta, que contiene user y jwt
-            var user = await service.ValidateCredentials(username, password);
-            if (user != null)
+            var userLogged = await userService.ValidateCredentials(username, password);
+
+            if (userLogged.User != null && userLogged.jwt != null)
             {
                 this.DialogResult = DialogResult.OK;
                 MessageBox.Show("Autenticado correctamente","Autenticado", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                FrmMain form = new FrmMain(user);
+                FrmMain form = new FrmMain(userLogged.User);
                 this.Visible = false;
                 form.ShowDialog();
                 this.Visible = true;
