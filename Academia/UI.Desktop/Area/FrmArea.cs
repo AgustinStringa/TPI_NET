@@ -39,13 +39,16 @@ namespace UI.Desktop.Area
 		{
 			try
 			{
+				lstvAreas.Enabled = false;
 				this.areas = await _areaService.GetAllAsync();
 				AdaptAreasToListView(areas);
 			}
 			catch (Exception e)
 			{
 				MessageBox.Show(e.Message, "Erorr de conexion", MessageBoxButtons.OK, MessageBoxIcon.Error);
-				//throw;
+			}
+			finally { 
+				lstvAreas.Enabled = true;
 			}
 		}
 		#endregion

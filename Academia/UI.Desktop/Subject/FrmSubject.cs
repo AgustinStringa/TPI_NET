@@ -89,9 +89,22 @@ namespace UI.Desktop.Subject
 		#region Methods
 		private async void LoadSubjects()
 		{
-			subjects = await subjectService.GetAllWithCurriculum();
-			AdaptSubjectsToListView(subjects);
-			LoadCurriculumFilter();
+			try
+			{
+				lstSubjects.Enabled = false;
+				subjects = await subjectService.GetAllWithCurriculum();
+				AdaptSubjectsToListView(subjects);
+				LoadCurriculumFilter();
+			}
+			catch (Exception)
+			{
+				MessageBox.Show("Error al cargar las materias", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+			}
+			finally { 
+				lstSubjects.Enabled = true;
+			}
+
+
 		}
 		private void LoadCurriculumFilter()
 		{

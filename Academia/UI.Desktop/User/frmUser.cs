@@ -37,6 +37,7 @@ namespace UI.Desktop.User
 		{
 			try
 			{
+				lstUsers.Enabled = false;
 				this.users = await this.userService.GetAllAsync();
 				this.filteredUsers = this.users;
 				AdaptUsersToListView(this.filteredUsers);
@@ -44,6 +45,10 @@ namespace UI.Desktop.User
 			catch (Exception)
 			{
 				MessageBox.Show("Error al obtener los usuarios", "Error de conexion", MessageBoxButtons.OK, MessageBoxIcon.Error);
+			}
+			finally
+			{
+				lstUsers.Enabled = true;
 			}
 
 		}
@@ -99,7 +104,6 @@ namespace UI.Desktop.User
 		{
 			CheckBox checkBox = sender as CheckBox;
 			UserType userType = (UserType)checkBox.Tag;
-			chbAll.Checked = false;
 			if (checkBox.Checked)
 			{
 				if (!this.userTypeFilters.Contains(userType))
@@ -120,18 +124,15 @@ namespace UI.Desktop.User
 
 		private void ApplyFilters()
 		{
-			//this.filteredUsers = this.users.Where(
-			//	u => Utilities.DeleteDiacritic(u.Name.ToLower()).Contains(this.textSearch)
-			//	  || Utilities.DeleteDiacritic(u.Lastname.ToLower()).Contains(this.textSearch)
-			//	   || ((u.StudentId != null) && Utilities.DeleteDiacritic(u.StudentId.ToLower()).Contains(this.textSearch))
-			//	 || ((u.Cuit != null) && Utilities.DeleteDiacritic(u.Cuit.ToLower()).Contains(this.textSearch))
-			//	   );
 			this.filteredUsers = this.users.Where(
-		u => Utilities.DeleteDiacritic(u.Name.ToLower()).Contains(this.textSearch)
-		|| Utilities.DeleteDiacritic(u.Lastname.ToLower()).Contains(this.textSearch)
-		);
+				u => Utilities.DeleteDiacritic(u.Name.ToLower()).Contains(this.textSearch)
+				  || Utilities.DeleteDiacritic(u.Lastname.ToLower()).Contains(this.textSearch)
+				   || ((u.StudentId != null) && Utilities.DeleteDiacritic(u.StudentId.ToLower()).Contains(this.textSearch))
+				 || ((u.Cuit != null) && Utilities.DeleteDiacritic(u.Cuit.ToLower()).Contains(this.textSearch))
+				 || ((u.TeacherId != null) && Utilities.DeleteDiacritic(u.TeacherId.ToString()).Contains(this.textSearch))
+				 );
 			lstUsers.Items.Clear();
-			//this.filteredUsers = this.filteredUsers.Where(u => this.userTypeFilters.Contains(GetUserType(u.UserType)));
+			this.filteredUsers = this.filteredUsers.Where(u => this.userTypeFilters.Contains(GetUserType(u))).ToList();
 			AdaptUsersToListView(this.filteredUsers);
 			lstUsers.Refresh();
 		}
@@ -142,16 +143,13 @@ namespace UI.Desktop.User
 			var selectedUser = (lstUsers.SelectedItems[0].Tag as ApplicationCore.Services.UserDTO);
 			if (selectedUser != null)
 			{
-				// verificar que haya seleccionado un item
 				var response = MessageBox.Show("¿Estás seguro de eliminar este usuario? \n nombre de usuario: " +
 					selectedUser.Username + " \n nombres: " + selectedUser.Name + " \n apellidos: " + selectedUser.Lastname + "\n esta acción eliminará todos los datos asociados al usuario, como inscripciones y no se puede deshacer", "Eliminar usuario", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning);
 				if (response == System.Windows.Forms.DialogResult.OK)
 				{
 					try
 					{
-						//var userService = new ApplicationCore.Services.UserService();
 						await userService.DeleteAsync(selectedUser.Id);
-						//ver como proceder con error en eliminacion
 						MessageBox.Show("Usuario eliminado exitosamente", "Eliminar Usuario", MessageBoxButtons.OK, MessageBoxIcon.Information);
 					}
 					catch (Exception ex)
@@ -171,7 +169,7 @@ namespace UI.Desktop.User
 
 		}
 
-		private async void tsbtnEditUser_Click(object sender, EventArgs e)
+		private void tsbtnEditUser_Click(object sender, EventArgs e)
 		{
 			try
 			{
@@ -196,24 +194,20 @@ namespace UI.Desktop.User
 			}
 		}
 
-		private UserType GetUserType(int val)
+		private UserType GetUserType(ApplicationCore.Services.UserDTO userDTO)
 		{
-			switch (val)
+
+			switch (userDTO.Role)
 			{
-				case 1:
+				case "Administrative":
 					return UserType.Administrative;
-					break;
-				case 2:
-					return UserType.Teacher;
-					break;
-				case 3:
+				case "Student":
 					return UserType.Student;
-					break;
+				case "Teacher":
+					return UserType.Teacher;
 				default:
 					return UserType.Administrative;
-					break;
 			}
-
 		}
 
 		private void chbAll_Click(object sender, EventArgs e)

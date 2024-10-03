@@ -48,13 +48,17 @@ namespace UI.Desktop.Commission
 		{
 			try
 			{
+				lstvCommission.Enabled = false;
 				this.commissions = await commissionService.GetAllWithCurriculum();
 				AdaptCommissionToListView(this.commissions);
 			}
 			catch (Exception e)
 			{
-				MessageBox.Show(e.Message);
-				throw e;
+				MessageBox.Show("Error al cargar las comisiones", "Error",
+					MessageBoxButtons.OK, MessageBoxIcon.Error);
+			}
+			finally {
+				lstvCommission.Enabled = true;
 			}
 		}
 

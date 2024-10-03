@@ -77,6 +77,7 @@
 			usuariosToolStripMenuItem.Name = "usuariosToolStripMenuItem";
 			usuariosToolStripMenuItem.Size = new Size(64, 20);
 			usuariosToolStripMenuItem.Text = "Usuarios";
+			usuariosToolStripMenuItem.Visible = false;
 			// 
 			// usuariosToolStripMenuItem1
 			// 
@@ -97,6 +98,7 @@
 			especialidadesToolStripMenuItem.Name = "especialidadesToolStripMenuItem";
 			especialidadesToolStripMenuItem.Size = new Size(95, 20);
 			especialidadesToolStripMenuItem.Text = "Especialidades";
+			especialidadesToolStripMenuItem.Visible = false;
 			especialidadesToolStripMenuItem.Click += especialidadesToolStripMenuItem_Click;
 			// 
 			// planesDeEstudioToolStripMenuItem
@@ -104,6 +106,7 @@
 			planesDeEstudioToolStripMenuItem.Name = "planesDeEstudioToolStripMenuItem";
 			planesDeEstudioToolStripMenuItem.Size = new Size(111, 20);
 			planesDeEstudioToolStripMenuItem.Text = "Planes de Estudio";
+			planesDeEstudioToolStripMenuItem.Visible = false;
 			planesDeEstudioToolStripMenuItem.Click += planesDeEstudioToolStripMenuItem_Click;
 			// 
 			// materiasToolStripMenuItem
@@ -111,6 +114,7 @@
 			materiasToolStripMenuItem.Name = "materiasToolStripMenuItem";
 			materiasToolStripMenuItem.Size = new Size(64, 20);
 			materiasToolStripMenuItem.Text = "Materias";
+			materiasToolStripMenuItem.Visible = false;
 			materiasToolStripMenuItem.Click += materiasToolStripMenuItem_Click;
 			// 
 			// comisionesToolStripMenuItem
@@ -118,6 +122,7 @@
 			comisionesToolStripMenuItem.Name = "comisionesToolStripMenuItem";
 			comisionesToolStripMenuItem.Size = new Size(81, 20);
 			comisionesToolStripMenuItem.Text = "Comisiones";
+			comisionesToolStripMenuItem.Visible = false;
 			comisionesToolStripMenuItem.Click += comisionesToolStripMenuItem_Click;
 			// 
 			// cursadoToolStripMenuItem
@@ -153,6 +158,7 @@
 			cargarNotasToolStripMenuItem.Name = "cargarNotasToolStripMenuItem";
 			cargarNotasToolStripMenuItem.Size = new Size(88, 20);
 			cargarNotasToolStripMenuItem.Text = "Cargar Notas";
+			cargarNotasToolStripMenuItem.Visible = false;
 			cargarNotasToolStripMenuItem.Click += cargarNotasToolStripMenuItem_Click;
 			// 
 			// estadoAcademicoToolStripMenuItem
@@ -160,6 +166,7 @@
 			estadoAcademicoToolStripMenuItem.Name = "estadoAcademicoToolStripMenuItem";
 			estadoAcademicoToolStripMenuItem.Size = new Size(117, 20);
 			estadoAcademicoToolStripMenuItem.Text = "Estado Académico";
+			estadoAcademicoToolStripMenuItem.Visible = false;
 			estadoAcademicoToolStripMenuItem.Click += estadoAcademicoToolStripMenuItem_Click;
 			// 
 			// FrmMain

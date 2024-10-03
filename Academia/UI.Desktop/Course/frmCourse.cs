@@ -35,8 +35,20 @@ namespace UI.Desktop.Course
 
 		private async void LoadCourses()
 		{
-			this.courses = await courseService.GetAllAsync();
-			AdaptCoursesToListView(this.courses);
+			try
+			{
+				lstvCourses.Enabled= false;
+				this.courses = await courseService.GetAllAsync();
+				AdaptCoursesToListView(this.courses);
+			}
+			catch (Exception)
+			{
+				MessageBox.Show("Error al cargar los cursados", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+			}
+			finally
+			{
+				lstvCourses.Enabled = true;
+			}
 		}
 
 		private void AdaptCoursesToListView(IEnumerable<ApplicationCore.Model.Course> coursesList)

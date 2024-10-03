@@ -49,12 +49,16 @@ namespace UI.Desktop.Curriculum
 		{
 			try
 			{
+				lstvCurriculum.Enabled = false;
 				this.curriculums = await curriculumService.GetAllWithAreaAsync();
 				AdaptCurriculumsToListView(curriculums);
 			}
 			catch (Exception e)
 			{
 				MessageBox.Show(e.Message, "Error de conexión", MessageBoxButtons.OK, MessageBoxIcon.Error);
+			}
+			finally { 
+				lstvCurriculum.Enabled = true;
 			}
 		}
 		#endregion
