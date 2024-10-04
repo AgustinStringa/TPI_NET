@@ -23,6 +23,7 @@ namespace ApplicationCore.Services
 			var context = new AcademiaContext();
 			var studentIdParameter = new SqlParameter("@id_alumno", student_id);
 			var courses = await context.Courses.FromSqlRaw<Course>("GetAvailableCourses @id_alumno", studentIdParameter).ToListAsync();
+			//resolver en stored procedure!
 			foreach (var course in courses)
 			{
 				await context.Entry(course).Reference(c => c.Subject).LoadAsync();
