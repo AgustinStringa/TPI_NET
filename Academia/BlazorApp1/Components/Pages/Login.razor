@@ -1,0 +1,50 @@
+﻿@page "/login"
+@rendermode InteractiveServer //important to update varss
+
+<PageTitle>Login Academia</PageTitle>
+
+<h1>Login</h1>
+
+<form>
+	<div>
+		<label for="">username</label>
+		<input type="text" name="username" @bind="@username" />
+	</div>
+	<div>
+		<label for="">contraseña</label>
+		<input type="password" name="password" @bind="@password" />
+	</div>
+	<div>
+	</div>
+</form>
+<button @onclick="TestLogin">Ingresar</button>
+
+@code {
+	private string username = "";
+	private string password = "";
+
+	protected async override Task OnInitializedAsync()
+	{
+		Console.WriteLine("INIT"); //consola que se abre
+	}
+	private async void TestLogin()
+	{
+		try
+		{
+
+			var service = new UserService(new HttpClient());
+			var rta = await service.ValidateCredentials(username, password);
+			Console.WriteLine(rta);
+		}
+		catch (Exception e)
+		{
+			if ((e as System.Net.Http.HttpRequestException) != null &&
+			(e as System.Net.Http.HttpRequestException).StatusCode == System.Net.HttpStatusCode.Unauthorized
+			)
+			{
+				Console.WriteLine("CREDENCIALES INCORRECTAS");
+				//proeceder
+			}
+		}
+	}
+}
