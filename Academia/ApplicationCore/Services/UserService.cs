@@ -64,7 +64,7 @@ namespace ApplicationCore.Services
 			try
 			{
 				var context = new AcademiaContext();
-				var user = await context.Users.FirstOrDefaultAsync(u => u.Id ==  id);
+				var user = await context.Users.FirstOrDefaultAsync(u => u.Id == id);
 				context.Attach(user);
 				return user;
 			}
@@ -79,8 +79,11 @@ namespace ApplicationCore.Services
 			try
 			{
 				var context = new AcademiaContext();
-				var user = await context.Users.FirstAsync(u => u.Username == username);
-				context.Attach(user);
+				var user = await context.Users.FirstOrDefaultAsync(u => u.Username == username);
+				if (user != null)
+				{
+					context.Attach(user);
+				}
 				return user;
 			}
 			catch (Exception)
