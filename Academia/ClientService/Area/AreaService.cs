@@ -40,7 +40,26 @@ namespace ClientService.Area
             }
         }
 
-        public async Task CreateAsync(ApplicationCore.Model.Area area)
+
+		public async Task<ApplicationCore.Model.Area> GetById(int id)
+		{
+			try
+			{
+				_httpClient.DefaultRequestHeaders.Accept.Clear();
+				_httpClient.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+
+				var response = await _httpClient.GetStringAsync(_apiUrl + id.ToString());
+				var area = JsonConvert.DeserializeObject<ApplicationCore.Model.Area>(response);
+				return area;
+			}
+			catch (Exception e)
+			{
+				throw;
+				return null;
+			}
+		}
+
+		public async Task CreateAsync(ApplicationCore.Model.Area area)
         {
             try
             {

@@ -7,11 +7,12 @@ using ApplicationCore.Model;
 
 namespace ClientService.Area
 {
-    public interface IAreaService
-    {
-        Task CreateAsync(ApplicationCore.Model.Area area);
-        Task<IEnumerable<ApplicationCore.Model.Area>> GetAllAsync();
-        Task UpdateAsync(ApplicationCore.Model.Area area);
-        Task DeleteAsync(int id);
-    }
+	public interface IAreaService
+	{
+		Task CreateAsync(ApplicationCore.Model.Area area);
+		Task<IEnumerable<ApplicationCore.Model.Area>> GetAllAsync();
+		Task<ApplicationCore.Model.Area> GetById(int id);
+		Task UpdateAsync(ApplicationCore.Model.Area area);
+		Task DeleteAsync(int id);
+	}
 }

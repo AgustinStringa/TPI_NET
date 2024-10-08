@@ -1,0 +1,70 @@
+﻿@inherits OwningComponentBase // important to get ScopedServices
+
+<div class="row">
+	@if (AreaId != null && area != null)
+	{
+		<div class="col-5 col-md-3 text-start">
+			<label class="fw-bold">Nombre: </label>
+		</div>
+		<br />
+		<div class="col-12 col-md-12">
+			<textarea class="w-100" name="name" @bind="@area.Description" />
+		</div>
+	}
+	else
+	{
+		<div class="d-flex flex-column">
+			<label class="fw-bold">Nombre: </label>
+			<input type="text" name="name" value="" />
+		</div>
+	}
+
+	<div class="text-end col-4 w-100 py-3">
+		<button onclick="@OnClickCallback" class="btn btn-primary btn-md">@ButtonText</button>
+	</div>
+</div>
+
+
+@code {
+	public enum ModalMode { Create, Edit };
+
+	private ApplicationCore.Model.Area? area;
+	private ClientService.Area.IAreaService areaService;
+	private ModalMode _Mode;
+	private string ButtonText = "";
+
+	[Parameter] public int? AreaId { get; set; }
+	[Parameter] public ModalMode Mode { get; set; }
+	[Parameter] public EventCallback<MouseEventArgs> OnClickCallback { get; set; }
+
+	protected override async Task OnInitializedAsync()
+	{
+		this.areaService = ScopedServices.GetRequiredService<ClientService.Area.IAreaService>();
+		this._Mode = Mode;
+		if (_Mode == ModalMode.Create)
+		{
+			ButtonText = "Crear";
+		}
+		else
+
+		{
+			ButtonText = "Guardar Cambios";
+		}
+
+		try
+		{
+			if (AreaId != null)
+			{
+				area = await areaService.GetById((int)AreaId);
+			}
+		}
+		catch (Exception e)
+		{
+			Console.WriteLine(e);
+		}
+
+		base.OnInitialized();
+	}
+
+
+}
