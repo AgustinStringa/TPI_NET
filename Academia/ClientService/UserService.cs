@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -24,8 +25,10 @@ namespace ClientService
 		public UserService(HttpClient httpClient)
 		{
 			_httpClient = httpClient;
+			string jsonFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "appsettingsClientService.json");
+			var directory = Directory.GetParent(AppDomain.CurrentDomain.BaseDirectory).Parent.Parent.Parent.Parent+"\\ClientService\\";
 			var configuration = new ConfigurationBuilder()
-				.SetBasePath(Directory.GetCurrentDirectory())
+				.SetBasePath(directory)
 				.AddJsonFile("appsettingsClientService.json", optional: true, reloadOnChange: true)
 				.Build();
 			_apiUrl = configuration["ApiUrl:Base"];
@@ -119,16 +122,20 @@ namespace ClientService
 				}), Encoding.UTF8, "application/json");
 
 				var response = await _httpClient.PostAsync(_apiUrl + "auth", jsonContent);
+				response.EnsureSuccessStatusCode();
 				if (response.IsSuccessStatusCode)
 				{
 					var responseContent = await response.Content.ReadAsStringAsync();
 					var user = JsonConvert.DeserializeObject<UserLoggedDTO>(responseContent);
 					return user;
 				}
-				else
-				{
-					throw new Exception("Error en la solicitud: " + response.StatusCode);
-				}
+				return null;
+				//else
+				//{
+				//	throw new Exception(new { message="Error en la solicitud: " + response.StatusCode,
+				//		statuscode = response.StatusCode
+				//	});
+				//}
 			}
 			catch (Exception)
 			{
