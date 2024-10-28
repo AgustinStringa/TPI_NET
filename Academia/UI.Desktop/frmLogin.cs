@@ -31,29 +31,23 @@ namespace UI.Desktop
 				return;
 			}
 			//llamar a HttpClient. Extraer el user de la rta, que contiene user y jwt
-			var user = await service.ValidateCredentials(username, password);
-			if (user != null)
+			try
 			{
-				this.DialogResult = DialogResult.OK;
-				MessageBox.Show("Autenticado correctamente", "Autenticado", MessageBoxButtons.OK, MessageBoxIcon.Information);
-				FrmMain form = new FrmMain(user);
-				this.Visible = false;
-				form.ShowDialog();
-				this.Visible = true;
-			}
-			else
-			{
-				MessageBox.Show("Usuario y/o contrase�a incorrectos", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-			}
-		}
+				txtPassword.Enabled = false;
+				txtUsername.Enabled = false;
+				btnSubmit.Enabled = false;
+				lnkForgetPassword.Enabled = false;
 
-		private void lnkOlvido_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-		{
-			MessageBox.Show("Es Ud. un usuario muy descuidado, haga memoria", "Olvid� mi contrase�a",
-				MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-		}
-
-	}
+				var user = await userService.ValidateCredentials(username, password);
+				if (user != null)
+				{
+					this.DialogResult = DialogResult.OK;
+					MessageBox.Show("Autenticado correctamente", "Autenticado", MessageBoxButtons.OK, MessageBoxIcon.Information);
+					FrmMain form = new FrmMain(user.User);
+					this.Visible = false;
+					form.ShowDialog();
+					this.Visible = true;
+				}
 				else
 				{
 					MessageBox.Show("Usuario y/o contrase�a incorrectos", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -61,22 +55,23 @@ namespace UI.Desktop
 			}
 			catch (Exception)
 			{
-	MessageBox.Show("No se ha podido conectar con el servidor", "Error de conexion", MessageBoxButtons.OK, MessageBoxIcon.Error);
-}
-			finally {
-	txtPassword.Enabled = true;
-	txtUsername.Enabled = true;
-	btnSubmit.Enabled = true;
-	lnkForgetPassword.Enabled = true;
+				MessageBox.Show("No se ha podido conectar con el servidor", "Error de conexion", MessageBoxButtons.OK, MessageBoxIcon.Error);
+			}
+			finally
+			{
+				txtPassword.Enabled = true;
+				txtUsername.Enabled = true;
+				btnSubmit.Enabled = true;
+				lnkForgetPassword.Enabled = true;
 
-}
+			}
 		}
 
 		private void lnkOlvido_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-{
-	MessageBox.Show("Es Ud. un usuario muy descuidado, haga memoria", "Olvid� mi contrase�a",
-		MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-}
+		{
+			MessageBox.Show("Es Ud. un usuario muy descuidado, haga memoria", "Olvidé mi contrase�a",
+				MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+		}
 
 	}
 }
