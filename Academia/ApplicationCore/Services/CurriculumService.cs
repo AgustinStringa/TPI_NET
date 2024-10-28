@@ -9,13 +9,14 @@ using System.Xml.Linq;
 
 namespace ApplicationCore.Services
 {
-	public class CurriculumRequestParamsPopulate {
+	public class CurriculumRequestParamsPopulate
+	{
 		public bool area { get; set; }
 		public bool students { get; set; }
 		public bool subjectsCount { get; set; }
 		public bool commissionsCount { get; set; }
 	}
-	
+
 	public class CurriculumRequestParams
 	{
 		public CurriculumRequestParamsPopulate Populate { get; set; }
@@ -42,10 +43,11 @@ namespace ApplicationCore.Services
 					CommissionsCount = (parameters.Populate.commissionsCount ? c.Commissions.Count : null)
 				}).ToListAsync();
 
-				if (parameters.AreaId != null) {
+				if (parameters.AreaId != null)
+				{
 					filteredCurriculums = filteredCurriculums.Where(c => c.AreaId == parameters.AreaId).ToList();
 				}
-				return filteredCurriculums;
+				return filteredCurriculums.OrderBy(c => c.AreaId).ToList();
 
 			}
 			catch (Exception e)

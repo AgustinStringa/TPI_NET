@@ -22,7 +22,6 @@ namespace UI.Desktop
 
 		private async void btnIngresar_Click(object sender, EventArgs e)
 		{
-			var service = new ApplicationCore.Services.UserService();
 			string username, password;
 			username = txtUsername.Text.Trim();
 			password = txtPassword.Text.Trim();
@@ -31,48 +30,53 @@ namespace UI.Desktop
 				MessageBox.Show("Completa todos los campos");
 				return;
 			}
-
-			try
+			//llamar a HttpClient. Extraer el user de la rta, que contiene user y jwt
+			var user = await service.ValidateCredentials(username, password);
+			if (user != null)
 			{
-				txtPassword.Enabled = false;
-				txtUsername.Enabled = false;
-				btnSubmit.Enabled = false;
-				lnkForgetPassword.Enabled = false;
-				var userLogged = await userService.ValidateCredentials(username, password);
-
-				if (userLogged.User != null && userLogged.jwt != null)
-				{
-					this.DialogResult = DialogResult.OK;
-					MessageBox.Show("Autenticado correctamente", "Autenticado", MessageBoxButtons.OK, MessageBoxIcon.Information);
-					FrmMain form = new FrmMain(userLogged.User);
-					this.Visible = false;
-					form.ShowDialog();
-					this.Visible = true;
-
-				}
-				else
-				{
-					MessageBox.Show("Usuario y/o contraseña incorrectos", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-				}
+				this.DialogResult = DialogResult.OK;
+				MessageBox.Show("Autenticado correctamente", "Autenticado", MessageBoxButtons.OK, MessageBoxIcon.Information);
+				FrmMain form = new FrmMain(user);
+				this.Visible = false;
+				form.ShowDialog();
+				this.Visible = true;
 			}
-			catch (Exception)
+			else
 			{
-				MessageBox.Show("No se ha podido conectar con el servidor", "Error de conexion", MessageBoxButtons.OK, MessageBoxIcon.Error);
-			}
-			finally {
-				txtPassword.Enabled = true;
-				txtUsername.Enabled = true;
-				btnSubmit.Enabled = true;
-				lnkForgetPassword.Enabled = true;
-
+				MessageBox.Show("Usuario y/o contraseï¿½a incorrectos", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 			}
 		}
 
 		private void lnkOlvido_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
 		{
-			MessageBox.Show("Es Ud. un usuario muy descuidado, haga memoria", "Olvidé mi contraseña",
+			MessageBox.Show("Es Ud. un usuario muy descuidado, haga memoria", "Olvidï¿½ mi contraseï¿½a",
 				MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 		}
+
+	}
+				else
+				{
+					MessageBox.Show("Usuario y/o contraseï¿½a incorrectos", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				}
+			}
+			catch (Exception)
+			{
+	MessageBox.Show("No se ha podido conectar con el servidor", "Error de conexion", MessageBoxButtons.OK, MessageBoxIcon.Error);
+}
+			finally {
+	txtPassword.Enabled = true;
+	txtUsername.Enabled = true;
+	btnSubmit.Enabled = true;
+	lnkForgetPassword.Enabled = true;
+
+}
+		}
+
+		private void lnkOlvido_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+{
+	MessageBox.Show("Es Ud. un usuario muy descuidado, haga memoria", "Olvidï¿½ mi contraseï¿½a",
+		MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+}
 
 	}
 }

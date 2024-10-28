@@ -16,8 +16,9 @@ namespace ClientService.Curriculum
 		public CurriculumService(HttpClient httpClient)
 		{
 			_httpClient = httpClient;
+			var directory = Directory.GetParent(AppDomain.CurrentDomain.BaseDirectory).Parent.Parent.Parent.Parent + "\\ClientService\\";
 			var configuration = new ConfigurationBuilder()
-				.SetBasePath(Directory.GetCurrentDirectory())
+				.SetBasePath(directory)
 				.AddJsonFile("appsettingsClientService.json", optional: true, reloadOnChange: true)
 				.Build();
 			_apiUrl = configuration["ApiUrl:Base"];

@@ -4,64 +4,77 @@
 @rendermode InteractiveServer //important to update varss
 @using MyComponents
 
-
-<Modal @ref="modal" />
 <h1>Especialidades</h1>
-<div class="text-end my-3 px-3">
-	<button type="button"
-			data-toggle="modal" data-target="#exampleModal"
-			class="btn btn-primary btn-lg" @onclick="async () => await ShowAreaModal(AreaModal.ModalMode.Create, null)">
-		Crear Especialidad
-	</button>
-</div>
+@if (areas != null && areas.Count() >= 0)
+{
+	<!--use static backdrop y close on escape para evitar que se quede el valor de un area anterior cuando no se cierra por la cruz-->
+	<Modal @ref="modal" UseStaticBackdrop="true" CloseOnEscape="false" />
 
-<div class="px-3">
-	<table class="table table-striped">
-		<thead class="thead-dark table-dark">
-			<tr>
-				<th scope="col">Descripción</th>
-				<th scope="col">Editar</th>
-				<th scope="col">Eliminar</th>
-			</tr>
-		</thead>
-		<tbody>
-			@foreach (var area in areas)
-			{
+	<div class="text-end my-3 px-3">
+		<button type="button"
+				data-toggle="modal" data-target="#exampleModal"
+				class="btn btn-primary btn-lg" @onclick="async () => await ShowAreaModal(AreaModal.ModalMode.Create, null)">
+			Crear Especialidad
+		</button>
+	</div>
+
+	<div class="px-3">
+		<table class="table table-striped">
+			<thead class="thead-dark table-dark">
 				<tr>
-					<th scope="row">@area.Description.Trim()</th>
-					<td>
-						<button @onclick="async () => await ShowAreaModal(AreaModal.ModalMode.Edit, area.Id)">
-							<i class="bi bi-pencil-square"></i>
-						</button>
-					</td>
-					<td>
-						<button>
-							<i class="bi bi-trash"></i>
-						</button>
-					</td>
+					<th scope="col">Descripción</th>
+					<th scope="col">Editar</th>
+					<th scope="col">Eliminar</th>
 				</tr>
-			}
-		</tbody>
-	</table>
+			</thead>
+			<tbody>
+				@foreach (var area in areas)
+				{
+					<tr>
+						<th scope="row">@area.Description.Trim()</th>
+						<td>
+							<button @onclick="async () => await ShowAreaModal(AreaModal.ModalMode.Edit, area.Id)">
+								<i class="bi bi-pencil-square"></i>
+							</button>
+						</td>
+						<td>
+							<button>
+								<i @onclick="async () => await DeleteArea(area.Id)" class="bi bi-trash"></i>
+							</button>
+						</td>
+					</tr>
+				}
+			</tbody>
+		</table>
+	</div>
+
+} else {
+<div class="alert alert-danger" role="alert">
+	Error de conexion con el servidor
 </div>
+}
+
+@if (isAlertErrorVisible)
+{
+	<Alert Color="@AlertColor.Danger" Dismissable="true" Class="position-absolute bottom-0"> <Icon Name="@IconName.XCircleFill" class="me-2"></Icon>No puedes eliminar una especialidad con datos relacionados </Alert>
+}
 
 @code {
-
+	private bool isAlertErrorVisible = false;
 	private Modal modal = default!;
+	private ClientService.Area.IAreaService areaService;
+	private IEnumerable<ApplicationCore.Model.Area> areas = new List<ApplicationCore.Model.Area>();
+
 
 	private async Task ShowAreaModal(AreaModal.ModalMode Mode, int? AreaId)
 
 	{
 		var parameters = new Dictionary<string, object>();
 		parameters.Add("Mode", Mode);
+		parameters.Add("CloseModal", EventCallback.Factory.Create<MouseEventArgs>(this, CloseModal));
 		if (AreaId != null)
 		{
 			parameters.Add("AreaId", AreaId);
-			parameters.Add("OnclickCallback", EventCallback.Factory.Create<MouseEventArgs>(this, UpdateArea));
-		}
-		else
-		{
-			parameters.Add("OnclickCallback", EventCallback.Factory.Create<MouseEventArgs>(this, CreateArea));
 		}
 
 		try
@@ -82,25 +95,41 @@
 		}
 	}
 
-	private async Task UpdateArea()
+	private async Task CloseModal()
 	{
 		await modal.HideAsync();
-
+		await GetAreas();
 	}
 
-	private async Task CreateArea()
+	private async Task DeleteArea(int id)
 	{
-		await modal.HideAsync();
-	}
+		try
+		{
+			await this.areaService.DeleteAsync(id);
+			await this.GetAreas();
+		}
+		catch (Exception e)
+		{
+			if (e.Message == "Can't delete an Area with related Curriculums")
+			{
+				this.isAlertErrorVisible = true;
+				async Task TriggerDelay()
+				{
+					await Task.Delay(2000);
+					this.isAlertErrorVisible = false;
+					StateHasChanged();
+				}
+				TriggerDelay();
+			}
+		}
 
-	/*
+	}
+		/*
 		* OwningComponentBase is an abstract,
 		* disposable child of the ComponentBase
 		* type with a protected ScopedServices
 		* property of type IServiceProvider.
 		*/
-	private ClientService.Area.IAreaService areaService;
-	private IEnumerable<ApplicationCore.Model.Area> areas = new List<ApplicationCore.Model.Area>();
 
 	protected async override Task OnInitializedAsync()
 	{
@@ -113,10 +142,10 @@
 		try
 		{
 			this.areas = await areaService.GetAllAsync();
-			Console.WriteLine(this.areas);
 		}
 		catch (Exception e)
 		{
+			this.areas = null;
 			Console.WriteLine(e);
 		}
 	}

@@ -15,7 +15,7 @@ namespace ApplicationCore.Services
             try
             {
                 var context = new AcademiaContext();
-                return await context.Areas.ToListAsync();
+                return await context.Areas.OrderBy(a => a.Description).ToListAsync();
             }
             catch (Exception)
             {

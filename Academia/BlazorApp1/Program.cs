@@ -1,5 +1,6 @@
 using BlazorApp1.Components;
 using ClientService.Area;
+using ClientService.Curriculum;
 
 namespace BlazorApp1
 {
@@ -15,6 +16,7 @@ namespace BlazorApp1
 			builder.Services.AddBlazorBootstrap();
 			builder.Services.AddHttpClient();
 			builder.Services.AddScoped<IAreaService, AreaService>();
+			builder.Services.AddScoped<ICurriculumService, CurriculumService>();
 
 			var app = builder.Build();
 
