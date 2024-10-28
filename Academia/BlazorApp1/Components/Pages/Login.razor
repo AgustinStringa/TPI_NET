@@ -1,0 +1,73 @@
+﻿@page "/login"
+@rendermode InteractiveServer //important to update varss
+@using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage
+@inject ProtectedSessionStorage ProtectedSessionStore
+
+<PageTitle>Login Academia</PageTitle>
+
+<h1 class="mb-4">Iniciar sesión</h1>
+
+<form>
+	<div class="w-50 border border-2 border-style-solid border-light mt-3 p-3 shadow rounded">
+		<div class="mb-4">
+			<label for="username" class="fs-5">Usuario</label>
+			<input type="text" class="form-control" name="username" id="username" @bind="@username" />
+		</div>
+		<div class="mb-4">
+			<label for="password" class="fs-5">Contraseña</label>
+			<input class="form-control" type="password" name="password" id="password" @bind="@password" />
+		</div>
+		<div>
+		</div>
+		<Button Color="ButtonColor.Primary" @onclick="TestLogin" class="w-100">Ingresar</Button>
+	</div>
+</form>
+
+
+@code {
+	private string username = "";
+	private string password = "";
+	private bool sendLogin = false;
+
+	protected async override Task OnInitializedAsync()
+	{
+
+	}
+
+	protected override async Task OnAfterRenderAsync(bool firstRender)
+	{
+		if (firstRender || this.sendLogin)
+		{
+			await LoadStateAsync();
+			StateHasChanged();
+		}
+
+	}
+
+	private async Task LoadStateAsync()
+	{
+		var result = await ProtectedSessionStore.GetAsync<UserService.UserLoggedDTO>("userLoggedDto");
+		sendLogin = false;
+	}
+	private async void TestLogin()
+	{
+		try
+		{
+			var service = new UserService(new HttpClient());
+			var userLoggedDto = await service.ValidateCredentials(username, password);
+			await ProtectedSessionStore.SetAsync("userLoggedDto", userLoggedDto);
+			sendLogin = true;
+			StateHasChanged();
+		}
+		catch (Exception e)
+		{
+			if ((e as System.Net.Http.HttpRequestException) != null &&
+			(e as System.Net.Http.HttpRequestException).StatusCode == System.Net.HttpStatusCode.Unauthorized
+			)
+			{
+				Console.WriteLine("CREDENCIALES INCORRECTAS");
+				//proeceder
+			}
+		}
+	}
+}

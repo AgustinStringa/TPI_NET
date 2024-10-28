@@ -1,0 +1,92 @@
+﻿@page "/curriculums"
+@inherits OwningComponentBase 
+@rendermode InteractiveServer 
+
+<h1>Planes De Estudios</h1>
+
+@if (curriculums != null && curriculums.Count() >= 0)
+{
+	<div class="text-end my-3 px-3">
+		<button type="button"
+				class="btn btn-primary btn-lg">
+			Crear Plan De Estudios
+		</button>
+	</div>
+	
+	<div class="px-3">
+	<table class="table table-striped">
+		<thead class="thead-dark table-dark">
+			<tr>
+				<th scope="col">Descripción</th>
+				<th scope="col">Especialidad</th>
+				<th scope="col">Editar</th>
+				<th scope="col">Eliminar</th>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach (var curriculum in curriculums)
+			{
+				<tr>
+					<th scope="row">@curriculum.Description.Trim()</th>
+					<th scope="row">@curriculum.Area?.Description.Trim()</th>
+					<td>
+						<button 
+							@* @onclick="async () => await ShowAreaModal(AreaModal.ModalMode.Edit, area.Id)" *@
+							>
+							<i class="bi bi-pencil-square"></i>
+						</button>
+					</td>
+					<td>
+						<button>
+							<i 
+								@* @onclick="async () => await DeleteArea(area.Id)"  *@
+								class="bi bi-trash"
+								></i>
+						</button>
+					</td>
+				</tr>
+			}
+		</tbody>
+	</table>
+	</div>
+} else
+{
+	<div class="alert alert-danger" role="alert">
+		Error de conexion con el servidor
+	</div>
+}
+
+
+@code {
+
+	private ClientService.Curriculum.ICurriculumService curriculumService;
+	private IEnumerable<ApplicationCore.Model.Curriculum> curriculums = new List<ApplicationCore.Model.Curriculum>();
+
+
+	protected async override Task OnInitializedAsync()
+	{
+		this.curriculumService = ScopedServices.GetRequiredService<ClientService.Curriculum.ICurriculumService>();
+		await GetCurriculums();
+	}
+
+	private async Task GetCurriculums()
+	{
+		try
+		{
+			this.curriculums = await curriculumService.GetAllWithAreaAsync();
+		}
+		catch (Exception e)
+		{
+
+			if (e as System.Net.Http.HttpRequestException != null 
+			&&
+			(e as System.Net.Http.HttpRequestException)?.HttpRequestError == HttpRequestError.ConnectionError
+			)
+			{
+				this.curriculums = null;
+				// Console.WriteLine(e);
+				// Console.WriteLine("Error de conexion");
+			}
+		}
+	}
+}

@@ -1,0 +1,114 @@
+﻿@inherits OwningComponentBase // important to get ScopedServices
+
+<div class="row">
+	@if (this.area != null)
+	{
+		<div class="col-5 col-md-3 text-start">
+			<label class="fw-bold">Nombre: </label>
+		</div>
+		<br />
+		<div class="col-12 col-md-12">
+			<textarea class="w-100" name="name" @bind="@this.area.Description" />
+		</div>
+	}
+	
+	<div class="text-end col-4 w-100 py-3">
+		<button onclick="@HandleSubmit" class="btn btn-primary btn-md">@ButtonText</button>
+	</div>
+</div>
+
+
+@code {
+	public enum ModalMode { Create, Edit };
+
+	public ApplicationCore.Model.Area? area;
+	private ClientService.Area.IAreaService areaService;
+	private ModalMode _Mode;
+	private string ButtonText = "";
+
+	[Parameter] public int? AreaId { get; set; }
+	[Parameter] public ModalMode Mode { get; set; }
+	[Parameter] public EventCallback<MouseEventArgs> CloseModal { get; set; }
+
+	protected override async Task OnInitializedAsync()
+	{
+		base.OnInitialized();
+	}
+
+	public override async Task SetParametersAsync(ParameterView parameters)
+	{
+		this.areaService = ScopedServices.GetRequiredService<ClientService.Area.IAreaService>();
+		if (parameters.TryGetValue<int>(nameof(AreaId), out var value))
+		{
+			if (value != this.AreaId)
+			{
+				this.AreaId = value;
+				parameters.TryGetValue<ModalMode>(nameof(Mode), out var mode_param);
+				this._Mode = mode_param;
+			}
+		}
+		await base.SetParametersAsync(parameters);
+		
+	}
+
+	protected override async Task OnParametersSetAsync()
+	{
+		await this.GetArea();
+		await base.OnParametersSetAsync();
+	}
+
+	private async void HandleSubmit()
+	{
+		try
+		{
+			if (area.Description != null && area.Description != "")
+			{
+
+				if (this.Mode == ModalMode.Create)
+				{
+					await this.areaService.CreateAsync(new ApplicationCore.Model.Area { Description = area.Description });
+				}
+				else
+				{
+					await this.areaService.UpdateAsync(this.area);
+				}
+				await CloseModal.InvokeAsync();
+			}
+		}
+		catch (Exception)
+		{
+
+			throw;
+		}
+	}
+
+	private async Task GetArea()
+
+	{
+		if (_Mode == ModalMode.Create)
+		{
+			ButtonText = "Crear";
+		}
+		else
+		{
+			ButtonText = "Guardar Cambios";
+		}
+
+		try
+		{
+			if (AreaId != null)
+			{
+				this.area = await areaService.GetById((int)this.AreaId);
+			}
+			else
+			{
+				this.area = new ApplicationCore.Model.Area();
+			}
+			StateHasChanged();
+		}
+		catch (Exception e)
+		{
+			Console.WriteLine(e);
+		}
+	}
+}

@@ -20,11 +20,11 @@ namespace UI.Desktop
 
         private async void btnIngresar_Click(object sender, EventArgs e)
         {
-            var service = new ApplicationCore.Services.UserService() ;
             string username, password;
-            username = txtUsuario.Text.Trim();
-            password = txtContra.Text.Trim();
-            if (String.IsNullOrEmpty(username) || String.IsNullOrEmpty(password)) {
+            username = txtUsername.Text.Trim();
+            password = txtPassword.Text.Trim();
+            if (String.IsNullOrEmpty(username) || String.IsNullOrEmpty(password))
+            {
                 MessageBox.Show("Completa todos los campos");
                 return;
             }
@@ -33,22 +33,21 @@ namespace UI.Desktop
             if (user != null)
             {
                 this.DialogResult = DialogResult.OK;
-                MessageBox.Show("Autenticado correctamente","Autenticado", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("Autenticado correctamente", "Autenticado", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 FrmMain form = new FrmMain(user);
                 this.Visible = false;
                 form.ShowDialog();
                 this.Visible = true;
-
             }
             else
             {
-                MessageBox.Show("Usuario y/o contraseña incorrectos", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Usuario y/o contraseï¿½a incorrectos", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
         private void lnkOlvido_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            MessageBox.Show("Es Ud. un usuario muy descuidado, haga memoria", "Olvidé mi contraseña",
+            MessageBox.Show("Es Ud. un usuario muy descuidado, haga memoria", "Olvidï¿½ mi contraseï¿½a",
                 MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
         }
 

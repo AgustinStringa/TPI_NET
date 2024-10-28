@@ -24,7 +24,8 @@ namespace ApplicationCore.Services
 			{
 				var context = new AcademiaContext();
 				var curriculums = await context.Curriculums.Include(c => c.Area).Include(c => c.Subjects).ToListAsync();
-				var filteredCurriculums = await context.Curriculums.Select(c => new Curriculum{
+				var filteredCurriculums = await context.Curriculums.Select(c => new Curriculum
+				{
 					Id = c.Id,
 					Description = c.Description,
 					Resolution = c.Resolution,
@@ -34,7 +35,12 @@ namespace ApplicationCore.Services
 					CommissionsCount = (parameters.commissionsCount ? c.Commissions.Count : null)
 				}).ToListAsync();
 
-				return filteredCurriculums;
+				if (parameters.AreaId != null)
+				{
+					filteredCurriculums = filteredCurriculums.Where(c => c.AreaId == parameters.AreaId).ToList();
+				}
+				return filteredCurriculums.OrderBy(c => c.AreaId).ToList();
+
 			}
 			catch (Exception e)
 			{

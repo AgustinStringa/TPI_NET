@@ -31,13 +31,16 @@
     <Compile Update="Curriculum\FrmCurriculum.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Update="FrmMain.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="UserCourse\FrmAcademicStatus.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="UserCourse\FrmInputGrade.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Update="UserCourse\FrmUserCourseInscription.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Update="FrmMain.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Update="UserCourse\QualifyCourses.cs">
@@ -47,9 +50,6 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Update="FrmLogin.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Update="UserCourse\FrmAcademicStatus.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Update="Subject\FrmActionSubject.cs">
