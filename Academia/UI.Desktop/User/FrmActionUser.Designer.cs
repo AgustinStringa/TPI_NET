@@ -221,9 +221,9 @@
 			lblLegajoError.ForeColor = Color.FromArgb(220, 38, 38);
 			lblLegajoError.Location = new Point(324, 627);
 			lblLegajoError.Name = "lblLegajoError";
-			lblLegajoError.Size = new Size(159, 21);
+			lblLegajoError.Size = new Size(140, 21);
 			lblLegajoError.TabIndex = 29;
-			lblLegajoError.Text = "Campo es obligatorio";
+			lblLegajoError.Text = "Campo obligatorio";
 			lblLegajoError.Visible = false;
 			// 
 			// txtStudentId
@@ -458,9 +458,9 @@
 			lblCuitError.ForeColor = Color.FromArgb(220, 38, 38);
 			lblCuitError.Location = new Point(665, 491);
 			lblCuitError.Name = "lblCuitError";
-			lblCuitError.Size = new Size(188, 21);
+			lblCuitError.Size = new Size(140, 21);
 			lblCuitError.TabIndex = 18;
-			lblCuitError.Text = "Este campo es obligatorio";
+			lblCuitError.Text = "Campo obligatorio";
 			lblCuitError.Visible = false;
 			// 
 			// lblUsername
@@ -591,5 +591,5 @@
         private Label lblCurriculum;
         private Label lblArea;
         private Label lblTipoUsuario;
-    }
+	}
 }

@@ -23,6 +23,7 @@ namespace ApplicationCore.Services
 		public string? StudentId { get; set; }
 		public int? TeacherId { get; set; }
 		public string? Cuit { get; set; }
+		public string? Password { get; set; }
 	}
 	public class LoginDto
 	{

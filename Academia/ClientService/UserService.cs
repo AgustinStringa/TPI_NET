@@ -16,7 +16,8 @@ namespace ClientService
 		private readonly HttpClient _httpClient;
 		private string _apiUrl = "";
 
-		public class UserLoggedDTO { 
+		public class UserLoggedDTO
+		{
 			public User User { get; set; }
 
 			public string jwt { get; set; }
@@ -26,7 +27,7 @@ namespace ClientService
 		{
 			_httpClient = httpClient;
 			string jsonFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "appsettingsClientService.json");
-			var directory = Directory.GetParent(AppDomain.CurrentDomain.BaseDirectory).Parent.Parent.Parent.Parent+"\\ClientService\\";
+			var directory = Directory.GetParent(AppDomain.CurrentDomain.BaseDirectory).Parent.Parent.Parent.Parent + "\\ClientService\\";
 			var configuration = new ConfigurationBuilder()
 				.SetBasePath(directory)
 				.AddJsonFile("appsettingsClientService.json", optional: true, reloadOnChange: true)

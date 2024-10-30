@@ -11,7 +11,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ClientService", "ClientServ
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ApplicationCore", "ApplicationCore\ApplicationCore.csproj", "{C78632B2-CB07-47A9-8331-2727706F343E}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorApp1", "BlazorApp1\BlazorApp1.csproj", "{0FAB1FFB-2035-47C3-9E3C-79CEE4808E97}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UI.Web", "BlazorApp1\UI.Web.csproj", "{0FAB1FFB-2035-47C3-9E3C-79CEE4808E97}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
