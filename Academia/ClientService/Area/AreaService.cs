@@ -3,6 +3,7 @@ using Newtonsoft.Json;
 using System.Text;
 using System.Text.Json;
 using Microsoft.Extensions.Configuration;
+using ClientService.Commission;
 
 namespace ClientService.Area
 {
@@ -69,6 +70,12 @@ namespace ClientService.Area
 
 				using StringContent jsonContent = new(System.Text.Json.JsonSerializer.Serialize(area), Encoding.UTF8, "application/json");
 				var response = await _httpClient.PostAsync(_apiUrl, jsonContent);
+				if (!response.IsSuccessStatusCode)
+				{
+					var errorContent = await response.Content.ReadAsStringAsync();
+					var errorResponse = JsonConvert.DeserializeObject<ErrorResponse>(errorContent);
+					throw new Exception(errorResponse.Message);
+				}
 				response.EnsureSuccessStatusCode();
 			}
 			catch (Exception e)

@@ -11,5 +11,6 @@ namespace ClientService.Administrative
 	{
 		public Task CreateAsync(ApplicationCore.Model.Administrative administrative);
 		public Task<ApplicationCore.Model.Administrative> GetById(int id);
+		public Task UpdateAsync(ApplicationCore.Model.Administrative administrative);
 	}
 }

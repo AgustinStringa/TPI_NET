@@ -12,5 +12,6 @@ namespace ClientService.Teacher
 		public Task CreateAsync(ApplicationCore.Model.Teacher teacher);
 		public Task<ApplicationCore.Model.Teacher> GetById(int id);
 		public Task<IEnumerable<ApplicationCore.Model.Teacher>> GetAllAsync();
+		public Task UpdateAsync(ApplicationCore.Model.Teacher teacher);
 	}
 }

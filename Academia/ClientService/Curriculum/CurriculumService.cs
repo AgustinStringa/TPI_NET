@@ -1,4 +1,5 @@
 ﻿using ApplicationCore.Model;
+using ClientService.Commission;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using System;
@@ -50,6 +51,12 @@ namespace ClientService.Curriculum
 				_httpClient.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
 
 				var response = await _httpClient.DeleteAsync(_apiUrl + id.ToString());
+				if (!response.IsSuccessStatusCode)
+				{
+					var errorContent = await response.Content.ReadAsStringAsync();
+					var errorResponse = JsonConvert.DeserializeObject<ErrorResponse>(errorContent);
+					throw new Exception(errorResponse.Message);
+				}
 				response.EnsureSuccessStatusCode();
 			}
 			catch (Exception)

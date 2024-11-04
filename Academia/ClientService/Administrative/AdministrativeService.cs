@@ -59,5 +59,21 @@ namespace ClientService.Administrative
 			}
 
 		}
+
+		public async Task UpdateAsync(ApplicationCore.Model.Administrative administrative)
+		{
+			try
+			{
+				_httpClient.DefaultRequestHeaders.Accept.Clear();
+				_httpClient.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+				using StringContent jsonContent = new(System.Text.Json.JsonSerializer.Serialize(administrative), Encoding.UTF8, "application/json");
+				var response = await _httpClient.PutAsync(_apiUrl + administrative.Id.ToString(), jsonContent);
+				response.EnsureSuccessStatusCode();
+			}
+			catch (Exception)
+			{
+				throw;
+			}
+		}
 	}
 }

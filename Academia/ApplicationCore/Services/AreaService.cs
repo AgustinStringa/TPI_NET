@@ -44,9 +44,9 @@ namespace ApplicationCore.Services
                 context.Areas.Update(area);
                 await context.SaveChangesAsync();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                throw ex;
+                throw;
             }
         }
         

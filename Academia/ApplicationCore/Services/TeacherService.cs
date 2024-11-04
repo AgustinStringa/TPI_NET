@@ -35,5 +35,43 @@ namespace ApplicationCore.Services
 				throw;
 			}
 		}
+
+		public async Task Update(Teacher teacher)
+		{
+			try
+			{
+				var context = new AcademiaContext();
+				var existingTeacher = await context.Teachers.FindAsync(teacher.Id);
+
+				if (existingTeacher != null)
+				{
+					foreach (var prop in existingTeacher.GetType().GetProperties())
+					{
+						if (prop.Name == "Password" && teacher.Password != null)
+						{
+							existingTeacher.Password = Util.EncodePassword(teacher.Password);
+						}
+						if (prop.Name != "TeacherCourses" && prop.Name != "TeacherId"
+							&& prop.Name != "Password" && prop.Name != "Id")
+						{
+
+							prop.SetValue(existingTeacher, prop.GetValue(teacher));
+						}
+					}
+
+					context.Teachers.Update(existingTeacher);
+					await context.SaveChangesAsync();
+				}
+				else
+				{
+					throw new Exception("Error en las actualizacion del profesor");
+				}
+			}
+			catch (Exception)
+			{
+				throw;
+			}
+		}
+
 	}
 }

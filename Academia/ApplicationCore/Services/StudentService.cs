@@ -42,5 +42,40 @@ namespace ApplicationCore.Services
 				throw;
 			}
 		}
+
+		public async Task Update(Student student)
+		{
+			try
+			{
+				var context = new AcademiaContext();
+				var existingStudent = await context.Students.FindAsync(student.Id);
+				if (existingStudent != null)
+				{
+					foreach (var prop in existingStudent.GetType().GetProperties())
+					{
+						if (prop.Name == "Password" && student.Password != null) {
+							existingStudent.Password= Util.EncodePassword(student.Password);
+						}
+						if (prop.Name != "StudentCourses" && prop.Name != "Curriculum"
+							&& prop.Name != "CurriculumId" && prop.Name != "Password" && prop.Name != "Id") {
+							
+							prop.SetValue(existingStudent, prop.GetValue(student));
+						}
+					}
+
+					context.Students.Update(existingStudent);
+					await context.SaveChangesAsync();
+				}
+				else
+				{
+					throw new Exception("Error en las actualizacion del estudiante");
+				}
+			}
+			catch (Exception)
+			{
+				throw;
+			}
+		}
+
 	}
 }

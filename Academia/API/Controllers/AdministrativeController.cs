@@ -19,7 +19,7 @@ namespace API.Controllers
 
 		[HttpGet]
 		//[Authorize]
-		public async Task<ActionResult<IEnumerable<Teacher>>> GetAdministratives()
+		public async Task<ActionResult<IEnumerable<Administrative>>> GetAdministratives()
 		{
 			try
 			{
@@ -32,7 +32,7 @@ namespace API.Controllers
 				throw e;
 			}
 		}
-		
+
 		[HttpGet("{id}")]
 		public async Task<ActionResult<Administrative>> GetAdministrativeById(int id)
 		{
@@ -57,7 +57,7 @@ namespace API.Controllers
 
 
 		[HttpPost]
-		public async Task<ActionResult<Student>> CreateAdmnistrative(Administrative administrative)
+		public async Task<ActionResult<Administrative>> CreateAdmnistrative(Administrative administrative)
 		{
 			try
 			{
@@ -66,6 +66,26 @@ namespace API.Controllers
 				return CreatedAtAction(
 				nameof(GetAdministrativeById),
 				new { id = administrative.Id }, administrative);
+			}
+			catch (Exception e)
+			{
+				return StatusCode(500, new { message = e.InnerException.Message });
+				throw e;
+			}
+		}
+		
+		[HttpPut("{id}")]
+		public async Task<ActionResult<Administrative>> UpdateAdministrative(Administrative administrative)
+		{
+			try
+			{
+				var existingAdministrative = await administrativeService.GetById(administrative.Id);
+				if (existingAdministrative == null)
+				{
+					return NotFound();
+				}
+				await administrativeService.Update(administrative);
+				return Ok();
 			}
 			catch (Exception e)
 			{

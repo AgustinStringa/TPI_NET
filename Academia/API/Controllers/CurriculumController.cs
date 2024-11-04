@@ -134,7 +134,6 @@ namespace API.Controllers
 					return StatusCode(400, new { message = "Can't delete a Curriculum with related Subjects, Students or Commissions" });
 				}
 				return StatusCode(500, new { message = e.Message });
-				throw e;
 			}
 		}
 

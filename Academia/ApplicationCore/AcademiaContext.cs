@@ -50,6 +50,7 @@ namespace ApplicationCore
 		{
 			modelBuilder.Entity<Student>().ToTable("estudiantes");
 			modelBuilder.Entity<Teacher>().ToTable("docentes");
+			modelBuilder.Entity<Teacher>().Property(t => t.TeacherId).Metadata.SetAfterSaveBehavior(Microsoft.EntityFrameworkCore.Metadata.PropertySaveBehavior.Ignore); //needed in order to update identity column (TeacherId)
 			modelBuilder.Entity<Administrative>().ToTable("administrativos");
 
 			modelBuilder.Entity<Curriculum>()

@@ -18,7 +18,7 @@ namespace API.Controllers
 		}
 
 		[HttpPost]
-		public async Task<ActionResult<Student>> CreateTeacher(Teacher teacher)
+		public async Task<ActionResult<Teacher>> CreateTeacher(Teacher teacher)
 		{
 			try
 			{
@@ -52,7 +52,7 @@ namespace API.Controllers
 		}
 
 		[HttpGet("{id}")]
-		public async Task<ActionResult<Student>> GetTeacherById(int id)
+		public async Task<ActionResult<Teacher>> GetTeacherById(int id)
 		{
 			try
 			{
@@ -69,6 +69,26 @@ namespace API.Controllers
 			catch (Exception e)
 			{
 				return StatusCode(500, new { message = e.Message });
+				throw e;
+			}
+		}
+
+		[HttpPut("{id}")]
+		public async Task<ActionResult<Teacher>> UpdateTeacher(Teacher teacher)
+		{
+			try
+			{
+				var existingTeacher = await teacherService.GetById(teacher.Id);
+				if (existingTeacher == null)
+				{
+					return NotFound();
+				}
+				await teacherService.Update(teacher);
+				return Ok();
+			}
+			catch (Exception e)
+			{
+				return StatusCode(500, new { message = e.InnerException.Message });
 				throw e;
 			}
 		}
