@@ -39,7 +39,7 @@
 						</td>
 						<td>
 							<button>
-								<i @onclick="async () => await DeleteArea(area.Id)" class="bi bi-trash"></i>
+								<i @onclick="async () => await ShowDeleteModal(area.Id)" class="bi bi-trash"></i>
 							</button>
 						</td>
 					</tr>
@@ -93,6 +93,17 @@
 		{
 			Console.WriteLine(e);
 		}
+	}
+
+	public async Task ShowDeleteModal(int? AreasId)
+	{
+		var parameters = new Dictionary<string, object>();
+		parameters.Add("Message", "¿Estás seguro que deseas eliminar?");
+		parameters.Add("OnConfirm", EventCallback.Factory.Create<MouseEventArgs>(this, async () => await DeleteArea(AreasId.Value)));
+		parameters.Add("OnCancel", EventCallback.Factory.Create<MouseEventArgs>(this, CloseModal));
+		await modal.ShowAsync<DeleteModal>(title: "Eliminar Especialidad", parameters: parameters);
+
+
 	}
 
 	private async Task CloseModal()
