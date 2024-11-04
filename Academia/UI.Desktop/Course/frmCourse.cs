@@ -118,6 +118,10 @@ namespace UI.Desktop.Course
 				}
 
 			}
+			else
+			{
+				MessageBox.Show("Seleccione un cursado antes de editar", "Editar Cursado", MessageBoxButtons.OK, MessageBoxIcon.Information);
+			}
 		}
 
 		private async void tsbtnRemoveCourse_Click(object sender, EventArgs e)
@@ -135,6 +139,10 @@ namespace UI.Desktop.Course
 					throw;
 				}
 
+			}
+			else
+			{
+				MessageBox.Show("Seleccione un cursado antes de eliminar", "Eliminar Cursado", MessageBoxButtons.OK, MessageBoxIcon.Information);
 			}
 		}
 	}

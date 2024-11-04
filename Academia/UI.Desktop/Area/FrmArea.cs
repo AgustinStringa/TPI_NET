@@ -90,6 +90,7 @@ namespace UI.Desktop.Area
 			{
 				try
 				{
+					if (Utilities.ConfirmDelete($"la especialidad '{((ApplicationCore.Model.Area)lstvAreas.SelectedItems[0].Tag).Description}'") != DialogResult.OK) return;
 					ApplicationCore.Model.Area selectedArea = (ApplicationCore.Model.Area)lstvAreas.SelectedItems[0].Tag;
 					await _areaService.DeleteAsync(selectedArea.Id);
 					LoadAreas();

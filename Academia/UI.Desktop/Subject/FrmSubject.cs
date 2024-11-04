@@ -53,21 +53,24 @@ namespace UI.Desktop.Subject
 					LoadSubjects();
 				}
 			}
+			else
+			{
+				MessageBox.Show("Seleccione una materia antes de editar", "Editar Materia", MessageBoxButtons.OK, MessageBoxIcon.Information);
+			}
 		}
 		private async void tsbtnDelete_Click(object sender, EventArgs e)
 		{
 			if (lstSubjects.SelectedItems.Count > 0)
 			{
 				ApplicationCore.Model.Subject selectedSubject = (ApplicationCore.Model.Subject)lstSubjects.SelectedItems[0].Tag;
-				if (MessageBox.Show("¿Desea Eliminar la asignatura ' " + selectedSubject.Description + " '  ?", "Eliminar asignatura", MessageBoxButtons.OKCancel, MessageBoxIcon.Information) == DialogResult.OK)
-				{
-					await subjectService.DeleteAsync(selectedSubject.Id);
-					LoadSubjects();
-				}
-				else
-				{
-					MessageBox.Show("Asginatura NO eliminada");
-				}
+				if (Utilities.ConfirmDelete($"la materia '{selectedSubject.Description}'") != DialogResult.OK) return;
+				await subjectService.DeleteAsync(selectedSubject.Id);
+				LoadSubjects();
+
+			}
+			else
+			{
+				MessageBox.Show("Seleccione una materia antes de eliminar", "Eliminar Materia", MessageBoxButtons.OK, MessageBoxIcon.Information);
 			}
 		}
 		private void txtSearchSubject_TextChanged(object sender, EventArgs e)
@@ -100,7 +103,8 @@ namespace UI.Desktop.Subject
 			{
 				MessageBox.Show("Error al cargar las materias", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 			}
-			finally { 
+			finally
+			{
 				lstSubjects.Enabled = true;
 			}
 

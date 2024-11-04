@@ -29,6 +29,7 @@
 		private void InitializeComponent()
 		{
 			panel1 = new Panel();
+			btnChangePassword = new Button();
 			panel2 = new Panel();
 			lblTipoUsuario = new Label();
 			lblCurriculum = new Label();
@@ -75,6 +76,7 @@
 			// 
 			// panel1
 			// 
+			panel1.Controls.Add(btnChangePassword);
 			panel1.Controls.Add(panel2);
 			panel1.Controls.Add(lblLegajoError);
 			panel1.Controls.Add(txtStudentId);
@@ -109,8 +111,19 @@
 			panel1.Controls.Add(btnActionUser);
 			panel1.Location = new Point(103, 34);
 			panel1.Name = "panel1";
-			panel1.Size = new Size(915, 686);
+			panel1.Size = new Size(976, 686);
 			panel1.TabIndex = 4;
+			// 
+			// btnChangePassword
+			// 
+			btnChangePassword.Location = new Point(173, 228);
+			btnChangePassword.Name = "btnChangePassword";
+			btnChangePassword.Size = new Size(125, 23);
+			btnChangePassword.TabIndex = 31;
+			btnChangePassword.Text = "cambiar contraseña";
+			btnChangePassword.UseVisualStyleBackColor = true;
+			btnChangePassword.Visible = false;
+			btnChangePassword.Click += btnChangePassword_Click;
 			// 
 			// panel2
 			// 
@@ -538,7 +551,7 @@
 			AutoScaleMode = AutoScaleMode.Font;
 			AutoSize = true;
 			BackColor = Color.White;
-			ClientSize = new Size(1096, 732);
+			ClientSize = new Size(1121, 732);
 			Controls.Add(panel1);
 			Name = "FrmActionUser";
 			Text = "Crear Usuario";
@@ -591,5 +604,6 @@
         private Label lblCurriculum;
         private Label lblArea;
         private Label lblTipoUsuario;
+		private Button btnChangePassword;
 	}
 }

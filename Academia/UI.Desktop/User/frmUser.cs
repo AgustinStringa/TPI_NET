@@ -139,53 +139,53 @@ namespace UI.Desktop.User
 
 		private async void tsbtnDeleteUser_Click(object sender, EventArgs e)
 		{
-
-			var selectedUser = (lstUsers.SelectedItems[0].Tag as ApplicationCore.Services.UserDTO);
-			if (selectedUser != null)
+			if (lstUsers.SelectedItems.Count > 0)
 			{
-				var response = MessageBox.Show("¿Estás seguro de eliminar este usuario? \n nombre de usuario: " +
-					selectedUser.Username + " \n nombres: " + selectedUser.Name + " \n apellidos: " + selectedUser.Lastname + "\n esta acción eliminará todos los datos asociados al usuario, como inscripciones y no se puede deshacer", "Eliminar usuario", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning);
-				if (response == System.Windows.Forms.DialogResult.OK)
+				var selectedUser = (lstUsers.SelectedItems[0].Tag as ApplicationCore.Services.UserDTO);
+
+				if (Utilities.ConfirmDelete($"este usuario? \n nombre de usuario: {selectedUser.Username} \n nombres: { selectedUser.Name } \n apellidos: {selectedUser.Lastname} \n se eliminarán todos los datos asociados al usuario, como inscripciones.") != DialogResult.OK) return;
+
+				try
 				{
-					try
-					{
-						await userService.DeleteAsync(selectedUser.Id);
-						MessageBox.Show("Usuario eliminado exitosamente", "Eliminar Usuario", MessageBoxButtons.OK, MessageBoxIcon.Information);
-					}
-					catch (Exception ex)
-					{
-						MessageBox.Show(ex.Message);
-					}
-					finally
-					{
-						LoadUsers();
-					}
+					await userService.DeleteAsync(selectedUser.Id);
+					MessageBox.Show("Usuario eliminado exitosamente", "Eliminar Usuario", MessageBoxButtons.OK, MessageBoxIcon.Information);
 				}
+				catch (Exception ex)
+				{
+					MessageBox.Show(ex.Message);
+				}
+				finally
+				{
+					LoadUsers();
+				}
+
 			}
 			else
 			{
-				MessageBox.Show("Selecciona un usuario antes de eliminar", "Eliminar usuario", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+				MessageBox.Show("Selecciona un usuario antes de eliminar", "Eliminar usuario", MessageBoxButtons.OK, MessageBoxIcon.Information);
 			}
-
 		}
 
 		private void tsbtnEditUser_Click(object sender, EventArgs e)
 		{
 			try
 			{
-				var selectedUserDTO = (lstUsers.SelectedItems[0].Tag as ApplicationCore.Services.UserDTO);
-				if (selectedUserDTO != null)
+				if (lstUsers.SelectedItems.Count > 0)
 				{
-					FrmActionUser App = new FrmActionUser(Mode.Edit, selectedUserDTO, this.serviceProvider);
-					App.ShowDialog();
-					if (App.DialogResult == DialogResult.OK)
+					var selectedUserDTO = (lstUsers.SelectedItems[0].Tag as ApplicationCore.Services.UserDTO);
+					if (selectedUserDTO != null)
 					{
-						LoadUsers();
+						FrmActionUser App = new FrmActionUser(Mode.Edit, selectedUserDTO, this.serviceProvider);
+						App.ShowDialog();
+						if (App.DialogResult == DialogResult.OK)
+						{
+							LoadUsers();
+						}
 					}
 				}
 				else
 				{
-					MessageBox.Show("Selecciona un usuario antes de editar ", "Editar Usuario", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+					MessageBox.Show("Selecciona un usuario antes de editar ", "Editar Usuario", MessageBoxButtons.OK, MessageBoxIcon.Information);
 				}
 			}
 			catch (Exception ex)

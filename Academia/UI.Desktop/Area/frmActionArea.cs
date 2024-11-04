@@ -88,8 +88,10 @@ namespace UI.Desktop.Area
 			}
 			catch (Exception e)
 			{
-				MessageBox.Show(e.Message);
-				throw e;
+				if (e.HResult == -2146233088)
+				{
+					MessageBox.Show("Nombre de especialidad existente.", "No se ha podido crear", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				}
 			}
 		}
 

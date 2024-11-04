@@ -149,6 +149,7 @@
 			// 
 			// cbCurriculum
 			// 
+			cbCurriculum.DropDownStyle = ComboBoxStyle.DropDownList;
 			cbCurriculum.FormattingEnabled = true;
 			cbCurriculum.Location = new Point(142, 145);
 			cbCurriculum.Name = "cbCurriculum";

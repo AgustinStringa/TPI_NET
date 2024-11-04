@@ -156,5 +156,9 @@ namespace UI.Desktop
 			list.DrawItem += listView1_DrawItem;
 			list.DrawSubItem += listView1_DrawSubItem;
 		}
+
+		public static DialogResult ConfirmDelete (string entityName) {
+			return MessageBox.Show($"¿ Estás seguro que deseas eliminar {entityName} ? Esta acción no se puede deshacer", "Eliminar",MessageBoxButtons.OKCancel, MessageBoxIcon.Warning);
+		}
 	}
 }

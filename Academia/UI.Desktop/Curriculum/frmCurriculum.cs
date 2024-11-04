@@ -98,6 +98,8 @@ namespace UI.Desktop.Curriculum
 			{
 				try
 				{
+					if (Utilities.ConfirmDelete($"el plan de estudios' {((ApplicationCore.Model.Curriculum)lstvCurriculum.SelectedItems[0].Tag).Description}' ") != DialogResult.OK) return;
+
 					ApplicationCore.Model.Curriculum selectedCurriulum = (ApplicationCore.Model.Curriculum)lstvCurriculum.SelectedItems[0].Tag;
 					await curriculumService.DeleteAsync(selectedCurriulum.Id);
 					LoadCurriculums();
@@ -105,9 +107,9 @@ namespace UI.Desktop.Curriculum
 				}
 				catch (Exception ex)
 				{
-					if (ex.InnerException is Microsoft.Data.SqlClient.SqlException inner && inner.ErrorCode == -2146232060)
+					if (ex.Message != null && ex.Message == "Can't delete a Curriculum with related Subjects, Students or Commissions")
 					{
-						MessageBox.Show("No puedes eliminar un Plan de Estudios con Datos asociados.", "No se ha podido eliminar", MessageBoxButtons.OK, MessageBoxIcon.Error);
+						MessageBox.Show("No puedes eliminar un Plan de Estudios con Datos (alumnos, materias, comisiones) asociados.", "No se ha podido eliminar", MessageBoxButtons.OK, MessageBoxIcon.Error);
 					}
 				}
 			}

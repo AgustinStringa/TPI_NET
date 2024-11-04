@@ -33,6 +33,7 @@ namespace UI.Desktop
 		{
 			if (mode == Mode.Create)
 			{
+				this.Text = "Crear Usuario";
 				this.Mode = mode;
 				this.userService = serviceProvider.GetRequiredService<ClientService.IUserService>();
 				this.studentService = serviceProvider.GetRequiredService<IStudentService>();
@@ -42,6 +43,7 @@ namespace UI.Desktop
 				InitializeComponent();
 				btnActionUser.Text = "Crear Usuario";
 				dtpBirthDate.Value = DateTime.Now;
+				btnChangePassword.Visible = false;
 				LoadAreas();
 			}
 			else
@@ -54,6 +56,7 @@ namespace UI.Desktop
 			if (mode == Mode.Edit)
 			{
 				InitializeComponent();
+				this.Text = "Editar Usuario";
 				this.Mode = mode;
 				this.userDTO = userDTO;
 				this.studentService = serviceProvider.GetRequiredService<IStudentService>();
@@ -61,6 +64,8 @@ namespace UI.Desktop
 				this.administrativeService = serviceProvider.GetRequiredService<IAdministrativeService>();
 				this.areaService = serviceProvider.GetRequiredService<IAreaService>();
 				btnActionUser.Text = "Guardar Usuario";
+				this.mtbPassword.Enabled = false;
+				btnChangePassword.Visible = true;
 				FillFields(userDTO);
 			}
 			else
@@ -125,17 +130,27 @@ namespace UI.Desktop
 				}
 
 				//PASSWORD
-				string password = mtbPassword.Text.Trim();
-				bool validPassword = Validations.IsValidPassword(password);
-				if (!validPassword)
+				string password;
+				bool validPassword;
+				if (mtbPassword.Enabled)
 				{
-					mtbPassword.ForeColor = System.Drawing.Color.FromArgb(1, 220, 38, 38);
-					lblClaveError.Visible = true;
+					password = mtbPassword.Text.Trim();
+					validPassword = Validations.IsValidPassword(password);
+					if (!validPassword)
+					{
+						mtbPassword.ForeColor = System.Drawing.Color.FromArgb(1, 220, 38, 38);
+						lblClaveError.Visible = true;
+					}
+					else
+					{
+						mtbPassword.ForeColor = SystemColors.WindowText;
+						lblClaveError.Visible = false;
+					}
 				}
 				else
 				{
-					mtbPassword.ForeColor = SystemColors.WindowText;
-					lblClaveError.Visible = false;
+					password = null;
+					validPassword = true;
 				}
 
 
@@ -250,64 +265,66 @@ namespace UI.Desktop
 				}
 
 
+				string role;
+				ApplicationCore.Model.Curriculum curriculum = null;
+
+				if (rbtnUserAdministrative.Checked || userDTO.Role == "Administrative")
+				{
+					role = "Administrative";
+				}
+				else if (rbtnUserTeacher.Checked || userDTO.Role == "Teacher")
+				{
+					role = "Teacher";
+				}
+				else
+				{
+					role = "Student";
+				}
+
+
+				if (role == "Administrative")
+				{
+					correctForm = validUsername && validName && validLastname
+					&& validEmail && validPassword && validAddress && validPhoneNumber && validBirthDate
+					&& validCuit;
+				}
+				else if (role == "Teacher")
+				{
+					correctForm = validUsername && validName && validLastname
+					&& validEmail && validPassword && validAddress && validPhoneNumber && validBirthDate
+					&& validCuit;
+				}
+				else if (role == "Student")
+				{
+					bool validCurriculum = false;
+
+					curriculum = (ApplicationCore.Model.Curriculum)cbCurriculums.SelectedItem;
+					if (curriculum == null)
+					{
+						return;
+					}
+					else
+					{
+						validCurriculum = true;
+					}
+
+
+					correctForm = validUsername && validName && validLastname && validEmail && validPassword && validAddress && validPhoneNumber && validBirthDate
+					&& validCurriculum && validStudentId;
+				}
+				else
+				{
+					return;
+				}
+
 				if (this.Mode == Mode.Create)
 				{
-					string role;
-					ApplicationCore.Model.Curriculum curriculum = null;
+
 					if (!rbtnUserAdministrative.Checked
 					&& !rbtnUserStudent.Checked
 					&& !rbtnUserTeacher.Checked)
 					{
 						MessageBox.Show("Seleccione el tipo de usuario (Alumno, Docente, Administrativo)", "Tipo de Usuario", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-						return;
-					}
-
-					if (rbtnUserAdministrative.Checked)
-					{
-						role = "Administrative";
-					}
-					else if (rbtnUserTeacher.Checked)
-					{
-						role = "Teacher";
-					}
-					else
-					{
-						role = "Student";
-					}
-
-
-					if (role == "Administrative")
-					{
-						correctForm = validUsername && validName && validLastname
-						&& validEmail && validPassword && validAddress && validPhoneNumber && validBirthDate
-						&& validCuit;
-					}
-					else if (role == "Teacher")
-					{
-						correctForm = validUsername && validName && validLastname
-						&& validEmail && validPassword && validAddress && validPhoneNumber && validBirthDate
-						&& validCuit;
-					}
-					else if (role == "Student")
-					{
-						bool validCurriculum = false;
-
-						curriculum = (ApplicationCore.Model.Curriculum)cbCurriculums.SelectedItem;
-						if (curriculum == null)
-						{
-							return;
-						}
-						else
-						{
-							validCurriculum = true;
-						}
-
-
-						correctForm = validUsername && validName && validLastname && validEmail && validPassword && validAddress && validPhoneNumber && validBirthDate
-						&& validCurriculum && validStudentId;
-					}
-					else
-					{
 						return;
 					}
 
@@ -361,6 +378,7 @@ namespace UI.Desktop
 							PhoneNumber = phoneNumber,
 							StudentId = studentId,
 							Username = username,
+							Password = password != null ? password : null,
 						};
 						await UpdateUser(userDTOToUpdate);
 					}
@@ -368,73 +386,6 @@ namespace UI.Desktop
 					{
 						return;
 					}
-
-					//var user = new ApplicationCore.Model.User
-					//{
-					//	Address = userDTO.Address,
-					//	BirthDate = userDTO.BirthDate,
-					//	Email = userDTO.Email,
-					//	Name = userDTO.Name,
-					//	Id = userDTO.Id,
-					//	Lastname = userDTO.Lastname,
-					//	PhoneNumber = userDTO.PhoneNumber,
-					//	Username = userDTO.Username
-					//};
-					//if (userDTO.StudentId != null)
-					//{
-					//	usertype = UserType.Student;
-					//}
-					//else if (userDTO.TeacherId != null)
-					//{
-					//	usertype = UserType.Teacher;
-					//}
-					//else
-					//{
-					//	usertype = UserType.Administrative;
-					//}
-
-
-					//correctForm = validUsername && validName && validLastname
-					//   && validEmail && validPassword && validAddress && validPhoneNumber && validBirthDate
-					//   ;
-
-					//user.Username = username;
-					//user.Password = Utilities.EncodePassword(password);
-					//user.Email = email;
-					//user.Name = name;
-					//user.Lastname = lastname;
-					//user.BirthDate = birthDate;
-					//user.PhoneNumber = phoneNumber;
-					//user.Address = address;
-
-					//if (usertype == UserType.Teacher || usertype == UserType.Administrative)
-					//{
-					//	correctForm = correctForm && validCuit;
-					//	user.Cuit = cuit;
-					//}
-					//else if (usertype == UserType.Student)
-					//{
-					//	correctForm = correctForm && validStudentId;
-					//	user.StudentId = studentId;
-					//}
-
-					//if (correctForm)
-					//{
-					//	try
-					//	{
-
-					//		this.userService.UpdateAsync(user);
-					//		MessageBox.Show("Usuario actualizado exitosamente", "Editar Usuario", MessageBoxButtons.OK, MessageBoxIcon.Information);
-					//		DialogResult = DialogResult.OK;
-					//		this.Close();
-					//	}
-					//	catch (Exception)
-					//	{
-					//		throw;
-					//	}
-
-					//}
-
 				}
 
 				#region SEND EMAIL
@@ -603,6 +554,7 @@ namespace UI.Desktop
 					lblCuit.Visible = true;
 					txtCuit.Text = teacher.Cuit;
 					txtStudentId.Text = teacher.TeacherId.ToString();
+					txtStudentId.Enabled = false;
 					break;
 				case "Student":
 					var student = await studentService.GetById(userDTO.Id);
@@ -636,7 +588,7 @@ namespace UI.Desktop
 							Name = newUserDTO.Name,
 							Password = newUserDTO.Password,
 							PhoneNumber = newUserDTO.PhoneNumber,
-							Username = newUserDTO.Username
+							Username = newUserDTO.Username,
 						};
 						await administrativeService.CreateAsync(newAdministrative);
 
@@ -683,7 +635,7 @@ namespace UI.Desktop
 						break;
 
 				}
-				MessageBox.Show("usuario creado exitosamente", "crear usuario", MessageBoxButtons.OK, MessageBoxIcon.Information);
+				MessageBox.Show("Usuario creado exitosamente", "Crear Usuario", MessageBoxButtons.OK, MessageBoxIcon.Information);
 				DialogResult = DialogResult.OK;
 				this.Close();
 			}
@@ -694,17 +646,71 @@ namespace UI.Desktop
 		}
 		private async Task UpdateUser(UserDTO userToUpdateDTO)
 		{
-			switch (userToUpdateDTO.Role)
+			switch (this.userDTO.Role)
 			{
 				case "Administrative":
+					var administrativeToUpdate =
+						new Administrative
+						{
+							Address = userToUpdateDTO.Address,
+							BirthDate = userToUpdateDTO.BirthDate,
+							Cuit = userToUpdateDTO.Cuit,
+							Email = userToUpdateDTO.Email,
+							Lastname = userToUpdateDTO.Lastname,
+							Name = userToUpdateDTO.Name,
+							Password = userToUpdateDTO.Password,
+							PhoneNumber = userToUpdateDTO.PhoneNumber,
+							Username = userToUpdateDTO.Username,
+							Id = userToUpdateDTO.Id,
+						};
+					await administrativeService.UpdateAsync(administrativeToUpdate);
 					break;
 				case "Student":
+					var studentToUpdate = new Student
+					{
+						Address = userToUpdateDTO.Address,
+						BirthDate = userToUpdateDTO.BirthDate,
+						Username = userToUpdateDTO.Username,
+						PhoneNumber = userToUpdateDTO.PhoneNumber,
+						Email = userToUpdateDTO.Email,
+						Lastname = userToUpdateDTO.Lastname,
+						Name = userToUpdateDTO.Name,
+						Password = userToUpdateDTO.Password,
+						StudentId = userToUpdateDTO.StudentId,
+						CurriculumId = null,
+						Id = userToUpdateDTO.Id,
+						Curriculum = null,
+						StudentCourses = [],
+					};
+					await studentService.UpdateAsync(studentToUpdate);
 					break;
 				case "Teacher":
+					var teacherToUpdate = new Teacher
+					{
+						Address = userToUpdateDTO.Address,
+						BirthDate = userToUpdateDTO.BirthDate,
+						Cuit = userToUpdateDTO.Cuit,
+						Email = userToUpdateDTO.Email,
+						Lastname = userToUpdateDTO.Lastname,
+						Name = userToUpdateDTO.Name,
+						Password = userToUpdateDTO.Password,
+						PhoneNumber = userToUpdateDTO.PhoneNumber,
+						Username = userToUpdateDTO.Username,
+						Id = userToUpdateDTO.Id,
+					};
+					await teacherService.UpdateAsync(teacherToUpdate);
 					break;
 				default:
 					break;
 			}
+			MessageBox.Show("Usuario actualizado exitosamente", "Crear usuario", MessageBoxButtons.OK, MessageBoxIcon.Information);
+			DialogResult = DialogResult.OK;
+			this.Close();
+		}
+
+		private void btnChangePassword_Click(object sender, EventArgs e)
+		{
+			this.mtbPassword.Enabled = !this.mtbPassword.Enabled;
 		}
 	}
 }
