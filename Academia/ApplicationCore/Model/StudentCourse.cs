@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace ApplicationCore.Model
 {
-    [Table("alumnos_inscripciones")]
+    [Table("inscripciones")]
     public class StudentCourse
     {
         [Key]
