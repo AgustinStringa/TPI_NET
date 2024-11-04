@@ -37,16 +37,15 @@ s
 					<th scope="row">@curriculum.Area?.Description.Trim()</th>
 					<td>
 						<button 
-							@* @onclick="async () => await ShowAreaModal(AreaModal.ModalMode.Edit, area.Id)" *@
+							 @onclick="async () => await ShowCurriculumModal(CurriculumModal.ModalMode.Edit, curriculum.Id)"
 							>
 							<i class="bi bi-pencil-square"></i>
 						</button>
 					</td>
 					<td>
 						<button>
-							<i 
-								@* @onclick="async () => await DeleteArea(area.Id)"  *@
-								class="bi bi-trash"
+							<i @onclick="async () => await DeleteCurriculum(curriculum.Id)"
+								   class="bi bi-trash"
 								></i>
 						</button>
 					</td>
@@ -68,6 +67,7 @@ s
 	private ClientService.Curriculum.ICurriculumService curriculumService;
 	private IEnumerable<ApplicationCore.Model.Curriculum> curriculums = new List<ApplicationCore.Model.Curriculum>();
 	private Modal modal = default!;
+	private bool isAlertErrorVisible = false;
 
 	protected async override Task OnInitializedAsync()
 	{
@@ -75,15 +75,15 @@ s
 		await GetCurriculums();
 	}
 
-	private async Task ShowCurriculumModal(CurriculumModal.ModalMode Mode, int? AreaId)
+	private async Task ShowCurriculumModal(CurriculumModal.ModalMode Mode, int? CurriculumId)
 
 	{
 		var parameters = new Dictionary<string, object>();
 		parameters.Add("Mode", Mode);
 		parameters.Add("CloseModal", EventCallback.Factory.Create<MouseEventArgs>(this, CloseModal));
-		if (AreaId != null)
+		if (CurriculumId != null)
 		{
-			parameters.Add("AreaId", AreaId);
+			parameters.Add("CurriculumId", CurriculumId);
 		}
 
 		try
@@ -131,4 +131,28 @@ s
 			}
 		}
 	}
+
+	private async Task DeleteCurriculum(int id)
+	{
+		try
+		{
+			await this.curriculumService.DeleteAsync(id);
+			await this.GetCurriculums();
+		}
+		catch (Exception e)
+		{
+			if (e.Message == "...")
+			{
+				this.isAlertErrorVisible = true;
+				async Task TriggerDelay()
+				{
+					await Task.Delay(2000);
+					this.isAlertErrorVisible = false;
+					StateHasChanged();
+				}
+				TriggerDelay();
+			}
+		}
+
+    }
 }
