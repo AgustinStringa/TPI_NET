@@ -4,7 +4,7 @@
 @* @inject ClientService.Area.IAreaService AreaService this is a way to inject service. revise microsfot docs. *@
 @rendermode InteractiveServer //important to update varss
 @using MyComponents
-s
+
 <h1>Planes De Estudios</h1>
 
 @if (curriculums != null && curriculums.Count() >= 0)
@@ -43,23 +43,30 @@ s
 						</button>
 					</td>
 					<td>
-						<button>
-							<i @onclick="async () => await DeleteCurriculum(curriculum.Id)"
-								   class="bi bi-trash"
-								></i>
-						</button>
+							<button @onclick="async () => await ShowDeleteModal(curriculum.Id)">
+								<i class="bi bi-trash"></i>
+							</button>
 					</td>
 				</tr>
 			}
 		</tbody>
 	</table>
 	</div>
+
+	@if (isAlertErrorVisible)
+	{
+		<div class="alert alert-danger" role="alert">
+			No se puede eliminar este plan de estudio porque tiene elementos que dependen de él.
+		</div>
+	}
 } else
 {
 	<div class="alert alert-danger" role="alert">
 		Error de conexion con el servidor
 	</div>
 }
+
+
 
 
 @code {
@@ -74,6 +81,19 @@ s
 		this.curriculumService = ScopedServices.GetRequiredService<ClientService.Curriculum.ICurriculumService>();
 		await GetCurriculums();
 	}
+
+	public async Task ShowDeleteModal(int? CurriculumId)
+	{
+		var parameters = new Dictionary<string, object>();
+		parameters.Add("Message", "¿Estás seguro que deseas eliminar?");
+		parameters.Add("OnConfirm", EventCallback.Factory.Create<MouseEventArgs>(this, async () => await DeleteCurriculum(CurriculumId.Value)));
+		parameters.Add("OnCancel", EventCallback.Factory.Create<MouseEventArgs>(this, CloseModal));
+		await modal.ShowAsync<DeleteModal>(title: "Eliminar Plan de Estudio", parameters: parameters);
+
+
+	}
+
+
 
 	private async Task ShowCurriculumModal(CurriculumModal.ModalMode Mode, int? CurriculumId)
 
@@ -109,6 +129,7 @@ s
 	{
 		await modal.HideAsync();
 		await GetCurriculums();
+		await InvokeAsync(StateHasChanged); 
 	}
 
 	private async Task GetCurriculums()
@@ -141,18 +162,25 @@ s
 		}
 		catch (Exception e)
 		{
-			if (e.Message == "...")
+			
+			if (e.Message.Contains("No se puede eliminar") || e.Message.Contains("tiene elementos que dependen de él"))
 			{
-				this.isAlertErrorVisible = true;
-				async Task TriggerDelay()
-				{
-					await Task.Delay(2000);
-					this.isAlertErrorVisible = false;
-					StateHasChanged();
-				}
-				TriggerDelay();
+				
+				this.isAlertErrorVisible = true; 
 			}
-		}
+			else
+			{
+				
+				this.isAlertErrorVisible = true; 
+			}
 
-    }
+			async Task TriggerDelay()
+			{
+				await Task.Delay(2000);
+				this.isAlertErrorVisible = false;
+				StateHasChanged();
+			}
+			TriggerDelay();
+		}
+	}
 }

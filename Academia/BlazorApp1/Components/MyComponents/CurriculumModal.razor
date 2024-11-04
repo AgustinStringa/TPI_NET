@@ -86,7 +86,13 @@
         }
         else
         {
+            this.curriculum = await curriculumService.GetByIdAsync((int)this.CurriculumId);
             ButtonText = "Guardar Cambios";
+             if (this.curriculum != null)
+            {
+                selectedAreaId = this.curriculum.AreaId; 
+            }
+
         }
 
         try

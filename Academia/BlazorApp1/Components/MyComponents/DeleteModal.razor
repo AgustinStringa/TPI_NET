@@ -1,0 +1,50 @@
+﻿@inherits OwningComponentBase
+
+<div class="row">
+
+
+        <div class="modal d-block" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Confirmación</h5>
+                        <button type="button" class="btn-close" @onclick="OnCancel" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p>@Message</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" @onclick="OnConfirm">Confirmar</button>
+                        <button type="button" class="btn btn-secondary" @onclick="OnCancel">Cancelar</button>
+                    </div>
+                </div>
+            </div>
+            <div class=""></div>
+        </div>
+
+</div>
+
+@code {
+    [Parameter] public string Message { get; set; }
+
+    [Parameter]
+    public EventCallback<MouseEventArgs> OnConfirm { get; set; }
+
+    [Parameter]
+    public EventCallback<MouseEventArgs> OnCancel { get; set; }
+    [Parameter] public EventCallback<MouseEventArgs> CloseModal { get; set; }
+
+
+    private async Task ConfirmDelete()
+    {
+        await OnConfirm.InvokeAsync(new MouseEventArgs());
+        await CloseModal.InvokeAsync();
+    }
+
+
+    private async Task CancelDelete()
+    {
+        await OnCancel.InvokeAsync(new MouseEventArgs());
+        await CloseModal.InvokeAsync(); 
+    }
+}
