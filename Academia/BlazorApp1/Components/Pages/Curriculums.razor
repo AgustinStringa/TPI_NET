@@ -1,15 +1,21 @@
 ﻿@page "/curriculums"
 @inherits OwningComponentBase 
-@rendermode InteractiveServer 
 
+@* @inject ClientService.Area.IAreaService AreaService this is a way to inject service. revise microsfot docs. *@
+@rendermode InteractiveServer //important to update varss
+@using MyComponents
+s
 <h1>Planes De Estudios</h1>
 
 @if (curriculums != null && curriculums.Count() >= 0)
 {
+	<Modal @ref="modal" UseStaticBackdrop="true" CloseOnEscape="false" />
+
 	<div class="text-end my-3 px-3">
 		<button type="button"
-				class="btn btn-primary btn-lg">
-			Crear Plan De Estudios
+				data-toggle="modal" data-target="#exampleModal"
+				class="btn btn-primary btn-lg" @onclick="async () => await ShowCurriculumModal(CurriculumModal.ModalMode.Create, null)">
+			Crear Plan de Estudio
 		</button>
 	</div>
 	
@@ -61,11 +67,47 @@
 
 	private ClientService.Curriculum.ICurriculumService curriculumService;
 	private IEnumerable<ApplicationCore.Model.Curriculum> curriculums = new List<ApplicationCore.Model.Curriculum>();
-
+	private Modal modal = default!;
 
 	protected async override Task OnInitializedAsync()
 	{
 		this.curriculumService = ScopedServices.GetRequiredService<ClientService.Curriculum.ICurriculumService>();
+		await GetCurriculums();
+	}
+
+	private async Task ShowCurriculumModal(CurriculumModal.ModalMode Mode, int? AreaId)
+
+	{
+		var parameters = new Dictionary<string, object>();
+		parameters.Add("Mode", Mode);
+		parameters.Add("CloseModal", EventCallback.Factory.Create<MouseEventArgs>(this, CloseModal));
+		if (AreaId != null)
+		{
+			parameters.Add("AreaId", AreaId);
+		}
+
+		try
+		{
+
+			if (Mode == CurriculumModal.ModalMode.Create)
+			{
+				await modal.ShowAsync<CurriculumModal>(title: "Crear Plan de estudio", parameters: parameters);
+			}
+			else if (Mode == CurriculumModal.ModalMode.Edit)
+			{
+				await modal.ShowAsync<CurriculumModal>(title: "Editar Plan de estudio", parameters: parameters);
+			}
+		}
+		catch (Exception e)
+		{
+			Console.WriteLine(e);
+		}
+	}
+
+
+	private async Task CloseModal()
+	{
+		await modal.HideAsync();
 		await GetCurriculums();
 	}
 
