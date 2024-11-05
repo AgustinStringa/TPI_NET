@@ -1,4 +1,5 @@
 ﻿using ApplicationCore.Model;
+using ClientService.Commission;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using System;
@@ -105,7 +106,11 @@ namespace ClientService.Subject
 				using StringContent jsonContent = new(System.Text.Json.JsonSerializer.Serialize(subject), Encoding.UTF8, "application/json");
 
 				var response = await _httpClient.PutAsync(_apiUrl + subject.Id.ToString(), jsonContent);
-				response.EnsureSuccessStatusCode();
+				if (!response.IsSuccessStatusCode) {
+					var errorContent = await response.Content.ReadAsStringAsync();
+					var errorResponse = JsonConvert.DeserializeObject<ErrorResponse>(errorContent);
+					throw new Exception(errorResponse?.Message ?? "Error al actualizar la materia");
+				}
 			}
 			catch (Exception)
 			{

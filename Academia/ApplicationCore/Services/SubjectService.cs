@@ -79,7 +79,10 @@ namespace ApplicationCore.Services
 					if (subject.IdCurriculum != existingSubject.IdCurriculum && existingSubject.Courses.Count > 0)
 					{
 						//no se puede modificar el plan de estudios de una materia con cursos
-						throw new Exception();
+						throw new Exception("No puedes modificar el plan de estudios de una materia con cursados");
+					}
+					if (subject.Level != existingSubject.Level && existingSubject.Courses.Count > 0) { 
+						throw new Exception("No puedes modificar el nivel de una materia con cursados");
 					}
 					if (existingSubject.Curriculum == null)
 					{
@@ -89,9 +92,9 @@ namespace ApplicationCore.Services
 					await context.SaveChangesAsync();
 				}
 			}
-			catch (Exception e)
+			catch (Exception)
 			{
-				throw e;
+				throw;
 			}
 
 		}

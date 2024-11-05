@@ -85,7 +85,8 @@ namespace UI.Desktop.Subject
 			{
 				Utilities.AdaptCurriculumsToCb(cbCurriculums, await curriculumService.GetAllAsync());
 			}
-			else if (this.Mode == Mode.Edit) { 
+			else if (this.Mode == Mode.Edit)
+			{
 				Utilities.AdaptCurriculumsToCb(cbCurriculums, await curriculumService.GetAllAsync(), subject.IdCurriculum);
 			}
 		}
@@ -117,38 +118,55 @@ namespace UI.Desktop.Subject
 				switch (Mode)
 				{
 					case Mode.Edit:
-						subject.Description = description;
-						subject.TotalHours = totalHours;
-						subject.WeeklyHours = weeklyHours;
-						subject.Level = level;
-						subject.IdCurriculum = curriculum.Id;
-						await subjectService.UpdateAsync(new ApplicationCore.Model.Subject {
-							Description = description,
-							TotalHours = totalHours,
-							WeeklyHours = weeklyHours,
-							Level = level,
-							IdCurriculum =curriculum.Id,
-							Id = subject.Id
-						});
-						MessageBox.Show("Materia actualizada correctamente", "Editar Materia", MessageBoxButtons.OK, MessageBoxIcon.Information);
-						DialogResult = DialogResult.OK;
-						this.Close();
-						break;
-					case Mode.Create:
-						var newSubject = new ApplicationCore.Model.Subject
+						try
 						{
-							Description = description,
-							TotalHours = totalHours,
-							WeeklyHours = weeklyHours,
-							Level = level,
-							IdCurriculum = curriculum.Id,
-						};
-						await subjectService.CreateAsync(newSubject);
-						MessageBox.Show("Materia creada correctamente", "Crear Materia", MessageBoxButtons.OK, MessageBoxIcon.Information);
+							subject.Description = description;
+							subject.TotalHours = totalHours;
+							subject.WeeklyHours = weeklyHours;
+							subject.Level = level;
+							subject.IdCurriculum = curriculum.Id;
+							await subjectService.UpdateAsync(new ApplicationCore.Model.Subject
+							{
+								Description = description,
+								TotalHours = totalHours,
+								WeeklyHours = weeklyHours,
+								Level = level,
+								IdCurriculum = curriculum.Id,
+								Id = subject.Id
+							});
+							MessageBox.Show("Materia actualizada correctamente", "Editar Materia", MessageBoxButtons.OK, MessageBoxIcon.Information);
+							DialogResult = DialogResult.OK;
+							this.Close();
+							break;
+						}
+						catch (Exception ex)
+						{
+							MessageBox.Show(ex.Message ?? "Error al actualizar la materia", "Actualizar Materia", MessageBoxButtons.OK, MessageBoxIcon.Error);
+							break;
+						}
+					case Mode.Create:
+						try
+						{
+							var newSubject = new ApplicationCore.Model.Subject
+							{
+								Description = description,
+								TotalHours = totalHours,
+								WeeklyHours = weeklyHours,
+								Level = level,
+								IdCurriculum = curriculum.Id,
+							};
+							await subjectService.CreateAsync(newSubject);
+							MessageBox.Show("Materia creada correctamente", "Crear Materia", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-						DialogResult = DialogResult.OK;
-						this.Close();
-						break;
+							DialogResult = DialogResult.OK;
+							this.Close();
+							break;
+						}
+						catch (Exception ex)
+						{
+							MessageBox.Show(ex.Message ?? "Error al actualizar la materia");
+							break;
+						}
 					default:
 						break;
 				}
