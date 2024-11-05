@@ -87,7 +87,7 @@ namespace ApplicationCore.Services
 					if (curriculum.AreaId != existingCurriculum.AreaId && existingCurriculum.Subjects.Count > 0)
 					{
 						//no se puede modificar la especialidad de un plan con materias asociadas
-						throw new Exception();
+						throw new Exception("no se puede modificar la especialidad de un plan con materias asociadas");
 					}
 					if (curriculum.Area == null)
 					{

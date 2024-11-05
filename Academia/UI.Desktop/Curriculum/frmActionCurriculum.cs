@@ -172,15 +172,23 @@ namespace UI.Desktop.Curriculum
 				}
 				else if (mode == Mode.Edit)
 				{
-					var area = cbAreas.SelectedItem as ApplicationCore.Model.Area;
-					this.curriculum.Description = description;
-					this.curriculum.Year = year;
-					this.curriculum.Resolution = resolution;
-					this.curriculum.AreaId = idArea;
-					await curriculumService.UpdateAsync(this.curriculum);
-					MessageBox.Show("Plan de Estudios actualizado correctamente", "Editar Plan de Estudios", MessageBoxButtons.OK, MessageBoxIcon.Information);
-					DialogResult = DialogResult.OK;
-					this.Close();
+					try
+					{
+						var area = cbAreas.SelectedItem as ApplicationCore.Model.Area;
+						this.curriculum.Description = description;
+						this.curriculum.Year = year;
+						this.curriculum.Resolution = resolution;
+						this.curriculum.AreaId = idArea;
+						await curriculumService.UpdateAsync(this.curriculum);
+						MessageBox.Show("Plan de Estudios actualizado correctamente", "Editar Plan de Estudios", MessageBoxButtons.OK, MessageBoxIcon.Information);
+						DialogResult = DialogResult.OK;
+						this.Close();
+					}
+					catch (Exception ex)
+					{
+						MessageBox.Show(ex.Message ?? "Error al actualizar el plan de estudios", "Editar Plan de Estudios", MessageBoxButtons.OK, MessageBoxIcon.Error);
+					}
+
 				}
 			}
 		}

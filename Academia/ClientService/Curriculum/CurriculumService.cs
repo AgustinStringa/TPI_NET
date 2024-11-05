@@ -134,7 +134,11 @@ namespace ClientService.Curriculum
 				_httpClient.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
 				using StringContent jsonContent = new(System.Text.Json.JsonSerializer.Serialize(curriculum), Encoding.UTF8, "application/json");
 				var response = await _httpClient.PutAsync(_apiUrl + curriculum.Id.ToString(), jsonContent);
-				response.EnsureSuccessStatusCode();
+				if (!response.IsSuccessStatusCode) {
+					var errorContent = await response.Content.ReadAsStringAsync();
+					var errorResponse = JsonConvert.DeserializeObject<ErrorResponse>(errorContent);
+					throw new Exception(errorResponse?.Message ?? "Error al actualizar el plan de estudios");
+				}
 			}
 			catch (Exception)
 			{
