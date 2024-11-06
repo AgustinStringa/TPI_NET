@@ -156,6 +156,7 @@
 		try
 		{
 			await this.curriculumService.DeleteAsync(id);
+			await CloseModal();
 			await this.GetCurriculums();
 		}
 		catch (Exception e)
