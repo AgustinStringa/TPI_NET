@@ -30,7 +30,6 @@ namespace UI.Desktop
 				MessageBox.Show("Completa todos los campos");
 				return;
 			}
-			//llamar a HttpClient. Extraer el user de la rta, que contiene user y jwt
 			try
 			{
 				txtPassword.Enabled = false;
@@ -50,7 +49,7 @@ namespace UI.Desktop
 				}
 				else
 				{
-					MessageBox.Show("Usuario y/o contrase�a incorrectos", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+					MessageBox.Show("Usuario y/o contraseña incorrectos", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 				}
 			}
 			catch (Exception)

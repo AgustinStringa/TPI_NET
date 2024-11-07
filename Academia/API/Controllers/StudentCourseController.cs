@@ -21,78 +21,21 @@ namespace API.Controllers
 			this.userCourseService = userCourseService;
 		}
 
-		//[HttpPost("enroll")]
-		//public async Task<ActionResult> Enroll([FromBody] UserCourseDto userCourseDto)
-		//{
-		//    try
-		//    {
-		//        var user = await context.Users.FindAsync(userCourseDto.UserId);
-		//        var course = await context.Courses.FindAsync(userCourseDto.CourseId);
+		[HttpGet("academic-status/{id}")]
+		public async Task<ActionResult<object>> GetEstadoAcademico(int id)
+		{
+			try
+			{
+				var usercourses = await userCourseService.GetAcademicStatus(id);
+				return Ok(usercourses);
+			}
+			catch (Exception e)
+			{
+				return StatusCode(500, new { message = e.Message });
+				throw e;
+			}
+		}
 
-		//        if (user == null || course == null)
-		//        {
-		//            return NotFound(new { message = "User or course not found" });
-		//        }
-
-		//        var userCourse = new UserCourse
-		//        {
-		//            UserId = userCourseDto.UserId,
-		//            CourseId = userCourseDto.CourseId,
-		//            Status = "inscripto"
-		//        };
-
-		//        // Check if the user is already enrolled
-		//        var isEnrolled = await userCourseService.IsUserAlreadyEnrolled(userCourse.UserId, userCourse.CourseId, course.CalendarYear);
-		//        if (isEnrolled)
-		//        {
-		//            return Conflict(new { message = "User is already enrolled in this course under the specified conditions" });
-		//        }
-
-		//        await userCourseService.Add(userCourse);
-
-		//        return Ok(new { message = "Enrollment successful" });
-		//    }
-		//    catch (Exception e)
-		//    {
-		//        return StatusCode(500, new { message = e.Message });
-		//    }
-		//}
-
-		//[HttpDelete("unenroll/{userId}/{courseId}")]
-		//public async Task<ActionResult> Unenroll(int userId, int courseId)
-		//{
-		//    try
-		//    {
-		//        await userCourseService.Delete(userId, courseId);
-		//        return Ok(new { message = "Unenrollment successful" });
-		//    }
-		//    catch (Exception e)
-		//    {
-		//        return StatusCode(500, new { message = e.Message });
-		//    }
-		//}
-
-		//[HttpGet("{userId}/{courseId}")]
-		//public async Task<ActionResult<UserCourse>> GetByUserAndCourse(int userId, int courseId)
-		//{
-		//    try
-		//    {
-		//        var userCourse = await context.UserCourses
-		//            .Include(uc => uc.Course)
-		//            .FirstOrDefaultAsync(uc => uc.UserId == userId && uc.CourseId == courseId);
-
-		//        if (userCourse == null)
-		//        {
-		//            return NotFound(new { message = "User course enrollment not found" });
-		//        }
-
-		//        return Ok(userCourse);
-		//    }
-		//    catch (Exception e)
-		//    {
-		//        return StatusCode(500, new { message = e.Message });
-		//    }
-		//}
 		[HttpGet("${id}")]
 		public async Task<ActionResult<StudentCourse>> GetById(int id)
 		{
@@ -141,26 +84,19 @@ namespace API.Controllers
 			}
 			catch (Exception e)
 			{
-				if ((e.InnerException as SqlException).ErrorCode == -2146232060)
-				{
-					return StatusCode(400, new { message = "Can't delete a Subject with related Courses" });
-				}
-				else
-				{
-					return StatusCode(500, new { message = e.Message });
-				}
+				return StatusCode(500, new { message = e.Message });
 			}
 		}
 
 
 		[HttpGet()]
-		public async Task<ActionResult<IEnumerable<StudentCourse>>> GetByUserId([FromQuery] int? userId = null)
+		public async Task<ActionResult<IEnumerable<StudentCourse>>> GetActivesByUserId([FromQuery] int? userId = null, [FromQuery] bool? actives = false)
 		{
 			try
 			{
 				if (userId != null)
 				{
-					var userCourses = await userCourseService.GetByUserId((int)userId);
+					var userCourses = await userCourseService.GetByUserId((int)userId, (bool)actives);
 
 					if (userCourses == null)
 					{
@@ -199,7 +135,6 @@ namespace API.Controllers
 				return StatusCode(500, new { message = e.Message });
 			}
 		}
-
 
 	}
 

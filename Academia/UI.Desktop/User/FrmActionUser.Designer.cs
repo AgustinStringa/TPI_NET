@@ -70,12 +70,16 @@
 			txtCuit = new TextBox();
 			lblCuit = new Label();
 			btnActionUser = new Button();
+			lblTeacherId = new Label();
+			lblTeacherIdValue = new Label();
 			panel1.SuspendLayout();
 			panel2.SuspendLayout();
 			SuspendLayout();
 			// 
 			// panel1
 			// 
+			panel1.Controls.Add(lblTeacherIdValue);
+			panel1.Controls.Add(lblTeacherId);
 			panel1.Controls.Add(btnChangePassword);
 			panel1.Controls.Add(panel2);
 			panel1.Controls.Add(lblLegajoError);
@@ -336,7 +340,7 @@
 			lblApellidoError.AutoSize = true;
 			lblApellidoError.Font = new Font("Segoe UI", 12F);
 			lblApellidoError.ForeColor = Color.FromArgb(220, 38, 38);
-			lblApellidoError.Location = new Point(13, 538);
+			lblApellidoError.Location = new Point(13, 562);
 			lblApellidoError.Name = "lblApellidoError";
 			lblApellidoError.Size = new Size(199, 42);
 			lblApellidoError.TabIndex = 19;
@@ -348,7 +352,7 @@
 			lblNombreError.AutoSize = true;
 			lblNombreError.Font = new Font("Segoe UI", 12F);
 			lblNombreError.ForeColor = Color.FromArgb(220, 38, 38);
-			lblNombreError.Location = new Point(13, 416);
+			lblNombreError.Location = new Point(13, 440);
 			lblNombreError.Name = "lblNombreError";
 			lblNombreError.Size = new Size(206, 42);
 			lblNombreError.TabIndex = 18;
@@ -359,7 +363,7 @@
 			// 
 			lblLastName.AutoSize = true;
 			lblLastName.Font = new Font("Segoe UI", 12F);
-			lblLastName.Location = new Point(13, 482);
+			lblLastName.Location = new Point(13, 506);
 			lblLastName.Name = "lblLastName";
 			lblLastName.Size = new Size(85, 21);
 			lblLastName.TabIndex = 6;
@@ -368,7 +372,7 @@
 			// txtLastName
 			// 
 			txtLastName.Font = new Font("Segoe UI", 12F);
-			txtLastName.Location = new Point(13, 506);
+			txtLastName.Location = new Point(13, 530);
 			txtLastName.Name = "txtLastName";
 			txtLastName.Size = new Size(285, 29);
 			txtLastName.TabIndex = 5;
@@ -380,16 +384,16 @@
 			lblEmailError.ForeColor = Color.FromArgb(220, 38, 38);
 			lblEmailError.Location = new Point(14, 319);
 			lblEmailError.Name = "lblEmailError";
-			lblEmailError.Size = new Size(140, 21);
+			lblEmailError.Size = new Size(186, 42);
 			lblEmailError.TabIndex = 17;
-			lblEmailError.Text = "Campo obligatorio";
+			lblEmailError.Text = "Campo obligatorio.\r\nIntroduce un email valido";
 			lblEmailError.Visible = false;
 			// 
 			// lblName
 			// 
 			lblName.AutoSize = true;
 			lblName.Font = new Font("Segoe UI", 12F);
-			lblName.Location = new Point(13, 360);
+			lblName.Location = new Point(13, 384);
 			lblName.Name = "lblName";
 			lblName.Size = new Size(86, 21);
 			lblName.TabIndex = 4;
@@ -398,7 +402,7 @@
 			// txtName
 			// 
 			txtName.Font = new Font("Segoe UI", 12F);
-			txtName.Location = new Point(13, 384);
+			txtName.Location = new Point(13, 408);
 			txtName.Name = "txtName";
 			txtName.Size = new Size(285, 29);
 			txtName.TabIndex = 4;
@@ -471,9 +475,9 @@
 			lblCuitError.ForeColor = Color.FromArgb(220, 38, 38);
 			lblCuitError.Location = new Point(665, 491);
 			lblCuitError.Name = "lblCuitError";
-			lblCuitError.Size = new Size(140, 21);
+			lblCuitError.Size = new Size(226, 21);
 			lblCuitError.TabIndex = 18;
-			lblCuitError.Text = "Campo obligatorio";
+			lblCuitError.Text = "Campo obligatorio. (11 digitos)";
 			lblCuitError.Visible = false;
 			// 
 			// lblUsername
@@ -482,12 +486,13 @@
 			lblUsername.Font = new Font("Segoe UI", 12F);
 			lblUsername.Location = new Point(14, 14);
 			lblUsername.Name = "lblUsername";
-			lblUsername.Size = new Size(99, 21);
+			lblUsername.Size = new Size(163, 21);
 			lblUsername.TabIndex = 0;
-			lblUsername.Text = "Username : *";
+			lblUsername.Text = "Nombre de usuario : *";
 			// 
 			// txtUsername
 			// 
+			txtUsername.BackColor = SystemColors.Window;
 			txtUsername.Font = new Font("Segoe UI", 12F);
 			txtUsername.Location = new Point(14, 40);
 			txtUsername.Name = "txtUsername";
@@ -544,6 +549,28 @@
 			btnActionUser.Text = "Crear Usuario";
 			btnActionUser.UseVisualStyleBackColor = false;
 			btnActionUser.Click += btnActionUser_Click;
+			// 
+			// lblTeacherId
+			// 
+			lblTeacherId.AutoSize = true;
+			lblTeacherId.Font = new Font("Segoe UI", 12F);
+			lblTeacherId.Location = new Point(324, 559);
+			lblTeacherId.Name = "lblTeacherId";
+			lblTeacherId.Size = new Size(135, 21);
+			lblTeacherId.TabIndex = 32;
+			lblTeacherId.Text = "Legajo Docente : *";
+			lblTeacherId.Visible = false;
+			// 
+			// lblTeacherIdValue
+			// 
+			lblTeacherIdValue.AutoSize = true;
+			lblTeacherIdValue.Font = new Font("Segoe UI", 12F);
+			lblTeacherIdValue.Location = new Point(465, 562);
+			lblTeacherIdValue.Name = "lblTeacherIdValue";
+			lblTeacherIdValue.Size = new Size(28, 21);
+			lblTeacherIdValue.TabIndex = 33;
+			lblTeacherIdValue.Text = "10";
+			lblTeacherIdValue.Visible = false;
 			// 
 			// FrmActionUser
 			// 
@@ -605,5 +632,7 @@
         private Label lblArea;
         private Label lblTipoUsuario;
 		private Button btnChangePassword;
+		private Label lblTeacherIdValue;
+		private Label lblTeacherId;
 	}
 }

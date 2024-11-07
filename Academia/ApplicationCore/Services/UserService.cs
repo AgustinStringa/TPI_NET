@@ -93,20 +93,6 @@ namespace ApplicationCore.Services
 			}
 		}
 
-		public async void Update(User User)
-		{
-			var context = new AcademiaContext();
-			try
-			{
-				context.Users.Update(User);
-				context.SaveChanges();
-			}
-			catch (Exception ex)
-			{
-				throw ex;
-			}
-		}
-
 		public async Task<User> ValidateCredentials(string username, string password)
 		{
 			try

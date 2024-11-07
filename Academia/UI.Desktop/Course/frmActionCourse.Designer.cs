@@ -28,7 +28,7 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			label1 = new Label();
+			lblTitle = new Label();
 			lblSubject = new Label();
 			cmbSubjects = new ComboBox();
 			panel1 = new Panel();
@@ -53,15 +53,15 @@
 			panel1.SuspendLayout();
 			SuspendLayout();
 			// 
-			// label1
+			// lblTitle
 			// 
-			label1.AutoSize = true;
-			label1.Font = new Font("Segoe UI", 12F);
-			label1.Location = new Point(30, 38);
-			label1.Name = "label1";
-			label1.Size = new Size(112, 21);
-			label1.TabIndex = 9;
-			label1.Text = "Editar Cursado";
+			lblTitle.AutoSize = true;
+			lblTitle.Font = new Font("Segoe UI", 12F);
+			lblTitle.Location = new Point(30, 38);
+			lblTitle.Name = "lblTitle";
+			lblTitle.Size = new Size(112, 21);
+			lblTitle.TabIndex = 9;
+			lblTitle.Text = "Editar Cursado";
 			// 
 			// lblSubject
 			// 
@@ -85,6 +85,7 @@
 			// 
 			// panel1
 			// 
+			panel1.Controls.Add(cmbSubjects);
 			panel1.Controls.Add(lstSelectedTeachers);
 			panel1.Controls.Add(btnDeleteTeacher);
 			panel1.Controls.Add(btnAddTeacher);
@@ -103,7 +104,6 @@
 			panel1.Controls.Add(cmbCommissions);
 			panel1.Controls.Add(cmbCurriculums);
 			panel1.Controls.Add(cmbAreas);
-			panel1.Controls.Add(cmbSubjects);
 			panel1.Location = new Point(30, 87);
 			panel1.Name = "panel1";
 			panel1.Size = new Size(1085, 441);
@@ -288,7 +288,7 @@
 			AutoScaleMode = AutoScaleMode.Font;
 			ClientSize = new Size(1153, 540);
 			Controls.Add(panel1);
-			Controls.Add(label1);
+			Controls.Add(lblTitle);
 			Name = "FrmActionCourse";
 			Text = "frmActionCourse";
 			panel1.ResumeLayout(false);
@@ -299,7 +299,7 @@
 
 		#endregion
 
-		private Label label1;
+		private Label lblTitle;
         private Label lblSubject;
         private ComboBox cmbSubjects;
         private Panel panel1;

@@ -17,7 +17,7 @@ namespace UI.Desktop.Course
 {
 	public partial class FrmMyCourses : Form
 	{
-		private IStudentCourseService userCourseService;
+		private IStudentCourseService studentCourseService;
 		private ICommissionService commissionService;
 		private ApplicationCore.Model.Student student;
 		private IEnumerable<ApplicationCore.Model.StudentCourse> MyCourses;
@@ -25,15 +25,24 @@ namespace UI.Desktop.Course
 		{
 			InitializeComponent();
 			this.student = student;
-			this.userCourseService = serviceProvider.GetRequiredService<IStudentCourseService>();
+			this.studentCourseService = serviceProvider.GetRequiredService<IStudentCourseService>();
 			this.commissionService = serviceProvider.GetRequiredService<ICommissionService>();
 			LoadCourses();
 		}
 
 		private async void LoadCourses()
 		{
-			MyCourses = await userCourseService.GetByUserId(this.student.Id);
-			AdaptCoursesToListView(MyCourses);
+			try
+			{
+				lstvMyCourses.Items.Clear();
+				MyCourses = await studentCourseService.GetByUserId(this.student.Id, true);
+				AdaptCoursesToListView(MyCourses);
+				lstvMyCourses.Refresh();
+			}
+			catch (Exception ex)
+			{
+				MessageBox.Show(ex.Message);
+			}
 		}
 		private async void AdaptCoursesToListView(IEnumerable<ApplicationCore.Model.StudentCourse> courses)
 		{
@@ -46,6 +55,29 @@ namespace UI.Desktop.Course
 				nuevoItem.SubItems.Add(item.Course.CalendarYear);
 				nuevoItem.SubItems.Add(item.Course.Subject.Level.ToString());
 				lstvMyCourses.Items.Add(nuevoItem);
+			}
+		}
+
+		private async void btnCancelInscription_Click(object sender, EventArgs e)
+		{
+			try
+			{
+				if (lstvMyCourses.SelectedItems.Count > 0)
+				{
+					if (Utilities.ConfirmDelete("este cursado") != DialogResult.OK) return;
+					var selectedCourse = (StudentCourse)lstvMyCourses.SelectedItems[0].Tag;
+					await this.studentCourseService.DeleteAsync(selectedCourse.Id);
+					MessageBox.Show("Inscripcion a cursado eliminada", "Eliminar inscripcion", MessageBoxButtons.OK, MessageBoxIcon.Information);
+					this.LoadCourses();
+				}
+				else
+				{
+					MessageBox.Show("Selecciona un cursado", "Eliminar Cursado", MessageBoxButtons.OK, MessageBoxIcon.Information);
+				}
+			}
+			catch (Exception ex)
+			{
+				MessageBox.Show(ex.Message);
 			}
 		}
 	}

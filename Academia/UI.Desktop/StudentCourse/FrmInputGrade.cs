@@ -12,8 +12,8 @@ namespace UI.Desktop
 {
 	public partial class FrmInputGrade : Form
 	{
-		public int _currentGrade;
-		public FrmInputGrade(int currentGrade)
+		public decimal _currentGrade;
+		public FrmInputGrade(decimal currentGrade)
 		{
 			InitializeComponent();
 			_currentGrade = currentGrade;
@@ -24,7 +24,7 @@ namespace UI.Desktop
 		{
 			try
 			{
-				_currentGrade = int.Parse(txtGrade.Text);
+				_currentGrade = decimal.Parse(txtGrade.Text);
 				if (_currentGrade < 0 || _currentGrade > 10)
 				{
 					lblGradeError.Visible = true;
@@ -43,6 +43,14 @@ namespace UI.Desktop
 				lblGradeError.Text = "Ingresa una nota valida";
 			}
 
+		}
+
+		private void txtGrade_KeyDown(object sender, KeyEventArgs e)
+		{
+			if (e.KeyCode == Keys.Enter)
+			{
+				btnSave.PerformClick();
+			}
 		}
 	}
 }

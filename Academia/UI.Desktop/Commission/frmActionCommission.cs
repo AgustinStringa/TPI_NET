@@ -80,8 +80,7 @@ namespace UI.Desktop.Commission
 			}
 			catch (Exception)
 			{
-
-				throw;
+				MessageBox.Show("Error al cargar los planes de estudio", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 			}
 		}
 
@@ -93,8 +92,20 @@ namespace UI.Desktop.Commission
 
 			bool validCurriculum = validateCurriculum(selectedCurriculum);
 			bool validDescription = validateDescription(description);
+			if (!validDescription)
+			{
+				Utilities.SetErrorStyle(lblDescription, txtCommissionDescription);
+				lblDescriptionError.Visible = true;
+			}
+			else { 
+				Utilities.SetDefaultStyle(lblDescription, txtCommissionDescription);
+				lblDescriptionError.Visible = false;
+
+			}
 			bool validLevel = validateLevel(level);
-			if (validLevel && validCurriculum && validCurriculum)
+
+
+			if (validLevel && validCurriculum && validDescription)
 			{
 				int idCurriculum = (int)cbCurriculum.SelectedValue;
 				if (mode == Mode.Create)
@@ -124,10 +135,24 @@ namespace UI.Desktop.Commission
 
 		private async void CreateCommission(ApplicationCore.Model.Commission newCommission)
 		{
-			await commissionService.CreateAsync(newCommission);
-			MessageBox.Show("Comisión " + newCommission.Description + " creada correctamente", "Crear Comisióin", MessageBoxButtons.OK, MessageBoxIcon.Information);
-			DialogResult = DialogResult.OK;
-			this.Close();
+			try
+			{
+				await commissionService.CreateAsync(newCommission);
+				MessageBox.Show("Comisión " + newCommission.Description + " creada correctamente", "Crear Comisióin", MessageBoxButtons.OK, MessageBoxIcon.Information);
+				DialogResult = DialogResult.OK;
+				this.Close();
+			}
+			catch (Exception ex)
+			{
+				if (ex.Message.Contains("Violation of UNIQUE"))
+				{
+					MessageBox.Show("Comisión Existente", "Crear Comisión", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				}
+				else { 
+				MessageBox.Show(ex.Message, "Crear Comisión", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				}
+			}
+
 		}
 
 		private async void EditCommission(string description, ApplicationCore.Model.Curriculum selectedCurriculum, int level)
@@ -142,9 +167,16 @@ namespace UI.Desktop.Commission
 				DialogResult = DialogResult.OK;
 				this.Close();
 			}
-			catch (Exception)
+			catch (Exception ex)
 			{
-				throw;
+				if (ex.Message.Contains("Violation of UNIQUE"))
+				{
+					MessageBox.Show("Comisión Existente", "Crear Comisión", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				}
+				else
+				{
+					MessageBox.Show(ex.Message, "Crear Comisión", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				}
 			}
 		}
 

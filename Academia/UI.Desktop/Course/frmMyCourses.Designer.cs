@@ -34,6 +34,7 @@
 			Subject = new ColumnHeader();
 			CalendarYear = new ColumnHeader();
 			Level = new ColumnHeader();
+			btnCancelInscription = new Button();
 			SuspendLayout();
 			// 
 			// label1
@@ -81,11 +82,27 @@
 			Level.Text = "Nivel";
 			Level.Width = 100;
 			// 
+			// btnCancelInscription
+			// 
+			btnCancelInscription.BackColor = Color.FromArgb(220, 53, 69);
+			btnCancelInscription.FlatStyle = FlatStyle.Flat;
+			btnCancelInscription.Font = new Font("Segoe UI", 12F);
+			btnCancelInscription.ForeColor = SystemColors.ButtonHighlight;
+			btnCancelInscription.Location = new Point(556, 330);
+			btnCancelInscription.Margin = new Padding(3, 2, 3, 2);
+			btnCancelInscription.Name = "btnCancelInscription";
+			btnCancelInscription.Size = new Size(166, 50);
+			btnCancelInscription.TabIndex = 11;
+			btnCancelInscription.Text = "Eliminar Inscripcion";
+			btnCancelInscription.UseVisualStyleBackColor = false;
+			btnCancelInscription.Click += btnCancelInscription_Click;
+			// 
 			// FrmMyCourses
 			// 
 			AutoScaleDimensions = new SizeF(7F, 15F);
 			AutoScaleMode = AutoScaleMode.Font;
 			ClientSize = new Size(800, 450);
+			Controls.Add(btnCancelInscription);
 			Controls.Add(label1);
 			Controls.Add(lstvMyCourses);
 			Name = "FrmMyCourses";
@@ -102,5 +119,6 @@
         private ColumnHeader Subject;
         private ColumnHeader CalendarYear;
         private ColumnHeader Level;
-    }
+		private Button btnCancelInscription;
+	}
 }

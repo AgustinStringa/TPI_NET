@@ -48,6 +48,7 @@ namespace UI.Desktop.Course
 				this.serviceProvider = serviceProvider;
 				GetServices(this.serviceProvider);
 				this.Text = "Crear Curso";
+				lblTitle.Text = "Crear Curso";
 				btnActionCourse.Text = "Crear Curso";
 				LoadAreas();
 			}
@@ -68,6 +69,7 @@ namespace UI.Desktop.Course
 				GetServices(this.serviceProvider);
 				this.course = course;
 				this.Text = "Editar Curso";
+				lblTitle.Text = "Editar Curso";
 				btnActionCourse.Text = "Guardar Curso";
 				txtCapacity.Text = course.Capacity.ToString();
 				txtCalendarYear.Text = course.CalendarYear.ToString();
@@ -155,12 +157,12 @@ namespace UI.Desktop.Course
 						this.course.IdCommission = selectedCommission.Id;
 						this.course.IdSubject = selectedSubejct.Id;
 						this.course.Teachers.Clear();
-                        foreach (var item in this.selectedTeachers)
-                        {
+						foreach (var item in this.selectedTeachers)
+						{
 							var newTeacher = await teacherService.GetById(item.Id);
 							this.course.Teachers.Add(newTeacher);
 						}
-                        this.course.Commission = null;
+						this.course.Commission = null;
 						this.course.Subject = null;
 						await courseService.UpdateAsync(this.course);
 						this.DialogResult = DialogResult.OK;
@@ -290,11 +292,14 @@ namespace UI.Desktop.Course
 		{
 			if (capacity > 0)
 			{
+				Utilities.SetDefaultStyle(lblCapacity, txtCapacity);
 				lblCapacityError.Visible = false;
 				return true;
 
 			}
+			Utilities.SetErrorStyle(lblCapacity, txtCapacity);
 			lblCapacityError.Visible = true;
+			this.lblCapacityError.ForeColor = Color.FromArgb(220, 53, 69);
 			return false;
 		}
 
@@ -302,10 +307,13 @@ namespace UI.Desktop.Course
 		{
 			if (!String.IsNullOrEmpty(calendarYear))
 			{
+				Utilities.SetDefaultStyle(lblCalendarYear, txtCalendarYear);
 				lblCalendarYearError.Visible = false;
 				return true;
 			}
+			Utilities.SetErrorStyle(lblCalendarYear, txtCalendarYear);
 			lblCalendarYearError.Visible = true;
+			this.lblCalendarYearError.ForeColor = Color.FromArgb(220, 53, 69);
 			return false;
 		}
 

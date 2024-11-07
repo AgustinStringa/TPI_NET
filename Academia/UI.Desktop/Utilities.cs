@@ -10,7 +10,8 @@ namespace UI.Desktop
 {
 	public class Utilities
 	{
-		public static void AdaptAreasToCb(ComboBox cb, IEnumerable<ApplicationCore.Model.Area> areas) {
+		public static void AdaptAreasToCb(ComboBox cb, IEnumerable<ApplicationCore.Model.Area> areas)
+		{
 			if (areas.Count() > 0)
 			{
 				cb.DataSource = areas;
@@ -20,7 +21,8 @@ namespace UI.Desktop
 			}
 		}
 
-		public static void AdaptAreasToCb(ComboBox cb, IEnumerable<ApplicationCore.Model.Area> areas, int selectedValue) {
+		public static void AdaptAreasToCb(ComboBox cb, IEnumerable<ApplicationCore.Model.Area> areas, int selectedValue)
+		{
 			if (areas.Count() > 0)
 			{
 				cb.DataSource = areas;
@@ -51,7 +53,7 @@ namespace UI.Desktop
 				cb.SelectedValue = selectedValue;
 			}
 		}
-		
+
 		public static async void LoadAreas(ComboBox cb)
 		{
 			try
@@ -157,8 +159,39 @@ namespace UI.Desktop
 			list.DrawSubItem += listView1_DrawSubItem;
 		}
 
-		public static DialogResult ConfirmDelete (string entityName) {
-			return MessageBox.Show($"¿ Estás seguro que deseas eliminar {entityName} ? Esta acción no se puede deshacer", "Eliminar",MessageBoxButtons.OKCancel, MessageBoxIcon.Warning);
+		public static DialogResult ConfirmDelete(string entityName)
+		{
+			return MessageBox.Show($"¿ Estás seguro que deseas eliminar {entityName} ? Esta acción no se puede deshacer", "Eliminar", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning);
+		}
+
+		public static void SetErrorStyle(Label label, TextBox textBox = null, MaskedTextBox mtb = null)
+		{
+			label.ForeColor = Color.FromArgb(220, 53, 69);
+			if (textBox != null)
+			{
+				textBox.ForeColor = Color.FromArgb(88, 28, 28);
+				textBox.BackColor = Color.FromArgb(241, 174, 181);
+			}
+			if (mtb != null)
+			{
+				mtb.ForeColor = Color.FromArgb(88, 28, 28);
+				mtb.BackColor = Color.FromArgb(241, 174, 181);
+			}
+		}
+
+		public static void SetDefaultStyle(Label label, TextBox textBox = null, MaskedTextBox mtb = null)
+		{
+			label.ForeColor = SystemColors.WindowText;
+			if (textBox != null)
+			{
+				textBox.ForeColor = SystemColors.WindowText;
+				textBox.BackColor = SystemColors.Window;
+			}
+			if (mtb != null)
+			{
+				mtb.ForeColor = SystemColors.WindowText;
+				mtb.BackColor = SystemColors.Window;
+			}
 		}
 	}
 }

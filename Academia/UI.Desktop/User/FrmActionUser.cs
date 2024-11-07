@@ -91,12 +91,12 @@ namespace UI.Desktop
 				bool validUsername = Validations.IsValidUsername(username);
 				if (!validUsername)
 				{
-					txtUsername.ForeColor = System.Drawing.Color.FromArgb(1, 220, 38, 38);
+					Utilities.SetErrorStyle(lblUsername, txtUsername);
 					lblUsernameError.Visible = true;
 				}
 				else
 				{
-					txtUsername.ForeColor = SystemColors.WindowText;
+					Utilities.SetDefaultStyle(lblUsername, txtUsername);
 					lblUsernameError.Visible = false;
 				}
 
@@ -106,12 +106,12 @@ namespace UI.Desktop
 				bool validName = Validations.IsValidName(name);
 				if (!validName)
 				{
-					txtName.ForeColor = System.Drawing.Color.FromArgb(1, 220, 38, 38);
+					Utilities.SetErrorStyle(lblName, txtName);
 					lblNombreError.Visible = true;
 				}
 				else
 				{
-					txtName.ForeColor = SystemColors.WindowText;
+					Utilities.SetDefaultStyle(lblName, txtName);
 					lblNombreError.Visible = false;
 				}
 
@@ -120,12 +120,12 @@ namespace UI.Desktop
 				bool validLastname = Validations.IsValidLastname(lastname);
 				if (!validLastname)
 				{
-					txtLastName.ForeColor = System.Drawing.Color.FromArgb(1, 220, 38, 38);
+					Utilities.SetErrorStyle(lblLastName, txtLastName);
 					lblApellidoError.Visible = true;
 				}
 				else
 				{
-					txtLastName.ForeColor = SystemColors.WindowText;
+					Utilities.SetDefaultStyle(lblLastName, txtLastName);
 					lblApellidoError.Visible = false;
 				}
 
@@ -138,12 +138,12 @@ namespace UI.Desktop
 					validPassword = Validations.IsValidPassword(password);
 					if (!validPassword)
 					{
-						mtbPassword.ForeColor = System.Drawing.Color.FromArgb(1, 220, 38, 38);
+						Utilities.SetErrorStyle(label: lblPassword, mtb: mtbPassword);
 						lblClaveError.Visible = true;
 					}
 					else
 					{
-						mtbPassword.ForeColor = SystemColors.WindowText;
+						Utilities.SetDefaultStyle(label: lblPassword, mtb: mtbPassword);
 						lblClaveError.Visible = false;
 					}
 				}
@@ -160,12 +160,12 @@ namespace UI.Desktop
 				bool validEmail = Validations.IsValidEmail(email);
 				if (!validEmail)
 				{
-					txtEmail.ForeColor = System.Drawing.Color.FromArgb(1, 220, 38, 38);
+					Utilities.SetErrorStyle(lblEmail, txtEmail);
 					lblEmailError.Visible = true;
 				}
 				else
 				{
-					txtEmail.ForeColor = SystemColors.WindowText;
+					Utilities.SetDefaultStyle(lblEmail, txtEmail);
 					lblEmailError.Visible = false;
 				}
 
@@ -175,12 +175,12 @@ namespace UI.Desktop
 				bool validAddress = Validations.IsValidAddress(address);
 				if (!validAddress)
 				{
-					txtAddress.ForeColor = System.Drawing.Color.FromArgb(1, 220, 38, 38);
+					Utilities.SetErrorStyle (lblAddress, txtAddress);
 					lblAddressError.Visible = true;
 				}
 				else
 				{
-					txtAddress.ForeColor = SystemColors.WindowText;
+					Utilities.SetDefaultStyle(lblAddress, txtAddress);
 					lblAddressError.Visible = false;
 				}
 
@@ -190,12 +190,12 @@ namespace UI.Desktop
 				bool validPhoneNumber = Validations.IsValidPhoneNumber(phoneNumber);
 				if (!validPhoneNumber)
 				{
-					txtPhoneNumber.ForeColor = System.Drawing.Color.FromArgb(1, 220, 38, 38);
+					Utilities.SetErrorStyle(lblPhoneNumber, txtPhoneNumber);
 					lblPhoneNumberError.Visible = true;
 				}
 				else
 				{
-					txtPhoneNumber.ForeColor = SystemColors.WindowText;
+					Utilities.SetDefaultStyle (lblPhoneNumber, txtPhoneNumber);
 					lblPhoneNumberError.Visible = false;
 				}
 
@@ -205,12 +205,14 @@ namespace UI.Desktop
 				bool validBirthDate = Validations.IsValidBirthDate(birthDate);
 				if (!validBirthDate)
 				{
+					Utilities.SetErrorStyle(lblBirthDate);
 					dtpBirthDate.ForeColor = System.Drawing.Color.FromArgb(1, 220, 38, 38);
 					lblBirthDateError.Visible = true;
 
 				}
 				else
 				{
+					Utilities.SetDefaultStyle(lblBirthDate);
 					dtpBirthDate.ForeColor = SystemColors.WindowText;
 					lblBirthDateError.Visible = false;
 				}
@@ -224,12 +226,12 @@ namespace UI.Desktop
 					validCuit = Validations.IsValidCuit(cuit);
 					if (!validCuit)
 					{
-						txtCuit.ForeColor = System.Drawing.Color.FromArgb(1, 220, 38, 38);
+						Utilities.SetErrorStyle (lblCuit,txtCuit);
 						lblCuitError.Visible = true;
 					}
 					else
 					{
-						txtCuit.ForeColor = SystemColors.WindowText;
+						Utilities.SetDefaultStyle(lblCuit,txtCuit);
 						lblCuitError.Visible = false;
 						cuit = cuit.Replace("-", "");
 					}
@@ -243,19 +245,19 @@ namespace UI.Desktop
 				string studentId = null;
 				if (txtStudentId.Visible == true)
 				{
-					//LEGAJO
+					//LEGAJO ESTUDIANTE
 					studentId = txtStudentId.Text.Trim();
 					studentId = studentId.Replace(".", "");
 					validStudentId = Validations.IsValidStudentId(studentId);
 
 					if (!validStudentId)
 					{
-						txtStudentId.ForeColor = System.Drawing.Color.FromArgb(1, 220, 38, 38);
+						Utilities.SetErrorStyle(lblStudentId,txtStudentId);
 						lblLegajoError.Visible = true;
 					}
 					else
 					{
-						txtStudentId.ForeColor = SystemColors.WindowText;
+						Utilities.SetDefaultStyle (lblStudentId,txtStudentId);
 						lblStudentId.Visible = false;
 					}
 				}
@@ -268,11 +270,11 @@ namespace UI.Desktop
 				string role;
 				ApplicationCore.Model.Curriculum curriculum = null;
 
-				if (rbtnUserAdministrative.Checked || userDTO.Role == "Administrative")
+				if (rbtnUserAdministrative.Checked || (userDTO!= null && userDTO.Role == "Administrative"))
 				{
 					role = "Administrative";
 				}
-				else if (rbtnUserTeacher.Checked || userDTO.Role == "Teacher")
+				else if (rbtnUserTeacher.Checked || (userDTO != null && userDTO.Role == "Teacher"))
 				{
 					role = "Teacher";
 				}
@@ -357,7 +359,7 @@ namespace UI.Desktop
 					}
 					else if (userDTO.Role == "Teacher")
 					{
-						correctForm = correctForm && validStudentId && validCuit;
+						correctForm = correctForm && validCuit;
 					}
 					else
 					{
@@ -542,6 +544,8 @@ namespace UI.Desktop
 					var administrative = await administrativeService.GetById(userDTO.Id);
 					txtStudentId.Visible = false;
 					lblStudentId.Visible = false;
+					lblTeacherId.Visible = false;
+					lblTeacherIdValue.Visible = false;
 					txtCuit.Visible = true;
 					lblCuit.Visible = true;
 					txtCuit.Text = administrative.Cuit;
@@ -553,13 +557,17 @@ namespace UI.Desktop
 					txtCuit.Visible = true;
 					lblCuit.Visible = true;
 					txtCuit.Text = teacher.Cuit;
-					txtStudentId.Text = teacher.TeacherId.ToString();
-					txtStudentId.Enabled = false;
+					txtStudentId.Visible = false;
+					lblTeacherId.Visible = true;
+					lblTeacherIdValue.Visible = true;
+					lblTeacherIdValue.Text = teacher.TeacherId.ToString();
 					break;
 				case "Student":
 					var student = await studentService.GetById(userDTO.Id);
 					txtStudentId.Visible = true;
 					lblStudentId.Visible = true;
+					lblTeacherId.Visible = false;
+					lblTeacherIdValue.Visible = false;
 					txtCuit.Visible = false;
 					lblCuit.Visible = false;
 					txtStudentId.Text = student.StudentId;
@@ -646,11 +654,48 @@ namespace UI.Desktop
 		}
 		private async Task UpdateUser(UserDTO userToUpdateDTO)
 		{
-			switch (this.userDTO.Role)
+			try
 			{
-				case "Administrative":
-					var administrativeToUpdate =
-						new Administrative
+				switch (this.userDTO.Role)
+				{
+					case "Administrative":
+						var administrativeToUpdate =
+							new Administrative
+							{
+								Address = userToUpdateDTO.Address,
+								BirthDate = userToUpdateDTO.BirthDate,
+								Cuit = userToUpdateDTO.Cuit,
+								Email = userToUpdateDTO.Email,
+								Lastname = userToUpdateDTO.Lastname,
+								Name = userToUpdateDTO.Name,
+								Password = userToUpdateDTO.Password,
+								PhoneNumber = userToUpdateDTO.PhoneNumber,
+								Username = userToUpdateDTO.Username,
+								Id = userToUpdateDTO.Id,
+							};
+						await administrativeService.UpdateAsync(administrativeToUpdate);
+						break;
+					case "Student":
+						var studentToUpdate = new Student
+						{
+							Address = userToUpdateDTO.Address,
+							BirthDate = userToUpdateDTO.BirthDate,
+							Username = userToUpdateDTO.Username,
+							PhoneNumber = userToUpdateDTO.PhoneNumber,
+							Email = userToUpdateDTO.Email,
+							Lastname = userToUpdateDTO.Lastname,
+							Name = userToUpdateDTO.Name,
+							Password = userToUpdateDTO.Password,
+							StudentId = userToUpdateDTO.StudentId,
+							CurriculumId = null,
+							Id = userToUpdateDTO.Id,
+							Curriculum = null,
+							StudentCourses = [],
+						};
+						await studentService.UpdateAsync(studentToUpdate);
+						break;
+					case "Teacher":
+						var teacherToUpdate = new Teacher
 						{
 							Address = userToUpdateDTO.Address,
 							BirthDate = userToUpdateDTO.BirthDate,
@@ -663,49 +708,20 @@ namespace UI.Desktop
 							Username = userToUpdateDTO.Username,
 							Id = userToUpdateDTO.Id,
 						};
-					await administrativeService.UpdateAsync(administrativeToUpdate);
-					break;
-				case "Student":
-					var studentToUpdate = new Student
-					{
-						Address = userToUpdateDTO.Address,
-						BirthDate = userToUpdateDTO.BirthDate,
-						Username = userToUpdateDTO.Username,
-						PhoneNumber = userToUpdateDTO.PhoneNumber,
-						Email = userToUpdateDTO.Email,
-						Lastname = userToUpdateDTO.Lastname,
-						Name = userToUpdateDTO.Name,
-						Password = userToUpdateDTO.Password,
-						StudentId = userToUpdateDTO.StudentId,
-						CurriculumId = null,
-						Id = userToUpdateDTO.Id,
-						Curriculum = null,
-						StudentCourses = [],
-					};
-					await studentService.UpdateAsync(studentToUpdate);
-					break;
-				case "Teacher":
-					var teacherToUpdate = new Teacher
-					{
-						Address = userToUpdateDTO.Address,
-						BirthDate = userToUpdateDTO.BirthDate,
-						Cuit = userToUpdateDTO.Cuit,
-						Email = userToUpdateDTO.Email,
-						Lastname = userToUpdateDTO.Lastname,
-						Name = userToUpdateDTO.Name,
-						Password = userToUpdateDTO.Password,
-						PhoneNumber = userToUpdateDTO.PhoneNumber,
-						Username = userToUpdateDTO.Username,
-						Id = userToUpdateDTO.Id,
-					};
-					await teacherService.UpdateAsync(teacherToUpdate);
-					break;
-				default:
-					break;
+						await teacherService.UpdateAsync(teacherToUpdate);
+						break;
+					default:
+						break;
+				}
+				MessageBox.Show("Usuario actualizado exitosamente", "Crear usuario", MessageBoxButtons.OK, MessageBoxIcon.Information);
+				DialogResult = DialogResult.OK;
+				this.Close();
 			}
-			MessageBox.Show("Usuario actualizado exitosamente", "Crear usuario", MessageBoxButtons.OK, MessageBoxIcon.Information);
-			DialogResult = DialogResult.OK;
-			this.Close();
+			catch (Exception)
+			{
+				MessageBox.Show("Error al guardar el usuario", "Editar usuario", MessageBoxButtons.OK, MessageBoxIcon.Error);
+			}
+
 		}
 
 		private void btnChangePassword_Click(object sender, EventArgs e)

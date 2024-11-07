@@ -40,7 +40,11 @@ namespace ClientService.Commission
 
 				using StringContent jsonContent = new(System.Text.Json.JsonSerializer.Serialize(commission), Encoding.UTF8, "application/json");
 				var response = await _httpClient.PostAsync(_apiUrl, jsonContent);
-				response.EnsureSuccessStatusCode();
+				if (!response.IsSuccessStatusCode) {
+					var errorContent = await response.Content.ReadAsStringAsync();
+					var errorResponse = JsonConvert.DeserializeObject<ErrorResponse>(errorContent);
+					throw new Exception(errorResponse?.Message ?? "Error al crear la comision");
+				}
 			}
 			catch (Exception)
 			{
@@ -62,7 +66,6 @@ namespace ClientService.Commission
 					var errorResponse = JsonConvert.DeserializeObject<ErrorResponse>(errorContent);
 					throw new Exception(errorResponse.Message);
 				}
-				response.EnsureSuccessStatusCode();
 			}
 			catch (Exception e)
 			{
@@ -154,7 +157,12 @@ namespace ClientService.Commission
 				_httpClient.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
 				using StringContent jsonContent = new(System.Text.Json.JsonSerializer.Serialize(commission), Encoding.UTF8, "application/json");
 				var response = await _httpClient.PutAsync(_apiUrl + commission.Id.ToString(), jsonContent);
-				response.EnsureSuccessStatusCode();
+				if (!response.IsSuccessStatusCode)
+				{
+					var errorContent = await response.Content.ReadAsStringAsync();
+					var errorResponse = JsonConvert.DeserializeObject<ErrorResponse>(errorContent);
+					throw new Exception(errorResponse?.Message ?? "Error al actualizar la comision");
+				}
 			}
 			catch (Exception)
 			{

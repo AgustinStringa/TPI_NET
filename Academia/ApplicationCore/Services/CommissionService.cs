@@ -73,6 +73,9 @@ namespace ApplicationCore.Services
 			}
 			catch (Exception e)
 			{
+				if (e.InnerException != null) {
+					throw e.InnerException;
+				}
 				throw e;
 			}
 		}
@@ -102,6 +105,10 @@ namespace ApplicationCore.Services
 			}
 			catch (Exception e)
 			{
+				if (e.InnerException != null)
+				{
+					throw e.InnerException;
+				}
 				throw e;
 			}
 		}
@@ -126,7 +133,7 @@ namespace ApplicationCore.Services
 					if (((Microsoft.Data.SqlClient.SqlException)e.InnerException).ErrorCode == -2146232060)
 					{
 
-						throw new Exception("Can't delete a commission with courses related");
+						throw new Exception("No puedes eliminar una comisión con cursos asignados");
 					};
 				}
 			}

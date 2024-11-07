@@ -1,4 +1,5 @@
 ﻿using ApplicationCore.Model;
+using ClientService.Commission;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using System;
@@ -51,14 +52,13 @@ namespace ClientService.Course
 				httpClient.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
 
 				var response = await httpClient.DeleteAsync(_apiUrl + id.ToString());
-				response.EnsureSuccessStatusCode();
+				if (!response.IsSuccessStatusCode) {
+					var errorContent = await response.Content.ReadAsStringAsync();
+					var errorResponse = JsonConvert.DeserializeObject<ErrorResponse>(errorContent);
+					throw new Exception(errorResponse.Message ?? "Error al eliminar el cursado");
+				}
 			}
-			catch (HttpRequestException e)
-			{
-				Console.WriteLine($"Error al eliminar el recurso: {e.Message}");
-				throw;
-			}
-			catch (Exception e)
+			catch (Exception)
 			{
 				throw;
 			}

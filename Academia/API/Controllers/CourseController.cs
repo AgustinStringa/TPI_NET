@@ -97,7 +97,6 @@ namespace API.Controllers
 			catch (Exception e)
 			{
 				return StatusCode(500, new { message = e.Message });
-				throw e;
 			}
 		}
 

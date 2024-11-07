@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ApplicationCore.Model;
+using ApplicationCore.Services;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -52,6 +53,8 @@ namespace ApplicationCore
 			modelBuilder.Entity<Teacher>().ToTable("docentes");
 			modelBuilder.Entity<Teacher>().Property(t => t.TeacherId).Metadata.SetAfterSaveBehavior(Microsoft.EntityFrameworkCore.Metadata.PropertySaveBehavior.Ignore); //needed in order to update identity column (TeacherId)
 			modelBuilder.Entity<Administrative>().ToTable("administrativos");
+
+			modelBuilder.Entity<AcademicStatusItem>().HasNoKey();
 
 			modelBuilder.Entity<Curriculum>()
 				.HasOne(c => c.Area)

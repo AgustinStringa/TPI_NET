@@ -76,7 +76,7 @@
 			cbCurriculum.FormattingEnabled = true;
 			cbCurriculum.Location = new Point(135, 107);
 			cbCurriculum.Name = "cbCurriculum";
-			cbCurriculum.Size = new Size(125, 23);
+			cbCurriculum.Size = new Size(183, 23);
 			cbCurriculum.TabIndex = 12;
 			// 
 			// lblLevelError
@@ -157,13 +157,13 @@
 			lblDescription.TabIndex = 0;
 			lblDescription.Text = "Descripción:";
 			// 
-			// frmActionCommission
+			// FrmActionCommission
 			// 
 			AutoScaleDimensions = new SizeF(7F, 15F);
 			AutoScaleMode = AutoScaleMode.Font;
 			ClientSize = new Size(512, 332);
 			Controls.Add(panel1);
-			Name = "frmActionCommission";
+			Name = "FrmActionCommission";
 			Text = "Crear Comisión";
 			panel1.ResumeLayout(false);
 			panel1.PerformLayout();

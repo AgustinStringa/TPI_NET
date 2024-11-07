@@ -130,15 +130,16 @@ namespace UI.Desktop.Course
 			{
 				try
 				{
+					if (Utilities.ConfirmDelete("este cursado") != DialogResult.OK) return;
 					ApplicationCore.Model.Course selectedCourse = (ApplicationCore.Model.Course)lstvCourses.SelectedItems[0].Tag;
 					await courseService.DeleteAsync(selectedCourse.Id);
+					MessageBox.Show("Cursado eliminado correctamente", "Eliminar Cursado", MessageBoxButtons.OK, MessageBoxIcon.Information);
 					this.LoadCourses();
 				}
-				catch (Exception)
+				catch (Exception ex)
 				{
-					throw;
+					MessageBox.Show(ex.Message, "Eliminar cursado", MessageBoxButtons.OK, MessageBoxIcon.Error);
 				}
-
 			}
 			else
 			{

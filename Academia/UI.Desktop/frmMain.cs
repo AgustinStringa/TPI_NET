@@ -183,7 +183,7 @@ namespace UI.Desktop
 			{
 				var userStudent = await(this.serviceProvider.GetRequiredService<IStudentService>()).GetById(user.Id);
 
-				FrmAcademicStatus frmAcademicStatus = new FrmAcademicStatus(userStudent);
+				FrmAcademicStatus frmAcademicStatus = new FrmAcademicStatus(userStudent, serviceProvider);
 				frmAcademicStatus.ShowDialog();
 			}
 		}

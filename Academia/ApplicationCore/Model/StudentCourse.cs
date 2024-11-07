@@ -21,7 +21,7 @@ namespace ApplicationCore.Model
 
         [Column("nota")]
         [AllowNull]
-        public int? Grade { get; set; }
+        public decimal? Grade { get; set; }
 
         [Column("id_alumno")]
         public int UserId { get; set; }
@@ -31,5 +31,5 @@ namespace ApplicationCore.Model
         [Column("id_curso")]
         public int CourseId { get; set; }
         public Course? Course { get; set; }
-    }
+	}
 }

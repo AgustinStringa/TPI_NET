@@ -97,6 +97,7 @@ namespace UI.Desktop.Commission
 			{
 				try
 				{
+					if (Utilities.ConfirmDelete("esta comisión") != DialogResult.OK) return;
 					ApplicationCore.Model.Commission selectedCommission = (ApplicationCore.Model.Commission)lstvCommission.SelectedItems[0].Tag;
 					await commissionService.DeleteAsync(selectedCommission.Id);
 					LoadCommissions();

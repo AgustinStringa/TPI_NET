@@ -123,7 +123,6 @@ namespace ClientService
 				}), Encoding.UTF8, "application/json");
 
 				var response = await _httpClient.PostAsync(_apiUrl + "auth", jsonContent);
-				response.EnsureSuccessStatusCode();
 				if (response.IsSuccessStatusCode)
 				{
 					var responseContent = await response.Content.ReadAsStringAsync();
@@ -131,12 +130,6 @@ namespace ClientService
 					return user;
 				}
 				return null;
-				//else
-				//{
-				//	throw new Exception(new { message="Error en la solicitud: " + response.StatusCode,
-				//		statuscode = response.StatusCode
-				//	});
-				//}
 			}
 			catch (Exception)
 			{

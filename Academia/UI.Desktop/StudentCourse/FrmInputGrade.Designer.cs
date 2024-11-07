@@ -40,6 +40,7 @@
 			txtGrade.Name = "txtGrade";
 			txtGrade.Size = new Size(175, 23);
 			txtGrade.TabIndex = 0;
+			txtGrade.KeyDown += txtGrade_KeyDown;
 			// 
 			// label1
 			// 

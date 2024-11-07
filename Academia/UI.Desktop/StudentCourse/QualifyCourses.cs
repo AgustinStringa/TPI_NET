@@ -23,7 +23,7 @@ namespace UI.Desktop
 		public QualifyCourses(IServiceProvider serviceProvider)
 		{
 			InitializeComponent();
-			this.studentService = serviceProvider.GetRequiredService<IStudentService>();	
+			this.studentService = serviceProvider.GetRequiredService<IStudentService>();
 			this.studentCourseService = serviceProvider.GetRequiredService<IStudentCourseService>();
 			LoadUsers();
 		}
@@ -61,7 +61,20 @@ namespace UI.Desktop
 			{
 				var selectedUser = lstUsers.SelectedItems[0].Tag as ApplicationCore.Model.Student;
 				var usersCourses = await studentCourseService.GetByUserId(selectedUser.Id);
-				AdaptUserCoursesToListView(usersCourses);
+				btnLoadGrade.Enabled = false;
+				if (usersCourses.Count() > 0)
+				{
+					panelNoCourses.Visible = false;
+					lblNoCourses.Visible = false;
+					AdaptUserCoursesToListView(usersCourses);
+
+				}
+				else { 
+					panelNoCourses.Visible = true;
+					lblNoCourses.Visible = true;
+					lblNoCourses.Text = "El alumno " + selectedUser.Name + " " + selectedUser.Lastname + " \n no cuenta con cursados los cuales calificar";
+				}
+
 			}
 		}
 
@@ -85,11 +98,11 @@ namespace UI.Desktop
 				{
 					if (currentGrade != frmInputGrade._currentGrade)
 					{
-						
+
 						CalificationCourse newCalification = new CalificationCourse
-						{ 
-						Grade = frmInputGrade._currentGrade,
-						Status = frmInputGrade._currentGrade >= 6 ? "aprobado" : "reprobado"
+						{
+							Grade = frmInputGrade._currentGrade,
+							Status = frmInputGrade._currentGrade >= 6 ? "aprobado" : "reprobado"
 						};
 						await studentCourseService.QualifyCourse(selectedUserCourse.Id, newCalification);
 						var selectedUser = lstUsers.SelectedItems[0].Tag as ApplicationCore.Model.Student;
@@ -100,7 +113,7 @@ namespace UI.Desktop
 			}
 		}
 
-		private void lstUserCourses_SelectedIndexChanged_1(object sender, EventArgs e)
+		private void lstUserCourses_SelectedIndexChanged(object sender, EventArgs e)
 		{
 			if (lstUserCourses.SelectedItems.Count == 1)
 			{
@@ -109,6 +122,22 @@ namespace UI.Desktop
 			else
 			{
 				btnLoadGrade.Enabled = false;
+			}
+		}
+
+		private void txtSearchStudent_TextChanged(object sender, EventArgs e)
+		{
+			var search = txtSearchStudent.Text.Trim().ToLower();
+			if (search != "")
+			{
+				var filteredStudents = this.students.Where(s => {
+				var fullName = s.Name.ToLower() + " " + s.Lastname.ToLower();
+				return Utilities.DeleteDiacritic(fullName).Contains(Utilities.DeleteDiacritic(search));
+				});
+				AdaptUsersToListView(filteredStudents);
+			}
+			else { 
+				AdaptUsersToListView(this.students);
 			}
 		}
 	}
