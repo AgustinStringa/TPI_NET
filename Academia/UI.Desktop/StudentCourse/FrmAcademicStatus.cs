@@ -28,6 +28,8 @@ namespace UI.Desktop
 		private double failedSubjectPerc;
 		private double average;
 
+		private string selectedPath = "";
+
 		public FrmAcademicStatus(ApplicationCore.Model.Student student, IServiceProvider serviceProvider)
 		{
 			this.studentCourseService = serviceProvider.GetRequiredService<IStudentCourseService>();
@@ -89,17 +91,30 @@ namespace UI.Desktop
 			lblAverage.Text = $"Promedio: {this.average.ToString()}";
 		}
 
-		private async void btnGenerateReport_Click(object sender, EventArgs e){
+		private async void btnGenerateReport_Click(object sender, EventArgs e)
+		{
+			if (this.selectedPath == "")
+			{
+				MessageBox.Show("Selecciona un directorio destino para el reporte (archivo .pdf)", "Generar Reporte", MessageBoxButtons.OK, MessageBoxIcon.Information);
+				return;
+			}
 			try
 			{
 				var report = await this.studentCourseService.GetReport(this.student.Id);
-				await File.WriteAllBytesAsync($"C:\\Users\\agust\\Desktop\\PDFPRUEBA\\demo_user_id_{this.student.Id.ToString()}.pdf", report);
-				MessageBox.Show($"Reporte Generador. Revisa el directorio: {$"C:\\Users\\agust\\Desktop\\PDFPRUEBA\\demo_user_id_{this.student.Id.ToString()}.pdf"}", "Reporte Generado", MessageBoxButtons.OK, MessageBoxIcon.Information);
+				await File.WriteAllBytesAsync($"{this.selectedPath}\\demo_user_id_{this.student.Id.ToString()}.pdf", report);
+				MessageBox.Show($"Reporte Generado. Revisa el directorio:{$"{this.selectedPath}"}", "Reporte Generado", MessageBoxButtons.OK, MessageBoxIcon.Information);
 			}
 			catch (Exception)
 			{
 				MessageBox.Show("Error al generar el reporte", "Generar Reporte", MessageBoxButtons.OK, MessageBoxIcon.Information);
 			}
+		}
+
+		private void btnSelectPath_Click(object sender, EventArgs e)
+		{
+			folderBrowserDialog1.ShowDialog(this);
+			this.selectedPath = this.folderBrowserDialog1.SelectedPath;
+			this.txtSelectedPath.Text = this.selectedPath;
 		}
 	}
 }

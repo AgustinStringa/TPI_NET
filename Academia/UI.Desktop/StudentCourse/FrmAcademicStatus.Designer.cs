@@ -40,23 +40,30 @@
 			lblCountFailedSubjects = new Label();
 			btnGenerateReport = new Button();
 			lblAverage = new Label();
+			btnSelectPath = new Button();
+			folderBrowserDialog1 = new FolderBrowserDialog();
+			label2 = new Label();
+			txtSelectedPath = new TextBox();
+			label3 = new Label();
 			SuspendLayout();
 			// 
 			// label1
 			// 
 			label1.AutoSize = true;
-			label1.Location = new Point(51, 62);
+			label1.Font = new Font("Roboto", 18F);
+			label1.Location = new Point(51, 46);
 			label1.Name = "label1";
-			label1.Size = new Size(105, 15);
+			label1.Size = new Size(217, 29);
 			label1.TabIndex = 0;
 			label1.Text = "Estado Académico";
 			// 
 			// lblName
 			// 
 			lblName.AutoSize = true;
-			lblName.Location = new Point(51, 90);
+			lblName.Font = new Font("Roboto", 14F);
+			lblName.Location = new Point(51, 93);
 			lblName.Name = "lblName";
-			lblName.Size = new Size(97, 15);
+			lblName.Size = new Size(149, 23);
 			lblName.TabIndex = 0;
 			lblName.Text = "Nombre Alumno";
 			// 
@@ -115,7 +122,7 @@
 			// 
 			// btnGenerateReport
 			// 
-			btnGenerateReport.Location = new Point(359, 389);
+			btnGenerateReport.Location = new Point(51, 566);
 			btnGenerateReport.Name = "btnGenerateReport";
 			btnGenerateReport.Size = new Size(144, 38);
 			btnGenerateReport.TabIndex = 3;
@@ -132,11 +139,53 @@
 			lblAverage.TabIndex = 2;
 			lblAverage.Text = "label2";
 			// 
+			// btnSelectPath
+			// 
+			btnSelectPath.Location = new Point(549, 499);
+			btnSelectPath.Name = "btnSelectPath";
+			btnSelectPath.Size = new Size(30, 23);
+			btnSelectPath.TabIndex = 4;
+			btnSelectPath.Text = "...";
+			btnSelectPath.UseVisualStyleBackColor = true;
+			btnSelectPath.Click += btnSelectPath_Click;
+			// 
+			// label2
+			// 
+			label2.AutoSize = true;
+			label2.Font = new Font("Roboto", 18F, FontStyle.Regular, GraphicsUnit.Point, 0);
+			label2.Location = new Point(51, 428);
+			label2.Name = "label2";
+			label2.Size = new Size(188, 29);
+			label2.TabIndex = 5;
+			label2.Text = "Generar Reporte";
+			// 
+			// txtSelectedPath
+			// 
+			txtSelectedPath.Enabled = false;
+			txtSelectedPath.Location = new Point(54, 499);
+			txtSelectedPath.Name = "txtSelectedPath";
+			txtSelectedPath.Size = new Size(480, 23);
+			txtSelectedPath.TabIndex = 6;
+			// 
+			// label3
+			// 
+			label3.AutoSize = true;
+			label3.Font = new Font("Roboto", 9F);
+			label3.Location = new Point(54, 482);
+			label3.Name = "label3";
+			label3.Size = new Size(105, 14);
+			label3.TabIndex = 7;
+			label3.Text = "Directorio destino:";
+			// 
 			// FrmAcademicStatus
 			// 
 			AutoScaleDimensions = new SizeF(7F, 15F);
 			AutoScaleMode = AutoScaleMode.Font;
-			ClientSize = new Size(914, 450);
+			ClientSize = new Size(914, 630);
+			Controls.Add(label3);
+			Controls.Add(txtSelectedPath);
+			Controls.Add(label2);
+			Controls.Add(btnSelectPath);
 			Controls.Add(btnGenerateReport);
 			Controls.Add(lblAverage);
 			Controls.Add(lblCountFailedSubjects);
@@ -164,5 +213,10 @@
 		private Label lblCountFailedSubjects;
 		private Button btnGenerateReport;
 		private Label lblAverage;
+		private Button btnSelectPath;
+		private FolderBrowserDialog folderBrowserDialog1;
+		private Label label2;
+		private TextBox txtSelectedPath;
+		private Label label3;
 	}
 }

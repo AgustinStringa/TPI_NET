@@ -250,7 +250,7 @@ namespace ApplicationCore.Services
 
 						"<div>" +
 						"<h1>Estado Academico</h1>" +
-						$"<p>Alumno: {student.Name} {student.Lastname} al {DateTime.Now.Day}/{DateTime.Now.Month}/{DateTime.Now.Year} {DateTime.Now.Hour}:{DateTime.Now.Minute}:{DateTime.Now.Second} </p>" +
+						$"<h2>Alumno: {student.Name} {student.Lastname} al {DateTime.Now.Day}/{DateTime.Now.Month}/{DateTime.Now.Year} {DateTime.Now.Hour}:{DateTime.Now.Minute}:{DateTime.Now.Second} </h2>" +
 						$"<p>Legajo: {student.StudentId.Trim()}</p>" +
 						"<table>" +
 						"<thead>" +
