@@ -104,12 +104,7 @@ namespace UI.Desktop.User
 		{
 			CheckBox checkBox = sender as CheckBox;
 			UserType userType = (UserType)checkBox.Tag;
-
-            if (checkBox.Checked == false && chbAll.Checked)
-            {
-                chbAll.Checked = false;
-            }
-            if (checkBox.Checked)
+			if (checkBox.Checked)
 			{
 				if (!this.userTypeFilters.Contains(userType))
 				{
