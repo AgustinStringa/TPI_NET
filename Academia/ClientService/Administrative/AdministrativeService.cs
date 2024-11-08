@@ -59,5 +59,21 @@ namespace ClientService.Administrative
 			}
 
 		}
-	}
+        public async Task<IEnumerable<ApplicationCore.Model.Administrative>> GetAllAsync()
+        {
+            try
+            {
+                _httpClient.DefaultRequestHeaders.Accept.Clear();
+                _httpClient.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+
+                var response = await _httpClient.GetStringAsync(_apiUrl);
+                var administratives = JsonConvert.DeserializeObject<IEnumerable<ApplicationCore.Model.Administrative>>(response);
+                return administratives;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+    }
 }

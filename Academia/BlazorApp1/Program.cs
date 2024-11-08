@@ -1,6 +1,8 @@
 using BlazorApp1.Components;
 using ClientService.Area;
 using ClientService.Curriculum;
+using ClientService.Student;
+using Microsoft.AspNetCore.Identity;
 
 namespace BlazorApp1
 {
@@ -15,10 +17,15 @@ namespace BlazorApp1
 				.AddInteractiveServerComponents();
 			builder.Services.AddBlazorBootstrap();
 			builder.Services.AddHttpClient();
-			builder.Services.AddScoped<IAreaService, AreaService>();
+            builder.Services.AddHttpClient<IStudentService, StudentService>();
+            builder.Services.AddScoped<IAreaService, AreaService>();
 			builder.Services.AddScoped<ICurriculumService, CurriculumService>();
+            builder.Services.AddScoped<IStudentService, StudentService>();
 
-			var app = builder.Build();
+			builder.Services.AddIdentityApiEndpoints<IdentityUser>()
+
+
+            var app = builder.Build();
 
 			// Configure the HTTP request pipeline.
 			if (!app.Environment.IsDevelopment())
