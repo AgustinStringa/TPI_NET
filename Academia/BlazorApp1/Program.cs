@@ -22,7 +22,7 @@ namespace BlazorApp1
 			builder.Services.AddScoped<ICurriculumService, CurriculumService>();
             builder.Services.AddScoped<IStudentService, StudentService>();
 
-			builder.Services.AddIdentityApiEndpoints<IdentityUser>()
+			//builder.Services.AddIdentityApiEndpoints<IdentityUser>();
 
 
             var app = builder.Build();
