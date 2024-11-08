@@ -41,6 +41,7 @@
 			// label1
 			// 
 			label1.AutoSize = true;
+			label1.BackColor = Color.White;
 			label1.Location = new Point(278, 110);
 			label1.Name = "label1";
 			label1.Size = new Size(47, 15);
@@ -60,12 +61,12 @@
 			// label3
 			// 
 			label3.AutoSize = true;
-			label3.Font = new Font("Segoe UI", 15F);
-			label3.Location = new Point(200, 44);
+			label3.Font = new Font("Roboto", 18F);
+			label3.Location = new Point(223, 43);
 			label3.Name = "label3";
-			label3.Size = new Size(280, 28);
+			label3.Size = new Size(243, 29);
 			label3.TabIndex = 2;
-			label3.Text = "INSCRIPCION A UNA MATERIA";
+			label3.Text = "Inscripción a cursado";
 			// 
 			// button2
 			// 
@@ -79,7 +80,7 @@
 			// 
 			// btnInscription
 			// 
-			btnInscription.Location = new Point(447, 259);
+			btnInscription.Location = new Point(464, 283);
 			btnInscription.Margin = new Padding(3, 2, 3, 2);
 			btnInscription.Name = "btnInscription";
 			btnInscription.Size = new Size(125, 38);
@@ -100,6 +101,7 @@
 			// label2
 			// 
 			label2.AutoSize = true;
+			label2.BackColor = Color.White;
 			label2.Location = new Point(278, 183);
 			label2.Name = "label2";
 			label2.Size = new Size(51, 15);
@@ -108,11 +110,12 @@
 			// 
 			// panel1
 			// 
+			panel1.BackColor = Color.White;
 			panel1.BorderStyle = BorderStyle.FixedSingle;
-			panel1.Location = new Point(130, 104);
+			panel1.Location = new Point(130, 92);
 			panel1.Margin = new Padding(3, 2, 3, 2);
 			panel1.Name = "panel1";
-			panel1.Size = new Size(459, 141);
+			panel1.Size = new Size(459, 163);
 			panel1.TabIndex = 7;
 			// 
 			// FrmStudentCourseInscription
@@ -129,7 +132,7 @@
 			Controls.Add(label1);
 			Controls.Add(panel1);
 			Name = "FrmStudentCourseInscription";
-			Text = "frmInscripcionMateria";
+			Text = "Inscripcion a cursado";
 			ResumeLayout(false);
 			PerformLayout();
 		}
