@@ -31,9 +31,8 @@ namespace ApplicationCore
 
 		internal AcademiaContext()
 		{
-			var directory = Directory.GetParent(AppDomain.CurrentDomain.BaseDirectory).Parent.Parent.Parent.Parent + "\\ApplicationCore\\";
 			var configuration = new ConfigurationBuilder()
-							.SetBasePath(directory)
+							.SetBasePath(Directory.GetCurrentDirectory())
 							.AddJsonFile("appsettings.json")
 							.Build();
 			_connectionString = configuration.GetConnectionString("db-dev-database-first");
