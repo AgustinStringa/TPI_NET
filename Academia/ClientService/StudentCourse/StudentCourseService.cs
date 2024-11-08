@@ -45,7 +45,7 @@ namespace ClientService.StudentCourse
 			}
 		}
 
-		public async Task<IEnumerable<ApplicationCore.Model.StudentCourse>> GetByUserId(int userId, bool actives=false)
+		public async Task<IEnumerable<ApplicationCore.Model.StudentCourse>> GetByUserId(int userId, bool actives = false)
 		{
 			try
 			{
@@ -98,7 +98,8 @@ namespace ClientService.StudentCourse
 			}
 		}
 
-		public async Task DeleteAsync(int id) {
+		public async Task DeleteAsync(int id)
+		{
 			try
 			{
 				HttpResponseMessage response = null;
@@ -106,11 +107,34 @@ namespace ClientService.StudentCourse
 				httpClient.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
 
 				response = await httpClient.DeleteAsync(_apiUrl + id.ToString());
-				if (!response.IsSuccessStatusCode) {
+				if (!response.IsSuccessStatusCode)
+				{
 					var errorContent = await response.Content.ReadAsStringAsync();
 					var errorResponse = JsonConvert.DeserializeObject<ErrorResponse>(errorContent);
 					throw new Exception(errorResponse.Message);
 				}
+			}
+			catch (Exception)
+			{
+				throw;
+			}
+		}
+
+		public async Task<byte[]> GetReport(int id)
+		{
+			try
+			{
+				HttpResponseMessage response = null;
+				httpClient.DefaultRequestHeaders.Accept.Clear();
+				httpClient.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+				response = await httpClient.GetAsync(_apiUrl + "report/" + id.ToString());
+				if (!response.IsSuccessStatusCode)
+				{
+					var errorContent = await response.Content.ReadAsStringAsync();
+					var errorResponse = JsonConvert.DeserializeObject<ErrorResponse>(errorContent);
+					throw new Exception(errorResponse.Message);
+				}
+				return await response.Content.ReadAsByteArrayAsync();
 			}
 			catch (Exception)
 			{

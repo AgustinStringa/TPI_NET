@@ -7,6 +7,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using iText.Html2pdf;
+using iText.Kernel.Geom;
+using iText.Kernel.Pdf;
+using iText.Layout;
+using iText.Layout.Element;
+using iText.Layout.Properties;
 
 namespace API.Controllers
 {
@@ -22,7 +28,7 @@ namespace API.Controllers
 		}
 
 		[HttpGet("academic-status/{id}")]
-		public async Task<ActionResult<object>> GetEstadoAcademico(int id)
+		public async Task<ActionResult> GetEstadoAcademico(int id)
 		{
 			try
 			{
@@ -33,6 +39,27 @@ namespace API.Controllers
 			{
 				return StatusCode(500, new { message = e.Message });
 				throw e;
+			}
+		}
+
+		[HttpGet("report/{id}")]
+		public async Task<ActionResult<object>> GenerateReport(int id)
+		{
+			try
+			{
+				var userCourses = await userCourseService.GetAcademicStatus(id);
+
+				if (userCourses == null)
+				{
+					return NotFound();
+				}
+
+				byte[] pdfReport = await userCourseService.GetAcademicStatusReport(id);
+				return File(pdfReport, "application/pdf", $"reporte_estudiante_{id}.pdf");
+			}
+			catch (Exception e)
+			{
+				return StatusCode(500, new { message = e.Message });
 			}
 		}
 

@@ -17,13 +17,20 @@ namespace UI.Desktop
 {
 	public partial class FrmAcademicStatus : Form
 	{
-		private IStudentCourseService studentCourse;
+		private IStudentCourseService studentCourseService;
 		private IEnumerable<AcademicStatusItem> academicStatus;
 		private Student student;
 
+		private int totatSubjects;
+		private int passedSubjects;
+		private int failedSubjects;
+		private double passedSubjectPerc;
+		private double failedSubjectPerc;
+		private double average;
+
 		public FrmAcademicStatus(ApplicationCore.Model.Student student, IServiceProvider serviceProvider)
 		{
-			this.studentCourse = serviceProvider.GetRequiredService<IStudentCourseService>();
+			this.studentCourseService = serviceProvider.GetRequiredService<IStudentCourseService>();
 			this.student = student;
 			InitializeComponent();
 			lstAcademicStatus.Enabled = false;
@@ -35,7 +42,7 @@ namespace UI.Desktop
 		{
 			try
 			{
-				this.academicStatus = await studentCourse.GetAcademicStatus(this.student.Id);
+				this.academicStatus = await studentCourseService.GetAcademicStatus(this.student.Id);
 				lstAcademicStatus.Items.Clear();
 				foreach (AcademicStatusItem item in this.academicStatus)
 				{
@@ -60,15 +67,39 @@ namespace UI.Desktop
 
 		public void GetStatistics()
 		{
-			int totatSubjects = academicStatus.Count();
-			int passedSubjects = academicStatus.Count(item => item.Grade >= 6);
-			int failedSubjects = academicStatus.Count(item => item.Grade < 6);
+			this.totatSubjects = academicStatus.Count();
+			if (this.totatSubjects > 0)
+			{
+				this.passedSubjects = academicStatus.Count(item => item.Grade >= 6);
+				this.failedSubjects = academicStatus.Count(item => item.Grade < 6);
 
-			double passedSubjectPerc = passedSubjects * 100 / totatSubjects;
-			double failedSubjectPerc = failedSubjects * 100 / totatSubjects;
+				this.passedSubjectPerc = passedSubjects * 100 / totatSubjects;
+				this.failedSubjectPerc = failedSubjects * 100 / totatSubjects;
+				this.average = Math.Round(((double)academicStatus.Sum(i => i.Grade)) / totatSubjects, 2);
+				lblCountPassedSubjects.Text = $"Materias Aprobadas: {passedSubjects.ToString()} ({passedSubjectPerc.ToString()} porciento)";
+				lblCountFailedSubjects.Text = $"Materias Reprobadas: {failedSubjects.ToString()} ({failedSubjectPerc.ToString()} porciento)";
+			}
+			else
+			{
+				this.passedSubjects = this.failedSubjects = 0;
+				this.average = 0;
+			}
+			lblCountPassedSubjects.Text = $"Materias Aprobadas: {passedSubjects.ToString()} (0% porciento)";
+			lblCountFailedSubjects.Text = $"Materias Reprobadas: {failedSubjects.ToString()} (0% porciento)";
+			lblAverage.Text = $"Promedio: {this.average.ToString()}";
+		}
 
-			lblCountPassedSubjects.Text = $"Materias Aprobadas: {passedSubjects.ToString()} ({passedSubjectPerc.ToString()} porciento)";
-			lblCountFailedSubjects.Text = $"Materias Reprobadas: {failedSubjects.ToString()} ({failedSubjectPerc.ToString()} porciento)";
+		private async void btnGenerateReport_Click(object sender, EventArgs e){
+			try
+			{
+				var report = await this.studentCourseService.GetReport(this.student.Id);
+				await File.WriteAllBytesAsync($"C:\\Users\\agust\\Desktop\\PDFPRUEBA\\demo_user_id_{this.student.Id.ToString()}.pdf", report);
+				MessageBox.Show($"Reporte Generador. Revisa el directorio: {$"C:\\Users\\agust\\Desktop\\PDFPRUEBA\\demo_user_id_{this.student.Id.ToString()}.pdf"}", "Reporte Generado", MessageBoxButtons.OK, MessageBoxIcon.Information);
+			}
+			catch (Exception)
+			{
+				MessageBox.Show("Error al generar el reporte", "Generar Reporte", MessageBoxButtons.OK, MessageBoxIcon.Information);
+			}
 		}
 	}
 }

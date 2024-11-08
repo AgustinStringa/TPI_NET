@@ -14,5 +14,6 @@ namespace ClientService.StudentCourse
 		public Task CreateAsync(ApplicationCore.Model.StudentCourse studentCourse);
 		public Task<IEnumerable<AcademicStatusItem>> GetAcademicStatus(int userId);
 		public Task DeleteAsync(int id);
+		public Task<byte[]> GetReport(int id);
 	}
 }

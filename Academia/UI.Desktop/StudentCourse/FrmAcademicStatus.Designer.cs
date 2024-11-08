@@ -38,6 +38,8 @@
 			SubjectLevel = new ColumnHeader();
 			lblCountPassedSubjects = new Label();
 			lblCountFailedSubjects = new Label();
+			btnGenerateReport = new Button();
+			lblAverage = new Label();
 			SuspendLayout();
 			// 
 			// label1
@@ -96,7 +98,7 @@
 			// lblCountPassedSubjects
 			// 
 			lblCountPassedSubjects.AutoSize = true;
-			lblCountPassedSubjects.Location = new Point(51, 278);
+			lblCountPassedSubjects.Location = new Point(51, 304);
 			lblCountPassedSubjects.Name = "lblCountPassedSubjects";
 			lblCountPassedSubjects.Size = new Size(38, 15);
 			lblCountPassedSubjects.TabIndex = 2;
@@ -105,17 +107,38 @@
 			// lblCountFailedSubjects
 			// 
 			lblCountFailedSubjects.AutoSize = true;
-			lblCountFailedSubjects.Location = new Point(51, 319);
+			lblCountFailedSubjects.Location = new Point(51, 346);
 			lblCountFailedSubjects.Name = "lblCountFailedSubjects";
 			lblCountFailedSubjects.Size = new Size(38, 15);
 			lblCountFailedSubjects.TabIndex = 2;
 			lblCountFailedSubjects.Text = "label2";
+			// 
+			// btnGenerateReport
+			// 
+			btnGenerateReport.Location = new Point(359, 389);
+			btnGenerateReport.Name = "btnGenerateReport";
+			btnGenerateReport.Size = new Size(144, 38);
+			btnGenerateReport.TabIndex = 3;
+			btnGenerateReport.Text = "Generar Reporte";
+			btnGenerateReport.UseVisualStyleBackColor = true;
+			btnGenerateReport.Click += btnGenerateReport_Click;
+			// 
+			// lblAverage
+			// 
+			lblAverage.AutoSize = true;
+			lblAverage.Location = new Point(51, 265);
+			lblAverage.Name = "lblAverage";
+			lblAverage.Size = new Size(38, 15);
+			lblAverage.TabIndex = 2;
+			lblAverage.Text = "label2";
 			// 
 			// FrmAcademicStatus
 			// 
 			AutoScaleDimensions = new SizeF(7F, 15F);
 			AutoScaleMode = AutoScaleMode.Font;
 			ClientSize = new Size(914, 450);
+			Controls.Add(btnGenerateReport);
+			Controls.Add(lblAverage);
 			Controls.Add(lblCountFailedSubjects);
 			Controls.Add(lblCountPassedSubjects);
 			Controls.Add(lstAcademicStatus);
@@ -139,5 +162,7 @@
 		private ColumnHeader SubjectLevel;
 		private Label lblCountPassedSubjects;
 		private Label lblCountFailedSubjects;
+		private Button btnGenerateReport;
+		private Label lblAverage;
 	}
 }
