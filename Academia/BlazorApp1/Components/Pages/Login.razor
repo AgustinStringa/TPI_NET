@@ -1,7 +1,18 @@
 ﻿@page "/login"
 @rendermode InteractiveServer //important to update varss
+@using ApplicationCore.Model
 @using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage
 @inject ProtectedSessionStorage ProtectedSessionStore
+@inherits OwningComponentBase
+@using ClientService.Student
+@using ClientService.Administrative
+@using ClientService.Teacher
+@using MyComponents
+@using BlazorApp1.Services
+@inject UserStateService UserStateService
+@inject NavigationManager NavigationManager
+
+ApplicationCore.Services
 
 <PageTitle>Login Academia</PageTitle>
 
@@ -28,9 +39,18 @@
 	private string username = "";
 	private string password = "";
 	private bool sendLogin = false;
+	ApplicationCore.Model.Student userIsStudent = null;
+	ApplicationCore.Model.Administrative userIsAdministrative = null;
+	ApplicationCore.Model.Teacher userIsTeacher = null;
+	private ClientService.Student.IStudentService studentService;
+	private ClientService.Administrative.IAdministrativeService administrativeService;
+	private ClientService.Teacher.ITeacherService teacherService;
 
 	protected async override Task OnInitializedAsync()
 	{
+		this.studentService = ScopedServices.GetRequiredService<ClientService.Student.IStudentService>();
+		this.administrativeService = ScopedServices.GetRequiredService<ClientService.Administrative.IAdministrativeService>();
+		this.teacherService = ScopedServices.GetRequiredService<ClientService.Teacher.ITeacherService>();
 
 	}
 
@@ -56,8 +76,37 @@
 			var service = new UserService(new HttpClient());
 			var userLoggedDto = await service.ValidateCredentials(username, password);
 			await ProtectedSessionStore.SetAsync("userLoggedDto", userLoggedDto);
+			var user = userLoggedDto.User;
 			sendLogin = true;
+			this.studentService = ScopedServices.GetRequiredService<ClientService.Student.IStudentService>();
+			this.teacherService = ScopedServices.GetRequiredService<ClientService.Teacher.ITeacherService>();
+			this.administrativeService = ScopedServices.GetRequiredService<ClientService.Administrative.IAdministrativeService>();
+			userIsStudent = await (studentService.GetById(user.Id));
+			//userIsTeacher = await (teacherService.GetById(user.Id)); NO FUNCIONA ERROR 404
+			userIsAdministrative = await (administrativeService.GetById(user.Id));
+			if (userIsStudent != null)
+			{
+				UserStateService.UserRole = "Student";
+				UserStateService.IsUserLoggedIn = true;
+			}
+			else if (userIsTeacher != null)
+			{
+				UserStateService.UserRole = "Teacher";
+				UserStateService.IsUserLoggedIn = true;
+			}
+			else if (userIsAdministrative != null)
+			{
+				UserStateService.UserRole = "Administrative";
+				UserStateService.IsUserLoggedIn = true;
+			}
+			else
+			{
+				UserStateService.IsUserLoggedIn = false;
+			}
+
+
 			StateHasChanged();
+			NavigationManager.NavigateTo(NavigationManager.Uri, forceLoad: true);
 		}
 		catch (Exception e)
 		{
