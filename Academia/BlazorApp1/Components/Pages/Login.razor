@@ -1,4 +1,5 @@
-﻿@page "/login"
+﻿@page "/"
+@layout EmptyLayout
 @rendermode InteractiveServer //important to update varss
 @using ApplicationCore.Model
 @using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage
@@ -12,7 +13,6 @@
 @inject UserStateService UserStateService
 @inject NavigationManager NavigationManager
 
-ApplicationCore.Services
 
 <PageTitle>Login Academia</PageTitle>
 
@@ -106,7 +106,7 @@ ApplicationCore.Services
 
 
 			StateHasChanged();
-			NavigationManager.NavigateTo(NavigationManager.Uri, forceLoad: true);
+			NavigationManager.NavigateTo("/home", forceLoad: true);
 		}
 		catch (Exception e)
 		{
@@ -119,4 +119,6 @@ ApplicationCore.Services
 			}
 		}
 	}
+
 }
+
