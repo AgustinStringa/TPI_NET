@@ -1,5 +1,5 @@
 ﻿using ApplicationCore.Model;
-namespace BlazorApp1.Services
+namespace UI.Web.Services
 {
 	public class UserStateService
 	{

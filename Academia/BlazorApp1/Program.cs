@@ -1,16 +1,16 @@
-using BlazorApp1.Components;
+using UI.Web.Components;
 using ClientService.Administrative;
 using ClientService;
 using ClientService.Area;
 using ClientService.Curriculum;
 using ClientService.Student;
 using ClientService.Teacher;
-using BlazorApp1.Services;
+using UI.Web.Services;
 using ClientService.Course;
 using ClientService.Commission;
 using ClientService.StudentCourse;
 
-namespace BlazorApp1
+namespace UI.Web
 {
 	public class Program
 	{

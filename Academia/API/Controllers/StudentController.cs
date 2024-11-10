@@ -68,7 +68,7 @@ namespace API.Controllers
 		}
 
 		[HttpPut("{id}")]
-		public async Task<ActionResult<Student>> UpdateStudent(Student student)
+		public async Task<ActionResult<Student>> UpdateStudent(Student student, int id)
 		{
 			try
 			{
