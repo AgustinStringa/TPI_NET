@@ -82,6 +82,12 @@
 			var service = new UserService(new HttpClient());
 			var userLoggedDto = await service.ValidateCredentials(username, password);
 			await ProtectedSessionStore.SetAsync("userLoggedDto", userLoggedDto);
+
+			if (userLoggedDto == null)
+            {
+                isInvalidCredentials = true;
+                return;
+            }
 			var user = userLoggedDto.User;
 			sendLogin = true;
 			this.studentService = ScopedServices.GetRequiredService<ClientService.Student.IStudentService>();
