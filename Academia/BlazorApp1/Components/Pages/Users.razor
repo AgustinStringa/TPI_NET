@@ -99,16 +99,17 @@ else
     private async Task ShowStudentModal(UserModal.ModalMode mode, int? studentId)
     {
         var parameters = new Dictionary<string, object>
-        {
-            { "Mode", mode },
-            { "CloseModal", EventCallback.Factory.Create<MouseEventArgs>(this, CloseModal) }
-        };
+    {
+        { "Mode", mode },
+        { "CloseModal", EventCallback.Factory.Create<MouseEventArgs>(this, CloseModal) }
+    };
         if (studentId != null)
-            parameters.Add("studentId", studentId);
+            parameters.Add("StudentId", studentId);
 
         string title = mode == UserModal.ModalMode.Create ? "Crear Estudiante" : "Editar Estudiante";
         await modal.ShowAsync<UserModal>(title: title, parameters: parameters);
     }
+
 
     private async Task ShowDeleteModal(int studentId)
     {

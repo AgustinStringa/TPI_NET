@@ -1,6 +1,7 @@
 ﻿@using BlazorApp1.Services
 @rendermode InteractiveServer
 @inject UserStateService UserStateService
+@inject NavigationManager NavigationManager
 
 <div class="top-row ps-3 navbar navbar-dark">
     <div class="container-fluid">
@@ -39,6 +40,10 @@
                 </NavLink>
             </div>
 }
+        <div class="nav-item px-3">
+            <Button Color="ButtonColor.Primary" @onclick="LogOut" class="w-100">Cerrar Sesión</Button>
+        </div>
+
         </nav>
     </div>
 
@@ -47,5 +52,13 @@
     protected override async Task OnParametersSetAsync()
     {
         await InvokeAsync(StateHasChanged);
+    }
+
+    private void LogOut()
+    {
+        UserStateService.isUserLoggedIn = false;
+        UserStateService.UserRole = "";
+        UserStateService.User = null;
+        NavigationManager.NavigateTo("/");
     }
 }

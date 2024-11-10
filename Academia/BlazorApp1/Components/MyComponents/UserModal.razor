@@ -1,6 +1,5 @@
 ﻿@inherits OwningComponentBase // importante para obtener ScopedServices
 
-@inject ClientService.Student.IStudentService studentService
 
 <div class="row">
     @if (this.student != null)
@@ -56,6 +55,7 @@
 @code {
     public enum ModalMode { Create, Edit };
 
+    private ClientService.Student.IStudentService studentService;
     public ApplicationCore.Model.Student? student;
     private ModalMode _Mode;
     private string ButtonText = "";
@@ -69,9 +69,26 @@
         base.OnInitialized();
     }
 
+    public override async Task SetParametersAsync(ParameterView parameters)
+    {
+        this.studentService = ScopedServices.GetRequiredService<ClientService.Student.IStudentService>();
+        if (parameters.TryGetValue<int>(nameof(StudentId), out var value))
+        {
+            if (value != this.StudentId)
+            {
+                this.StudentId = value;
+                parameters.TryGetValue<ModalMode>(nameof(Mode), out var mode_param);
+                this._Mode = mode_param;
+            }
+        }
+        await base.SetParametersAsync(parameters);
+    }
     protected override async Task OnParametersSetAsync()
     {
-        await this.GetStudent();
+        if (StudentId.HasValue && student?.Id != StudentId.Value)
+        {
+            await this.GetStudent();
+        }
         await base.OnParametersSetAsync();
     }
 
@@ -81,28 +98,43 @@
         {
             if (!string.IsNullOrWhiteSpace(student?.Name) && !string.IsNullOrWhiteSpace(student?.Lastname))
             {
-                if (this.Mode == ModalMode.Create)
+                switch (_Mode)
                 {
-                    await this.studentService.CreateAsync(new ApplicationCore.Model.Student
-                        {
-                            Name = student.Name,
-                            Lastname = student.Lastname,
-                            Email = student.Email,
-                            PhoneNumber = student.PhoneNumber,
-                            Address = student.Address,
-                            BirthDate = student.BirthDate
-                        });
-                }
-                else
-                {
-                    await this.studentService.UpdateAsync(this.student);
+                    case ModalMode.Edit:
+                        await this.studentService.UpdateAsync(new ApplicationCore.Model.Student
+                            {
+                                Id = student.Id,
+                                Name = student.Name,
+                                Lastname = student.Lastname,
+                                Email = student.Email,
+                                PhoneNumber = student.PhoneNumber,
+                                Address = student.Address,
+                                BirthDate = student.BirthDate
+                            });
+                        break;
+
+                    case ModalMode.Create:
+                        var newStudent = new ApplicationCore.Model.Student
+                            {
+                                Name = student.Name,
+                                Lastname = student.Lastname,
+                                Email = student.Email,
+                                PhoneNumber = student.PhoneNumber,
+                                Address = student.Address,
+                                BirthDate = student.BirthDate
+                            };
+                        await this.studentService.CreateAsync(newStudent);
+                        break;
+
+                    default:
+                        break;
                 }
                 await CloseModal.InvokeAsync();
             }
         }
-        catch (Exception)
+        catch (Exception ex)
         {
-            throw;
+            throw ex;
         }
     }
 
@@ -111,14 +143,14 @@
         if (_Mode == ModalMode.Create)
         {
             ButtonText = "Crear";
-            this.student = new ApplicationCore.Model.Student();
+            this.student = new ApplicationCore.Model.Student(); 
         }
         else
         {
             ButtonText = "Guardar Cambios";
             if (StudentId != null)
             {
-                this.student = await studentService.GetById((int)StudentId);
+                this.student = await studentService.GetById((int)StudentId); 
             }
         }
     }
