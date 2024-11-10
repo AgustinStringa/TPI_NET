@@ -5,7 +5,6 @@ using ClientService.Area;
 using ClientService.Curriculum;
 using ClientService.Student;
 using ClientService.Teacher;
-using Microsoft.AspNetCore.Identity;
 using BlazorApp1.Services;
 using ClientService.Course;
 using ClientService.Commission;

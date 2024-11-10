@@ -1,8 +1,7 @@
 ﻿@page "/curriculums"
 @inherits OwningComponentBase 
 
-@* @inject ClientService.Area.IAreaService AreaService this is a way to inject service. revise microsfot docs. *@
-@rendermode InteractiveServer //important to update varss
+@rendermode InteractiveServer
 @using MyComponents
 
 <h1>Planes De Estudios</h1>
@@ -89,10 +88,7 @@
 		parameters.Add("OnConfirm", EventCallback.Factory.Create<MouseEventArgs>(this, async () => await DeleteCurriculum(CurriculumId.Value)));
 		parameters.Add("OnCancel", EventCallback.Factory.Create<MouseEventArgs>(this, CloseModal));
 		await modal.ShowAsync<DeleteModal>(title: "Eliminar Plan de Estudio", parameters: parameters);
-
-
 	}
-
 
 
 	private async Task ShowCurriculumModal(CurriculumModal.ModalMode Mode, int? CurriculumId)

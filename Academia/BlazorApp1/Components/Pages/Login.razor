@@ -1,6 +1,6 @@
 ﻿@page "/"
 @layout EmptyLayout
-@rendermode InteractiveServer //important to update varss
+@rendermode InteractiveServer
 @using ApplicationCore.Model
 @using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage
 @inject ProtectedSessionStorage ProtectedSessionStore
@@ -90,8 +90,8 @@
 			userIsStudent = await (studentService.GetById(user.Id));
 			if (userIsStudent == null)
 			{
-				
-			userIsAdministrative = await (administrativeService.GetById(user.Id));
+
+				userIsAdministrative = await (administrativeService.GetById(user.Id));
 			}
 			//userIsTeacher = await (teacherService.GetById(user.Id)); NO FUNCIONA ERROR 404
 			if (userIsStudent != null)
@@ -116,7 +116,6 @@
 				UserStateService.isUserLoggedIn = false;
 				isInvalidCredentials = true;
 			}
-
 
 			StateHasChanged();
 			NavigationManager.NavigateTo("/home");
