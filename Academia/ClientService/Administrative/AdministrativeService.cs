@@ -17,8 +17,9 @@ namespace ClientService.Administrative
 		public AdministrativeService(HttpClient httpClient)
 		{
 			_httpClient = httpClient;
+			var directory = Directory.GetParent(AppDomain.CurrentDomain.BaseDirectory).Parent.Parent.Parent.Parent + "\\ClientService\\";
 			var configuration = new ConfigurationBuilder()
-				.SetBasePath(Directory.GetCurrentDirectory())
+				.SetBasePath(directory)
 				.AddJsonFile("appsettingsClientService.json", optional: true, reloadOnChange: true)
 				.Build();
 			_apiUrl = configuration["ApiUrl:Base"];
@@ -59,5 +60,21 @@ namespace ClientService.Administrative
 			}
 
 		}
-	}
+        public async Task<IEnumerable<ApplicationCore.Model.Administrative>> GetAllAsync()
+        {
+            try
+            {
+                _httpClient.DefaultRequestHeaders.Accept.Clear();
+                _httpClient.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+
+                var response = await _httpClient.GetStringAsync(_apiUrl);
+                var administratives = JsonConvert.DeserializeObject<IEnumerable<ApplicationCore.Model.Administrative>>(response);
+                return administratives;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+    }
 }

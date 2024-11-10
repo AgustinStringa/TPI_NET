@@ -42,5 +42,19 @@ namespace ApplicationCore.Services
 				throw;
 			}
 		}
+
+		public async Task Update(Student student)
+		{
+            try
+			{
+                var context = new AcademiaContext();
+                context.Students.Update(student);
+                await context.SaveChangesAsync();
+            }
+            catch (Exception)
+			{
+                throw;
+            }
+        }
 	}
 }

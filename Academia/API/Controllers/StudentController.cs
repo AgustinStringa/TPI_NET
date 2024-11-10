@@ -66,5 +66,25 @@ namespace API.Controllers
 				throw e;
 			}
 		}
+
+		[HttpPut("{id}")]
+
+		public async Task<ActionResult<Student>> UpdateStudent(int id, Student student)
+		{
+            try
+			{
+                if (id != student.Id)
+				{
+                    return BadRequest();
+                }
+                await studentService.Update(student);
+                return NoContent();
+            }
+            catch (Exception e)
+			{
+                return StatusCode(500, new { message = e.InnerException.Message });
+                throw e;
+            }
+        }
 	}
 }

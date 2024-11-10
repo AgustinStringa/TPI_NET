@@ -1,6 +1,14 @@
 using BlazorApp1.Components;
+using ClientService.Administrative;
+using ClientService;
 using ClientService.Area;
 using ClientService.Curriculum;
+using ClientService.Student;
+using ClientService.Teacher;
+using BlazorApp1.Services;
+using ClientService.Course;
+using ClientService.Commission;
+using ClientService.StudentCourse;
 
 namespace BlazorApp1
 {
@@ -14,9 +22,22 @@ namespace BlazorApp1
 			builder.Services.AddRazorComponents()
 				.AddInteractiveServerComponents();
 			builder.Services.AddBlazorBootstrap();
+
+
 			builder.Services.AddHttpClient();
-			builder.Services.AddScoped<IAreaService, AreaService>();
+            builder.Services.AddHttpClient<IStudentService, StudentService>();
+            builder.Services.AddScoped<IAreaService, AreaService>();
 			builder.Services.AddScoped<ICurriculumService, CurriculumService>();
+            builder.Services.AddScoped<IStudentService, StudentService>();
+			builder.Services.AddScoped<IUserService, UserService>();
+			builder.Services.AddScoped<IAdministrativeService, AdministrativeService>();
+			builder.Services.AddScoped<ITeacherService, TeacherService>();
+			builder.Services.AddScoped<UserStateService>();
+			builder.Services.AddScoped<ICourseService, CourseService>();
+			builder.Services.AddScoped<ICommissionService,  CommissionService>();
+			builder.Services.AddScoped<IStudentCourseService,  StudentCourseService>();
+
+
 
 			var app = builder.Build();
 

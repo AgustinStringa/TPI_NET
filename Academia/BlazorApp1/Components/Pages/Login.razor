@@ -1,12 +1,28 @@
-﻿@page "/login"
-@rendermode InteractiveServer //important to update varss
+﻿@page "/"
+@layout EmptyLayout
+@rendermode InteractiveServer
+@using ApplicationCore.Model
 @using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage
 @inject ProtectedSessionStorage ProtectedSessionStore
+@inherits OwningComponentBase
+@using ClientService.Student
+@using ClientService.Administrative
+@using ClientService.Teacher
+@using MyComponents
+@using BlazorApp1.Services
+@inject UserStateService UserStateService
+@inject NavigationManager NavigationManager
+
 
 <PageTitle>Login Academia</PageTitle>
 
 <h1 class="mb-4">Iniciar sesión</h1>
-
+@if (isInvalidCredentials)
+{
+	<div class="alert alert-danger" role="alert">
+		Credenciales incorrectas. Por favor, inténtalo de nuevo.
+	</div>
+}
 <form>
 	<div class="w-50 border border-2 border-style-solid border-light mt-3 p-3 shadow rounded">
 		<div class="mb-4">
@@ -28,9 +44,19 @@
 	private string username = "";
 	private string password = "";
 	private bool sendLogin = false;
+	private bool isInvalidCredentials = false;
+	ApplicationCore.Model.Student userIsStudent = null;
+	ApplicationCore.Model.Administrative userIsAdministrative = null;
+	ApplicationCore.Model.Teacher userIsTeacher = null;
+	private ClientService.Student.IStudentService studentService;
+	private ClientService.Administrative.IAdministrativeService administrativeService;
+	private ClientService.Teacher.ITeacherService teacherService;
 
 	protected async override Task OnInitializedAsync()
 	{
+		this.studentService = ScopedServices.GetRequiredService<ClientService.Student.IStudentService>();
+		this.administrativeService = ScopedServices.GetRequiredService<ClientService.Administrative.IAdministrativeService>();
+		this.teacherService = ScopedServices.GetRequiredService<ClientService.Teacher.ITeacherService>();
 
 	}
 
@@ -56,8 +82,43 @@
 			var service = new UserService(new HttpClient());
 			var userLoggedDto = await service.ValidateCredentials(username, password);
 			await ProtectedSessionStore.SetAsync("userLoggedDto", userLoggedDto);
+			var user = userLoggedDto.User;
 			sendLogin = true;
+			this.studentService = ScopedServices.GetRequiredService<ClientService.Student.IStudentService>();
+			this.teacherService = ScopedServices.GetRequiredService<ClientService.Teacher.ITeacherService>();
+			this.administrativeService = ScopedServices.GetRequiredService<ClientService.Administrative.IAdministrativeService>();
+			userIsStudent = await (studentService.GetById(user.Id));
+			if (userIsStudent == null)
+			{
+
+				userIsAdministrative = await (administrativeService.GetById(user.Id));
+			}
+			//userIsTeacher = await (teacherService.GetById(user.Id)); NO FUNCIONA ERROR 404
+			if (userIsStudent != null)
+			{
+				UserStateService.UserRole = "Student";
+				UserStateService.isUserLoggedIn = true;
+				UserStateService.User = userIsStudent;
+			}
+			else if (userIsTeacher != null)
+			{
+				UserStateService.UserRole = "Teacher";
+				UserStateService.isUserLoggedIn = true;
+			}
+			else if (userIsAdministrative != null)
+			{
+				UserStateService.UserRole = "Administrative";
+				UserStateService.isUserLoggedIn = true;
+				//UserStateService.User = userIsAdministrative;
+			}
+			else
+			{
+				UserStateService.isUserLoggedIn = false;
+				isInvalidCredentials = true;
+			}
+
 			StateHasChanged();
+			NavigationManager.NavigateTo("/home");
 		}
 		catch (Exception e)
 		{
@@ -66,8 +127,10 @@
 			)
 			{
 				Console.WriteLine("CREDENCIALES INCORRECTAS");
-				//proeceder
+				isInvalidCredentials = true;
 			}
 		}
 	}
+
 }
+

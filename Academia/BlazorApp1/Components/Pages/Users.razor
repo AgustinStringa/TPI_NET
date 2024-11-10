@@ -1,0 +1,146 @@
+﻿@page "/users"
+@rendermode InteractiveServer
+@inherits OwningComponentBase
+
+@using ClientService.Student
+@using ApplicationCore.Model
+@using MyComponents
+
+<h1>Estudiantes</h1>
+
+@if (students != null && students.Any())
+{
+    <Modal @ref="modal" UseStaticBackdrop="true" CloseOnEscape="false" />
+
+    <div class="text-end my-3 px-3">
+        <button type="button" class="btn btn-primary btn-lg" @onclick="async () => await ShowStudentModal(UserModal.ModalMode.Create, null)">
+            Crear Estudiante
+        </button>
+    </div>
+
+    <div class="px-3">
+        <table class="table table-striped">
+            <thead class="thead-dark table-dark">
+                <tr>
+                    <th scope="col">Nombre</th>
+                    <th scope="col">Apellido</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Teléfono</th>
+                    <th scope="col">Editar</th>
+                    <th scope="col">Eliminar</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var student in students)
+                {
+                    <tr>
+                        <td>@student.Name</td>
+                        <td>@student.Lastname</td>
+                        <td>@student.Email</td>
+                        <td>@student.PhoneNumber</td>
+                        <td>
+                            <button @onclick="async () => await ShowStudentModal(UserModal.ModalMode.Edit, student.Id)">
+                                <i class="bi bi-pencil-square"></i>
+                            </button>
+                        </td>
+                        <td>
+                            <button @onclick="async () => await ShowDeleteModal(student.Id)">
+                                <i class="bi bi-trash"></i>
+                            </button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    @if (isAlertErrorVisible)
+    {
+        <div class="alert alert-danger" role="alert">
+            No se puede eliminar este estudiante porque tiene dependencias.
+        </div>
+    }
+}
+else
+{
+    <div class="alert alert-danger" role="alert">
+        Error de conexión con el servidor o no hay estudiantes disponibles.
+    </div>
+}
+
+@code {
+    private ClientService.Student.IStudentService studentService;
+    private IEnumerable<ApplicationCore.Model.Student> students = new List<ApplicationCore.Model.Student>();
+    private Modal modal = default!;
+    private bool isAlertErrorVisible = false;
+
+    protected override async Task OnInitializedAsync()
+    {
+
+        this.studentService = ScopedServices.GetRequiredService<ClientService.Student.IStudentService>();
+
+
+        await GetStudents();
+    }
+
+    private async Task GetStudents()
+    {
+        try
+        {
+            this.students = await studentService.GetAllAsync();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error al cargar estudiantes: {ex.Message}");
+            students = new List<Student>();
+        }
+    }
+
+    private async Task ShowStudentModal(UserModal.ModalMode mode, int? studentId)
+    {
+        var parameters = new Dictionary<string, object>
+    {
+        { "Mode", mode },
+        { "CloseModal", EventCallback.Factory.Create<MouseEventArgs>(this, CloseModal) }
+    };
+        if (studentId != null)
+            parameters.Add("StudentId", studentId);
+
+        string title = mode == UserModal.ModalMode.Create ? "Crear Estudiante" : "Editar Estudiante";
+        await modal.ShowAsync<UserModal>(title: title, parameters: parameters);
+    }
+
+
+    private async Task ShowDeleteModal(int studentId)
+    {
+        var parameters = new Dictionary<string, object>
+        {
+            { "Message", "¿Estás seguro que deseas eliminar este estudiante?" },
+            { "OnConfirm", EventCallback.Factory.Create<MouseEventArgs>(this, async () => await DeleteStudent(studentId)) },
+            { "OnCancel", EventCallback.Factory.Create<MouseEventArgs>(this, CloseModal) }
+        };
+        await modal.ShowAsync<DeleteModal>(title: "Eliminar Estudiante", parameters: parameters);
+    }
+
+    private async Task DeleteStudent(int id)
+    {
+        try
+        {
+            await studentService.DeleteAsync(id);
+            await CloseModal();
+            await GetStudents();
+        }
+        catch (Exception e)
+        {
+            isAlertErrorVisible = e.Message.Contains("dependencias");
+            await Task.Delay(2000);
+            isAlertErrorVisible = false;
+        }
+    }
+
+    private async Task CloseModal()
+    {
+        await modal.HideAsync();
+        await GetStudents();
+    }
+}

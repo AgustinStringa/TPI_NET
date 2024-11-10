@@ -13,7 +13,10 @@ namespace ClientService.Curriculum
         Task<IEnumerable<ApplicationCore.Model.Curriculum>> GetAllAsync();
 		Task<IEnumerable<ApplicationCore.Model.Curriculum>> GetAllWithAreaAsync();
         Task<IEnumerable<ApplicationCore.Model.Curriculum>> GetAllByAreaId(int areaId);
-		Task UpdateAsync(ApplicationCore.Model.Curriculum curriculum);
+
+        Task<ApplicationCore.Model.Curriculum> GetByIdAsync(int id);
+
+        Task UpdateAsync(ApplicationCore.Model.Curriculum curriculum);
         Task DeleteAsync(int id);
     }
 }

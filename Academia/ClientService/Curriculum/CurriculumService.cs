@@ -134,5 +134,23 @@ namespace ClientService.Curriculum
 				throw;
 			}
 		}
-	}
+
+
+        public async Task<ApplicationCore.Model.Curriculum> GetByIdAsync(int id)
+        {
+            try
+            {
+                _httpClient.DefaultRequestHeaders.Accept.Clear();
+                _httpClient.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+
+                var response = await _httpClient.GetStringAsync(_apiUrl + id.ToString());
+                var curriculum = JsonConvert.DeserializeObject<ApplicationCore.Model.Curriculum>(response);
+                return curriculum;
+            }
+            catch (Exception e)
+            {
+                throw;
+            }
+        }
+    }
 }

@@ -1,0 +1,110 @@
+﻿@page "/myCourses"
+@rendermode InteractiveServer
+@inherits OwningComponentBase
+@inject UserStateService UserStateService
+@using BlazorApp1.Services
+@using ApplicationCore.Model
+@using ClientService.StudentCourse
+@using ClientService.Commission
+@inject IStudentCourseService StudentCourseService
+@inject ICommissionService CommissionService
+@using ClientService
+@using MyComponents
+
+<h1>Mis Cursos</h1>
+
+@if (studentCourses != null && studentCourses.Any())
+{
+    <div class="px-3">
+        <table class="table table-striped">
+            <thead class="thead-dark table-dark">
+                <tr>
+                    <th scope="col">Comisión</th>
+                    <th scope="col">Materia</th>
+                    <th scope="col">Año Calendario</th>
+                    <th scope="col">Nivel</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var course in studentCourses)
+                {
+                    <tr>
+                        <td>@course.CommissionDescription</td>
+                        <td>@course.SubjectDescription</td>
+                        <td>@course.CalendarYear</td>
+                        <td>@course.Level</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}
+else
+{
+    <div class="alert alert-danger" role="alert">
+        No hay cursos disponibles o error de conexión.
+    </div>
+}
+
+@code {
+    private ClientService.StudentCourse.IStudentCourseService studentService;
+    private ClientService.Commission.ICommissionService commissionService;
+    private IEnumerable<ApplicationCore.Model.StudentCourse> courses = new List<ApplicationCore.Model.StudentCourse>();
+    private IEnumerable<StudentCourseDetails> studentCourses = new List<StudentCourseDetails>();
+    private Modal modal = default!;
+    private bool isAlertErrorVisible = false;
+    private IEnumerable<StudentCourseDetails> course = new List<StudentCourseDetails>();
+    protected override async Task OnInitializedAsync()
+    {
+
+        this.studentService = ScopedServices.GetRequiredService<ClientService.StudentCourse.IStudentCourseService>();
+
+
+        await getStudentCourses();
+    }
+
+    private async Task getStudentCourses()
+    {
+        try
+        {
+           
+            var courses = await StudentCourseService.GetByUserId(UserStateService.User.Id);
+
+           
+            var courseDetailsList = new List<StudentCourseDetails>();
+
+            foreach (var course in courses)
+            {
+                
+                var commission = await CommissionService.GetById(course.Course.IdCommission);
+
+               
+                var courseDetails = new StudentCourseDetails
+                    {
+                        CommissionDescription = commission.Description,
+                        SubjectDescription = course.Course.Subject.Description,
+                        CalendarYear = course.Course.CalendarYear,
+                        Level = course.Course.Subject.Level
+                    };
+
+                courseDetailsList.Add(courseDetails);
+            }
+
+            studentCourses = courseDetailsList;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error al cargar los cursos: {ex.Message}");
+            studentCourses = new List<StudentCourseDetails>();
+        }
+    }
+
+    public class StudentCourseDetails
+    {
+        public string CommissionDescription { get; set; } = string.Empty;
+        public string SubjectDescription { get; set; } = string.Empty;
+        public string CalendarYear { get; set; } = string.Empty;
+        public int Level { get; set; }
+    }
+
+}
