@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 
 namespace ClientService
 {
+
 	public class UserService : IUserService
 	{
 		private readonly HttpClient _httpClient;

@@ -14,5 +14,6 @@ namespace ClientService.Student
 
 		public Task<IEnumerable<ApplicationCore.Model.Student>> GetAllAsync();
 		public Task UpdateAsync(ApplicationCore.Model.Student student);
+		public Task DeleteAsync(int id);
 	}
 }

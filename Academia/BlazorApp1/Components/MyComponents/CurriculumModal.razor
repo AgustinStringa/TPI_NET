@@ -1,0 +1,163 @@
+﻿@inherits OwningComponentBase
+@inject ClientService.Area.IAreaService areaService
+
+<div class="row">
+    @if (this.curriculum != null)
+    {
+        <div class="col-5 col-md-3 text-start">
+            <label class="fw-bold">Nombre: </label>
+        </div>
+        <br />
+        <div class="col-12 col-md-12">
+            <textarea class="w-100 mb-3" name="name" @bind="@this.curriculum.Description" placeholder="Descripción"></textarea>
+
+            <label class="fw-bold">Área:</label>
+            <select class="form-select mb-3" @bind="selectedAreaId">
+                <option value="">Seleccione un área</option>
+                @if (areas != null)
+                {
+                    @foreach (var area in areas)
+                    {
+                        <option value="@area.Id">@area.Description</option>
+                    }
+                }
+            </select>
+
+            <label class="fw-bold">Año:</label>
+            <input type="number" class="form-control mb-3" @bind="@this.curriculum.Year" placeholder="Año" />
+
+            <label class="fw-bold">Resolución:</label>
+            <input type="text" class="form-control mb-3" @bind="@this.curriculum.Resolution" placeholder="Resolución" />
+        </div>
+    }
+
+    <div class="text-end col-4 w-100 py-3">
+        <button onclick="@HandleSubmit" class="btn btn-primary btn-md">@ButtonText</button>
+    </div>
+</div>
+
+@code {
+
+    public enum ModalMode { Create, Edit };
+
+    public ApplicationCore.Model.Curriculum? curriculum;
+    private ClientService.Curriculum.ICurriculumService curriculumService;
+    private ModalMode _Mode;
+    private string ButtonText = "";
+    private IEnumerable<ApplicationCore.Model.Area>? areas;
+    private int selectedAreaId;
+
+    [Parameter] public int? CurriculumId { get; set; }
+    [Parameter] public ModalMode Mode { get; set; }
+    [Parameter] public EventCallback<MouseEventArgs> CloseModal { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        areas = await areaService.GetAllAsync();
+        base.OnInitialized();
+    }
+
+    public override async Task SetParametersAsync(ParameterView parameters)
+    {
+        this.curriculumService = ScopedServices.GetRequiredService<ClientService.Curriculum.ICurriculumService>();
+        if (parameters.TryGetValue<int>(nameof(CurriculumId), out var value))
+        {
+            if (value != this.CurriculumId)
+            {
+                this.CurriculumId = value;
+                parameters.TryGetValue<ModalMode>(nameof(Mode), out var mode_param);
+                this._Mode = mode_param;
+            }
+        }
+        await base.SetParametersAsync(parameters);
+    }
+    protected override async Task OnParametersSetAsync()
+    {
+        await this.GetCurriculum();
+        await base.OnParametersSetAsync();
+    }
+
+    private async Task GetCurriculum()
+
+    {
+        if (_Mode == ModalMode.Create)
+        {
+            ButtonText = "Crear";
+        }
+        else
+        {
+            this.curriculum = await curriculumService.GetByIdAsync((int)this.CurriculumId);
+            ButtonText = "Guardar Cambios";
+             if (this.curriculum != null)
+            {
+                selectedAreaId = this.curriculum.AreaId; 
+            }
+
+        }
+
+        try
+        {
+            if (CurriculumId != null)
+            {
+                this.curriculum = await curriculumService.GetByIdAsync((int)this.CurriculumId);
+            }
+            else
+            {
+                this.curriculum = new ApplicationCore.Model.Curriculum();
+            }
+            StateHasChanged();
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+        }
+    }
+
+    private async void HandleSubmit()
+    {
+        try
+        {
+            if (!string.IsNullOrWhiteSpace(curriculum.Description) && selectedAreaId != 0)
+            {
+                curriculum.AreaId = selectedAreaId;
+
+                Console.WriteLine($"Creando curriculum con Descripción: {curriculum.Description}, AreaId: {curriculum.AreaId}, Año: {curriculum.Year}, Resolución: {curriculum.Resolution}");
+
+                if (this.Mode == ModalMode.Create)
+                {
+                    await this.curriculumService.CreateAsync(new ApplicationCore.Model.Curriculum
+                        {
+                            Description = curriculum.Description,
+                            AreaId = curriculum.AreaId,
+                            Year = curriculum.Year,
+                            Resolution = curriculum.Resolution
+                        });
+                }
+                else
+                {
+                    await this.curriculumService.UpdateAsync(this.curriculum);
+                }
+
+                await CloseModal.InvokeAsync();
+            }
+            else
+            {
+                Console.WriteLine("La descripción está vacía o no se ha seleccionado un área válida.");
+            }
+        }
+        catch (HttpRequestException ex)
+        {
+            Console.WriteLine($"Error de red o servidor: {ex.Message}");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error al crear o actualizar el curriculum: {ex.Message}");
+            throw;
+        }
+    }
+}
+
+
+
+
+}

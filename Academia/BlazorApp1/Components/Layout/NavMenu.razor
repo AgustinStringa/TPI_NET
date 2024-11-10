@@ -1,42 +1,64 @@
-﻿<div class="top-row ps-3 navbar navbar-dark">
+﻿@using BlazorApp1.Services
+@rendermode InteractiveServer
+@inject UserStateService UserStateService
+@inject NavigationManager NavigationManager
+
+<div class="top-row ps-3 navbar navbar-dark">
     <div class="container-fluid">
-        <a class="navbar-brand" href="">BlazorApp1</a>
+        <a class="navbar-brand" href="">Academia</a>
     </div>
 </div>
 
 <input type="checkbox" title="Navigation menu" class="navbar-toggler" />
 
-<div class="nav-scrollable" onclick="document.querySelector('.navbar-toggler').click()">
-    <nav class="flex-column">
+    <div class="nav-scrollable" onclick="document.querySelector('.navbar-toggler').click()">
+        <nav class="flex-column">
+@if (UserStateService.UserRole == "Administrative")
+{
+            <div class="nav-item px-3">
+                <NavLink class="nav-link" href="areas">
+                    <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Especialidades
+                </NavLink>
+            </div>
+
+            <div class="nav-item px-3">
+                <NavLink class="nav-link" href="curriculums">
+                    <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Planes de Estudio
+                </NavLink>
+            </div>
+
+            <div class="nav-item px-3">
+                <NavLink class="nav-link" href="users">
+                    <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Estudiantes
+                </NavLink>
+            </div>
+}
+@if (UserStateService.UserRole == "Student"){
+            <div class="nav-item px-3">
+                <NavLink class="nav-link" href="myCourses">
+                    <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Mis Cursos
+                </NavLink>
+            </div>
+}
         <div class="nav-item px-3">
-            <NavLink class="nav-link" href="/login" Match="NavLinkMatch.All">
-                <span class="bi bi-house-door-fill-nav-menu" aria-hidden="true"></span> Login
-            </NavLink>
+            <Button Color="ButtonColor.Primary" @onclick="LogOut" class="w-100">Cerrar Sesión</Button>
         </div>
 
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="counter">
-                <span class="bi bi-plus-square-fill-nav-menu" aria-hidden="true"></span> Counter
-            </NavLink>
-        </div>
+        </nav>
+    </div>
 
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="weather">
-                <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Weather
-            </NavLink>
-        </div>
 
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="areas">
-                <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Especialidades
-            </NavLink>
-        </div>
+@code {
+    protected override async Task OnParametersSetAsync()
+    {
+        await InvokeAsync(StateHasChanged);
+    }
 
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="curriculums">
-                <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Planes de Estudio
-            </NavLink>
-        </div>
-    </nav>
-</div>
-
+    private void LogOut()
+    {
+        UserStateService.isUserLoggedIn = false;
+        UserStateService.UserRole = "";
+        UserStateService.User = null;
+        NavigationManager.NavigateTo("/");
+    }
+}

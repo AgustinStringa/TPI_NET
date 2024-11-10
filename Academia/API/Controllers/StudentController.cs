@@ -72,6 +72,10 @@ namespace API.Controllers
 		{
 			try
 			{
+				if (id != student.Id)
+				{
+					return BadRequest();
+				}
 				var existingStudent = await studentService.GetById(student.Id);
 				if (existingStudent == null)
 				{

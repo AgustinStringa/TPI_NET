@@ -53,12 +53,14 @@ namespace ApplicationCore.Services
 				{
 					foreach (var prop in existingStudent.GetType().GetProperties())
 					{
-						if (prop.Name == "Password" && student.Password != null) {
-							existingStudent.Password= Util.EncodePassword(student.Password);
+						if (prop.Name == "Password" && student.Password != null)
+						{
+							existingStudent.Password = Util.EncodePassword(student.Password);
 						}
 						if (prop.Name != "StudentCourses" && prop.Name != "Curriculum"
-							&& prop.Name != "CurriculumId" && prop.Name != "Password" && prop.Name != "Id") {
-							
+							&& prop.Name != "CurriculumId" && prop.Name != "Password" && prop.Name != "Id")
+						{
+
 							prop.SetValue(existingStudent, prop.GetValue(student));
 						}
 					}
