@@ -29,10 +29,10 @@
                 @foreach (var course in studentCourses)
                 {
                     <tr>
-                        <td>@course.</td>
-                        <td>@course.CourseId</td>
-                        <td>@course.Grade</td>
-                        <td>@course.Status</td>
+                        <td>@course.CommissionDescription</td>
+                        <td>@course.SubjectDescription</td>
+                        <td>@course.CalendarYear</td>
+                        <td>@course.Level</td>
                     </tr>
                 }
             </tbody>
@@ -49,10 +49,11 @@ else
 @code {
     private ClientService.StudentCourse.IStudentCourseService studentService;
     private ClientService.Commission.ICommissionService commissionService;
-    private IEnumerable<ApplicationCore.Model.StudentCourse> studentCourses = new List<ApplicationCore.Model.StudentCourse>();
+    private IEnumerable<ApplicationCore.Model.StudentCourse> courses = new List<ApplicationCore.Model.StudentCourse>();
+    private IEnumerable<StudentCourseDetails> studentCourses = new List<StudentCourseDetails>();
     private Modal modal = default!;
     private bool isAlertErrorVisible = false;
-
+    private IEnumerable<StudentCourseDetails> course = new List<StudentCourseDetails>();
     protected override async Task OnInitializedAsync()
     {
 
@@ -66,32 +67,44 @@ else
     {
         try
         {
-            this.studentCourses = await studentService.GetByUserId(UserStateService.User.Id);
+           
+            var courses = await StudentCourseService.GetByUserId(UserStateService.User.Id);
+
+           
+            var courseDetailsList = new List<StudentCourseDetails>();
+
+            foreach (var course in courses)
+            {
+                
+                var commission = await CommissionService.GetById(course.Course.IdCommission);
+
+               
+                var courseDetails = new StudentCourseDetails
+                    {
+                        CommissionDescription = commission.Description,
+                        SubjectDescription = course.Course.Subject.Description,
+                        CalendarYear = course.Course.CalendarYear,
+                        Level = course.Course.Subject.Level
+                    };
+
+                courseDetailsList.Add(courseDetails);
+            }
+
+            studentCourses = courseDetailsList;
         }
         catch (Exception ex)
         {
             Console.WriteLine($"Error al cargar los cursos: {ex.Message}");
-            studentCourses = new List<StudentCourse>();
+            studentCourses = new List<StudentCourseDetails>();
         }
     }
-    /*
-    private async Task getCommision()
-        {
-        try
-            {
-            foreach (var item in studentCourses)
-                {
-                var commission = await commissionService.GetById(item.Course.IdCommission);
-                ListViewItem nuevoItem = new ListViewItem(commission.Description);
-                nuevoItem.Tag = item;
-                nuevoItem.SubItems.Add(item.Course.Subject.Description);
-                nuevoItem.SubItems.Add(item.Course.CalendarYear);
-                nuevoItem.SubItems.Add(item.Course.Subject.Level.ToString());
-                lstvMyCourses.Items.Add(nuevoItem);
-                }
+
+    public class StudentCourseDetails
+    {
+        public string CommissionDescription { get; set; } = string.Empty;
+        public string SubjectDescription { get; set; } = string.Empty;
+        public string CalendarYear { get; set; } = string.Empty;
+        public int Level { get; set; }
     }
 
-        }
-
-    */
 }
