@@ -17,7 +17,12 @@
 <PageTitle>Login Academia</PageTitle>
 
 <h1 class="mb-4">Iniciar sesión</h1>
-
+@if (isInvalidCredentials)
+{
+	<div class="alert alert-danger" role="alert">
+		Credenciales incorrectas. Por favor, inténtalo de nuevo.
+	</div>
+}
 <form>
 	<div class="w-50 border border-2 border-style-solid border-light mt-3 p-3 shadow rounded">
 		<div class="mb-4">
@@ -39,6 +44,7 @@
 	private string username = "";
 	private string password = "";
 	private bool sendLogin = false;
+	private bool isInvalidCredentials = false;
 	ApplicationCore.Model.Student userIsStudent = null;
 	ApplicationCore.Model.Administrative userIsAdministrative = null;
 	ApplicationCore.Model.Teacher userIsTeacher = null;
@@ -82,31 +88,38 @@
 			this.teacherService = ScopedServices.GetRequiredService<ClientService.Teacher.ITeacherService>();
 			this.administrativeService = ScopedServices.GetRequiredService<ClientService.Administrative.IAdministrativeService>();
 			userIsStudent = await (studentService.GetById(user.Id));
-			//userIsTeacher = await (teacherService.GetById(user.Id)); NO FUNCIONA ERROR 404
+			if (userIsStudent == null)
+			{
+				
 			userIsAdministrative = await (administrativeService.GetById(user.Id));
+			}
+			//userIsTeacher = await (teacherService.GetById(user.Id)); NO FUNCIONA ERROR 404
 			if (userIsStudent != null)
 			{
 				UserStateService.UserRole = "Student";
-				UserStateService.IsUserLoggedIn = true;
+				UserStateService.isUserLoggedIn = true;
+				UserStateService.User = userIsStudent;
 			}
 			else if (userIsTeacher != null)
 			{
 				UserStateService.UserRole = "Teacher";
-				UserStateService.IsUserLoggedIn = true;
+				UserStateService.isUserLoggedIn = true;
 			}
 			else if (userIsAdministrative != null)
 			{
 				UserStateService.UserRole = "Administrative";
-				UserStateService.IsUserLoggedIn = true;
+				UserStateService.isUserLoggedIn = true;
+				//UserStateService.User = userIsAdministrative;
 			}
 			else
 			{
-				UserStateService.IsUserLoggedIn = false;
+				UserStateService.isUserLoggedIn = false;
+				isInvalidCredentials = true;
 			}
 
 
 			StateHasChanged();
-			NavigationManager.NavigateTo("/home", forceLoad: true);
+			NavigationManager.NavigateTo("/home");
 		}
 		catch (Exception e)
 		{
@@ -115,7 +128,7 @@
 			)
 			{
 				Console.WriteLine("CREDENCIALES INCORRECTAS");
-				//proeceder
+				isInvalidCredentials = true;
 			}
 		}
 	}

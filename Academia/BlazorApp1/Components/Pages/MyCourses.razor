@@ -1,0 +1,97 @@
+﻿@page "/myCourses"
+@rendermode InteractiveServer
+@inherits OwningComponentBase
+@inject UserStateService UserStateService
+@using BlazorApp1.Services
+@using ApplicationCore.Model
+@using ClientService.StudentCourse
+@using ClientService.Commission
+@inject IStudentCourseService StudentCourseService
+@inject ICommissionService CommissionService
+@using ClientService
+@using MyComponents
+
+<h1>Mis Cursos</h1>
+
+@if (studentCourses != null && studentCourses.Any())
+{
+    <div class="px-3">
+        <table class="table table-striped">
+            <thead class="thead-dark table-dark">
+                <tr>
+                    <th scope="col">Comisión</th>
+                    <th scope="col">Materia</th>
+                    <th scope="col">Año Calendario</th>
+                    <th scope="col">Nivel</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var course in studentCourses)
+                {
+                    <tr>
+                        <td>@course.</td>
+                        <td>@course.CourseId</td>
+                        <td>@course.Grade</td>
+                        <td>@course.Status</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}
+else
+{
+    <div class="alert alert-danger" role="alert">
+        No hay cursos disponibles o error de conexión.
+    </div>
+}
+
+@code {
+    private ClientService.StudentCourse.IStudentCourseService studentService;
+    private ClientService.Commission.ICommissionService commissionService;
+    private IEnumerable<ApplicationCore.Model.StudentCourse> studentCourses = new List<ApplicationCore.Model.StudentCourse>();
+    private Modal modal = default!;
+    private bool isAlertErrorVisible = false;
+
+    protected override async Task OnInitializedAsync()
+    {
+
+        this.studentService = ScopedServices.GetRequiredService<ClientService.StudentCourse.IStudentCourseService>();
+
+
+        await getStudentCourses();
+    }
+
+    private async Task getStudentCourses()
+    {
+        try
+        {
+            this.studentCourses = await studentService.GetByUserId(UserStateService.User.Id);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error al cargar los cursos: {ex.Message}");
+            studentCourses = new List<StudentCourse>();
+        }
+    }
+    /*
+    private async Task getCommision()
+        {
+        try
+            {
+            foreach (var item in studentCourses)
+                {
+                var commission = await commissionService.GetById(item.Course.IdCommission);
+                ListViewItem nuevoItem = new ListViewItem(commission.Description);
+                nuevoItem.Tag = item;
+                nuevoItem.SubItems.Add(item.Course.Subject.Description);
+                nuevoItem.SubItems.Add(item.Course.CalendarYear);
+                nuevoItem.SubItems.Add(item.Course.Subject.Level.ToString());
+                lstvMyCourses.Items.Add(nuevoItem);
+                }
+    }
+
+        }
+
+    */
+}

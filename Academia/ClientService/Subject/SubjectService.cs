@@ -17,8 +17,9 @@ namespace ClientService.Subject
 		public SubjectService(HttpClient httpClient)
 		{
 			_httpClient = httpClient;
-			var configuration = new ConfigurationBuilder()
-				.SetBasePath(Directory.GetCurrentDirectory())
+            var directory = Directory.GetParent(AppDomain.CurrentDomain.BaseDirectory).Parent.Parent.Parent.Parent + "\\ClientService\\";
+            var configuration = new ConfigurationBuilder()
+				.SetBasePath(directory)
 				.AddJsonFile("appsettingsClientService.json", optional: true, reloadOnChange: true)
 				.Build();
 			_apiUrl = configuration["ApiUrl:Base"];

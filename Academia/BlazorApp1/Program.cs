@@ -7,6 +7,9 @@ using ClientService.Student;
 using ClientService.Teacher;
 using Microsoft.AspNetCore.Identity;
 using BlazorApp1.Services;
+using ClientService.Course;
+using ClientService.Commission;
+using ClientService.StudentCourse;
 
 namespace BlazorApp1
 {
@@ -31,6 +34,9 @@ namespace BlazorApp1
 			builder.Services.AddScoped<IAdministrativeService, AdministrativeService>();
 			builder.Services.AddScoped<ITeacherService, TeacherService>();
 			builder.Services.AddScoped<UserStateService>();
+			builder.Services.AddScoped<ICourseService, CourseService>();
+			builder.Services.AddScoped<ICommissionService,  CommissionService>();
+			builder.Services.AddScoped<IStudentCourseService,  StudentCourseService>();
 
 
 
