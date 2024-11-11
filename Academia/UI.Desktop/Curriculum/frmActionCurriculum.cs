@@ -89,11 +89,11 @@ namespace UI.Desktop.Curriculum
 			{
 				if (this.mode == Mode.Edit)
 				{
-					Utilities.AdaptAreasToCb(cbAreas, await areaService.GetAllAsync(), this.curriculum.AreaId);
+					Utilities.AdaptAreasToCb(cbAreas, await areaService.GetAll(), this.curriculum.AreaId);
 				}
 				else if (this.mode == Mode.Create)
 				{
-					Utilities.AdaptAreasToCb(cbAreas, await areaService.GetAllAsync());
+					Utilities.AdaptAreasToCb(cbAreas, await areaService.GetAll());
 
 				}
 			}
@@ -152,7 +152,7 @@ namespace UI.Desktop.Curriculum
 
 					try
 					{
-						await curriculumService.CreateAsync(newCurriculum);
+						await curriculumService.Create(newCurriculum);
 						MessageBox.Show("Plan de Estudios " + newCurriculum.Description + " creado correctamente.", "Crear Plan de Estudios", MessageBoxButtons.OK, MessageBoxIcon.Information);
 						DialogResult = DialogResult.OK;
 						this.Close();
@@ -179,7 +179,7 @@ namespace UI.Desktop.Curriculum
 						this.curriculum.Year = year;
 						this.curriculum.Resolution = resolution;
 						this.curriculum.AreaId = idArea;
-						await curriculumService.UpdateAsync(this.curriculum);
+						await curriculumService.Update(this.curriculum);
 						MessageBox.Show("Plan de Estudios actualizado correctamente", "Editar Plan de Estudios", MessageBoxButtons.OK, MessageBoxIcon.Information);
 						DialogResult = DialogResult.OK;
 						this.Close();

@@ -12,7 +12,7 @@ namespace API
         public DbSet<Curriculum> Curriculums { get; set; } = null!;
         public DbSet<Student> Users { get; set; } = null!;
         public DbSet<Commission> Commissions { get; set; } = null!;
-        public DbSet<StudentCourse> UserCourses { get; set; } = null!;
+        public DbSet<StudentCourse> StudentCourses { get; set; } = null!;
 
         private string _connectionString = "";
         public AcademiaContext()

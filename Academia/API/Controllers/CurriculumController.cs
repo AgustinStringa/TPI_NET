@@ -93,10 +93,6 @@ namespace API.Controllers
 				}
 				foreach (var prop in updatedCurriculum.GetType().GetProperties())
 				{
-					if (prop.Name == "UserCourses")
-					{
-						throw new Exception();
-					}
 					if (prop.Name != "Id" && prop.Name != "Subjects" && prop.Name != "Commissions")
 					{
 						prop.SetValue(curriculum, prop.GetValue(updatedCurriculum));

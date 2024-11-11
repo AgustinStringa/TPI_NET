@@ -81,7 +81,7 @@ namespace UI.Desktop
 
 		private async void LoadUsers()
 		{
-			this.students = await studentService.GetAllAsync();
+			this.students = await studentService.GetAll();
 			AdaptUsersToListView(this.students);
 		}
 
@@ -91,7 +91,7 @@ namespace UI.Desktop
 			{
 				var selectedUserCourse = lstUserCourses.SelectedItems[0].Tag as ApplicationCore.Model.StudentCourse;
 
-				int currentGrade = (int)(selectedUserCourse.Grade == null ? 0 : selectedUserCourse.Grade);
+				decimal currentGrade = (decimal)(selectedUserCourse.Grade == null ? 0 : selectedUserCourse.Grade);
 				var frmInputGrade = new FrmInputGrade(currentGrade);
 				var result = frmInputGrade.ShowDialog();
 				if (result == DialogResult.OK)

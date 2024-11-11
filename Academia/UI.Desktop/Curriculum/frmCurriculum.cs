@@ -50,7 +50,7 @@ namespace UI.Desktop.Curriculum
 			try
 			{
 				lstvCurriculum.Enabled = false;
-				this.curriculums = await curriculumService.GetAllWithAreaAsync();
+				this.curriculums = await curriculumService.GetAllWithArea();
 				AdaptCurriculumsToListView(curriculums);
 			}
 			catch (Exception e)
@@ -101,7 +101,7 @@ namespace UI.Desktop.Curriculum
 					if (Utilities.ConfirmDelete($"el plan de estudios' {((ApplicationCore.Model.Curriculum)lstvCurriculum.SelectedItems[0].Tag).Description}' ") != DialogResult.OK) return;
 
 					ApplicationCore.Model.Curriculum selectedCurriulum = (ApplicationCore.Model.Curriculum)lstvCurriculum.SelectedItems[0].Tag;
-					await curriculumService.DeleteAsync(selectedCurriulum.Id);
+					await curriculumService.Delete(selectedCurriulum.Id);
 					LoadCurriculums();
 					MessageBox.Show("Plan de estudios " + selectedCurriulum.Description + "eliminada correctamente.", "Eliminar plan de estudios", MessageBoxButtons.OK, MessageBoxIcon.Information);
 				}

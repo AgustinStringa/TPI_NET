@@ -40,7 +40,7 @@ namespace UI.Desktop.Area
 			try
 			{
 				lstvAreas.Enabled = false;
-				this.areas = await _areaService.GetAllAsync();
+				this.areas = await _areaService.GetAll();
 				AdaptAreasToListView(areas);
 			}
 			catch (Exception e)
@@ -92,7 +92,7 @@ namespace UI.Desktop.Area
 				{
 					if (Utilities.ConfirmDelete($"la especialidad '{((ApplicationCore.Model.Area)lstvAreas.SelectedItems[0].Tag).Description}'") != DialogResult.OK) return;
 					ApplicationCore.Model.Area selectedArea = (ApplicationCore.Model.Area)lstvAreas.SelectedItems[0].Tag;
-					await _areaService.DeleteAsync(selectedArea.Id);
+					await _areaService.Delete(selectedArea.Id);
 					LoadAreas();
 					MessageBox.Show("Especialidad " + selectedArea.Description + " eliminada correctamente.", "Eliminar especialidad", MessageBoxButtons.OK, MessageBoxIcon.Information);
 				}

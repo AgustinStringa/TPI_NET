@@ -64,7 +64,7 @@ namespace UI.Desktop.Subject
 			{
 				ApplicationCore.Model.Subject selectedSubject = (ApplicationCore.Model.Subject)lstSubjects.SelectedItems[0].Tag;
 				if (Utilities.ConfirmDelete($"la materia '{selectedSubject.Description}'") != DialogResult.OK) return;
-				await subjectService.DeleteAsync(selectedSubject.Id);
+				await subjectService.Delete(selectedSubject.Id);
 				LoadSubjects();
 
 			}

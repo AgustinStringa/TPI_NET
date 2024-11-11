@@ -8,11 +8,11 @@ namespace ClientService.Course
 {
 	public interface ICourseService
 	{
-		Task CreateAsync(ApplicationCore.Model.Course course);
-		Task<IEnumerable<ApplicationCore.Model.Course>> GetAllAsync();
+		Task<IEnumerable<ApplicationCore.Model.Course>> GetAll();
         Task<IEnumerable<ApplicationCore.Model.Course>> GetAllWithTeachers();
         Task<IEnumerable<ApplicationCore.Model.Course>> GetAvailableCourses(ApplicationCore.Model.Student student);
-		Task UpdateAsync(ApplicationCore.Model.Course course);
-		Task DeleteAsync(int id);
+		Task Create(ApplicationCore.Model.Course course);
+		Task Update(ApplicationCore.Model.Course course);
+		Task Delete(int id);
 	}
 }

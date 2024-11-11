@@ -63,7 +63,7 @@ namespace UI.Desktop.Area
 		{
 			try
 			{
-				await areaService.CreateAsync(newArea);
+				await areaService.Create(newArea);
 				MessageBox.Show("Especialidad " + newArea.Description + " creada correctamente.", "Crear especialidad", MessageBoxButtons.OK, MessageBoxIcon.Information);
 				DialogResult = DialogResult.OK;
 				this.Close();
@@ -82,7 +82,7 @@ namespace UI.Desktop.Area
 			try
 			{
 				this.area.Description = areaDescription;
-				await areaService.UpdateAsync(area);
+				await areaService.Update(area);
 				DialogResult = DialogResult.OK;
 				this.Close();
 			}

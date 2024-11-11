@@ -78,7 +78,7 @@ namespace UI.Desktop
 		{
 			if (this.Mode == Mode.Create)
 			{
-				Utilities.AdaptAreasToCb(cbAreas, await areaService.GetAllAsync());
+				Utilities.AdaptAreasToCb(cbAreas, await areaService.GetAll());
 			}
 		}
 		private async void btnActionUser_Click(object sender, EventArgs e)
@@ -258,7 +258,7 @@ namespace UI.Desktop
 					else
 					{
 						Utilities.SetDefaultStyle (lblStudentId,txtStudentId);
-						lblStudentId.Visible = false;
+                        lblLegajoError.Visible = false;
 					}
 				}
 				else
@@ -571,7 +571,7 @@ namespace UI.Desktop
 					txtCuit.Visible = false;
 					lblCuit.Visible = false;
 					txtStudentId.Text = student.StudentId;
-					Utilities.AdaptAreasToCb(cbAreas, await areaService.GetAllAsync(), student.Curriculum.AreaId);
+					Utilities.AdaptAreasToCb(cbAreas, await areaService.GetAll(), student.Curriculum.AreaId);
 					break;
 				default:
 					break;
@@ -598,7 +598,7 @@ namespace UI.Desktop
 							PhoneNumber = newUserDTO.PhoneNumber,
 							Username = newUserDTO.Username,
 						};
-						await administrativeService.CreateAsync(newAdministrative);
+						await administrativeService.Create(newAdministrative);
 
 						break;
 					case "Student":
@@ -622,7 +622,7 @@ namespace UI.Desktop
 							StudentId = newUserDTO.StudentId,
 							CurriculumId = curriculumId,
 						};
-						await studentService.CreateAsync(newStudent);
+						await studentService.Create(newStudent);
 						break;
 					case "Teacher":
 						var newTeacher = new ApplicationCore.Model.Teacher
@@ -637,7 +637,7 @@ namespace UI.Desktop
 							PhoneNumber = newUserDTO.PhoneNumber,
 							Username = newUserDTO.Username,
 						};
-						await teacherService.CreateAsync(newTeacher);
+						await teacherService.Create(newTeacher);
 						break;
 					default:
 						break;
@@ -673,7 +673,7 @@ namespace UI.Desktop
 								Username = userToUpdateDTO.Username,
 								Id = userToUpdateDTO.Id,
 							};
-						await administrativeService.UpdateAsync(administrativeToUpdate);
+						await administrativeService.Update(administrativeToUpdate);
 						break;
 					case "Student":
 						var studentToUpdate = new Student
@@ -692,7 +692,7 @@ namespace UI.Desktop
 							Curriculum = null,
 							StudentCourses = [],
 						};
-						await studentService.UpdateAsync(studentToUpdate);
+						await studentService.Update(studentToUpdate);
 						break;
 					case "Teacher":
 						var teacherToUpdate = new Teacher
@@ -708,7 +708,7 @@ namespace UI.Desktop
 							Username = userToUpdateDTO.Username,
 							Id = userToUpdateDTO.Id,
 						};
-						await teacherService.UpdateAsync(teacherToUpdate);
+						await teacherService.Update(teacherToUpdate);
 						break;
 					default:
 						break;

@@ -5,90 +5,93 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
 {
-	[Route("api/users/students")]
-	[ApiController]
-	public class StudentController : Controller
-	{
-		private StudentService studentService;
-		private UserService userService;
-		public StudentController(StudentService studentService, UserService userService)
-		{
-			this.studentService = studentService;
-			this.userService = userService;
-		}
+    [Route("api/users/students")]
+    [ApiController]
+    public class StudentController : Controller
+    {
+        private StudentService studentService;
+        private UserService userService;
+        public StudentController(StudentService studentService, UserService userService)
+        {
+            this.studentService = studentService;
+            this.userService = userService;
+        }
 
-		[HttpGet("")]
-		//[Authorize]
-		public async Task<ActionResult<IEnumerable<Student>>> GetStudents()
-		{
-			try
-			{
-				var students = await studentService.GetAll();
-				return Ok(students);
-			}
-			catch (Exception e)
-			{
-				return StatusCode(500, new { message = e.Message });
-				throw e;
-			}
-		}
+        [HttpGet("")]
+        //[Authorize]
+        public async Task<ActionResult<IEnumerable<Student>>> GetStudents()
+        {
+            try
+            {
+                var students = await studentService.GetAll();
+                return Ok(students);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, new { message = e.Message });
+                throw e;
+            }
+        }
 
-		[HttpGet("{id}")]
-		public async Task<ActionResult<Student>> GetStudentById(int id)
-		{
-			try
-			{
-				var user = await studentService.GetById(id);
-				return Ok(user);
+        [HttpGet("{id}")]
+        public async Task<ActionResult<Student>> GetStudentById(int id)
+        {
+            try
+            {
+                var student = await studentService.GetById(id);
+                if (student == null)
+                {
+                    return NotFound();
+                }
+                return Ok(student);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, new { message = e.Message });
+                throw e;
+            }
+        }
 
-			}
-			catch (Exception e)
-			{
-				return StatusCode(500, new { message = e.Message });
-				throw e;
-			}
-		}
+        [HttpPost()]
+        public async Task<ActionResult<Student>> CreateStudent(Student student)
+        {
+            try
+            {
+                student.Password = Util.EncodePassword(student.Password);
+                await studentService.Create(student);
+                return CreatedAtAction(
+                nameof(GetStudentById),
+                new { id = student.Id }, student);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, new { message = e.InnerException.Message });
+                throw e;
+            }
+        }
 
-		[HttpPost()]
-		public async Task<ActionResult<Student>> CreateStudent(Student student)
-		{
-			try
-			{
-				student.Password = Util.EncodePassword(student.Password);
-				await studentService.Create(student);
-				return CreatedAtAction(
-				nameof(GetStudentById),
-				new { id = student.Id }, student);
-			}
-			catch (Exception e)
-			{
-				return StatusCode(500, new { message = e.InnerException.Message });
-				throw e;
-			}
-		}
-
-		[HttpPut("{id}")]
-		public async Task<ActionResult<Student>> UpdateStudent(int id, Student student)
-		{
-			try
-			{
-				if (id != student.Id)
-				{
-					return BadRequest();
-				}
-				var existingStudent = await studentService.GetById(student.Id);
-				if (existingStudent == null)
-				{
-					return NotFound();
-				}
-				await studentService.Update(student);
-				return Ok();
-			}
-			catch (Exception e)
-			{
-				return StatusCode(500, new { message = e.InnerException.Message });
-				throw e;
-			}
-		}
-	}
+        [HttpPut("{id}")]
+        public async Task<ActionResult<Student>> UpdateStudent(Student student, int id)
+        {
+            try
+            {
+                if (id != student.Id)
+                {
+                    return BadRequest();
+                }
+                var existingStudent = await studentService.GetById(student.Id);
+                if (existingStudent == null)
+                {
+                    return NotFound();
+                }
+                await studentService.Update(student);
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, new { message = e.InnerException.Message });
+                throw e;
+            }
+        }
+    }
 }

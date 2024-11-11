@@ -87,7 +87,7 @@ else
     {
         try
         {
-            this.students = await studentService.GetAllAsync();
+            this.students = await studentService.GetAll();
         }
         catch (Exception ex)
         {
@@ -126,7 +126,7 @@ else
     {
         try
         {
-            await studentService.DeleteAsync(id);
+            await studentService.Delete(id);
             await CloseModal();
             await GetStudents();
         }
