@@ -100,7 +100,7 @@
 			txtSearchUsers.Font = new Font("Segoe UI", 12F);
 			txtSearchUsers.Location = new Point(35, 110);
 			txtSearchUsers.Name = "txtSearchUsers";
-			txtSearchUsers.PlaceholderText = "Search...";
+			txtSearchUsers.PlaceholderText = " Buscar";
 			txtSearchUsers.Size = new Size(257, 29);
 			txtSearchUsers.TabIndex = 2;
 			txtSearchUsers.TextChanged += txtSearchUsers_TextChanged;

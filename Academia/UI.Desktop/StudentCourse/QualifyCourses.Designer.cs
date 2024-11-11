@@ -129,6 +129,7 @@
 			// 
 			txtSearchStudent.Location = new Point(32, 114);
 			txtSearchStudent.Name = "txtSearchStudent";
+			txtSearchStudent.PlaceholderText = " Buscar";
 			txtSearchStudent.Size = new Size(279, 23);
 			txtSearchStudent.TabIndex = 4;
 			txtSearchStudent.TextChanged += txtSearchStudent_TextChanged;
