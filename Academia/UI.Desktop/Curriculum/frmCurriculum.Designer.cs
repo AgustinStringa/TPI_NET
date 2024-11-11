@@ -132,7 +132,7 @@
 			// 
 			txtSearchCurriculum.Location = new Point(37, 98);
 			txtSearchCurriculum.Name = "txtSearchCurriculum";
-			txtSearchCurriculum.PlaceholderText = "Search...";
+			txtSearchCurriculum.PlaceholderText = " Buscar";
 			txtSearchCurriculum.Size = new Size(250, 23);
 			txtSearchCurriculum.TabIndex = 6;
 			txtSearchCurriculum.TextChanged += txtSearchCurriculum_TextChanged;

@@ -125,6 +125,7 @@
 			// 
 			txtSearchSubject.Location = new Point(27, 96);
 			txtSearchSubject.Name = "txtSearchSubject";
+			txtSearchSubject.PlaceholderText = " Buscar";
 			txtSearchSubject.Size = new Size(252, 23);
 			txtSearchSubject.TabIndex = 16;
 			txtSearchSubject.TextChanged += txtSearchSubject_TextChanged;

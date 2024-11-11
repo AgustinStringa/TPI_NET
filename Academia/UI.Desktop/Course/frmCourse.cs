@@ -37,7 +37,7 @@ namespace UI.Desktop.Course
 		{
 			try
 			{
-				lstvCourses.Enabled= false;
+				lstvCourses.Enabled = false;
 				this.courses = await courseService.GetAll();
 				AdaptCoursesToListView(this.courses);
 			}
@@ -69,22 +69,30 @@ namespace UI.Desktop.Course
 
 		private void lstvAreas_ColumnClick(object sender, ColumnClickEventArgs e)
 		{
-			var orderFilter = lstvCourses.Columns[e.Column].Tag.ToString();
+			try
+			{
+				var orderFilter = lstvCourses.Columns[e.Column].Tag.ToString();
 
-			IEnumerable<ApplicationCore.Model.Course> orderedCourses = new List<ApplicationCore.Model.Course>();
-			if (orderFilter == "Subject.Description")
-			{
-				orderedCourses = this.courses.ToList().OrderBy(c => c.Subject.Description);
+				IEnumerable<ApplicationCore.Model.Course> orderedCourses = new List<ApplicationCore.Model.Course>();
+				if (orderFilter == "Subject.Description")
+				{
+					orderedCourses = this.courses.ToList().OrderBy(c => c.Subject.Description);
+				}
+				else if (orderFilter == "Capacity")
+				{
+					orderedCourses = this.courses.ToList().OrderBy(c => c.Capacity);
+				}
+				else if (orderFilter == "CalendarYear")
+				{
+					orderedCourses = this.courses.ToList().OrderBy(c => c.CalendarYear);
+				}
+				else
+				{
+					orderedCourses = this.courses;
+				}
+				AdaptCoursesToListView(orderedCourses);
 			}
-			else if (orderFilter == "Capacity")
-			{
-				orderedCourses = this.courses.ToList().OrderBy(c => c.Capacity);
-			}
-			else if (orderFilter == "CalendarYear")
-			{
-				orderedCourses = this.courses.ToList().OrderBy(c => c.CalendarYear);
-			}
-			AdaptCoursesToListView(orderedCourses);
+			catch (Exception){}
 		}
 
 		private void tsbtnAddCourse_Click(object sender, EventArgs e)
@@ -144,6 +152,20 @@ namespace UI.Desktop.Course
 			else
 			{
 				MessageBox.Show("Seleccione un cursado antes de eliminar", "Eliminar Cursado", MessageBoxButtons.OK, MessageBoxIcon.Information);
+			}
+		}
+
+		private void txtSearchCourses_TextChanged(object sender, EventArgs e)
+		{
+			if (this.courses != null && this.courses.Count() > 0)
+			{
+				var search = Utilities.DeleteDiacritic(((System.Windows.Forms.TextBox)sender).Text.ToLower());
+
+				var coursesFiltered = this.courses.Where(a =>
+					Utilities.DeleteDiacritic(a.Subject.Description.ToLower()).Contains(search)
+				);
+
+				AdaptCoursesToListView(coursesFiltered);
 			}
 		}
 	}

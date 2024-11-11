@@ -35,9 +35,9 @@
 			label1 = new Label();
 			txtSearch = new TextBox();
 			lstvCommission = new ListView();
+			idCurriculum = new ColumnHeader();
 			level = new ColumnHeader();
 			description = new ColumnHeader();
-			idCurriculum = new ColumnHeader();
 			toolStrip1.SuspendLayout();
 			SuspendLayout();
 			// 
@@ -94,7 +94,7 @@
 			// 
 			txtSearch.Location = new Point(61, 90);
 			txtSearch.Name = "txtSearch";
-			txtSearch.PlaceholderText = "Search...";
+			txtSearch.PlaceholderText = " Buscar";
 			txtSearch.Size = new Size(250, 23);
 			txtSearch.TabIndex = 7;
 			txtSearch.TextChanged += txtSearch_TextChanged;
@@ -111,25 +111,22 @@
 			lstvCommission.UseCompatibleStateImageBehavior = false;
 			lstvCommission.View = View.Details;
 			// 
+			// idCurriculum
+			// 
+			idCurriculum.Text = "Plan de estudio";
+			idCurriculum.Width = 200;
+			// 
 			// level
 			// 
-			level.DisplayIndex = 1;
 			level.Text = "Nivel";
 			level.Width = 150;
 			// 
 			// description
 			// 
-			description.DisplayIndex = 2;
 			description.Text = "Descripcion";
 			description.Width = 150;
 			// 
-			// idCurriculum
-			// 
-			idCurriculum.DisplayIndex = 0;
-			idCurriculum.Text = "Plan de estudio";
-			idCurriculum.Width = 200;
-			// 
-			// frmCommissions
+			// FrmCommissions
 			// 
 			AutoScaleDimensions = new SizeF(7F, 15F);
 			AutoScaleMode = AutoScaleMode.Font;
@@ -138,7 +135,7 @@
 			Controls.Add(txtSearch);
 			Controls.Add(label1);
 			Controls.Add(toolStrip1);
-			Name = "frmCommissions";
+			Name = "FrmCommissions";
 			Text = "Comisiones";
 			toolStrip1.ResumeLayout(false);
 			toolStrip1.PerformLayout();

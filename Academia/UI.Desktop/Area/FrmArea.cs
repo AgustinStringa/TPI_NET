@@ -123,18 +123,23 @@ namespace UI.Desktop.Area
 			}
 			lstvAreas.Refresh();
 		}
-		private void txtSearchArea_TextChanged(object sender, EventArgs e)
-		{
-			if (this.areas != null && this.areas.Count() > 0)
-			{
-				var areasFiltradas = this.areas.Where(a => a.Description.ToLower().Contains(((System.Windows.Forms.TextBox)sender).Text.ToLower()));
-				AdaptAreasToListView(areasFiltradas);
-			}
-		}
+        private void txtSearchArea_TextChanged(object sender, EventArgs e)
+        {
+            if (this.areas != null && this.areas.Count() > 0)
+            {
+				var search = Utilities.DeleteDiacritic(((System.Windows.Forms.TextBox)sender).Text.ToLower());
 
-		#endregion
+                var areasFiltradas = this.areas.Where(a =>
+                    Utilities.DeleteDiacritic(a.Description.ToLower()).Contains(search)
+                );
 
-		private void StartLayoutPanel()
+                AdaptAreasToListView(areasFiltradas);
+            }
+        }
+
+        #endregion
+
+        private void StartLayoutPanel()
 		{
 			TableLayoutPanel tableLayoutPanel = new TableLayoutPanel();
 			tableLayoutPanel.ColumnCount = 1;

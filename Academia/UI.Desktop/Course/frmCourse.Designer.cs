@@ -39,6 +39,7 @@
 			Commission = new ColumnHeader();
 			CalendarYear = new ColumnHeader();
 			Capacity = new ColumnHeader();
+			txtSearchCourses = new TextBox();
 			toolStrip1.SuspendLayout();
 			SuspendLayout();
 			// 
@@ -100,7 +101,7 @@
 			lstvCourses.Columns.AddRange(new ColumnHeader[] { columnHeader1, Subject, Commission, CalendarYear, Capacity });
 			lstvCourses.FullRowSelect = true;
 			lstvCourses.GridLines = true;
-			lstvCourses.Location = new Point(42, 134);
+			lstvCourses.Location = new Point(42, 178);
 			lstvCourses.Name = "lstvCourses";
 			lstvCourses.Size = new Size(777, 173);
 			lstvCourses.TabIndex = 6;
@@ -137,11 +138,22 @@
 			Capacity.Text = "Cupo";
 			Capacity.Width = 100;
 			// 
+			// txtSearchCourses
+			// 
+			txtSearchCourses.Font = new Font("Segoe UI", 12F);
+			txtSearchCourses.Location = new Point(42, 124);
+			txtSearchCourses.Name = "txtSearchCourses";
+			txtSearchCourses.PlaceholderText = " Buscar por materia";
+			txtSearchCourses.Size = new Size(257, 29);
+			txtSearchCourses.TabIndex = 9;
+			txtSearchCourses.TextChanged += txtSearchCourses_TextChanged;
+			// 
 			// FrmCourse
 			// 
 			AutoScaleDimensions = new SizeF(7F, 15F);
 			AutoScaleMode = AutoScaleMode.Font;
 			ClientSize = new Size(895, 450);
+			Controls.Add(txtSearchCourses);
 			Controls.Add(label1);
 			Controls.Add(lstvCourses);
 			Controls.Add(toolStrip1);
@@ -166,5 +178,6 @@
 		private ToolStripButton tsbtnAddCourse;
 		private ToolStripButton tsbtnEditCourse;
 		private ToolStripButton tsbtnRemoveCourse;
-	}
+        private TextBox txtSearchCourses;
+    }
 }
