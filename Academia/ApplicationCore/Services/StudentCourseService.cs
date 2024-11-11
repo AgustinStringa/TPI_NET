@@ -21,20 +21,20 @@ namespace ApplicationCore.Services
 	{
 
 
-		public async Task Delete(int userCourseId)
+		public async Task Delete(int studentCourseId)
 		{
 			try
 			{
 				using (var context = new AcademiaContext())
 				{
-					var userCourse = await context.UserCourses.FindAsync(userCourseId);
+					var studentCourse = await context.StudentCourses.FindAsync(studentCourseId);
 
-					if (userCourse == null)
+					if (studentCourse == null)
 					{
 						throw new InvalidOperationException("No se encontró la inscripción del usuario en el curso especificado.");
 					}
 					//TODO: validar que el usuario sea el propietario del cursado a eliminar
-					context.UserCourses.Remove(userCourse);
+					context.StudentCourses.Remove(studentCourse);
 					await context.SaveChangesAsync();
 				}
 			}
@@ -44,21 +44,21 @@ namespace ApplicationCore.Services
 			}
 		}
 
-		public async Task Create(StudentCourse userCourse)
+		public async Task Create(StudentCourse studentCourse)
 		{
 			try
 			{
 				using (var context = new AcademiaContext())
 				{
 
-					userCourse.Course = await context.Courses.FirstOrDefaultAsync(c => c.Id == userCourse.CourseId);
+					studentCourse.Course = await context.Courses.FirstOrDefaultAsync(c => c.Id == studentCourse.CourseId);
 
-					if (await IsUserAlreadyEnrolled(userCourse.UserId, userCourse.CourseId, userCourse.Course.CalendarYear))
+					if (await IsUserAlreadyEnrolled(studentCourse.UserId, studentCourse.CourseId, studentCourse.Course.CalendarYear))
 					{
 						throw new InvalidOperationException("El usuario ya está inscrito en este curso bajo las condiciones especificadas.");
 					}
 
-					await context.UserCourses.AddAsync(userCourse);
+					await context.StudentCourses.AddAsync(studentCourse);
 					await context.SaveChangesAsync();
 				}
 			}
@@ -73,7 +73,7 @@ namespace ApplicationCore.Services
 		{
 			using (var context = new AcademiaContext())
 			{
-				var previousEnrollments = await context.UserCourses
+				var previousEnrollments = await context.StudentCourses
 					.Where(uc => uc.UserId == userId && uc.CourseId == courseId)
 					.ToListAsync();
 
@@ -95,15 +95,15 @@ namespace ApplicationCore.Services
 			try
 			{
 				var context = new AcademiaContext();
-				var userCourses = await context.UserCourses.Include(uc => uc.Course).Where(uc => uc.UserId == id && (actives ? uc.Grade == null : uc.Grade != null)).ToListAsync();
+				var studentCourses = await context.StudentCourses.Include(uc => uc.Course).Where(uc => uc.UserId == id && (actives ? uc.Grade == null : uc.Grade != null)).ToListAsync();
 				//Se podria resolver en la DB tamb?
-				foreach (var userCourse in userCourses)
+				foreach (var userCourse in studentCourses)
 				{
 					var course = userCourse.Course;
 					await context.Entry(course).Reference(c => c.Subject).LoadAsync();
 					await context.Entry(course).Reference(c => c.Commission).LoadAsync();
 				}
-				return userCourses.OrderBy(uc => uc.Course.Subject.Level).ToList();
+				return studentCourses.OrderBy(uc => uc.Course.Subject.Level).ToList();
 
 			}
 			catch (Exception)
@@ -118,8 +118,8 @@ namespace ApplicationCore.Services
 			try
 			{
 				var context = new AcademiaContext();
-				var userCourses = await context.UserCourses.FindAsync(id);
-				return userCourses;
+				var studentCourses = await context.StudentCourses.FindAsync(id);
+				return studentCourses;
 			}
 			catch (Exception)
 			{
@@ -133,15 +133,15 @@ namespace ApplicationCore.Services
 			try
 			{
 				var context = new AcademiaContext();
-				var userCourse = await context.UserCourses.FindAsync(id);
-				if (userCourse == null)
+				var studentCourse = await context.StudentCourses.FindAsync(id);
+				if (studentCourse == null)
 				{
 					throw new Exception();
 				}
-				userCourse.Status = calification.Status;
-				userCourse.Grade = calification.Grade;
+				studentCourse.Status = calification.Status;
+				studentCourse.Grade = calification.Grade;
 				await context.SaveChangesAsync();
-				return userCourse;
+				return studentCourse;
 			}
 			catch (Exception)
 			{

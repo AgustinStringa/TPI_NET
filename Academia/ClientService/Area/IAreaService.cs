@@ -9,10 +9,10 @@ namespace ClientService.Area
 {
 	public interface IAreaService
 	{
-		Task CreateAsync(ApplicationCore.Model.Area area);
-		Task<IEnumerable<ApplicationCore.Model.Area>> GetAllAsync();
+		Task<IEnumerable<ApplicationCore.Model.Area>> GetAll();
 		Task<ApplicationCore.Model.Area> GetById(int id);
-		Task UpdateAsync(ApplicationCore.Model.Area area);
-		Task DeleteAsync(int id);
+		Task Create(ApplicationCore.Model.Area area);
+		Task Update(ApplicationCore.Model.Area area);
+		Task Delete(int id);
 	}
 }

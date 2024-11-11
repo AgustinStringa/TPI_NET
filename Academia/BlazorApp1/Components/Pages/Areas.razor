@@ -116,7 +116,7 @@
 	{
 		try
 		{
-			await this.areaService.DeleteAsync(id);
+			await this.areaService.Delete(id);
 			await CloseModal();
 			await this.GetAreas();
 		}
@@ -153,7 +153,7 @@
 	{
 		try
 		{
-			this.areas = await areaService.GetAllAsync();
+			this.areas = await areaService.GetAll();
 		}
 		catch (Exception e)
 		{

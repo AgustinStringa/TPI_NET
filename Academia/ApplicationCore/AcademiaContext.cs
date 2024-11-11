@@ -23,7 +23,7 @@ namespace ApplicationCore
 		internal DbSet<Administrative> Administratives { get; set; }
 		internal DbSet<Area> Areas { get; set; }
 		internal DbSet<Curriculum> Curriculums { get; set; }
-		internal DbSet<StudentCourse> UserCourses { get; set; }
+		internal DbSet<StudentCourse> StudentCourses { get; set; }
 		internal DbSet<Commission> Commissions { get; set; }
 
 

@@ -38,7 +38,7 @@ namespace UI.Desktop.User
 			try
 			{
 				lstUsers.Enabled = false;
-				this.users = await this.userService.GetAllAsync();
+				this.users = await this.userService.GetAll();
 				this.filteredUsers = this.users;
 				AdaptUsersToListView(this.filteredUsers);
 			}

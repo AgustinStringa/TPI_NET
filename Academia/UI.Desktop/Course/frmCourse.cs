@@ -38,7 +38,7 @@ namespace UI.Desktop.Course
 			try
 			{
 				lstvCourses.Enabled= false;
-				this.courses = await courseService.GetAllAsync();
+				this.courses = await courseService.GetAll();
 				AdaptCoursesToListView(this.courses);
 			}
 			catch (Exception)
@@ -132,7 +132,7 @@ namespace UI.Desktop.Course
 				{
 					if (Utilities.ConfirmDelete("este cursado") != DialogResult.OK) return;
 					ApplicationCore.Model.Course selectedCourse = (ApplicationCore.Model.Course)lstvCourses.SelectedItems[0].Tag;
-					await courseService.DeleteAsync(selectedCourse.Id);
+					await courseService.Delete(selectedCourse.Id);
 					MessageBox.Show("Cursado eliminado correctamente", "Eliminar Cursado", MessageBoxButtons.OK, MessageBoxIcon.Information);
 					this.LoadCourses();
 				}

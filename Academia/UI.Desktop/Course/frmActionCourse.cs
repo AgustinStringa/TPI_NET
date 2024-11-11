@@ -135,7 +135,7 @@ namespace UI.Desktop.Course
 						{
 							newCourse.Teachers = this.selectedTeachers;
 						}
-						await courseService.CreateAsync(newCourse);
+						await courseService.Create(newCourse);
 						MessageBox.Show("Cursado creado exitosamente", "Crear Cursado", MessageBoxButtons.OK, MessageBoxIcon.Information);
 						this.DialogResult = DialogResult.OK;
 						this.Close();
@@ -164,7 +164,7 @@ namespace UI.Desktop.Course
 						}
 						this.course.Commission = null;
 						this.course.Subject = null;
-						await courseService.UpdateAsync(this.course);
+						await courseService.Update(this.course);
 						this.DialogResult = DialogResult.OK;
 						this.Close();
 					}
@@ -337,7 +337,7 @@ namespace UI.Desktop.Course
 
 		private async void btnAddTeacher_Click(object sender, EventArgs e)
 		{
-			var teachers = await teacherService.GetAllAsync();
+			var teachers = await teacherService.GetAll();
 			var teacherlist = new FrmTeachersList(teachers, this);
 			var result = teacherlist.ShowDialog();
 			if (result == DialogResult.OK)
@@ -376,7 +376,7 @@ namespace UI.Desktop.Course
 
 		private async void LoadAreas()
 		{
-			Utilities.AdaptAreasToCb(cmbAreas, await areaService.GetAllAsync());
+			Utilities.AdaptAreasToCb(cmbAreas, await areaService.GetAll());
 		}
 
 		private async void LoadComboboxes()
@@ -393,7 +393,7 @@ namespace UI.Desktop.Course
 				updatingCbSubjects = true;
 				updatingCbCommissions = true;
 
-				areas = await areaService.GetAllAsync();
+				areas = await areaService.GetAll();
 				cmbAreas.DataSource = areas;
 				//al modificar prop DataSource -> se lanza evento selectedindexchange
 				cmbAreas.DisplayMember = "Description";

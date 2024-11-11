@@ -9,8 +9,8 @@ namespace ClientService.Administrative
 {
 	public interface IAdministrativeService
 	{
-		public Task CreateAsync(ApplicationCore.Model.Administrative administrative);
 		public Task<ApplicationCore.Model.Administrative> GetById(int id);
-		public Task UpdateAsync(ApplicationCore.Model.Administrative administrative);
+		public Task Create(ApplicationCore.Model.Administrative administrative);
+		public Task Update(ApplicationCore.Model.Administrative administrative);
 	}
 }
