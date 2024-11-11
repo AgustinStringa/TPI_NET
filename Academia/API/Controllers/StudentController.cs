@@ -67,8 +67,8 @@ namespace API.Controllers
 			}
 		}
 
-		[HttpPut("{id}")]
-		public async Task<ActionResult<Student>> UpdateStudent(Student student, int id)
+		[HttpPatch("{id}")]
+		public async Task<ActionResult<Student>> UpdateStudent(int id, Student student)
 		{
 			try
 			{
