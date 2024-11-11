@@ -29,7 +29,6 @@ namespace API.Controllers
 			catch (Exception e)
 			{
 				return StatusCode(500, new { message = e.Message });
-				throw e;
 			}
 		}
 
@@ -51,7 +50,6 @@ namespace API.Controllers
 			catch (Exception e)
 			{
 				return StatusCode(500, new { message = e.Message });
-				throw e;
 			}
 		}
 
@@ -70,7 +68,6 @@ namespace API.Controllers
 			catch (Exception e)
 			{
 				return StatusCode(500, new { message = e.InnerException.Message });
-				throw e;
 			}
 		}
 		
@@ -90,7 +87,6 @@ namespace API.Controllers
 			catch (Exception e)
 			{
 				return StatusCode(500, new { message = e.InnerException.Message });
-				throw e;
 			}
 		}
 	}
