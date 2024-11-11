@@ -258,7 +258,7 @@ namespace UI.Desktop
 					else
 					{
 						Utilities.SetDefaultStyle (lblStudentId,txtStudentId);
-						lblStudentId.Visible = false;
+                        lblLegajoError.Visible = false;
 					}
 				}
 				else
