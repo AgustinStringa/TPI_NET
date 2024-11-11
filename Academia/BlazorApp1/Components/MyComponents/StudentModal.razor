@@ -97,7 +97,7 @@
 				switch (_Mode)
 				{
 					case ModalMode.Edit:
-						await this.studentService.UpdateAsync(this.student);
+						await this.studentService.Update(this.student);
 						break;
 					case ModalMode.Create:
 						var newStudent = new ApplicationCore.Model.Student
@@ -108,11 +108,8 @@
 								PhoneNumber = student.PhoneNumber,
 								Address = student.Address,
 								BirthDate = student.BirthDate,
-								StudentId="8888",
-								Username="nachom",
-								Password="nachom"
 							};
-						await this.studentService.CreateAsync(newStudent);
+						await this.studentService.Create(newStudent);
 						break;
 
 					default:
