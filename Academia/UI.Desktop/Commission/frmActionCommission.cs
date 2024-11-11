@@ -71,7 +71,7 @@ namespace UI.Desktop.Commission
 			{
 				if (this.mode == Mode.Edit)
 				{
-					Utilities.AdaptCurriculumsToCb(cbCurriculum, await curriculumService.GetAll(), commission.IdCurriculum);
+					Utilities.AdaptCurriculumsToCb(cbCurriculum, await curriculumService.GetAll(), commission.Curriculum.Id);
 				}
 				else if (this.mode == Mode.Create)
 				{

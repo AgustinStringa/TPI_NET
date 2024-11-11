@@ -44,7 +44,7 @@ namespace ApplicationCore.Services
 					} : null),
 					CoursesCount = parameters.coursesCount ? c.Courses.Count : null
 				}).ToList();
-					
+
 				if (parameters.curriculumId != null)
 				{
 					commissions = commissions.Where(c => c.IdCurriculum == parameters.curriculumId).ToList();
@@ -73,7 +73,8 @@ namespace ApplicationCore.Services
 			}
 			catch (Exception e)
 			{
-				if (e.InnerException != null) {
+				if (e.InnerException != null)
+				{
 					throw e.InnerException;
 				}
 				throw e;
@@ -91,8 +92,11 @@ namespace ApplicationCore.Services
 					await context.Entry(existingCommission).Collection(c => c.Courses).LoadAsync();
 					if (commission.IdCurriculum != existingCommission.IdCurriculum && existingCommission.Courses.Count > 0)
 					{
-						//no se puede modificar el plan de estudios de una materia con cursos asociados
-						throw new Exception();
+						throw new Exception("No se puedes modificar el plan de estudios de una materia con cursos asociados");
+					}
+					if (commission.Level != existingCommission.Level && existingCommission.Courses.Count > 0)
+					{
+						throw new Exception("No se puedes modificar el nivel de una materia con cursos asociados");
 					}
 					if (commission.Curriculum == null)
 					{
