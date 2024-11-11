@@ -1,4 +1,4 @@
-﻿@page "/users"
+﻿@page "/students"
 @rendermode InteractiveServer
 @inherits OwningComponentBase
 
@@ -13,7 +13,7 @@
     <Modal @ref="modal" UseStaticBackdrop="true" CloseOnEscape="false" />
 
     <div class="text-end my-3 px-3">
-        <button type="button" class="btn btn-primary btn-lg" @onclick="async () => await ShowStudentModal(UserModal.ModalMode.Create, null)">
+        <button type="button" class="btn btn-primary btn-lg" @onclick="async () => await ShowStudentModal(StudentModal.ModalMode.Create, null)">
             Crear Estudiante
         </button>
     </div>
@@ -39,7 +39,7 @@
                         <td>@student.Email</td>
                         <td>@student.PhoneNumber</td>
                         <td>
-                            <button @onclick="async () => await ShowStudentModal(UserModal.ModalMode.Edit, student.Id)">
+                            <button @onclick="async () => await ShowStudentModal(StudentModal.ModalMode.Edit, student.Id)">
                                 <i class="bi bi-pencil-square"></i>
                             </button>
                         </td>
@@ -96,7 +96,7 @@ else
         }
     }
 
-    private async Task ShowStudentModal(UserModal.ModalMode mode, int? studentId)
+    private async Task ShowStudentModal(StudentModal.ModalMode mode, int? studentId)
     {
         var parameters = new Dictionary<string, object>
     {
@@ -106,8 +106,8 @@ else
         if (studentId != null)
             parameters.Add("StudentId", studentId);
 
-        string title = mode == UserModal.ModalMode.Create ? "Crear Estudiante" : "Editar Estudiante";
-        await modal.ShowAsync<UserModal>(title: title, parameters: parameters);
+        string title = mode == StudentModal.ModalMode.Create ? "Crear Estudiante" : "Editar Estudiante";
+        await modal.ShowAsync<StudentModal>(title: title, parameters: parameters);
     }
 
 
