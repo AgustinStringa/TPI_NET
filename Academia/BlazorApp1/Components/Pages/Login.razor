@@ -87,13 +87,39 @@
 			this.studentService = ScopedServices.GetRequiredService<ClientService.Student.IStudentService>();
 			this.teacherService = ScopedServices.GetRequiredService<ClientService.Teacher.ITeacherService>();
 			this.administrativeService = ScopedServices.GetRequiredService<ClientService.Administrative.IAdministrativeService>();
-			userIsStudent = await (studentService.GetById(user.Id));
-			if (userIsStudent == null)
+			try
 			{
 
-				userIsAdministrative = await (administrativeService.GetById(user.Id));
+				userIsStudent = await (studentService.GetById(user.Id));
 			}
-			//userIsTeacher = await (teacherService.GetById(user.Id)); NO FUNCIONA ERROR 404
+			catch (Exception)
+			{
+				userIsStudent = null;
+			}
+			if (userIsStudent == null)
+			{
+				try
+				{
+
+					userIsAdministrative = await (administrativeService.GetById(user.Id));
+				}
+				catch (Exception)
+				{
+					userIsAdministrative = null;
+				}
+				if (userIsAdministrative == null)
+				{
+					try
+					{
+
+						userIsTeacher = await (teacherService.GetById(user.Id));					}
+					catch (Exception)
+					{
+						userIsTeacher = null;
+					}
+
+				}
+			}
 			if (userIsStudent != null)
 			{
 				UserStateService.UserRole = "Student";
