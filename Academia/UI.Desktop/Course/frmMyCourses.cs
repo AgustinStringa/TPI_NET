@@ -66,7 +66,7 @@ namespace UI.Desktop.Course
 				{
 					if (Utilities.ConfirmDelete("este cursado") != DialogResult.OK) return;
 					var selectedCourse = (StudentCourse)lstvMyCourses.SelectedItems[0].Tag;
-					await this.studentCourseService.DeleteAsync(selectedCourse.Id);
+					await this.studentCourseService.Delete(selectedCourse.Id);
 					MessageBox.Show("Inscripcion a cursado eliminada", "Eliminar inscripcion", MessageBoxButtons.OK, MessageBoxIcon.Information);
 					this.LoadCourses();
 				}

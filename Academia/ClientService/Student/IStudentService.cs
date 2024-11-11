@@ -1,19 +1,11 @@
-﻿using ApplicationCore.Model;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ClientService.Student
+﻿namespace ClientService.Student
 {
-	public interface IStudentService
-	{
-		public Task CreateAsync(ApplicationCore.Model.Student student);
-		public Task<ApplicationCore.Model.Student> GetById(int id);
-
-		public Task<IEnumerable<ApplicationCore.Model.Student>> GetAllAsync();
-		public Task UpdateAsync(ApplicationCore.Model.Student student);
-		public Task DeleteAsync(int id);
-	}
+    public interface IStudentService
+    {
+        public Task<IEnumerable<ApplicationCore.Model.Student>> GetAll();
+        public Task<ApplicationCore.Model.Student> GetById(int id);
+        public Task Create(ApplicationCore.Model.Student student);
+        public Task Update(ApplicationCore.Model.Student student);
+        public Task Delete(int id);
+    }
 }

@@ -17,7 +17,8 @@ namespace UI.Desktop
 		{
 			InitializeComponent();
 			_currentGrade = currentGrade;
-			txtGrade.Text = _currentGrade.ToString();
+			var asd = _currentGrade.ToString();
+            txtGrade.Text = _currentGrade.ToString();
 		}
 
 		private void btnSave_Click(object sender, EventArgs e)

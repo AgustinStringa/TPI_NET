@@ -53,7 +53,7 @@
 
     protected override async Task OnInitializedAsync()
     {
-        areas = await areaService.GetAllAsync();
+        areas = await areaService.GetAll();
         base.OnInitialized();
     }
 
@@ -86,7 +86,7 @@
         }
         else
         {
-            this.curriculum = await curriculumService.GetByIdAsync((int)this.CurriculumId);
+            this.curriculum = await curriculumService.GetById((int)this.CurriculumId);
             ButtonText = "Guardar Cambios";
              if (this.curriculum != null)
             {
@@ -99,7 +99,7 @@
         {
             if (CurriculumId != null)
             {
-                this.curriculum = await curriculumService.GetByIdAsync((int)this.CurriculumId);
+                this.curriculum = await curriculumService.GetById((int)this.CurriculumId);
             }
             else
             {
@@ -125,7 +125,7 @@
 
                 if (this.Mode == ModalMode.Create)
                 {
-                    await this.curriculumService.CreateAsync(new ApplicationCore.Model.Curriculum
+                    await this.curriculumService.Create(new ApplicationCore.Model.Curriculum
                         {
                             Description = curriculum.Description,
                             AreaId = curriculum.AreaId,
@@ -135,7 +135,7 @@
                 }
                 else
                 {
-                    await this.curriculumService.UpdateAsync(this.curriculum);
+                    await this.curriculumService.Update(this.curriculum);
                 }
 
                 await CloseModal.InvokeAsync();

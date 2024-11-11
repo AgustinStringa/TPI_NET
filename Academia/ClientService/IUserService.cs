@@ -4,14 +4,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static ClientService.UserService;
 
 namespace ClientService
 {
 	public interface IUserService
 	{
-		Task CreateAsync(User user);
-		Task<IEnumerable<ApplicationCore.Services.UserDTO>> GetAllAsync();
+		Task<IEnumerable<ApplicationCore.Services.UserDTO>> GetAll();
 		Task DeleteAsync(int id);
-		Task<User> GetById(int id);
-	}
+		Task<UserLoggedDTO> ValidateCredentials(string username, string password);
+    }
 }

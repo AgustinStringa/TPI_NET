@@ -132,7 +132,7 @@
 	{
 		try
 		{
-			this.curriculums = await curriculumService.GetAllWithAreaAsync();
+			this.curriculums = await curriculumService.GetAllWithArea();
 		}
 		catch (Exception e)
 		{
@@ -151,7 +151,7 @@
 	{
 		try
 		{
-			await this.curriculumService.DeleteAsync(id);
+			await this.curriculumService.Delete(id);
 			await CloseModal();
 			await this.GetCurriculums();
 		}

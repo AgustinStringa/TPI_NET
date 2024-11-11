@@ -71,11 +71,11 @@ namespace UI.Desktop.Commission
 			{
 				if (this.mode == Mode.Edit)
 				{
-					Utilities.AdaptCurriculumsToCb(cbCurriculum, await curriculumService.GetAllAsync(), commission.IdCurriculum);
+					Utilities.AdaptCurriculumsToCb(cbCurriculum, await curriculumService.GetAll(), commission.IdCurriculum);
 				}
 				else if (this.mode == Mode.Create)
 				{
-					Utilities.AdaptCurriculumsToCb(cbCurriculum, await curriculumService.GetAllAsync());
+					Utilities.AdaptCurriculumsToCb(cbCurriculum, await curriculumService.GetAll());
 				}
 			}
 			catch (Exception)
@@ -137,7 +137,7 @@ namespace UI.Desktop.Commission
 		{
 			try
 			{
-				await commissionService.CreateAsync(newCommission);
+				await commissionService.Create(newCommission);
 				MessageBox.Show("Comisión " + newCommission.Description + " creada correctamente", "Crear Comisióin", MessageBoxButtons.OK, MessageBoxIcon.Information);
 				DialogResult = DialogResult.OK;
 				this.Close();
@@ -162,7 +162,7 @@ namespace UI.Desktop.Commission
 				this.commission.Description = description;
 				this.commission.IdCurriculum = selectedCurriculum.Id;
 				this.commission.Level = level;
-				await commissionService.UpdateAsync(this.commission);
+				await commissionService.Update(this.commission);
 				MessageBox.Show("Comisión " + this.commission.Description + " actualizada correctamente", "Editar Comisión", MessageBoxButtons.OK, MessageBoxIcon.Information);
 				DialogResult = DialogResult.OK;
 				this.Close();

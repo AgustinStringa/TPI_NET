@@ -9,9 +9,9 @@ namespace ClientService.Teacher
 {
 	public interface ITeacherService
 	{
-		public Task CreateAsync(ApplicationCore.Model.Teacher teacher);
+		public Task<IEnumerable<ApplicationCore.Model.Teacher>> GetAll();
 		public Task<ApplicationCore.Model.Teacher> GetById(int id);
-		public Task<IEnumerable<ApplicationCore.Model.Teacher>> GetAllAsync();
-		public Task UpdateAsync(ApplicationCore.Model.Teacher teacher);
+		public Task Create(ApplicationCore.Model.Teacher teacher);
+		public Task Update(ApplicationCore.Model.Teacher teacher);
 	}
 }

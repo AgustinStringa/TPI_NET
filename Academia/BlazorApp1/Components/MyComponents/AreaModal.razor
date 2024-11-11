@@ -66,11 +66,11 @@
 
 				if (this.Mode == ModalMode.Create)
 				{
-					await this.areaService.CreateAsync(new ApplicationCore.Model.Area { Description = area.Description });
+					await this.areaService.Create(new ApplicationCore.Model.Area { Description = area.Description });
 				}
 				else
 				{
-					await this.areaService.UpdateAsync(this.area);
+					await this.areaService.Update(this.area);
 				}
 				await CloseModal.InvokeAsync();
 			}

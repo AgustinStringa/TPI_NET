@@ -83,11 +83,11 @@ namespace UI.Desktop.Subject
 		{
 			if (this.Mode == Mode.Create)
 			{
-				Utilities.AdaptCurriculumsToCb(cbCurriculums, await curriculumService.GetAllAsync());
+				Utilities.AdaptCurriculumsToCb(cbCurriculums, await curriculumService.GetAll());
 			}
 			else if (this.Mode == Mode.Edit)
 			{
-				Utilities.AdaptCurriculumsToCb(cbCurriculums, await curriculumService.GetAllAsync(), subject.IdCurriculum);
+				Utilities.AdaptCurriculumsToCb(cbCurriculums, await curriculumService.GetAll(), subject.IdCurriculum);
 			}
 		}
 		private void LoadCorrelatives()
@@ -125,7 +125,7 @@ namespace UI.Desktop.Subject
 							subject.WeeklyHours = weeklyHours;
 							subject.Level = level;
 							subject.IdCurriculum = curriculum.Id;
-							await subjectService.UpdateAsync(new ApplicationCore.Model.Subject
+							await subjectService.Update(new ApplicationCore.Model.Subject
 							{
 								Description = description,
 								TotalHours = totalHours,
@@ -155,7 +155,7 @@ namespace UI.Desktop.Subject
 								Level = level,
 								IdCurriculum = curriculum.Id,
 							};
-							await subjectService.CreateAsync(newSubject);
+							await subjectService.Create(newSubject);
 							MessageBox.Show("Materia creada correctamente", "Crear Materia", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
 							DialogResult = DialogResult.OK;
@@ -173,9 +173,7 @@ namespace UI.Desktop.Subject
 			}
 			catch (Exception ex)
 			{
-
 				MessageBox.Show(ex.Message);
-				throw;
 			}
 		}
 
