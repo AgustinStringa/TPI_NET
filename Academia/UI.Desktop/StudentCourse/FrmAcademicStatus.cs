@@ -85,10 +85,10 @@ namespace UI.Desktop
 			{
 				this.passedSubjects = this.failedSubjects = 0;
 				this.average = 0;
+				lblCountPassedSubjects.Text = $"Materias Aprobadas: {passedSubjects.ToString()} (0% porciento)";
+				lblCountFailedSubjects.Text = $"Materias Reprobadas: {failedSubjects.ToString()} (0% porciento)";
 			}
-			lblCountPassedSubjects.Text = $"Materias Aprobadas: {passedSubjects.ToString()} (0% porciento)";
-			lblCountFailedSubjects.Text = $"Materias Reprobadas: {failedSubjects.ToString()} (0% porciento)";
-			lblAverage.Text = $"Promedio: {this.average.ToString()}";
+				lblAverage.Text = $"Promedio: {this.average.ToString()}";
 		}
 
 		private async void btnGenerateReport_Click(object sender, EventArgs e)

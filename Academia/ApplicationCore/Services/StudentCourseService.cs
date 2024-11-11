@@ -249,7 +249,7 @@ namespace ApplicationCore.Services
 						"<body>" +
 
 						"<div>" +
-						"<h1>Estado Academico</h1>" +
+						"<h1>Estado Académico</h1>" +
 						$"<h2>Alumno: {student.Name} {student.Lastname} al {DateTime.Now.Day}/{DateTime.Now.Month}/{DateTime.Now.Year} {DateTime.Now.Hour}:{DateTime.Now.Minute}:{DateTime.Now.Second} </h2>" +
 						$"<p>Legajo: {student.StudentId.Trim()}</p>" +
 						"<table>" +
@@ -287,9 +287,9 @@ namespace ApplicationCore.Services
 						"<div>" +
 
 
-						$"<h2>promedio: {average.ToString()}</h2>" +
-						$"<p>porcentaje materias aprobadas: {passedSubjectPerc.ToString()} % ({passedSubjects})</p>" +
-						$"<p>porcentaje materias reprobadas: {failedSubjectPerc.ToString()} % ({failedSubjects})</p>" +
+						$"<h2>Promedio: {average.ToString()}</h2>" +
+						$"<p>Porcentaje materias aprobadas: {passedSubjectPerc.ToString()} % ({passedSubjects})</p>" +
+						$"<p>Porcentaje materias reprobadas: {failedSubjectPerc.ToString()} % ({failedSubjects})</p>" +
 
 						"</body>" +
 
