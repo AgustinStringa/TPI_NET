@@ -122,13 +122,13 @@ namespace API.Controllers
 
 
         [HttpGet()]
-        public async Task<ActionResult<IEnumerable<StudentCourse>>> GetActivesByUserId([FromQuery] int? userId = null, [FromQuery] bool? actives = false)
+        public async Task<ActionResult<IEnumerable<StudentCourse>>> GetActivesByUserId([FromQuery] int? userId = null)
         {
             try
             {
                 if (userId != null)
                 {
-                    var studentCourses = await studentCourseService.GetByUserId((int)userId, (bool)actives);
+                    var studentCourses = await studentCourseService.GetByUserId((int)userId);
 
                     if (studentCourses == null)
                     {

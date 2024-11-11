@@ -46,7 +46,24 @@ namespace ClientService.StudentCourse
             }
         }
 
-        public async Task<IEnumerable<AcademicStatusItem>> GetAcademicStatus(int userId)
+		public async Task<IEnumerable<ApplicationCore.Model.StudentCourse>> GetByUserId(int userId)
+		{
+			try
+			{
+				httpClient.DefaultRequestHeaders.Accept.Clear();
+				httpClient.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+
+				var response = await httpClient.GetStringAsync(_apiUrl + $"?userId={userId}");
+				var courses = JsonConvert.DeserializeObject<List<ApplicationCore.Model.StudentCourse>>(response);
+				return courses;
+			}
+			catch (Exception)
+			{
+				throw;
+			}
+		}
+
+		public async Task<IEnumerable<AcademicStatusItem>> GetAcademicStatus(int userId)
         {
             try
             {

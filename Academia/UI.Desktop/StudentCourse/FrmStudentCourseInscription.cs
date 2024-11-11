@@ -34,15 +34,7 @@ namespace UI.Desktop
 		private async void LoadCourses()
 		{
 			this.courses = await courseService.GetAvailableCourses(student);
-
-			foreach (var course in this.courses)
-			{
-				if (course.Subject != null && !this.subjects.Contains(course.Subject))
-				{
-					this.subjects.Add(course.Subject);
-				}
-			}
-
+			this.subjects = this.courses.Select(c => c.Subject).DistinctBy(s => s.Description).ToList();
 			if (this.subjects.Count == 0)
 			{
 				MessageBox.Show("No hay materias disponibles.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);

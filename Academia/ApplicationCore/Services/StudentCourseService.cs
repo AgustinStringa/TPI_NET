@@ -89,13 +89,13 @@ namespace ApplicationCore.Services
 			}
 		}
 
-		public async Task<IEnumerable<StudentCourse>> GetByUserId(int id, bool actives)
+		public async Task<IEnumerable<StudentCourse>> GetByUserId(int id)
 		{
 
 			try
 			{
 				var context = new AcademiaContext();
-				var studentCourses = await context.StudentCourses.Include(uc => uc.Course).Where(uc => uc.UserId == id && (actives ? uc.Grade == null : uc.Grade != null)).ToListAsync();
+				var studentCourses = await context.StudentCourses.Include(uc => uc.Course).Where(uc => uc.UserId == id).ToListAsync();
 				//Se podria resolver en la DB tamb?
 				foreach (var userCourse in studentCourses)
 				{

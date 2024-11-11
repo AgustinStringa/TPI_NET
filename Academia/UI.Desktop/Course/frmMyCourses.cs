@@ -35,7 +35,7 @@ namespace UI.Desktop.Course
 			try
 			{
 				lstvMyCourses.Items.Clear();
-				MyCourses = await studentCourseService.GetByUserId(this.student.Id, true);
+				MyCourses = (await studentCourseService.GetByUserId(this.student.Id)).Where(sc => sc.Grade == null);
 				AdaptCoursesToListView(MyCourses);
 				lstvMyCourses.Refresh();
 			}
